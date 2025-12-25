@@ -1,0 +1,12 @@
+{
+  "nav": {
+    "title": "Rentify",
+    "rooms": "Rooms",
+    "apartments": "Apartments",
+    "houses": "Houses",
+    "map": "Map",
+    "list": "List your place",
+    "land": "Land",
+    "parking": "Parking"
+  }
+}

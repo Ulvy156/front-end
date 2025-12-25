@@ -1,0 +1,10 @@
+@import "tailwindcss";
+
+.font-en {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.font-km {
+  font-family: "Noto Sans Khmer", system-ui, sans-serif;
+  line-height: 1.8;
+}
