@@ -7,6 +7,11 @@
     "map": "Map",
     "list": "List your place",
     "land": "Land",
-    "parking": "Parking"
+    "parking": "Parking",
+    "rent": "Moto & Car"
+  },
+  "home":{
+    "bg_title":"Find Rooms, Apartments & Houses in Cambodia",
+    "bg_content":"Affordable rentals. Verified listings. No stress."
   }
 }

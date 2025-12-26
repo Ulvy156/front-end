@@ -1,64 +1,83 @@
 <template>
-  <!-- Mobile only -->
-  <div class="md:hidden">
-    <!-- Toggle -->
-    <button
-      class="rounded-xl p-2 transition hover:bg-gray-100"
-      @click="open = true"
-    >
-      <Icon name="lucide:menu" size="22" />
-    </button>
-
-    <!-- Overlay -->
+  <!-- Mobile Header -->
+  <header class="sticky top-2 z-40 md:hidden px-4 w-full">
     <div
-      v-show="open"
-      class="fixed inset-0 z-50 bg-black/30 backdrop-blur-sm"
-      @click="open = false"
-    />
-
-    <!-- Drawer -->
-    <aside
-      v-show="open"
-      class="fixed right-0 top-0 z-50 h-full w-3/4 max-w-xs bg-white p-6 shadow-xl transition"
+      class="flex items-center justify-between rounded-2xl border border-gray-200 w-full
+             bg-white/80 px-4 shadow-sm backdrop-blur"
     >
-      <!-- Close -->
-      <button
-        class="mb-6 rounded-xl p-2 hover:bg-gray-100"
-        @click="open = false"
+      <!-- Logo -->
+      <NuxtLink
+        to="/"
+        class="flex items-center gap-2 font-semibold"
       >
-        <Icon name="lucide:x" size="22" />
-      </button>
+        <NuxtImg
+          src="/rentify-logo.webp"
+          class="size-18"
+          alt="app logo"
+        />
+      </NuxtLink>
 
-      <nav class="flex flex-col gap-4">
-        <NuxtLink
-          v-for="item in nav"
-          :key="item.to"
-          :to="item.to"
-          class="flex items-center gap-3 text-lg font-medium"
-          @click="open = false"
-        >
-          <Icon :name="item.icon" size="20" />
-          {{ item.label }}
-        </NuxtLink>
+      <!-- Menu Button -->
+      <button
+        class="flex h-10 w-10 items-center justify-center rounded-full border
+               backdrop-blur hover:bg-gray-100 transition"
+        @click="drawer = true"
+      >
+        <Icon name="lucide:menu" size="20" />
+      </button>
+    </div>
+  </header>
+
+  <!-- Drawer -->
+  <el-drawer
+    v-model="drawer"
+    direction="rtl"
+    size="80%"
+    :with-header="false"
+  >
+    <div class="flex flex-col h-full p-4 gap-6">
+
+      <!-- Drawer Header -->
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2 font-semibold">
+          <NuxtImg src="/rentify-logo-56.webp" class="h-8 w-8" />
+          <span>{{ $t('nav.title') }}</span>
+        </div>
 
         <button
-          class="mt-6 flex items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-white"
+          class="p-2 rounded-full hover:bg-gray-100"
+          @click="drawer = false"
         >
-          <Icon name="lucide:plus" size="18" />
-          List your place
+          <Icon name="lucide:x" size="18" />
         </button>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="flex flex-col gap-4 text-sm ">
+        <NavItem icon="lucide:bed-double" :label="$t('nav.rooms')" />
+        <NavItem icon="lucide:building-2" :label="$t('nav.apartments')" />
+        <NavItem icon="lucide:house" :label="$t('nav.houses')" />
+        <NavItem icon="lucide:land-plot" :label="$t('nav.land')" />
+        <NavItem icon="lucide:circle-parking" :label="$t('nav.parking')" />
       </nav>
-    </aside>
-  </div>
+
+      <div class="mt-auto flex items-center justify-between gap-3">
+        <switchLng />
+
+        <!-- Auth -->
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-full
+                 border backdrop-blur"
+        >
+          <Icon name="lucide:user-round" size="18" />
+        </div>
+      </div>
+    </div>
+  </el-drawer>
 </template>
 
 <script setup lang="ts">
-const open = ref(false)
+import switchLng from './switch-lng.vue'
 
-const nav = [
-  { label: 'Home', to: '/', icon: 'lucide:home' },
-  { label: 'Rooms', to: '/rooms', icon: 'lucide:bed-double' },
-  { label: 'Apartments', to: '/apartments', icon: 'lucide:building-2' },
-  { label: 'Map', to: '/map', icon: 'lucide:map' },
-]
+const drawer = ref(false)
 </script>
