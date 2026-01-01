@@ -10,7 +10,7 @@ function switchLng(lng: Lang) {
 </script>
 
 <template>
-  <el-dropdown trigger="click">
+  <el-dropdown trigger="click" style="width: fit-content;">
     <button class="flex items-center gap-2 px-3 py-1.5 rounded-full border text-sm transition cursor-pointer">
       <span>{{ locale === 'en' ? '🇬🇧 EN' : '🇰🇭 KM' }}</span>
       <Icon name="mdi:chevron-down" size="18" />

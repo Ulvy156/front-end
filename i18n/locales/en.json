@@ -8,10 +8,33 @@
     "list": "List your place",
     "land": "Land",
     "parking": "Parking",
-    "rent": "Moto & Car"
+    "rent": "Moto & Car",
+    "home": "Home",
+    "borwse_room": "Browse Room",
+    "post_room": "Post Properties",
+    "favourites": "Favourites"
   },
-  "home":{
-    "bg_title":"Find Rooms, Apartments & Houses in Cambodia",
-    "bg_content":"Affordable rentals. Verified listings. No stress."
+  "home": {
+    "bg": {
+      "title": "Find Your Perfect Room",
+      "content": "Discover comfortable and affordable rooms across Cambodia"
+    },
+    "feature_list": "Featured Listings",
+    "popular_location": "Popular Locations",
+    "latest_listings": "Latest Listings"
+  },
+  "footer": {
+    "description": "Cambodia’s trusted rental platform. Find rooms, houses, and apartments that fit your lifestyle.",
+    "quickLinks": "Quick Links",
+    "about": "About Us",
+    "contact": "Contact",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy",
+    "help": "Help Center",
+    "copyright": "© 2026 Rentify. All rights reserved.",
+    "madeIn": "Made in Cambodia",
+    "language": "Language",
+    "english": "English",
+    "khmer": "Khmer"
   }
 }

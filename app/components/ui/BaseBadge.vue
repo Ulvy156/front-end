@@ -1,10 +1,10 @@
 <!-- components/ui/BaseBadge.vue -->
 <script setup lang="ts">
-defineProps<{ type?: 'success' | 'warning' | 'danger' }>()
+defineProps<{ type?: 'primary' | 'success' | 'warning' | 'danger' | 'info', content: string }>()
 </script>
 
 <template>
   <el-tag :type="type || 'info'">
-    <slot />
+    {{content}}
   </el-tag>
 </template>

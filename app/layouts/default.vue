@@ -1,20 +1,19 @@
 <template>
-  <header :class="fontClass">
+  <header>
     <AppNavbar/>
   </header>
 
-  <main :class="fontClass">
+  <main>
     <slot></slot>
   </main>
 
-  <footer :class="fontClass">
-    
-  </footer>
+  <footerApp/>
 </template>
 
 
 <script setup lang="ts">
 import AppNavbar from '~/components/navbar/AppNavbar.vue'
+import footerApp from '~/components/footer/footer-app.vue'
 
 const { locale, setLocale } = useI18n()
 useHead(() => ({
@@ -22,10 +21,6 @@ useHead(() => ({
     lang: locale.value,
   },
 }))
-
-const fontClass = computed(() =>
-  locale.value === 'km' ? 'font-km' : 'font-en'
-)
 
 onMounted(() => {
   const saved = localStorage.getItem('lang')

@@ -11,7 +11,7 @@ defineProps<{
   <el-button
     :type="type || 'primary'"
     :loading="loading"
-    class="w-full"
+    class="w-fit"
   >
     <slot>{{ label }}</slot>
   </el-button>
