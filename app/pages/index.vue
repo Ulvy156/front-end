@@ -8,6 +8,8 @@
       <latestProduct />
       <!-- locations section -->
       <locationsSection />
+
+      <BaseRichEditor/>
     </section>
   </section>
 </template>
@@ -17,7 +19,7 @@ import featureProduct from '~/features/home/featured-listings/feature-product.vu
 import appBg from '~/features/home/components/app-bg.vue';
 import locationsSection from '~/features/home/popular-locations/locations-section.vue';
 import latestProduct from '~/features/home/latest-listings/latest-product.vue';
-
+import BaseRichEditor from '~/components/ui/BaseRichEditor.vue';
 
 useSeoMeta({
   title: 'Rooms for Rent in Cambodia | RoomRent',
