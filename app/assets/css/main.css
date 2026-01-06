@@ -16,7 +16,13 @@
   --text-sm: 0.875rem; /* 14 */
   --text-xs: 0.75rem;  /* 12 */
 
-  --app-bg: #F6F7FB;
+  /* --app-bg: #F6F7FB; */
+  --app-bg: linear-gradient(
+    180deg,
+    #f8fafc 0%,
+    #f9fafb 40%,
+    #f4f4f5 100%
+  );
   --hover-text-color: oklch(69.6% 0.17 162.48);
 
   /* font-family */
@@ -32,7 +38,6 @@ html[lang="km"] {
   font-size: var(--text-base);
   font-family: var(--font-km);
 }
-
 
 body {
   font-size: var(--text-md);

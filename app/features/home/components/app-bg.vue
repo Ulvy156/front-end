@@ -1,5 +1,5 @@
 <template>
-  <section class="lg:h-[60dvh] md:h-[40dvh] h-[30dvh] bg-black">
+  <section class="lg:h-[60dvh] md:h-[40dvh] h-[30dvh] bg-black ">
       <div class="bg-image flex flex-col items-center justify-center pointer-events-none">
         <div class="bg-content">
           <h2 class="w-[70%] m-auto">{{ $t('home.bg.title') }}</h2>

@@ -96,7 +96,7 @@
 </template>
 
 <script setup lang="ts">
-  import BaseIcon from '../ui/BaseIcon.vue';
+  import BaseIcon from '../ui/BaseIcon.client.vue';
 
 const { setLocale } = useI18n()
 </script>

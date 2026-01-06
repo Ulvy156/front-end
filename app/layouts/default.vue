@@ -1,9 +1,7 @@
 <template>
-  <header>
-    <AppNavbar/>
-  </header>
+  <AppNavbar/>
 
-  <main>
+  <main :class="overlay">
     <slot></slot>
   </main>
 
@@ -14,6 +12,17 @@
 <script setup lang="ts">
 import AppNavbar from '~/components/navbar/AppNavbar.vue'
 import footerApp from '~/components/footer/footer-app.vue'
+
+const route = useRoute()
+
+// if on home page keep navbar as fixed 
+// otherwise keep it as stikcy
+const overlay = computed(() => {
+  if(route.meta.headerOverlay === true) {
+    return 'w-full';
+  }
+  return 'w-[84%] m-auto ';
+})
 
 const { locale, setLocale } = useI18n()
 useHead(() => ({

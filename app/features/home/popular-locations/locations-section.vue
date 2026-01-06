@@ -11,14 +11,14 @@
 
             </div>
         </div>
-        <section class="grid grid-cols-4 gap-7 mt-3">
-            <article v-for="value in featuredListings" :key="value.url" class="card"
-                :style="{ backgroundImage: `url(${value.url})` }">
+        <section class="grid grid-cols-5 gap-7 mt-3">
+            <article v-for="(value, i) in popularLocations" :key="value.districtId" class="card"
+                :style="{ backgroundImage: `url(${featuredListings[i]?.url})` }">
                 <div class="overlay"></div>
 
                 <div class="content">
-                    <p>{{ value.title }}</p>
-                    <p>{{ value.result }} results</p>
+                    <p>{{ value.nameEn }}</p>
+                    <p>{{ value.totalListings }} results</p>
                 </div>
             </article>
 
@@ -27,7 +27,12 @@
 </template>
 
 <script lang="ts" setup>
-import BaseIcon from '~/components/ui/BaseIcon.vue';
+import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import type { PopularDistrict } from '../featured-listings/feature.listings';
+
+defineProps<{
+    popularLocations: PopularDistrict[]
+}>()
 
 const featuredListings = shallowRef([
     {
@@ -50,11 +55,11 @@ const featuredListings = shallowRef([
         title: "BKK1",
         result: 65,
     },
-    // {
-    //     url: "https://imgs.search.brave.com/ogWs1GoK-tgVfjq3Ca_QTRQESyYeZPpcRaDrPclks2w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jYW1y/ZWFsdHlzZXJ2aWNl/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMi8wOC9waG5v/bS1wZW5oLWNvbmRv/LXNhbGUtcGhub20t/cGVuaC1yZWFsLWVz/dGF0ZS1yZW50LXNh/bGUtUzEwNzkwNjgy/LmpwZw",
-    //     title: "$300 / month",
-    //     content: "3 Bedroom - Toul Kok",
-    // },
+    {
+        url: "https://imgs.search.brave.com/ogWs1GoK-tgVfjq3Ca_QTRQESyYeZPpcRaDrPclks2w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jYW1y/ZWFsdHlzZXJ2aWNl/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMi8wOC9waG5v/bS1wZW5oLWNvbmRv/LXNhbGUtcGhub20t/cGVuaC1yZWFsLWVz/dGF0ZS1yZW50LXNh/bGUtUzEwNzkwNjgy/LmpwZw",
+        title: "$300 / month",
+        content: "3 Bedroom - Toul Kok",
+    },
     // {
     //     url: "https://imgs.search.brave.com/ogWs1GoK-tgVfjq3Ca_QTRQESyYeZPpcRaDrPclks2w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jYW1y/ZWFsdHlzZXJ2aWNl/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMi8wOC9waG5v/bS1wZW5oLWNvbmRv/LXNhbGUtcGhub20t/cGVuaC1yZWFsLWVz/dGF0ZS1yZW50LXNh/bGUtUzEwNzkwNjgy/LmpwZw",
     //     title: "$300 / month",

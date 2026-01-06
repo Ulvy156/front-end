@@ -1,7 +1,7 @@
 <template>
-  <header class="fixed top-2 z-40 hidden md:block left-1/2 -translate-x-1/2 w-11/12">
+  <header :class="overlay" class=" top-2 z-40 hidden md:block w-11/12  ">
     <div
-      class="m-auto flex justify-between w-11/12 items-center gap-4 rounded-2xl border border-gray-50 bg-white/60 px-6 py-3 shadow-sm backdrop-blur">
+      class="m-auto flex justify-between w-11/12 items-center gap-4 rounded-2xl border border-gray-50 bg-white/60 px-6 py-3 shadow-sm bg-clip-padding  backdrop-filter backdrop-blur-sm">
       <!-- Logo -->
       <NuxtLink to="/" 
       class="flex items-center gap-1 text-lg font-semibold tracking-tight cursor-pointer ">
@@ -11,12 +11,12 @@
 
       <!-- Center Search -->
       <div class="mx-auto flex items-center gap-3 rounded-full border bg-gray-50 px-4 py-2 text-sm text-gray-600">
-        <div 
+        <NuxtLink to="/" 
         :class="{'menu-item-active': isActive('/')}"
         class="menu-items">
           <BaseIcon name="house" :size="16" />
           <span>{{ $t('nav.home') }} </span>
-        </div>
+        </NuxtLink>
 
         <span class="text-gray-300">|</span>
 
@@ -56,7 +56,7 @@
 
       <!-- Right -->
       <div class="flex items-center justify-end gap-4">
-        <switchLng />
+        <switchLngClient />
       </div>
     </div>
   </header>
@@ -66,13 +66,22 @@
 </template>
 
 <script lang="ts" setup>
-import switchLng from './switch-lng.vue';
-import BaseIcon from '../ui/BaseIcon.vue';
+import switchLngClient from './switch-lng.client.vue';
+import BaseIcon from '../ui/BaseIcon.client.vue';
 import MobileNavDrawer from './MobileNavDrawer.vue';
 import { useActiveRoute } from '~/composables/useActiveRoute';
 
 const { isActive } = useActiveRoute();
+const route = useRoute()
 
+// if on home page keep navbar as fixed 
+// otherwise keep it as stikcy
+const overlay = computed(() => {
+  if(route.meta.headerOverlay === true) {
+    return 'fixed left-1/2 -translate-x-1/2';
+  }
+  return 'sticky mb-2 m-auto';
+})
 </script>
 
 <style scoped>
@@ -82,6 +91,7 @@ const { isActive } = useActiveRoute();
   align-items: center;
   cursor: pointer;
   gap: 12px;
+  padding: 10px 16px;
   transition: color 0.5s ease, transform 0.5s ease;
 }
 

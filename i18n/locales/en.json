@@ -21,7 +21,8 @@
     },
     "feature_list": "Featured Listings",
     "popular_location": "Popular Locations",
-    "latest_listings": "Latest Listings"
+    "latest_listings": "Latest Listings",
+    "month": "month"
   },
   "footer": {
     "description": "Cambodia’s trusted rental platform. Find rooms, houses, and apartments that fit your lifestyle.",
@@ -36,5 +37,28 @@
     "language": "Language",
     "english": "English",
     "khmer": "Khmer"
+  },
+  "auth": {
+    "welcome": "Welcome back",
+    "createAcc": "Create your account",
+    "createAccDec": "Find and list rooms, apartments, and houses easily",
+    "subtitle": "Log in to manage your listings and favorites",
+    "google": "Continue with Google",
+    "telegram": "Continue with Telegram",
+    "or": "or log in with email",
+    "email": "Email",
+    "emailPlaceholder": "Enter your email",
+    "password": "Password",
+    "passwordPlaceholder": "Enter your password",
+    "forgot": "Forgot Password?",
+    "signIn": "Sign In",
+    "noAccount": "Don’t have an account?",
+    "signUp": "Sign Up",
+    "haveAccount": "Already have an account?",
+    "agreement": "By continuing, you agree to our Terms & Privacy Policy",
+    "forgotPass":"Forgot password?",
+    "forgotPassDesc":"No worries, we'll send you reset instructions",
+    "back_login":"Back to login",
+    "reset_password": "Reset password"
   }
 }

@@ -77,7 +77,7 @@
 </template>
 
 <script setup lang="ts">
-import switchLng from './switch-lng.vue'
+import switchLng from './switch-lng.client.vue'
 
 const drawer = ref(false)
 </script>

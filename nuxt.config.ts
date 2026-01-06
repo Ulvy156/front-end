@@ -14,7 +14,9 @@ export default defineNuxtConfig({
   ],
   runtimeConfig: {
     public: {
-      imageBaseUrl: process.env.NUXT_PUBLIC_IMAGE_BASE_URL
+      imageBaseUrl: process.env.NUXT_PUBLIC_IMAGE_BASE_URL,
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3001',
+      R2_PUB_URL: process.env.NUXT_PUBLIC_R2_PUB_URL
     }
   },
   image: {
@@ -49,7 +51,7 @@ export default defineNuxtConfig({
       { code: 'en', file: 'en.json' },
       { code: 'km', file: 'km.json' },
     ],
-    
+
     detectBrowserLanguage: false,
   },
 })
