@@ -17,7 +17,7 @@
                 <div class="overlay"></div>
 
                 <div class="content">
-                    <p>{{ value.nameEn }}</p>
+                    <p>{{currentLng === 'en' ? value.nameEn : value.nameKh }}</p>
                     <p>{{ value.totalListings }} results</p>
                 </div>
             </article>
@@ -30,9 +30,11 @@
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import type { PopularDistrict } from '../featured-listings/feature.listings';
 
+
 defineProps<{
     popularLocations: PopularDistrict[]
 }>()
+const currentLng = useCurrentLang();
 
 const featuredListings = shallowRef([
     {

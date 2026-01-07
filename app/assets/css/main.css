@@ -12,7 +12,7 @@
 
   /* Text */
   --text-lg: 1.125rem; /* 18 */
-  --text-md: 1rem;     /* 16 */
+  --text-md: 0.9rem;     /* 16 */
   --text-sm: 0.875rem; /* 14 */
   --text-xs: 0.75rem;  /* 12 */
 
@@ -24,6 +24,8 @@
     #f4f4f5 100%
   );
   --hover-text-color: oklch(69.6% 0.17 162.48);
+
+  --active-bg: color-mix(in oklab, var(--color-emerald-400) /* oklch(76.5% 0.177 163.223) */ 8%, transparent);
 
   /* font-family */
   --font-en: 'Manrope', system-ui, sans-serif;
@@ -76,7 +78,7 @@ p {
 
 
 span, li {
-  font-size: var(--text-sm);
+  font-size: var(--text-xs);
 }
 
 .blue {

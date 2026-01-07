@@ -60,5 +60,10 @@
     "forgotPassDesc":"No worries, we'll send you reset instructions",
     "back_login":"Back to login",
     "reset_password": "Reset password"
+  },
+  "card": {
+    "size": "size",
+    "bedroom": "bedroom",
+    "bathroom": "bathroom"
   }
 }

@@ -12,18 +12,21 @@
             </div> -->
         </div>
         <section class="grid grid-cols-4 gap-7 mt-3 ">
-            <productCard v-for="value in latestListings" 
-                :key="value.id" 
-                :price="value.price"
-                :src="value.images[0]?.imageKey ?? ''" 
-                :title="value.title" 
-                :content="value.title"
-                :location="`${value.district.province.nameEn} ${value.district.nameEn}`"
-                :type="value.propertyType.nameEn" 
-                :size="value.sizeSqm"
-                :total-view="value.totalViews"
-                :hide-compare-icon="true"
-            />
+            <productCard 
+            v-for="value in latestListings" 
+            :key="value.id" 
+            :price="value.price"
+            :src="value.images[0]?.imageKey ?? ''" 
+            :title="value.title" 
+            :content="value.title"
+            :location="value.district" 
+            :type="value.propertyType" 
+            :bathroom="value.bathroom"
+            :bedroom="value.bedroom" 
+            :size="value.sizeSqm" 
+            :total-view="value.totalViews"
+            :is-available="value.isAvailable"
+            :hide-compare-icon="true" />
         </section>
     </section>
 </template>

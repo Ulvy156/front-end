@@ -4,7 +4,9 @@ export interface FeaturedProperty {
   price: number
   sizeSqm: number
   totalViews: number
-
+  bathroom: number,
+  bedroom: number,
+  isAvailable: boolean,
   images: {
     imageKey: string
   }[]

@@ -18,11 +18,14 @@
             :src="value.images[0]?.imageKey ?? ''"
             :title="value.title"
             :content="value.title"
-            :location="`${value.district.province.nameEn} ${value.district.nameEn}`"
-            :type="value.propertyType.nameEn"
+            :location="value.district"
+            :type="value.propertyType" 
             :size="value.sizeSqm"
             :total-view="value.totalViews"
+            :bathroom="value.bathroom"
+            :bedroom="value.bedroom"
             :hide-compare-icon="true"
+            :is-available="value.isAvailable"
 
             />
         </section>

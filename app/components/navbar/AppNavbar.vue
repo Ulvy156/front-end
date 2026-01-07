@@ -15,28 +15,28 @@
         :class="{'menu-item-active': isActive('/')}"
         class="menu-items">
           <BaseIcon name="house" :size="16" />
-          <span>{{ $t('nav.home') }} </span>
+          <p>{{ $t('nav.home') }} </p>
         </NuxtLink>
 
         <span class="text-gray-300">|</span>
 
         <div class="menu-items">
           <BaseIcon name="search" :size="16" />
-          <span>{{ $t('nav.borwse_room') }}</span>
+          <p>{{ $t('nav.borwse_room') }}</p>
         </div>
 
         <span class="text-gray-300">|</span>
 
         <div class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
-          <span>{{ $t('nav.post_room') }}</span>
+          <p>{{ $t('nav.post_room') }}</p>
         </div>
 
         <span class="text-gray-300">|</span>
 
         <div class="menu-items">
           <BaseIcon name="heart" :size="16" />
-          <span>{{ $t('nav.favourites') }}</span>
+          <p>{{ $t('nav.favourites') }}</p>
         </div>
 
         <!-- <span class="text-gray-300">|</span>

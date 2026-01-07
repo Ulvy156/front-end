@@ -1,10 +1,14 @@
 <template>
-    <article class="rounded-lg cursor-pointer shadow-md p-5 group bg-white">
+    <article class="rounded-lg cursor-pointer shadow-md hover:shadow-lg transition-transform p-5 group bg-white">
         <!-- IMAGE WRAPPER -->
         <div class="relative overflow-hidden rounded-md">
             <!-- FLOATING ACTIONS -->
             <div class="floating-actions">
                 <div class="flex flex-col justify-between h-[40%] ">
+                    <!-- <div class="flex items-center gap-x-2 fab">
+                        <BaseIcon name="badge-check" />
+                        <span>{{ isAvailable }}</span>
+                    </div> -->
                     <button class="fab">
                         <BaseIcon name="heart" :size="18" />
                     </button>
@@ -21,27 +25,57 @@
             </div>
 
             <!-- IMAGE -->
-            <BaseImage :src="src" format="webp" loading="lazy"
-                class="w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+            <BaseImage :src="src"
+                class="w-full object-cover transition-transform duration-500 group-hover:scale-105 aspect-16/5" />
         </div>
 
         <!-- CONTENT -->
-        <div class="flex flex-col gap-y-2 mt-3">
-            <h4 class="line-clamp-1">
-                ${{ price }}/ {{ $t('home.month') }}
-            </h4>
-
-            <p class="line-clamp-1">{{ content }}</p>
-
-            <div class="flex items-center gap-x-2">
-                <BaseIcon name="map-pinned" :size="15" />
-                <span>{{ location }}</span>
+        <div class="flex flex-col gap-y-4 mt-3">
+            <div class="flex justify-between items-center">
+                <h4 class="flex  items-center">
+                    ${{ price }}<p class="ml-1">/{{ $t('home.month') }}</p>
+                </h4>
+                <BaseBadge class="w-fit" type="primary" :content="isAvailable">
+                    <BaseIcon name="check" :size="16" />
+                </BaseBadge>
             </div>
 
-            <div class="flex items-center gap-x-5">
-                <BaseBadge class="w-fit" type="primary" :content="type" />
-                <span class="text-gray-500">{{ size }} m<sup>2</sup></span>
+            <div>
+                <p class="line-clamp-1">{{ content }}</p>
+    
+                <div class="flex items-center gap-x-2 text-gray-500">
+                    <BaseIcon name="map-pinned" :size="15" />
+                    <p>{{ location }}</p>
+                </div>
             </div>
+
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-x-6">
+                    <div class="amenities">
+                    <BaseTooltip :content="$t('card.bathroom')">
+                        <BaseIcon name="bath" :size="14" />
+                    </BaseTooltip>
+                    <span>{{ bathroom }}</span>
+                </div>
+
+                <div class="amenities">
+                    <BaseTooltip :content="$t('card.bedroom')">
+                        <BaseIcon name="bed-double" :size="14" />
+                    </BaseTooltip>
+                    <span>{{ bedroom }}</span>
+                </div>
+
+                <div class="amenities">
+                    <BaseTooltip :content="$t('card.size')">
+                        <BaseIcon name="expand" :size="13" />
+                    </BaseTooltip>
+                    <span>{{ size }} m<sup>2</sup></span>
+                </div>
+                </div>
+            <BaseBadge class="w-fit" type="primary" :content="type" />
+
+            </div>
+
         </div>
     </article>
 
@@ -52,31 +86,48 @@
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseBadge from '~/components/ui/BaseBadge.vue';
 import BaseImage from '~/components/ui/BaseImage.vue';
+import BaseTooltip from '~/components/ui/BaseTooltip.vue';
 import { formatView } from '#imports';
 
 const props = withDefaults(defineProps<{
-  price: number;
-  src: string;
-  title: string;
-  content: string;
-  location: string;
-  type: string;
-  size: number;
-  totalView: number;
-  hideCompareIcon?: boolean;
+    price: number;
+    src: string;
+    title: string;
+    content: string;
+    bathroom: number;
+    bedroom: number;
+    isAvailable: boolean,
+    location: {
+        nameEn: string
+        nameKh: string
+        province: {
+            nameEn: string
+            nameKh: string
+        }
+    };
+    type: {
+        nameEn: string,
+        nameKh: string,
+    };
+    size: number;
+    totalView: number;
+    hideCompareIcon?: boolean;
 }>(), {
-  price: 0,
-  src: '',
-  title: '',
-  content: '',
-  location: '',
-  type: '',
-  size: 0,
-  totalView: 0,
-  hideCompareIcon: false,
+    price: 0,
+    src: '',
+    title: '',
+    content: '',
+    size: 0,
+    totalView: 0,
+    hideCompareIcon: false,
 });
 
+const location = computed(() => useCurrentLang().value == 'en' ?
+    `${props.location.province.nameEn} ${props.location.nameEn}` :
+    `${props.location.province.nameKh} ${props.location.nameKh}`);
 
+const type = computed(() => useCurrentLang().value == 'en' ? props.type.nameEn : props.type.nameKh);
+const isAvailable = computed(() => useCurrentLang().value == 'en' ? 'Available' : 'ទំនេរ');
 
 </script>
 
@@ -88,6 +139,7 @@ img {
 }
 
 .floating-actions {
+    color: var(--hover-text-color);
     position: absolute;
     right: 10px;
     padding: 10px 0;
@@ -114,10 +166,10 @@ img {
 
     border-radius: 25px;
 
-    background: whitesmoke;
-    backdrop-filter: blur(10px);
+    background: #f9fbfa;
+    backdrop-filter: blur(2px);
 
-    color: black;
+    color: #628478;
     /* color: #e5e7eb; */
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
 
@@ -127,7 +179,8 @@ img {
 
 /* hover effect */
 .fab:hover {
-    /* background: rgba(47, 55, 52, 1); */
+    color: var(--hover-text-color);
+    background: var(--active-bg);
     transform: translateY(-2px);
 }
 
@@ -138,5 +191,11 @@ img {
     gap: 8px;
     border-radius: 999px;
     font-size: 14px;
+}
+
+.amenities {
+    display: flex;
+    align-items: center;
+    column-gap: 5px;
 }
 </style>

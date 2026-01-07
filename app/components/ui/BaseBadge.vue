@@ -5,6 +5,9 @@ defineProps<{ type?: 'primary' | 'success' | 'warning' | 'danger' | 'info', cont
 
 <template>
   <el-tag :type="type || 'info'">
-    {{content}}
+    <div class="flex items-center gap-x-1">
+      <slot></slot>
+      {{content}}
+    </div>
   </el-tag>
 </template>
