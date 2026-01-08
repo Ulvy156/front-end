@@ -4,12 +4,20 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  // Page data is fetched separately
+  experimental: {
+    payloadExtraction: true
+  },
+  // Compresses static files
+  nitro: {
+    compressPublicAssets: true
+  },
   modules: [
     '@nuxt/fonts',
     '@nuxt/hints',
     '@nuxt/image',
     '@element-plus/nuxt',
-    '@nuxt/icon',
+    // '@nuxt/icon',
     '@nuxtjs/i18n',
   ],
   runtimeConfig: {
@@ -20,7 +28,8 @@ export default defineNuxtConfig({
     }
   },
   image: {
-    domains: ['localhost']
+    domains: ['localhost', process.env.NUXT_PUBLIC_R2_PUB_URL ?? ''],
+    format: ['avif', 'webp']
   },
   css: ['./app/assets/css/main.css'],
   vite: {
@@ -33,12 +42,12 @@ export default defineNuxtConfig({
       {
         name: 'Manrope',
         provider: 'google',
-        weights: [400, 500, 600, 700],
+        weights: [400, 600],
       },
       {
         name: 'Noto Sans Khmer',
         provider: 'google',
-        weights: [400, 500, 600, 700],
+        weights: [400, 600],
       },
     ],
   },

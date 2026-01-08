@@ -1,5 +1,8 @@
 <template>
-    <article class="rounded-lg cursor-pointer shadow-md hover:shadow-lg transition-transform p-5 group bg-white">
+    <article class="rounded-lg cursor-pointer shadow-md
+         transition-all duration-500 ease-out
+         hover:-translate-y-1 hover:shadow-xl
+         p-5 group bg-white">
         <!-- IMAGE WRAPPER -->
         <div class="relative overflow-hidden rounded-md">
             <!-- FLOATING ACTIONS -->
@@ -42,7 +45,7 @@
 
             <div>
                 <p class="line-clamp-1">{{ content }}</p>
-    
+
                 <div class="flex items-center gap-x-2 text-gray-500">
                     <BaseIcon name="map-pinned" :size="15" />
                     <p>{{ location }}</p>
@@ -52,27 +55,27 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-x-6">
                     <div class="amenities">
-                    <BaseTooltip :content="$t('card.bathroom')">
-                        <BaseIcon name="bath" :size="14" />
-                    </BaseTooltip>
-                    <span>{{ bathroom }}</span>
-                </div>
+                        <BaseTooltip :content="$t('card.bathroom')">
+                            <BaseIcon name="bath" :size="14" />
+                        </BaseTooltip>
+                        <span>{{ bathroom }}</span>
+                    </div>
 
-                <div class="amenities">
-                    <BaseTooltip :content="$t('card.bedroom')">
-                        <BaseIcon name="bed-double" :size="14" />
-                    </BaseTooltip>
-                    <span>{{ bedroom }}</span>
-                </div>
+                    <div class="amenities">
+                        <BaseTooltip :content="$t('card.bedroom')">
+                            <BaseIcon name="bed-double" :size="14" />
+                        </BaseTooltip>
+                        <span>{{ bedroom }}</span>
+                    </div>
 
-                <div class="amenities">
-                    <BaseTooltip :content="$t('card.size')">
-                        <BaseIcon name="expand" :size="13" />
-                    </BaseTooltip>
-                    <span>{{ size }} m<sup>2</sup></span>
+                    <div class="amenities">
+                        <BaseTooltip :content="$t('card.size')">
+                            <BaseIcon name="expand" :size="13" />
+                        </BaseTooltip>
+                        <span>{{ size }} m<sup>2</sup></span>
+                    </div>
                 </div>
-                </div>
-            <BaseBadge class="w-fit" type="primary" :content="type" />
+                <BaseBadge class="w-fit" type="primary" :content="type" />
 
             </div>
 
