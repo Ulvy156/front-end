@@ -4,6 +4,9 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
+  app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
   // Page data is fetched separately
   experimental: {
     payloadExtraction: true
@@ -16,9 +19,10 @@ export default defineNuxtConfig({
     '@nuxt/fonts',
     '@nuxt/hints',
     '@nuxt/image',
+    '@nuxt/icon',
     '@element-plus/nuxt',
-    // '@nuxt/icon',
     '@nuxtjs/i18n',
+    '@vueuse/motion/nuxt'
   ],
   runtimeConfig: {
     public: {
@@ -55,10 +59,29 @@ export default defineNuxtConfig({
     langDir: 'locales',
     strategy: 'no_prefix', // no /km
     defaultLocale: 'en',
-
     locales: [
-      { code: 'en', file: 'en.json' },
-      { code: 'km', file: 'km.json' },
+      {
+        code: 'en',
+        files: [
+          'en/common.json',
+          'en/home.json',
+          'en/auth.json',
+          'en/filter.json',
+          'en/card.json',
+          'en/footer.json'
+        ]
+      },
+      {
+        code: 'km',
+        files: [
+          'km/common.json',
+          'km/home.json',
+          'km/auth.json',
+          'km/filter.json',
+          'km/card.json',
+          'en/footer.json'
+        ]
+      }
     ],
 
     detectBrowserLanguage: false,

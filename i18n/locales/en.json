@@ -20,6 +20,10 @@
       "content": "Discover comfortable and affordable rooms across Cambodia"
     },
     "feature_list": "Featured Listings",
+    "feature_des":"Hand-picked rooms with exceptional quality and value",
+    "featured":"FEATURED",
+    "new_list":"បញ្ជីថ្មីៗដែលទើបបន្ថែមចូល",
+    "just_list":"ទើបដាក់ផ្សាយថ្មី",
     "popular_location": "Popular Locations",
     "latest_listings": "Latest Listings",
     "month": "month"
@@ -65,5 +69,10 @@
     "size": "size",
     "bedroom": "bedroom",
     "bathroom": "bathroom"
+  },
+  "filter": {
+    "location":"Locations",
+    "price_range":"Price Range",
+    "room_type":"Room Type"
   }
 }

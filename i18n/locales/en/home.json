@@ -1,0 +1,61 @@
+{
+  "home": {
+    "location": {
+      "title": "Popular Locations",
+      "description": "Discover rooms in Cambodia's most sought-after neighborhoods"
+    },
+    "latestListings": "Latest Listings",
+    "hero": {
+      "title": "Find Your Perfect Living Life Style",
+      "content": "Discover comfortable and affordable rooms across Cambodia"
+    },
+    "featured": {
+      "title": "Featured Listings",
+      "description": "Hand-picked rooms with exceptional quality and value",
+      "badge": "FEATURED",
+      "newList": "Fresh listings added to our platform",
+      "justListed": "Just listed"
+    },
+    "choseUs": {
+      "choseUs": "Why Choose Us",
+      "title": "Everything you need to find home",
+      "description": "We've built the most comprehensive platform for room rentals in Cambodia with features designed to make your search effortless",
+      "card": {
+        "contact": {
+          "title": "Direct Contact",
+          "description": "Connect directly with landlords without any middlemen or hidden fees"
+        },
+        "search": {
+          "title": "Direct Contact",
+          "description": "Find your perfect room with our advanced filters and location-based search"
+        },
+        "free": {
+          "title": "Free Support",
+          "description": "Included for now we’re here to help you find your home"
+        }
+      }
+    },
+    "howItWork": {
+      "process": "Simpe Process",
+      "title": "How It Works",
+      "description": "Find your perfect room in just four simple steps. It's fast, easy, and completely free!",
+      "card": {
+        "contact": {
+          "title": "Direct Contact",
+          "description": "Connect directly with landlords without any middlemen or hidden fees"
+        },
+        "search": {
+          "title": "Direct Contact",
+          "description": "Find your perfect room with our advanced filters and location-based search"
+        },
+        "free": {
+          "title": "Free Support",
+          "description": "Included for now we’re here to help you find your home"
+        }
+      }
+    },
+    "process": {
+      
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "nav": {
+    "title": "Rentify",
+    "rooms": "Rooms",
+    "apartments": "Apartments",
+    "houses": "Houses",
+    "map": "Map",
+    "list": "List your place",
+    "land": "Land",
+    "parking": "Parking",
+    "rent": "Moto & Car",
+    "home": "Home",
+    "browseRoom": "Browse Room",
+    "postRoom": "Post Properties",
+    "favourites": "Favourites"
+  },
+  "month": "month"
+}

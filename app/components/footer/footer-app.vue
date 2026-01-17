@@ -16,7 +16,7 @@
 
           <div class="flex gap-3 mt-5">
             <button class="social-btn">
-              <Icon name="mdi:facebook" size="18" />
+              <BaseIcon name="mdi:facebook" :size="18" />
             </button>
             <button class="social-btn">
               <BaseIcon name="send" :size="18"/>
@@ -33,11 +33,11 @@
             {{ $t('footer.quickLinks') }}
           </h4>
           <ul class="space-y-3 text-sm">
-            <li><NuxtLink to="/about" class="footer-link">{{ $t('footer.about') }}</NuxtLink></li>
+            <!-- <li><NuxtLink to="/about" class="footer-link">{{ $t('footer.about') }}</NuxtLink></li>
             <li><NuxtLink to="/contact" class="footer-link">{{ $t('footer.contact') }}</NuxtLink></li>
             <li><NuxtLink to="/terms" class="footer-link">{{ $t('footer.terms') }}</NuxtLink></li>
             <li><NuxtLink to="/privacy" class="footer-link">{{ $t('footer.privacy') }}</NuxtLink></li>
-            <li><NuxtLink to="/help" class="footer-link">{{ $t('footer.help') }}</NuxtLink></li>
+            <li><NuxtLink to="/help" class="footer-link">{{ $t('footer.help') }}</NuxtLink></li> -->
           </ul>
         </div>
 
@@ -56,7 +56,7 @@
               <span>hello@roomkh.com</span>
             </li>
             <li class="flex items-center gap-3">
-              <Icon name="mdi:telegram" size="18" />
+              <BaseIcon name="mdi:telegram" :size="18" />
               <span>@roomkh</span>
             </li>
           </ul>

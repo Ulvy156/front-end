@@ -1,17 +1,16 @@
 <template>
     <section class="w-full m-auto my-5">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-x-2">
-                <BaseIcon name="table-of-contents" :size="22" color="black" />
-                <h3>{{ $t('home.latest_listings') }}</h3>
-            </div>
-            <!-- <div class="flex gap-x-2 items-center blue">
-                <span>See All</span>
-                <BaseIcon name="chevrons-right" :size="20"/>
-
-            </div> -->
+        <div class="flex items-center text-(--nav-active-item) gap-x-3 mb-2">
+            <BaseIcon name="trending-up" :size="22"  />
+            <p class="font-bold">{{ $t('home.featured.justListed') }}</p>
         </div>
-        <section class="grid grid-cols-4 gap-7 mt-3 ">
+        <div class="flex justify-between items-center">
+            <div>
+                <h3>{{ $t('home.latestListings') }}</h3>
+                <p class="text-(--gray)">{{ $t('home.featured.newList') }}</p>
+            </div>
+        </div>
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 mt-3 ">
             <productCard 
             v-for="value in latestListings" 
             :key="value.id" 

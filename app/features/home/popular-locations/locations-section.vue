@@ -1,23 +1,25 @@
 <template>
     <section class="w-full m-auto my-5">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center gap-x-2">
-                <BaseIcon name="map-pinned" :size="22" color="black" />
-                <h3>{{ $t('home.popular_location') }}</h3>
+        <div class="flex flex-col items-center justify-between">
+            <div class="flex items-center text-(--nav-active-item) gap-x-3">
+                <BaseIcon name="map-plus"  />
+                <p class="font-bold">{{ $t('home.location.title') }}</p>
             </div>
-            <div class="flex gap-x-2 items-center blue">
+            <h3>{{ $t('home.location.title') }}</h3>
+            <p>{{ $t('home.location.description') }}</p>
+            <!-- <div class="flex gap-x-2 items-center blue">
                 <span>See All</span>
                 <BaseIcon name="chevrons-right" :size="20" />
 
-            </div>
+            </div> -->
         </div>
-        <section class="grid grid-cols-5 gap-7 mt-3">
+        <section class="flex overflow-x-auto gap-7 mt-6 overflow-y-hidden " style="scrollbar-width: none;">
             <article v-for="(value, i) in popularLocations" :key="value.districtId" class="card"
                 :style="{ backgroundImage: `url(${featuredListings[i]?.url})` }">
                 <div class="overlay"></div>
 
                 <div class="content">
-                    <p>{{currentLng === 'en' ? value.nameEn : value.nameKh }}</p>
+                    <p>{{ currentLng === 'en' ? value.nameEn : value.nameKh }}</p>
                     <p>{{ value.totalListings }} results</p>
                 </div>
             </article>
@@ -72,30 +74,39 @@ const featuredListings = shallowRef([
 
 <style scoped>
 .card {
-  position: relative;
-  background-size: cover;
-  background-position: center;
-  border-radius: 12px;
-  padding: 20px;
-  overflow: hidden;
-  aspect-ratio: 16/9;
-  cursor: pointer;
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+    border-radius: 12px;
+    padding: 20px;
+    overflow: hidden;
+    aspect-ratio: 16/9;
+    min-width: 280px;
+    cursor: pointer;
+    transition:
+        background 0.3s ease-in-out,
+        transform 0.3s ease-in-out,
+    ;
 }
 
-.card:hover > .overlay {
-    background: rgba(113, 112, 112, 0.4); 
-    transition: background 0.5s;
+.card:hover>.overlay {
+    background: rgba(113, 112, 112, 0.4);
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(32, 32, 32, 0.4); 
+    position: absolute;
+    inset: 0;
+    background: rgba(32, 32, 32, 0.4);
 }
 
 .content {
-  position: relative;
-  color: white;
-  z-index: 1;
+    position: relative;
+    color: white;
+    z-index: 1;
 }
 </style>

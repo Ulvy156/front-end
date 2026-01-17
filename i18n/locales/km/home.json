@@ -1,0 +1,17 @@
+{
+  "home": {
+    "hero": {
+      "title": "Find Your Perfect Room",
+      "content": "Discover comfortable and affordable rooms across Cambodia"
+    },
+    "featured": {
+      "title": "Featured Listings",
+      "description": "Hand-picked rooms with exceptional quality and value",
+      "badge": "FEATURED",
+      "newList": "Fresh listings added to our platform",
+      "justListed": "Just listed"
+    },
+    "popularLocation": "Popular Locations",
+    "latestListings": "Latest Listings"
+  }
+}

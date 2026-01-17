@@ -1,35 +1,32 @@
 @import "tailwindcss";
+@import "./bg.css";
 
 :root {
   /* Base */
   --text-base: 16px;
 
   /* Headings */
-  --h1: clamp(2.25rem, 3vw,3rem);    /* 36 → 48 */
+  --h1: clamp(2.25rem, 3vw, 3rem); /* 36 → 48 */
   --h2: clamp(1.75rem, 3vw, 2.25rem); /* 28 → 36 */
-  --h3: 1.5rem;                      /* 24 */
-  --h4: 1.25rem;                     /* 20 */
+  --h3: 1.5rem; /* 24 */
+  --h4: 1.25rem; /* 20 */
+  --h5: 1.1rem; /* 20 */
 
   /* Text */
   --text-lg: 1.125rem; /* 18 */
-  --text-md: 0.9rem;     /* 16 */
+  --text-md: 0.9rem; /* 16 */
   --text-sm: 0.875rem; /* 14 */
-  --text-xs: 0.75rem;  /* 12 */
+  --text-xs: 0.75rem; /* 12 */
 
-  /* --app-bg: #F6F7FB; */
-  --app-bg: linear-gradient(
-    180deg,
-    #f8fafc 0%,
-    #f9fafb 40%,
-    #f4f4f5 100%
+  --active-bg: color-mix(
+    in oklab,
+    var(--gradient-primary) /* oklch(76.5% 0.177 163.223) */ 8%,
+    transparent
   );
-  --hover-text-color: oklch(69.6% 0.17 162.48);
-
-  --active-bg: color-mix(in oklab, var(--color-emerald-400) /* oklch(76.5% 0.177 163.223) */ 8%, transparent);
 
   /* font-family */
-  --font-en: 'Manrope', system-ui, sans-serif;
-  --font-km: 'Noto Sans Khmer', system-ui, sans-serif;
+  --font-en: "Manrope", system-ui, sans-serif;
+  --font-km: "Noto Sans Khmer", system-ui, sans-serif;
 }
 html[lang="en"] {
   font-size: var(--text-base);
@@ -45,7 +42,8 @@ body {
   font-size: var(--text-md);
   line-height: 1.6;
   color: #111;
-  background: var(--app-bg);
+  background-image: var(--background);
+  scroll-behavior: smooth;
 }
 
 /* Headings */
@@ -71,13 +69,18 @@ h4 {
   font-weight: 600;
 }
 
+h5 {
+  font-size: var(--h5);
+  font-weight: 500;
+}
+
 /* Text */
 p {
   font-size: var(--text-md);
 }
 
-
-span, li {
+span,
+li {
   font-size: var(--text-xs);
 }
 
@@ -95,5 +98,5 @@ span, li {
 }
 
 .card-bg {
-  background: #FFFFFF;
+  background: #ffffff;
 }

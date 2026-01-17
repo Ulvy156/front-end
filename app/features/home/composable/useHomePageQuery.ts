@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/vue-query';
-import type { FeaturedProperty, PopularDistrict } from '../feature.listings';
+import type { FeaturedProperty, PopularDistrict } from '../featured-listings/feature.listings';
 
 interface HomeData {
     featuredListings: FeaturedProperty[];

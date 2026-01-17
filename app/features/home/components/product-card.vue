@@ -1,8 +1,12 @@
 <template>
-    <article class="rounded-lg cursor-pointer shadow-md
+    <article 
+        v-motion 
+        :initial="{ opacity: 0, y: 20 }"
+        :visible-once="{ opacity: 1, y: 0 }"
+        class="rounded-lg cursor-pointer shadow-md
          transition-all duration-500 ease-out
          hover:-translate-y-1 hover:shadow-xl
-         p-5 group bg-white">
+         p-5 group bg-(--card)">
         <!-- IMAGE WRAPPER -->
         <div class="relative overflow-hidden rounded-md">
             <!-- FLOATING ACTIONS -->
@@ -36,7 +40,7 @@
         <div class="flex flex-col gap-y-4 mt-3">
             <div class="flex justify-between items-center">
                 <h4 class="flex  items-center">
-                    ${{ price }}<p class="ml-1">/{{ $t('home.month') }}</p>
+                    ${{ price }}<p class="ml-1">/{{ $t('month') }}</p>
                 </h4>
                 <BaseBadge class="w-fit" type="primary" :content="isAvailable">
                     <BaseIcon name="check" :size="16" />
@@ -48,7 +52,7 @@
 
                 <div class="flex items-center gap-x-2 text-gray-500">
                     <BaseIcon name="map-pinned" :size="15" />
-                    <p>{{ location }}</p>
+                    <span>{{ location }}</span>
                 </div>
             </div>
 
@@ -124,7 +128,7 @@ const props = withDefaults(defineProps<{
     totalView: 0,
     hideCompareIcon: false,
 });
-
+const visible = ref<boolean[]>([])
 const location = computed(() => useCurrentLang().value == 'en' ?
     `${props.location.province.nameEn} ${props.location.nameEn}` :
     `${props.location.province.nameKh} ${props.location.nameKh}`);

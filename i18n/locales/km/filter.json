@@ -1,0 +1,7 @@
+{
+  "filter": {
+    "location": "Locations",
+    "priceRange": "Price Range",
+    "roomType": "Room Type"
+  }
+}

@@ -20,16 +20,18 @@
 
         <span class="text-gray-300">|</span>
 
-        <div class="menu-items">
+        <NuxtLink to="/rooms" 
+        :class="{'menu-item-active': isActive('/rooms')}"
+        class="menu-items">
           <BaseIcon name="search" :size="16" />
-          <p>{{ $t('nav.borwse_room') }}</p>
-        </div>
+          <p>{{ $t('nav.browseRoom') }}</p>
+        </NuxtLink>
 
         <span class="text-gray-300">|</span>
 
         <div class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
-          <p>{{ $t('nav.post_room') }}</p>
+          <p>{{ $t('nav.postRoom') }}</p>
         </div>
 
         <span class="text-gray-300">|</span>
@@ -62,13 +64,13 @@
   </header>
 
   <!-- for mobile only -->
-  <MobileNavDrawer />
+  <!-- <MobileNavDrawer /> -->
 </template>
 
 <script lang="ts" setup>
 import switchLngClient from './switch-lng.client.vue';
 import BaseIcon from '../ui/BaseIcon.client.vue';
-import MobileNavDrawer from './MobileNavDrawer.vue';
+// import MobileNavDrawer from './MobileNavDrawer.vue';
 import { useActiveRoute } from '~/composables/useActiveRoute';
 
 const { isActive } = useActiveRoute();
@@ -96,12 +98,12 @@ const overlay = computed(() => {
 }
 
 .menu-items:hover {
-  color: var(--hover-text-color);
+  color: var(--nav-active-item);
   text-shadow: 0 0 0.5px var(--color-emerald-700);
 }
 .menu-item-active {
-  background-color: color-mix(in oklab, var(--color-emerald-400) /* oklch(76.5% 0.177 163.223) */ 8%, transparent);
-  color: var(--color-emerald-700);
+  background: var(--nav-active);
+  color: var(--nav-active-item);
   border-width: 2px;
   border-color: color-mix(in oklab, var(--color-emerald-200) /* oklch(90.5% 0.093 164.15) = #a4f4cf */ 40%, transparent);
   padding: 10px 16px;
