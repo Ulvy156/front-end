@@ -10,7 +10,7 @@
                 <p class="text-(--gray)">{{ $t('home.featured.description') }}</p>
             </div>
         </div>
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 mt-3 ">
+        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mt-3 ">
             <productCard v-for="value in featuredListings" :key="value.id" :price="value.price"
                 :src="value.images[0]?.imageKey ?? ''" :title="value.title" :content="value.title"
                 :location="value.district" :type="value.propertyType" :size="value.sizeSqm"

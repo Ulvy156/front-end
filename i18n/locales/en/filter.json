@@ -1,7 +1,10 @@
 {
   "filter": {
+    "title":"Filter",
     "location": "Locations",
     "priceRange": "Price Range",
-    "roomType": "Room Type"
+    "roomType": "Room Type",
+    "available":"Available Rooms",
+    "description":"Find your perfect space in the city"
   }
 }

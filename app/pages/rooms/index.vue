@@ -7,22 +7,22 @@
                 </span>
                 <p>6 results</p>
             </div>
-            <h2>Available room</h2>
-            <p class="text-(--gradient-primary)">Find your perfect space in the city</p>
+            <h2>{{$t('filter.available')}}</h2>
+            <p class="text-(--gradient-primary)">{{ $t("filter.description") }}</p>
         </div>
         <searchBar/>
-        <section class="flex items-center gap-x-10 sticky top-0">
-            <filterSideBar class="w-[30%]"/>
+        <section class="flex gap-x-10">
+            <filterSideBar class="w-[25%]"/>
             <div class="w-[70%]">
-                jjj
+                card
             </div>
         </section>
     </section>
 </template>
 
 <script lang="ts" setup>
-import searchBar from '~/features/rooms/components/search-bar.vue';
-import filterSideBar from '~/features/rooms/components/filter-side-bar.vue';
+import searchBar from '~/features/browse-rooms/components/search-bar.vue';
+import filterSideBar from '~/features/browse-rooms/components/filter-side-bar.vue';
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 
 useSeoMeta({

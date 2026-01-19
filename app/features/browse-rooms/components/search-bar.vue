@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="sticky md:top-1/6 lg:top-1/8 z-10 bg-white py-3">
         <div class="flex items-center gap-x-4">
             <BaseInput size="large" placeholder="Search by locations, district..." v-model="formData.search"
                 icon="search" />

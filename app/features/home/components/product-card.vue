@@ -1,12 +1,5 @@
 <template>
-    <article 
-        v-motion 
-        :initial="{ opacity: 0, y: 20 }"
-        :visible-once="{ opacity: 1, y: 0 }"
-        class="rounded-lg cursor-pointer shadow-md
-         transition-all duration-500 ease-out
-         hover:-translate-y-1 hover:shadow-xl
-         p-5 group bg-(--card)">
+    <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }" class="card">
         <!-- IMAGE WRAPPER -->
         <div class="relative overflow-hidden rounded-md">
             <!-- FLOATING ACTIONS -->
@@ -140,6 +133,38 @@ const isAvailable = computed(() => useCurrentLang().value == 'en' ? 'Available' 
 
 
 <style scoped>
+.card {
+    border-radius: 8px;
+    /* rounded-lg */
+    cursor: pointer;
+    box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    /* shadow-md */
+
+    padding: 20px;
+    /* p-5 */
+    background: var(--card);
+    /* bg-(--card) */
+
+    transition:
+        transform 0.5s ease-out,
+        box-shadow 0.5s ease-out,
+        color 0.5s ease-out;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    /* hover:-translate-y-1 */
+    box-shadow:
+        0 20px 25px -5px rgba(0, 0, 0, 0.15),
+        0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    /* hover:shadow-xl */
+
+    color: var(--nav-active-item) !important;
+    /* hover:text-(--nav-active-item) */
+}
+
 img {
     /* for every 16 width, the height is 9 */
     aspect-ratio: 16/9;

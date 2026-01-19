@@ -1,6 +1,6 @@
 <template>
   <header :class="overlay" class=" top-2 z-40 hidden md:block w-11/12  ">
-    <div
+    <nav
       class="m-auto flex justify-between w-11/12 items-center gap-4 rounded-2xl border border-gray-50 bg-white/60 px-6 py-3 shadow-sm bg-clip-padding  backdrop-filter backdrop-blur-sm">
       <!-- Logo -->
       <NuxtLink to="/" 
@@ -60,7 +60,7 @@
       <div class="flex items-center justify-end gap-4">
         <switchLngClient />
       </div>
-    </div>
+    </nav>
   </header>
 
   <!-- for mobile only -->

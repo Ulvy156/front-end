@@ -1,16 +1,16 @@
 <template>
-  <section class="sticky top-0 z-10 p-5 rounded-md bg-(--bg-card)">
+  <section class="p-7 rounded-lg shadow-md">
     <div class="flex items-center gap-x-3 border-b border-b-(--bg-gray) pb-5">
-      <span class="flex items-center text-(--hover-text-color) bg-(--active-bg)  p-2 rounded-md">
+      <span class="flex items-center text-(--nav-active-item) bg-(--nav-active)  p-2 rounded-md">
         <BaseIconClient name="funnel" />
       </span>
-      <h4>Filters</h4>
+      <h4>{{ $t('filter.title') }}</h4>
     </div>
     <!-- content -->
     <div class="grid grid-cols-1 gap-y-7 mt-5">
       <!-- price range -->
       <div>
-        <p class="mb-3">{{ $t("filter.price_range") }}</p>
+        <p class="mb-3">{{ $t("filter.priceRange") }}</p>
         <el-slider v-model="filter.price" placement="top" size="small" :max="1000" />
         <div class="flex justify-between font-semibold">
           <span class="price-tag">$0</span>
@@ -20,27 +20,11 @@
 
       <!-- locations -->
       <div class="label-parent">
-        <p>{{ $t("filter.location") }}</p>
-        <label class="label-filter"
-          v-for="value in location?.popularLocations" :key="value.districtId" 
-          :for="value.districtId.toString()"
-          @click="filter.location = value.districtId">
-          <input :id="value.districtId.toString()" type="radio" :checked="filter.location === value.districtId">
-          <p>{{ value.nameEn }}</p>
-        </label>
+        <filterLocation/>
       </div>
 
       <!-- property type -->
-      <div class="label-parent">
-        <p>{{ $t("filter.room_type") }}</p>
-        <label class="label-filter"
-         v-for="value in properties" :value="value.id" :key="value.id" 
-         :for="value.id.toString()"
-          @click="filter.propertyType = value.id">
-          <input :id="value.id.toString()" type="radio" :checked="filter.propertyType === value.id">
-          <p>{{ value.nameEn }}</p>
-        </label>
-      </div>
+      <filterProperty/>
     </div>
   </section>
 </template>
@@ -49,6 +33,8 @@
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 import { useHomePageQuery } from '~/features/home/composable/useHomePageQuery';
 import { usePropertyTypeQuery } from '../composable/properTypeQuery';
+import filterLocation from './filter-location.vue';
+import filterProperty from './filter-property.vue';
 
 const { data: location, isFetched } = useHomePageQuery()
 const { data: properties } = usePropertyTypeQuery()
@@ -75,15 +61,20 @@ watch(
 <style scoped>
 .price-tag {
   padding: 8px 16px;
-  background: var(--bg-gray);
+  background: rgb(236, 235, 235);
   border-radius: 6px;
 }
 
 .label-parent {
   display: grid;
   grid-template-columns: repeat(1, minmax(0, 1fr));
-  row-gap: calc(var(--spacing) * 3) /* 0.75rem = 12px */;
+  row-gap: calc(var(--spacing) * 3)
+    /* 0.75rem = 12px */
+  ;
   align-items: center;
+  /* height: 20vh;
+  overflow-y: auto;
+  scrollbar-width: none; */
 }
 
 .label-filter {
@@ -95,16 +86,16 @@ watch(
   border-radius: 10px;
   /* border: 1px solid #16a28633; */
   cursor: pointer;
-  transition: 
-      background 0.3s ease, 
-      color 0.3s ease, 
-      accent-color 0.3s ease, 
-      accent-color 0.3s ease, 
-      font-weight 0.3s ease,
-      transform 0.3s ease;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease,
+    accent-color 0.3s ease,
+    accent-color 0.3s ease,
+    font-weight 0.3s ease,
+    transform 0.3s ease;
 }
 
-.label-filter > input[type="radio"]:not(:checked) {
+.label-filter>input[type="radio"]:not(:checked) {
   appearance: none;
   background-color: #fff;
   font: inherit;
@@ -116,17 +107,16 @@ watch(
 }
 
 .label-filter:hover {
-  background: var(--bg-gray);
+  background: var(--nav-active);
   transform: translateY(-1px);
 }
 
 .label-filter:has(input[type="radio"]:checked) {
-  background: var(--active-bg);
+  background: var(--nav-active);
   border: 1px solid #16a28633;
   transform: translateY(-2px);
-  color: var(--hover-text-color);
-  accent-color: var(--hover-text-color);
+  color: var(--nav-active-item);
+  accent-color: var(--nav-active-item);
   font-weight: bold;
 }
-
 </style>
