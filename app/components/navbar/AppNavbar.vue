@@ -10,7 +10,7 @@
       </NuxtLink>
 
       <!-- Center Search -->
-      <div class="mx-auto flex items-center gap-3 rounded-full border bg-gray-50 px-4 py-2 text-sm text-gray-600">
+      <div class="mx-auto flex items-center gap-3 rounded-full border border-(--nav-active-item) bg-gray-50 px-4 py-2 text-sm text-gray-600">
         <NuxtLink to="/" 
         :class="{'menu-item-active': isActive('/')}"
         class="menu-items">

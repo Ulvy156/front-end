@@ -14,5 +14,6 @@
     "postRoom": "Post Properties",
     "favourites": "Favourites"
   },
-  "month": "month"
+  "month": "month",
+  "all":"All"
 }

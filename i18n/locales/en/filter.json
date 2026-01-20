@@ -5,6 +5,10 @@
     "priceRange": "Price Range",
     "roomType": "Room Type",
     "available":"Available Rooms",
-    "description":"Find your perfect space in the city"
+    "description":"Find your perfect space in the city",
+    "furnished": "Rooms & Furnishing",
+    "bathroom":"Bathroom",
+    "bedroom":"Bedroom",
+    "furnishing":"Furnishing"
   }
 }

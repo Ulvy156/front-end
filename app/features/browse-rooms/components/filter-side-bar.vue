@@ -9,22 +9,16 @@
     <!-- content -->
     <div class="grid grid-cols-1 gap-y-7 mt-5">
       <!-- price range -->
-      <div>
-        <p class="mb-3">{{ $t("filter.priceRange") }}</p>
-        <el-slider v-model="filter.price" placement="top" size="small" :max="1000" />
-        <div class="flex justify-between font-semibold">
-          <span class="price-tag">$0</span>
-          <span class="price-tag">$1000+</span>
-        </div>
-      </div>
+      <filterPrice/>
 
       <!-- locations -->
-      <div class="label-parent">
-        <filterLocation/>
-      </div>
+      <filterLocation/>
 
       <!-- property type -->
       <filterProperty/>
+
+      <!-- property furnished -->
+       <filterFurnished/>
     </div>
   </section>
 </template>
@@ -35,6 +29,8 @@ import { useHomePageQuery } from '~/features/home/composable/useHomePageQuery';
 import { usePropertyTypeQuery } from '../composable/properTypeQuery';
 import filterLocation from './filter-location.vue';
 import filterProperty from './filter-property.vue';
+import filterPrice from './filter-price.vue';
+import filterFurnished from './filter-furnished.vue';
 
 const { data: location, isFetched } = useHomePageQuery()
 const { data: properties } = usePropertyTypeQuery()
@@ -63,18 +59,6 @@ watch(
   padding: 8px 16px;
   background: rgb(236, 235, 235);
   border-radius: 6px;
-}
-
-.label-parent {
-  display: grid;
-  grid-template-columns: repeat(1, minmax(0, 1fr));
-  row-gap: calc(var(--spacing) * 3)
-    /* 0.75rem = 12px */
-  ;
-  align-items: center;
-  /* height: 20vh;
-  overflow-y: auto;
-  scrollbar-width: none; */
 }
 
 .label-filter {

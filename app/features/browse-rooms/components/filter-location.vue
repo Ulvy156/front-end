@@ -1,12 +1,12 @@
 <template>
-    <div class="flex items-center gap-x-2 bg-(--bg-gray) p-2 rounded-md">
-        <BaseIconClient name="map-pin" color="var(--nav-active-item)"/>
-        <p>{{ $t("filter.location") }}</p>
+    <div>
+        <div class="flex items-center gap-x-2 bg-(--bg-gray) p-2 rounded-md mb-4">
+            <BaseIconClient name="map-pin" color="var(--nav-active-item)" />
+            <p>{{ $t("filter.location") }}</p>
+        </div>
+        <el-autocomplete clearable v-model="keyword" :fetch-suggestions="searchLocations" placeholder="Search location"
+            value-key="label" style="width: 100%" @select="onSelect" />
     </div>
-    <el-autocomplete clearable v-model="keyword" :fetch-suggestions="searchLocations" placeholder="Search location"
-        value-key="label" style="width: 100%" @select="onSelect" />
-
-
 </template>
 
 
@@ -69,7 +69,7 @@ const onSelect = (item: Location) => {
 
 <style scoped>
 :deep(.el-autocomplete) {
-    border: 2px solid #007bff;
+    border-color: #007bff;
     border-radius: 8px;
 }
 </style>

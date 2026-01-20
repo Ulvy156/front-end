@@ -1,5 +1,5 @@
 <template>
-  <div class="flex border border-gray-600 rounded-full py-2 px-4">
+  <div class="flex border border-(--nav-active-item) rounded-full py-2 px-4">
     <el-dropdown trigger="click" style="width: fit-content;">
       <button class="flex items-center gap-2 rounded-full text-sm transition cursor-pointer">
         <span>{{ locale === 'en' ? '🇬🇧 EN' : '🇰🇭 KM' }}</span>
@@ -18,7 +18,7 @@
       </template>
 
     </el-dropdown>
-    <NuxtLink to="/user/profile" class="backdrop-blur border size-8 flex justify-center items-center rounded-full">
+    <NuxtLink to="/user/profile" class="backdrop-blur border border-(--nav-active-item) size-8 flex justify-center items-center rounded-full">
       <BaseIconClient name="user-round" :size="14" />
     </NuxtLink>
   </div>
