@@ -9,6 +9,7 @@
     "furnished": "Rooms & Furnishing",
     "bathroom":"Bathroom",
     "bedroom":"Bedroom",
-    "furnishing":"Furnishing"
+    "furnishing":"Furnishing",
+    "amenity":"Amenities"
   }
 }

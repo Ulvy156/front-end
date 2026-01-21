@@ -1,5 +1,5 @@
 <template>
-  <section class="p-7 rounded-lg shadow-md">
+  <section class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto">
     <div class="flex items-center gap-x-3 border-b border-b-(--bg-gray) pb-5">
       <span class="flex items-center text-(--nav-active-item) bg-(--nav-active)  p-2 rounded-md">
         <BaseIconClient name="funnel" />
@@ -19,6 +19,12 @@
 
       <!-- property furnished -->
        <filterFurnished/>
+
+      <!-- property amenities -->
+      <filterAmenities/>
+
+      <!-- property rules -->
+      <filterHouseRules/>
     </div>
   </section>
 </template>
@@ -31,6 +37,8 @@ import filterLocation from './filter-location.vue';
 import filterProperty from './filter-property.vue';
 import filterPrice from './filter-price.vue';
 import filterFurnished from './filter-furnished.vue';
+import filterAmenities from './filter-amenities.vue';
+import filterHouseRules from './filter-house-rules.vue';
 
 const { data: location, isFetched } = useHomePageQuery()
 const { data: properties } = usePropertyTypeQuery()

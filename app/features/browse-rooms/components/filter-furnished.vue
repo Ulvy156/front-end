@@ -7,35 +7,37 @@
     <div class="grid grid-cols-1 gap-y-4 mx-2">
       <div>
         <span class="flex items-center mb-1 gap-x-2 text-(--gray)">
-        <BaseIconClient name="bed" size="14" color="var(--nav-active-item)" />
-        <span>{{ $t("filter.bedroom") }}</span>
-      </span>
-      <!-- bedroom -->
-      <div class="grid grid-cols-4 gap-x-2">
-        <span
-          v-for="value in bedrooms"
-          :key="value.id"
-          class="default-class"
-          @click="filter.bedroom = value.id"
-          :class="{ active: filter.bedroom === value.id }"
-        >
-          {{ value.label }}
+          <BaseIconClient name="bed" size="14" color="var(--nav-active-item)" />
+          <span>{{ $t("filter.bedroom") }}</span>
         </span>
-      </div>
+        <!-- bedroom -->
+        <div class="grid grid-cols-4 gap-x-2">
+          <span
+            v-for="value in bedrooms"
+            :key="value.id"
+            @click="filter.bedroom = value.id"
+            :class="activeClass(filter.bedroom, value.id)"
+          >
+            {{ value.label }}
+          </span>
+        </div>
       </div>
       <!-- bathroom -->
       <div>
         <span class="flex items-center mb-1 gap-x-2 text-(--gray)">
-          <BaseIconClient name="bath" size="14" color="var(--nav-active-item)" />
+          <BaseIconClient
+            name="bath"
+            size="14"
+            color="var(--nav-active-item)"
+          />
           <span>{{ $t("filter.bathroom") }}</span>
         </span>
         <div class="grid grid-cols-3 gap-x-2">
           <span
             v-for="value in bathrooms"
             :key="value.id"
-            class="default-class"
             @click="filter.bathroom = value.id"
-            :class="{ active: filter.bathroom === value.id }"
+            :class="activeClass(filter.bathroom, value.id)"
           >
             {{ value.label }}
           </span>
@@ -44,7 +46,11 @@
       <!-- furnishing -->
       <div>
         <span class="flex items-center mb-1 gap-x-2 text-(--gray)">
-          <BaseIconClient name="bath" size="14" color="var(--nav-active-item)" />
+          <BaseIconClient
+            name="bath"
+            size="14"
+            color="var(--nav-active-item)"
+          />
           <span>{{ $t("filter.furnishing") }}</span>
         </span>
         <div class="grid grid-cols-3 gap-x-2">
@@ -52,8 +58,7 @@
             v-for="value in furnishing"
             :key="value.id"
             @click="filter.furnishing = value.id"
-            class="default-class"
-            :class="{ active: filter.furnishing === value.id }"
+            :class="activeClass(filter.furnishing, value.id)"
           >
             {{ value.label }}
           </span>
@@ -80,7 +85,7 @@ const bedrooms = readonly([
     label: "2",
   },
   {
-    id: "bd3",
+    id: "bd4",
     label: "3+",
   },
 ]);
@@ -96,7 +101,7 @@ const bathrooms = readonly([
   {
     id: "bh3",
     label: "2",
-  }
+  },
 ]);
 const furnishing = readonly([
   {
@@ -110,13 +115,17 @@ const furnishing = readonly([
   {
     id: "fn3",
     label: "Unfurnished",
-  }
+  },
 ]);
 const filter = ref({
   bedroom: "bd1",
   bathroom: "bh1",
   furnishing: "fn1",
 });
+
+function activeClass(mainId: string,subId: string) {
+  return mainId === subId ? 'active' : 'default-class';
+}
 </script>
 
 <style scoped>
@@ -137,6 +146,13 @@ const filter = ref({
 }
 
 .active {
+  padding: 5px;
+  text-align: center;
+  border-radius: 15px;
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    color 0.3s ease;
   background: var(--nav-active-item);
   color: white;
 }
