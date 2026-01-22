@@ -39,6 +39,7 @@ import filterPrice from './filter-price.vue';
 import filterFurnished from './filter-furnished.vue';
 import filterAmenities from './filter-amenities.vue';
 import filterHouseRules from './filter-house-rules.vue';
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 const { data: location, isFetched } = useHomePageQuery()
 const { data: properties } = usePropertyTypeQuery()
@@ -48,6 +49,7 @@ const filter = reactive({
   location: 0,
   propertyType: 0
 })
+const filterStore = usePropertyFilterStore()
 
 watch(
   [isFetched, location, properties],
@@ -60,6 +62,15 @@ watch(
   { immediate: true }
 )
 
+watch(
+  () => filterStore.queryParams,
+  (val) => {
+    // fetch API
+    console.log(val);
+    
+  },
+  { deep: true }
+)
 </script>
 
 <style scoped>

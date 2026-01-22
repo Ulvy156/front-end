@@ -1,7 +1,7 @@
 <template>
     <section class="sticky md:top-1/6 lg:top-1/8 z-10 bg-white py-3">
         <div class="flex items-center gap-x-4">
-            <BaseInput size="large" placeholder="Search by locations, district..." v-model="formData.search"
+            <BaseInput size="large" placeholder="Search by locations, district..." v-model="filterStore.locationName"
                 icon="search" />
             <div class="flex items-center rounded-[11px] border border-gray-300">
                 <span class="active icon">
@@ -11,10 +11,9 @@
                     <BaseIconClient name="layout-panel-left" size="18" />
                 </span>
             </div>
-            <el-select v-model="formData.selectOption" placeholder="Select" size="large" style="width: 200px;">
+            <el-select v-model="filterStore.orderType" placeholder="Select" size="large" style="width: 200px;">
                 <el-option v-for="item in selectOption" :key="item.id" :label="item.label" :value="item.label" />
             </el-select>
-            
         </div>
     </section>
 </template>
@@ -22,6 +21,7 @@
 <script lang="ts" setup>
 import BaseInput from '~/components/ui/BaseInput.vue';
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 const formData = reactive({
     search: "",
@@ -45,6 +45,8 @@ const selectOption = [
         label: 'Most Popular',
     }
 ]
+const filterStore = usePropertyFilterStore()
+
 </script>
 
 

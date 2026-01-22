@@ -13,6 +13,7 @@
 <script lang="ts" setup>
 import { useDebounceFn } from '@vueuse/core'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 interface Location {
     id: number
@@ -23,9 +24,8 @@ interface Location {
 }
 
 const api = useApi()
-
-const keyword = ref('')
-const selectedLocation = ref<Location | null>(null)
+const filterStore = usePropertyFilterStore()
+const keyword = ref()
 
 // debounced fetch (1s)
 const fetchLocations = useDebounceFn(
@@ -59,9 +59,9 @@ const searchLocations = (
 }
 
 const onSelect = (item: Location) => {
-    selectedLocation.value = item
-    keyword.value = item.label
+    filterStore.location = item.id
 }
+
 </script>
 
 

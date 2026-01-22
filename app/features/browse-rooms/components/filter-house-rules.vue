@@ -2,7 +2,7 @@
   <div>
     <div class="flex items-center mb-4 gap-x-2 bg-(--bg-gray) p-2 rounded-md">
       <BaseIconClient name="sparkles" color="var(--nav-active-item)" />
-      <p>{{ $t("filter.amenity") }}</p>
+      <p>{{ $t("filter.rules") }}</p>
       <span
         v-show="selectedItems > 0"
         class="p-1 size-5 flex items-center justify-center rounded-full bg-(--nav-active-item) text-white font-bold"
@@ -26,20 +26,25 @@
 <script lang="ts" setup>
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyRules } from "../composable/propertyRules";
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 const { data: rules } = usePropertyRules();
 const selectedId = ref<number[]>([]);
+const filterStore = usePropertyFilterStore();
+
 
 function activeClass(subId: number) {
   return selectedId.value.includes(subId) ? "active" : "default-class";
 }
+
 function onSelect(id: number) {
   if (selectedId.value.includes(id)) {
     const result = selectedId.value.filter((v) => v !== id);
     selectedId.value = result;
-    return;
+  }else {
+    selectedId.value.push(id);
   }
-  selectedId.value.push(id);
+  filterStore.houseRules = selectedId.value;
 }
 const selectedItems = computed(() => selectedId.value.length);
 </script>

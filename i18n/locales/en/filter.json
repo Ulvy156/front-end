@@ -10,6 +10,7 @@
     "bathroom":"Bathroom",
     "bedroom":"Bedroom",
     "furnishing":"Furnishing",
-    "amenity":"Amenities"
+    "amenity":"Amenities",
+    "rules":"House Rules"
   }
 }

@@ -14,6 +14,15 @@
 
 <script lang="ts" setup>
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
-const price = ref(0)
+const filterStore = usePropertyFilterStore()
+
+const price = computed({
+  get: () => filterStore.priceRange.max ?? 0,
+  set: (val: number) => {
+    filterStore.priceRange.max = val
+  },
+})
+
 </script>

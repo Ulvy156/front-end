@@ -15,8 +15,8 @@
           <span
             v-for="value in bedrooms"
             :key="value.id"
-            @click="filter.bedroom = value.id"
-            :class="activeClass(filter.bedroom, value.id)"
+            @click="filter.bedroom = value.value"
+            :class="activeClass(filter.bedroom, value.value)"
           >
             {{ value.label }}
           </span>
@@ -36,8 +36,8 @@
           <span
             v-for="value in bathrooms"
             :key="value.id"
-            @click="filter.bathroom = value.id"
-            :class="activeClass(filter.bathroom, value.id)"
+            @click="filter.bathroom = value.value"
+            :class="activeClass(filter.bathroom, value.value)"
           >
             {{ value.label }}
           </span>
@@ -57,8 +57,8 @@
           <span
             v-for="value in furnishing"
             :key="value.id"
-            @click="filter.furnishing = value.id"
-            :class="activeClass(filter.furnishing, value.id)"
+            @click="filter.furnishing = value.value"
+            :class="activeClass(filter.furnishing, value.value)"
           >
             {{ value.label }}
           </span>
@@ -70,62 +70,79 @@
 
 <script lang="ts" setup>
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import { usePropertyFilterStore } from "~/stores/propertyFilter";
 
+const filterStore = usePropertyFilterStore();
 const bedrooms = readonly([
   {
     id: "bd1",
     label: "Any",
+    value: 0
   },
   {
     id: "bd2",
     label: "1",
+    value: 1
   },
   {
     id: "bd3",
     label: "2",
+    value: 2
   },
   {
     id: "bd4",
     label: "3+",
+    value: 3
   },
 ]);
 const bathrooms = readonly([
   {
     id: "bh1",
     label: "Any",
+    value: 0
   },
   {
     id: "bh2",
     label: "1",
+    value: 1
   },
   {
     id: "bh3",
     label: "2",
+    value: 2
   },
 ]);
 const furnishing = readonly([
   {
     id: "fn1",
     label: "Any",
+    value: 0
   },
   {
     id: "fn2",
     label: "Furnished",
+    value: 1
   },
   {
     id: "fn3",
     label: "Unfurnished",
+    value: 2
   },
 ]);
 const filter = ref({
-  bedroom: "bd1",
-  bathroom: "bh1",
-  furnishing: "fn1",
+  bedroom: 0,
+  bathroom: 0,
+  furnishing: 0,
 });
 
-function activeClass(mainId: string,subId: string) {
+function activeClass(mainId: number,subId: number) {
   return mainId === subId ? 'active' : 'default-class';
 }
+
+watch(filter.value, (val) => {
+  filterStore.furnishing = val;
+})
+
 </script>
 
 <style scoped>

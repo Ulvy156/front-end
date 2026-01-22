@@ -22,7 +22,8 @@ export default defineNuxtConfig({
     '@nuxt/icon',
     '@element-plus/nuxt',
     '@nuxtjs/i18n',
-    '@vueuse/motion/nuxt'
+    '@vueuse/motion/nuxt',
+    '@pinia/nuxt'
   ],
   runtimeConfig: {
     public: {

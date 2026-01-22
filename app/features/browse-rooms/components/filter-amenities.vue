@@ -26,9 +26,11 @@
 <script lang="ts" setup>
 import { usePropertyAmenities } from "../composable/propertyAmenities";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 const { data: amenities } = usePropertyAmenities();
 const selectedId = ref<number[]>([]);
+const filterStore = usePropertyFilterStore();
 
 function activeClass(subId: number) {
   return selectedId.value.includes(subId) ? "active" : "default-class";
@@ -37,11 +39,14 @@ function onSelect(id: number) {
   if (selectedId.value.includes(id)) {
     const result = selectedId.value.filter((v) => v !== id);
     selectedId.value = result;
-    return;
+  }else {
+    selectedId.value.push(id);
   }
-  selectedId.value.push(id);
+  filterStore.amenities = selectedId.value;
 }
 const selectedItems = computed(() => selectedId.value.length);
+
+
 </script>
 
 <style scoped>

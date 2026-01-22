@@ -5,7 +5,7 @@
                 <span class="flex items-center bg-(--nav-active)  px-2 py-1 rounded-md">
                     <BaseIconClient name="sparkles"/>
                 </span>
-                <p>6 results</p>
+                <p class=" lowercase">6 {{ $t('results') }}</p>
             </div>
             <h2>{{$t('filter.available')}}</h2>
             <p class="text-(--gradient-primary)">{{ $t("filter.description") }}</p>
