@@ -1,5 +1,5 @@
 <template>
-  <header :class="overlay" class=" top-2 z-40 hidden md:block w-11/12  ">
+  <header :class="overlay" class=" top-2 z-40 hidden md:block ">
     <nav
       class="m-auto flex justify-between w-11/12 items-center gap-4 rounded-2xl border border-gray-50 bg-white/60 px-6 py-3 shadow-sm bg-clip-padding  backdrop-filter backdrop-blur-sm">
       <!-- Logo -->
@@ -80,9 +80,9 @@ const route = useRoute()
 // otherwise keep it as stikcy
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
-    return 'fixed left-1/2 -translate-x-1/2';
+    return 'fixed left-1/2 -translate-x-1/2 w-full';
   }
-  return 'sticky mb-2 m-auto';
+  return 'sticky mb-2 m-auto w-full';
 })
 </script>
 

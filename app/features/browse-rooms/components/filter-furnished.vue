@@ -15,8 +15,8 @@
           <span
             v-for="value in bedrooms"
             :key="value.id"
-            @click="filter.bedroom = value.value"
-            :class="activeClass(filter.bedroom, value.value)"
+            @click="filterStore.bedroom = value.value"
+            :class="activeClass(filterStore.bedroom, value.value)"
           >
             {{ value.label }}
           </span>
@@ -32,12 +32,12 @@
           />
           <span>{{ $t("filter.bathroom") }}</span>
         </span>
-        <div class="grid grid-cols-3 gap-x-2">
+        <div class="grid grid-cols-4 gap-x-2">
           <span
             v-for="value in bathrooms"
             :key="value.id"
-            @click="filter.bathroom = value.value"
-            :class="activeClass(filter.bathroom, value.value)"
+            @click="filterStore.bathroom = value.value"
+            :class="activeClass(filterStore.bathroom, value.value)"
           >
             {{ value.label }}
           </span>
@@ -57,8 +57,8 @@
           <span
             v-for="value in furnishing"
             :key="value.id"
-            @click="filter.furnishing = value.value"
-            :class="activeClass(filter.furnishing, value.value)"
+            @click="filterStore.furnishing = value.value"
+            :class="activeClass(filterStore.furnishing, value.value)"
           >
             {{ value.label }}
           </span>
@@ -111,6 +111,11 @@ const bathrooms = readonly([
     label: "2",
     value: 2
   },
+    {
+    id: "fn4",
+    label: "3+",
+    value: 3
+  },
 ]);
 const furnishing = readonly([
   {
@@ -129,19 +134,12 @@ const furnishing = readonly([
     value: 2
   },
 ]);
-const filter = ref({
-  bedroom: 0,
-  bathroom: 0,
-  furnishing: 0,
-});
+
 
 function activeClass(mainId: number,subId: number) {
   return mainId === subId ? 'active' : 'default-class';
 }
 
-watch(filter.value, (val) => {
-  filterStore.furnishing = val;
-})
 
 </script>
 

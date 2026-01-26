@@ -11,10 +11,10 @@
             <p class="text-(--gradient-primary)">{{ $t("filter.description") }}</p>
         </div>
         <searchBar/>
-        <section class="flex gap-x-10">
+        <section class="flex justify-between gap-x-10">
             <filterSideBar class="w-[25%]"/>
-            <div class="w-[70%]">
-                card
+            <div class="w-[75%]">
+                <propertySection/>
             </div>
         </section>
     </section>
@@ -24,6 +24,7 @@
 import searchBar from '~/features/browse-rooms/components/search-bar.vue';
 import filterSideBar from '~/features/browse-rooms/components/filter-side-bar.vue';
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
+import propertySection from '~/features/browse-rooms/components/property-section.vue';
 
 useSeoMeta({
   title: 'Browse Rooms',

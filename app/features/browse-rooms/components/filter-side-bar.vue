@@ -1,5 +1,5 @@
 <template>
-  <section class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto">
+  <section class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto sticky top-[20%] z-5">
     <div class="flex items-center gap-x-3 border-b border-b-(--bg-gray) pb-5">
       <span class="flex items-center text-(--nav-active-item) bg-(--nav-active)  p-2 rounded-md">
         <BaseIconClient name="funnel" />
@@ -39,7 +39,6 @@ import filterPrice from './filter-price.vue';
 import filterFurnished from './filter-furnished.vue';
 import filterAmenities from './filter-amenities.vue';
 import filterHouseRules from './filter-house-rules.vue';
-import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 const { data: location, isFetched } = useHomePageQuery()
 const { data: properties } = usePropertyTypeQuery()
@@ -49,7 +48,6 @@ const filter = reactive({
   location: 0,
   propertyType: 0
 })
-const filterStore = usePropertyFilterStore()
 
 watch(
   [isFetched, location, properties],
@@ -62,15 +60,6 @@ watch(
   { immediate: true }
 )
 
-watch(
-  () => filterStore.queryParams,
-  (val) => {
-    // fetch API
-    console.log(val);
-    
-  },
-  { deep: true }
-)
 </script>
 
 <style scoped>

@@ -4,10 +4,10 @@
             <BaseIconClient name="dollar-sign" color="var(--nav-active-item)"/>
             <p>{{ $t("filter.priceRange") }}</p>
         </div>
-        <el-slider v-model="price" placement="top" size="small" :max="1000" />
-        <div class="flex justify-between font-semibold">
-            <span class="price-tag">$0</span>
-            <span class="price-tag">$1000+</span>
+        <div class="flex justify-between gap-x-5 font-semibold">
+            <BaseInput type="number" size="small" v-model.number="filter.min" icon="dollar-sign"/>
+            <BaseIconClient class="rotate-90" size="40" name="arrow-up-0-1"/>
+            <BaseInput type="number" v-model.number="filter.max" icon="dollar-sign"/>
         </div>
     </div>
 </template>
@@ -15,14 +15,19 @@
 <script lang="ts" setup>
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
+import BaseInput from '~/components/ui/BaseInput.vue';
 
 const filterStore = usePropertyFilterStore()
 
-const price = computed({
-  get: () => filterStore.priceRange.max ?? 0,
-  set: (val: number) => {
-    filterStore.priceRange.max = val
-  },
+const filter = ref({
+    min: 0,
+    max: 0
 })
 
+watch(filter.value, () => {
+    if(filter.value.min < filter.value.max && filter.value.max >= 30) {
+        filterStore.minPrice = filter.value.min;
+        filterStore.maxPrice = filter.value.max;
+    }
+})
 </script>

@@ -1,7 +1,7 @@
 <template>
   <section>
     <appBg />
-    <section class="w-[84%] m-auto grid grid-cols-1 gap-y-5">
+    <section class="w-[91%] m-auto grid grid-cols-1 gap-y-5">
       <!-- feature product -->
       <featureProduct :featuredListings="data?.featuredListings ?? []"/>
       <!-- latest product -->

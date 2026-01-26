@@ -21,7 +21,7 @@ const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
     return 'w-full';
   }
-  return 'w-[84%] m-auto ';
+  return 'w-[92%] m-auto ';
 })
 
 const { locale, setLocale } = useI18n()

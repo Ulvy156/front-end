@@ -12,7 +12,7 @@
                 </span>
             </div>
             <el-select v-model="filterStore.orderType" placeholder="Select" size="large" style="width: 200px;">
-                <el-option v-for="item in selectOption" :key="item.id" :label="item.label" :value="item.label" />
+                <el-option v-for="item in selectOption" :key="item.id" :label="item.label" :value="item.id" />
             </el-select>
         </div>
     </section>
@@ -22,30 +22,26 @@
 import BaseInput from '~/components/ui/BaseInput.vue';
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
+const filterStore = usePropertyFilterStore()
 
-const formData = reactive({
-    search: "",
-    selectOption: ""
-})
 const selectOption = [
     {
-        id: '0',
+        id: 0,
         label: 'Newest First',
     },
     {
-        id: '1',
+        id: 1,
         label: 'Price: Low to High',
     },
     {
-        id: '2',
+        id: 2,
         label: 'Price: High to Low',
     },
     {
-        id: '3',
+        id: 3,
         label: 'Most Popular',
     }
 ]
-const filterStore = usePropertyFilterStore()
 
 </script>
 
