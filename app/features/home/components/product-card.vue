@@ -40,19 +40,20 @@
     <!-- CONTENT -->
     <div class="flex flex-col gap-y-4 mt-3">
       <div class="flex justify-between items-center">
-        <h4 class="flex items-center">
-          ${{ price }}
+        <div class="flex items-center">
+          <h4 class="text-(--nav-active-item)">${{ props.price }}</h4>
           <p class="ml-1">/{{ $t("month") }}</p>
-        </h4>
-        <BaseBadge class="w-fit" type="primary" :content="isAvailable">
+        </div>
+        <span class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full ">
           <BaseIcon name="check" :size="16" />
-        </BaseBadge>
+          {{ isAvailable }}
+        </span>
       </div>
 
       <div>
         <p class="line-clamp-1">{{ content }}</p>
 
-        <div class="flex items-center gap-x-2 text-gray-500">
+        <div class="flex items-center gap-x-2 text-gray-500 mt-2">
           <BaseIcon name="map-pinned" :size="15" />
           <span>{{ location }}</span>
         </div>
@@ -81,7 +82,10 @@
             <span>{{ size }} m<sup>2</sup></span>
           </div>
         </div>
-        <BaseBadge class="w-fit" type="primary" :content="type" />
+        <span class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full ">
+          <BaseIcon :name="props.type.icon" size="12"/>
+          {{ type }}
+        </span>
       </div>
     </div>
   </article>
@@ -114,6 +118,7 @@ const props = withDefaults(
     type: {
       nameEn: string;
       nameKh: string;
+      icon: string,
     };
     size: number;
     totalView: number;
@@ -140,7 +145,13 @@ const type = computed(() =>
   useCurrentLang().value == "en" ? props.type.nameEn : props.type.nameKh,
 );
 const isAvailable = computed(() =>
-  useCurrentLang().value == "en" ? "Available" : "ទំនេរ",
+  props.isAvailable
+    ? useCurrentLang().value === "en"
+      ? "Available"
+      : "ទំនេរ"
+    : useCurrentLang().value === "en"
+    ? "Unavailable"
+    : "មិនទំនេរ",
 );
 </script>
 

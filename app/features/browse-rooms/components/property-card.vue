@@ -11,10 +11,6 @@
       <!-- FLOATING ACTIONS -->
       <div class="floating-actions">
         <div class="flex flex-col justify-between h-[40%]">
-          <!-- <div class="flex items-center gap-x-2 fab">
-                        <BaseIcon name="badge-check" />
-                        <span>{{ isAvailable }}</span>
-                    </div> -->
           <button class="fab">
             <BaseIcon name="heart" :size="18" />
           </button>
@@ -31,10 +27,7 @@
       </div>
 
       <!-- IMAGE -->
-      <BaseImage
-        :src="src"
-        class="w-full object-cover  aspect-16/5"
-      />
+      <BaseImage :src="src" class="w-full object-cover aspect-16/5" />
     </div>
 
     <!-- CONTENT -->
@@ -44,15 +37,18 @@
           <h4 class="text-(--nav-active-item)">${{ props.item.price }}</h4>
           <p class="ml-1">/{{ $t("month") }}</p>
         </div>
-        <BaseBadge class="w-fit" type="primary" :content="isAvailable">
+        <span
+          class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full"
+        >
           <BaseIcon name="check" :size="16" />
-        </BaseBadge>
+          {{ isAvailable }}
+        </span>
       </div>
 
       <div>
         <p class="line-clamp-1">{{ props.item.title }}</p>
 
-        <div class="flex items-center gap-x-2 text-gray-500">
+        <div class="flex items-center gap-x-2 text-gray-500 mt-2">
           <BaseIcon name="map-pinned" :size="15" />
           <span>{{ location }}</span>
         </div>
@@ -81,11 +77,10 @@
             <span>{{ props.item.sizeSqm }} m<sup>2</sup></span>
           </div>
         </div>
-        <!-- <BaseBadge class="w-fit" type="primary" :content="type" >
-            <BaseIcon :name="item.propertyType.icon" size="12"/>
-        </BaseBadge> -->
-        <span class="flex items-center gap-x-2 bg-(--nav-active-item) p-1 px-2 rounded-full text-white">
-          <BaseIcon :name="item.propertyType.icon" size="12"/>
+        <span
+          class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full"
+        >
+          <BaseIcon :name="item.propertyType.icon" size="12" />
           {{ type }}
         </span>
       </div>
@@ -95,7 +90,6 @@
 
 <script lang="ts" setup>
 import BaseIcon from "~/components/ui/BaseIcon.client.vue";
-import BaseBadge from "~/components/ui/BaseBadge.vue";
 import BaseImage from "~/components/ui/BaseImage.vue";
 import BaseTooltip from "~/components/ui/BaseTooltip.vue";
 import { formatView } from "#imports";
@@ -111,12 +105,9 @@ const props = withDefaults(
   },
 );
 
-
 const visible = ref<boolean[]>([]);
 // image src
-const src = computed(
-  () => props.item.images?.[0]?.imageKey ?? "",
-);
+const src = computed(() => props.item.images?.[0]?.imageKey ?? "");
 // location text
 const location = computed(() =>
   useCurrentLang().value === "en"
@@ -138,8 +129,8 @@ const isAvailable = computed(() =>
       ? "Available"
       : "ទំនេរ"
     : useCurrentLang().value === "en"
-    ? "Unavailable"
-    : "មិនទំនេរ",
+      ? "Unavailable"
+      : "មិនទំនេរ",
 );
 </script>
 

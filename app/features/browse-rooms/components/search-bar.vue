@@ -1,5 +1,5 @@
 <template>
-    <section class="sticky md:top-1/6 lg:top-1/8 z-10 bg-white py-3">
+    <section class=" bg-white py-3">
         <div class="flex items-center gap-x-4">
             <BaseInput size="large" placeholder="Search by locations, district..." v-model="filterStore.locationName"
                 icon="search" />
@@ -22,8 +22,8 @@
 import BaseInput from '~/components/ui/BaseInput.vue';
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
-const filterStore = usePropertyFilterStore()
 
+const filterStore = usePropertyFilterStore()
 const selectOption = [
     {
         id: 0,

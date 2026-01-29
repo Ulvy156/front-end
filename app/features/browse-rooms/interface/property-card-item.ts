@@ -32,3 +32,10 @@ export interface PropertyCardItem {
   district: District;
   propertyType: PropertyType;
 }
+
+export interface Meta {
+  page: number,
+  limit: number,
+  total: number,
+  totalPages: number,
+}

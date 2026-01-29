@@ -46,23 +46,27 @@
       :key="value.id"
       :item="value"
     />
+    <BasePagination
+      :total="meta?.total ?? 0"
+      :page-size="6"
+      :current-page="filterStore.page"
+      @update:current-page="filterStore.page = $event"
+    />
   </section>
 </template>
 
 <script lang="ts" setup>
 import propertyCard from "./property-card.vue";
-import type { PropertyCardItem } from "../interface/property-card-item";
+import type { Meta, PropertyCardItem } from "../interface/property-card-item";
 import { debounce } from "lodash-unified";
+import BasePagination from "~/components/ui/BasePagination.vue";
 
 const filterStore = usePropertyFilterStore();
 const api = useApi();
 const isFetching = ref(true);
-
 const { data, status, error, refresh } = useAsyncData("browse-properties", () =>
   api
     .post("/property/browse-properties", {
-      page: 1,
-      limit: 12,
       ...filterStore.queryParams,
     })
     .then((res) => res.data)
@@ -70,7 +74,7 @@ const { data, status, error, refresh } = useAsyncData("browse-properties", () =>
 );
 
 const items = computed<PropertyCardItem[]>(() => data.value?.items ?? []);
-const meta = computed(() => data.value?.meta);
+const meta = computed<Meta>(() => data.value?.meta);
 
 // debounce refresh
 const debouncedRefresh = debounce(() => {

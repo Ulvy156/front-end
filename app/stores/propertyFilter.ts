@@ -13,6 +13,9 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
     furnishing: 0,
     amenities: [] as number[],
     houseRules: [] as number[],
+    result: 0,
+    page: 1,
+    limit: 6
   }),
 
   getters: {

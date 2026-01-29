@@ -1,65 +1,85 @@
 <template>
-  <section class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto sticky top-[20%] z-5">
-    <div class="flex items-center gap-x-3 border-b border-b-(--bg-gray) pb-5">
-      <span class="flex items-center text-(--nav-active-item) bg-(--nav-active)  p-2 rounded-md">
-        <BaseIconClient name="funnel" />
-      </span>
-      <h4>{{ $t('filter.title') }}</h4>
+  <section
+    class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto sticky top-[20%] z-5"
+  >
+    <div class="flex justify-between items-center w-full">
+      <div class="flex items-center gap-x-3 border-b border-b-(--bg-gray)">
+        <span
+          class="flex items-center text-(--nav-active-item) bg-(--nav-active) p-2 rounded-md"
+        >
+          <BaseIconClient name="funnel" />
+        </span>
+        <h4>{{ $t("filter.title") }}</h4>
+      </div>
+      <div
+        @click="filterStore.reset"
+        class="flex items-center gap-x-3 text-(--nav-active-item) bg-(--nav-active) p-2 rounded-md cursor-pointer"
+      >
+        <el-tooltip
+        class="box-item"
+        effect="dark"
+        :content='$t("filter.clear")'
+        placement="top"
+      >
+        <BaseIconClient name="trash" />
+      </el-tooltip>
+      </div>
     </div>
     <!-- content -->
     <div class="grid grid-cols-1 gap-y-7 mt-5">
       <!-- price range -->
-      <filterPrice/>
+      <filterPrice />
 
       <!-- locations -->
-      <filterLocation/>
+      <filterLocation />
 
       <!-- property type -->
-      <filterProperty/>
+      <filterProperty />
 
       <!-- property furnished -->
-       <filterFurnished/>
+      <filterFurnished />
 
       <!-- property amenities -->
-      <filterAmenities/>
+      <filterAmenities />
 
       <!-- property rules -->
-      <filterHouseRules/>
+      <filterHouseRules />
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
-import { useHomePageQuery } from '~/features/home/composable/useHomePageQuery';
-import { usePropertyTypeQuery } from '../composable/properTypeQuery';
-import filterLocation from './filter-location.vue';
-import filterProperty from './filter-property.vue';
-import filterPrice from './filter-price.vue';
-import filterFurnished from './filter-furnished.vue';
-import filterAmenities from './filter-amenities.vue';
-import filterHouseRules from './filter-house-rules.vue';
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import { useHomePageQuery } from "~/features/home/composable/useHomePageQuery";
+import { usePropertyTypeQuery } from "../composable/properTypeQuery";
+import filterLocation from "./filter-location.vue";
+import filterProperty from "./filter-property.vue";
+import filterPrice from "./filter-price.vue";
+import filterFurnished from "./filter-furnished.vue";
+import filterAmenities from "./filter-amenities.vue";
+import filterHouseRules from "./filter-house-rules.vue";
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
-const { data: location, isFetched } = useHomePageQuery()
-const { data: properties } = usePropertyTypeQuery()
+const { data: location, isFetched } = useHomePageQuery();
+const { data: properties } = usePropertyTypeQuery();
+const filterStore = usePropertyFilterStore();
 
 const filter = reactive({
   price: 0,
   location: 0,
-  propertyType: 0
-})
+  propertyType: 0,
+});
 
 watch(
   [isFetched, location, properties],
   ([fetched, loc, props]) => {
-    if (!fetched) return
+    if (!fetched) return;
 
-    filter.location = loc?.popularLocations?.[0]?.districtId ?? 0
-    filter.propertyType = props?.[0]?.id ?? 0
+    filter.location = loc?.popularLocations?.[0]?.districtId ?? 0;
+    filter.propertyType = props?.[0]?.id ?? 0;
   },
-  { immediate: true }
-)
-
+  { immediate: true },
+);
 </script>
 
 <style scoped>
@@ -87,7 +107,7 @@ watch(
     transform 0.3s ease;
 }
 
-.label-filter>input[type="radio"]:not(:checked) {
+.label-filter > input[type="radio"]:not(:checked) {
   appearance: none;
   background-color: #fff;
   font: inherit;

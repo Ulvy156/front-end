@@ -5,7 +5,7 @@
                 <span class="flex items-center bg-(--nav-active)  px-2 py-1 rounded-md">
                     <BaseIconClient name="sparkles"/>
                 </span>
-                <p class=" lowercase">6 {{ $t('results') }}</p>
+                <p class=" lowercase">{{ filterStore.result }} {{ $t('results') }}</p>
             </div>
             <h2>{{$t('filter.available')}}</h2>
             <p class="text-(--gradient-primary)">{{ $t("filter.description") }}</p>
@@ -25,6 +25,9 @@ import searchBar from '~/features/browse-rooms/components/search-bar.vue';
 import filterSideBar from '~/features/browse-rooms/components/filter-side-bar.vue';
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 import propertySection from '~/features/browse-rooms/components/property-section.vue';
+import { usePropertyFilterStore } from '~/stores/propertyFilter';
+
+const filterStore = usePropertyFilterStore();
 
 useSeoMeta({
   title: 'Browse Rooms',
