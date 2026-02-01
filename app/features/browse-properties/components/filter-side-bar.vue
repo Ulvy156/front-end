@@ -21,7 +21,7 @@
         :content='$t("filter.clear")'
         placement="top"
       >
-        <BaseIconClient name="trash" />
+        <BaseIconClient name="refresh-ccw" />
       </el-tooltip>
       </div>
     </div>

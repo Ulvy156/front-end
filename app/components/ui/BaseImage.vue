@@ -4,7 +4,7 @@ const config = useRuntimeConfig();
 const props = defineProps<{
   src: string
   alt?: string
-  width?: number
+  width?: number | string
   height?: number
   rounded?: boolean
 }>()
@@ -18,12 +18,10 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
     v-if="src && !hasError"
     :src="imgSrc"
     :alt="alt || 'image'"
-    :width="width"
-    :height="height"
     format="webp"
     loading="lazy"
     @error="hasError = true"
-    class="object-cover"
+    class="w-full "
     :class="{ 'rounded-lg': rounded }"
   />
 

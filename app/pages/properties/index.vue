@@ -21,16 +21,16 @@
 </template>
 
 <script lang="ts" setup>
-import searchBar from '~/features/browse-rooms/components/search-bar.vue';
-import filterSideBar from '~/features/browse-rooms/components/filter-side-bar.vue';
+import searchBar from '~/features/browse-properties/components/search-bar.vue';
+import filterSideBar from '~/features/browse-properties/components/filter-side-bar.vue';
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
-import propertySection from '~/features/browse-rooms/components/property-section.vue';
+import propertySection from '~/features/browse-properties/components/property-section.vue';
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 const filterStore = usePropertyFilterStore();
 
 useSeoMeta({
-  title: 'Browse Rooms',
+  title: 'Browse Properties',
   description: 'Browser your perfect living style',
 })
 </script>

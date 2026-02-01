@@ -20,8 +20,8 @@
 
         <span class="text-gray-300">|</span>
 
-        <NuxtLink to="/rooms" 
-        :class="{'menu-item-active': isActive('/rooms')}"
+        <NuxtLink to="/properties" 
+        :class="{'menu-item-active': startsWith('/properties/details')}"
         class="menu-items">
           <BaseIcon name="search" :size="16" />
           <p>{{ $t('nav.browseRoom') }}</p>
@@ -40,20 +40,6 @@
           <BaseIcon name="heart" :size="16" />
           <p>{{ $t('nav.favourites') }}</p>
         </div>
-
-        <!-- <span class="text-gray-300">|</span>
-
-        <div class="menu-items">
-          <BaseIcon name="circle-parking" :size="16" />
-          <span>{{ $t('nav.parking') }}</span>
-        </div>
-
-        <span class="text-gray-300">|</span>
-
-        <div class="menu-items">
-          <BaseIcon name="key-square" :size="16" />
-          <span>{{ $t('nav.rent') }}</span>
-        </div> -->
       </div>
 
       <!-- Right -->
@@ -73,7 +59,7 @@ import BaseIcon from '../ui/BaseIcon.client.vue';
 // import MobileNavDrawer from './MobileNavDrawer.vue';
 import { useActiveRoute } from '~/composables/useActiveRoute';
 
-const { isActive } = useActiveRoute();
+const { isActive, startsWith } = useActiveRoute();
 const route = useRoute()
 
 // if on home page keep navbar as fixed 

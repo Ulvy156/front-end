@@ -75,7 +75,6 @@ const { data, status, error, refresh } = useAsyncData("browse-properties", () =>
 
 const items = computed<PropertyCardItem[]>(() => data.value?.items ?? []);
 const meta = computed<Meta>(() => data.value?.meta);
-
 // debounce refresh
 const debouncedRefresh = debounce(() => {
   refresh();
@@ -91,6 +90,10 @@ watch(
   },
   { deep: true },
 );
+
+watch(items, ()=>{
+  filterStore.result = items.value.length;
+})
 
 onMounted(async () => {
   await refresh();

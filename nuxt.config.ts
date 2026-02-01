@@ -69,6 +69,7 @@ export default defineNuxtConfig({
           'en/auth.json',
           'en/filter.json',
           'en/card.json',
+          'en/property.json',
           'en/footer.json'
         ]
       },
@@ -80,7 +81,8 @@ export default defineNuxtConfig({
           'km/auth.json',
           'km/filter.json',
           'km/card.json',
-          'en/footer.json'
+          'en/footer.json',
+          'en/property.json',
         ]
       }
     ],

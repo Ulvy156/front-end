@@ -5,6 +5,7 @@
     :visible-once="{ opacity: 1, y: 0 }"
     :hovered="{ y: -5 }"
     class="card"
+    @click="$router.push(`/properties/details/${item.id}`)"
   >
     <!-- IMAGE WRAPPER -->
     <div class="relative overflow-hidden rounded-md">
