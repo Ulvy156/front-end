@@ -5,6 +5,43 @@
         "telegram": "Telegram",
         "contact": "Contact Landlord",
         "share": "Share",
-        "available":"Available"
+        "available":"Available",
+        "posted_at":"Posted",
+        "desc":"Description",
+        "bedroom":"Bedroom",
+        "bathroom":"Bathroom",
+        "size":"Size",
+        "floor":"Floor",
+        "view":"Views",
+        "location": {
+            "title": "Location",
+            "province":"Province",
+            "city":"City",
+            "district":"District",
+            "khan":"Khan",
+            "address":"Address",
+            "nearby_address":"Nearby Landmarks"
+        },
+        "price": {
+            "title":"Pricing & Lease",
+            "montly":"Monthly Rent",
+            "deposit":"Deposit",
+            "lease":"Lease Duration",
+            "available":"Available From",
+            "utilities":"Utilities Included",
+            "year":"Year"
+        },
+        "amenity":"Amenities",
+        "rules": {
+            "title":"House Rules",
+            "desc":"These rules help keep the place comfortable for everyone"
+        },
+        "parking":"Parking",
+        "month":"Month",
+        "parking_desc":"No parking available",
+        "compare": {
+            "title":"Compare",
+            "clear":"Clear"
+        }
     }
 }

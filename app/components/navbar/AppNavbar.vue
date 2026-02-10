@@ -10,7 +10,7 @@
       </NuxtLink>
 
       <!-- Center Search -->
-      <div class="mx-auto flex items-center gap-3 rounded-full border border-(--nav-active-item) bg-gray-50 px-4 py-2 text-sm text-gray-600">
+      <div class="mx-auto flex items-center gap-3 rounded-full border border-(--nav-active-item) bg-white px-4 py-2 text-sm text-gray-600">
         <NuxtLink to="/" 
         :class="{'menu-item-active': isActive('/')}"
         class="menu-items">
@@ -21,7 +21,7 @@
         <span class="text-gray-300">|</span>
 
         <NuxtLink to="/properties" 
-        :class="{'menu-item-active': startsWith('/properties/details')}"
+        :class="{'menu-item-active': startsWith('/properties')}"
         class="menu-items">
           <BaseIcon name="search" :size="16" />
           <p>{{ $t('nav.browseRoom') }}</p>

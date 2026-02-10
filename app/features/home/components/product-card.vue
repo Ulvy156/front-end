@@ -5,6 +5,7 @@
     :visible-once="{ opacity: 1, y: 0 }"
     :hovered="{ y: -5 }"
     class="card"
+    @click="$router.push(`/properties/details/${id}`)"
   >
     <!-- IMAGE WRAPPER -->
     <div class="relative overflow-hidden rounded-md">
@@ -33,7 +34,6 @@
       <!-- IMAGE -->
       <BaseImage
         :src="src"
-        class="w-full object-cover transition-transform duration-500 group-hover:scale-105 aspect-16/5"
       />
     </div>
 
@@ -55,7 +55,10 @@
 
         <div class="flex items-center gap-x-2 text-gray-500 mt-2">
           <BaseIcon name="map-pinned" :size="15" />
-          <span>{{ location }}</span>
+          <span>
+            {{ props.location.province[langKey] }} /
+            {{ props.location[langKey] }}
+          </span>
         </div>
       </div>
 
@@ -84,7 +87,7 @@
         </div>
         <span class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full ">
           <BaseIcon :name="props.type.icon" size="12"/>
-          {{ type }}
+          {{ props.type[langKey] }}
         </span>
       </div>
     </div>
@@ -93,13 +96,13 @@
 
 <script lang="ts" setup>
 import BaseIcon from "~/components/ui/BaseIcon.client.vue";
-import BaseBadge from "~/components/ui/BaseBadge.vue";
 import BaseImage from "~/components/ui/BaseImage.vue";
 import BaseTooltip from "~/components/ui/BaseTooltip.vue";
 import { formatView } from "#imports";
 
 const props = withDefaults(
   defineProps<{
+    id: string;
     price: number;
     src: string;
     title: string;
@@ -134,22 +137,15 @@ const props = withDefaults(
     hideCompareIcon: false,
   },
 );
-const visible = ref<boolean[]>([]);
-const location = computed(() =>
-  useCurrentLang().value == "en"
-    ? `${props.location.province.nameEn} ${props.location.nameEn}`
-    : `${props.location.province.nameKh} ${props.location.nameKh}`,
-);
+const currentLang = useCurrentLang();
+const langKey = useLangKey();
 
-const type = computed(() =>
-  useCurrentLang().value == "en" ? props.type.nameEn : props.type.nameKh,
-);
 const isAvailable = computed(() =>
   props.isAvailable
-    ? useCurrentLang().value === "en"
+    ? currentLang.value === "en"
       ? "Available"
       : "ទំនេរ"
-    : useCurrentLang().value === "en"
+    : currentLang.value === "en"
     ? "Unavailable"
     : "មិនទំនេរ",
 );

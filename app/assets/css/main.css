@@ -43,7 +43,7 @@ body {
   font-size: var(--text-md);
   line-height: 1.6;
   color: #111;
-  background-image: var(--background);
+  background-color: hsl(var(--background));
   scroll-behavior: smooth;
 }
 
@@ -105,4 +105,8 @@ li {
 
 .card-bg {
   background: #ffffff;
+}
+
+.border-gray {
+  border-color: var(--border-gray);
 }

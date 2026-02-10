@@ -1,3 +1,5 @@
+export type ParkingType = 'MOTO' | 'CAR' | 'BICYCLE' | 'TUK_TUK';
+
 export interface PropertyDetail {
   id: string;
   userId: string;
@@ -6,10 +8,11 @@ export interface PropertyDetail {
   locationUrl: string;
   lat: number | null;
   lng: number | null;
+  nearby_location: string | null;
 
   title: string;
   description: string;
-  price: number;
+  monthly_price: number;
   deposit: number;
   bedroom: number;
   bathroom: number;
@@ -25,6 +28,8 @@ export interface PropertyDetail {
   furnished: boolean;
   isPublished: boolean;
   minimumStayLength: number;
+  floor: number;
+  totalFloors: number;
 
   createdAt: string;
   updatedAt: string;
@@ -35,6 +40,7 @@ export interface PropertyDetail {
 
   amenities: Amenity[];
   rules: Rule[];
+  parkings?: Parking[]
 }
 export interface User {
   imgUrl: string | null;
@@ -42,6 +48,15 @@ export interface User {
   phones: Phone[];
   name: string;
   email: string;
+}
+
+export interface Parking {
+  id: string;
+  type: ParkingType;
+  slots: number;
+  isFree: boolean;
+  price: number | null;
+  note: string | null;
 }
 
 export interface PropertyName {
@@ -63,6 +78,7 @@ export interface Amenity extends PropertyName {
 
 export interface Rule extends PropertyName {
   icon: string;
+  is_allow: boolean
 }
 
 export interface District extends PropertyName {

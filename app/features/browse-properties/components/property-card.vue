@@ -16,7 +16,11 @@
             <BaseIcon name="heart" :size="18" />
           </button>
 
-          <button class="fab" v-if="!hideCompareIcon">
+          <button
+            class="fab"
+            v-if="!hideCompareIcon"
+            @click.stop="handleCompare"
+          >
             <BaseIcon name="git-compare-arrows" :size="18" />
           </button>
         </div>
@@ -35,7 +39,9 @@
     <div class="flex flex-col gap-y-4 mt-3">
       <div class="flex justify-between items-center">
         <div class="flex items-center">
-          <h4 class="text-(--nav-active-item)">${{ props.item.price }}</h4>
+          <h4 class="text-(--nav-active-item)">
+            ${{ props.item.monthly_price }}
+          </h4>
           <p class="ml-1">/{{ $t("month") }}</p>
         </div>
         <span
@@ -51,7 +57,10 @@
 
         <div class="flex items-center gap-x-2 text-gray-500 mt-2">
           <BaseIcon name="map-pinned" :size="15" />
-          <span>{{ location }}</span>
+          <span>
+            {{ props.item.district.province[langKey] }} /
+            {{ props.item.district[langKey] }}
+          </span>
         </div>
       </div>
 
@@ -82,7 +91,7 @@
           class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full"
         >
           <BaseIcon :name="item.propertyType.icon" size="12" />
-          {{ type }}
+          {{ props.item.propertyType[langKey] }}
         </span>
       </div>
     </div>
@@ -95,6 +104,8 @@ import BaseImage from "~/components/ui/BaseImage.vue";
 import BaseTooltip from "~/components/ui/BaseTooltip.vue";
 import { formatView } from "#imports";
 import type { PropertyCardItem } from "../interface/property-card-item";
+import { useLangKey } from "#imports";
+import { useCompareProperty } from "#imports";
 
 const props = withDefaults(
   defineProps<{
@@ -106,33 +117,32 @@ const props = withDefaults(
   },
 );
 
-const visible = ref<boolean[]>([]);
+const currentLang = useCurrentLang();
+const langKey = useLangKey();
+const compareStore = useCompareProperty()
 // image src
 const src = computed(() => props.item.images?.[0]?.imageKey ?? "");
-// location text
-const location = computed(() =>
-  useCurrentLang().value === "en"
-    ? `${props.item.district.province.nameEn} ${props.item.district.nameEn}`
-    : `${props.item.district.province.nameKh} ${props.item.district.nameKh}`,
-);
-
-// property type text
-const type = computed(() =>
-  useCurrentLang().value === "en"
-    ? props.item.propertyType.nameEn
-    : props.item.propertyType.nameKh,
-);
 
 // availability label
 const isAvailable = computed(() =>
   props.item.isAvailable
-    ? useCurrentLang().value === "en"
+    ? currentLang.value === "en"
       ? "Available"
       : "ទំនេរ"
-    : useCurrentLang().value === "en"
+    : currentLang.value === "en"
       ? "Unavailable"
       : "មិនទំនេរ",
 );
+
+function handleCompare() {
+    compareStore.addItem(props.item);
+    emit('compare', true)
+}
+
+const emit = defineEmits<{
+  (e: "compare", value: boolean): void;
+  (e: "heart", value: boolean): void;
+}>();
 </script>
 
 <style scoped>

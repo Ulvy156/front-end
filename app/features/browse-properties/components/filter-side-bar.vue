@@ -1,6 +1,6 @@
 <template>
   <section
-    class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto sticky top-[20%] z-5"
+    class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto sticky top-[20%] z-5 bg-(--card)"
   >
     <div class="flex justify-between items-center w-full">
       <div class="flex items-center gap-x-3 border-b border-b-(--bg-gray)">

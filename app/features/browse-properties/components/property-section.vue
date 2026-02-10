@@ -45,14 +45,18 @@
       v-for="value in items"
       :key="value.id"
       :item="value"
+      @compare="drawerVisible = $event"
     />
     <BasePagination
+      class="col-span-full"
       :total="meta?.total ?? 0"
       :page-size="6"
       :current-page="filterStore.page"
       @update:current-page="filterStore.page = $event"
     />
   </section>
+
+  <drawerComponent v-model:visible="drawerVisible"/>
 </template>
 
 <script lang="ts" setup>
@@ -60,11 +64,13 @@ import propertyCard from "./property-card.vue";
 import type { Meta, PropertyCardItem } from "../interface/property-card-item";
 import { debounce } from "lodash-unified";
 import BasePagination from "~/components/ui/BasePagination.vue";
+const drawerComponent = defineAsyncComponent(() => import('./compare-drawer.vue'))
 
+const drawerVisible = ref(false)
 const filterStore = usePropertyFilterStore();
 const api = useApi();
 const isFetching = ref(true);
-const { data, status, error, refresh } = useAsyncData("browse-properties", () =>
+const { data, refresh } = useAsyncData("browse-properties", () =>
   api
     .post("/property/browse-properties", {
       ...filterStore.queryParams,

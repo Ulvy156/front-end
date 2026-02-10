@@ -1,5 +1,5 @@
 <template>
-  <section class="bg-white py-3">
+  <section class=" py-3">
     <div class="flex items-center gap-x-4">
       <BaseInput
         size="large"

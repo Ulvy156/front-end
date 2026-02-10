@@ -22,7 +22,7 @@ interface PropertyType {
 export interface PropertyCardItem {
   id: string;
   title: string;
-  price: number;
+  monthly_price: number;
   sizeSqm: number;
   totalViews: number;
   bathroom: number;
