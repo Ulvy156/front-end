@@ -34,7 +34,7 @@ const filterStore = usePropertyFilterStore();
 
 
 function activeClass(subId: number) {
-  return selectedId.value.includes(subId) ? "active" : "default-class";
+  return filterStore.houseRules.includes(subId) ? "active" : "default-class";
 }
 
 function onSelect(id: number) {

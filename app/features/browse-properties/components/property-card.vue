@@ -120,6 +120,10 @@ const props = withDefaults(
 const currentLang = useCurrentLang();
 const langKey = useLangKey();
 const compareStore = useCompareProperty()
+const { showMessage } = useMessage()
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 // image src
 const src = computed(() => props.item.images?.[0]?.imageKey ?? "");
 
@@ -135,6 +139,22 @@ const isAvailable = computed(() =>
 );
 
 function handleCompare() {
+    // if add more than 4 item
+    if(compareStore.propertyCardItem.length === 4) {
+      return showMessage(
+        t('property.compare.limit_compare'),
+        "warning",
+        "bottom-right"
+      );
+    }
+    // if add duplicate item remove it
+    if(compareStore.isItemExist(props.item.id)) {
+      return showMessage(
+         t('property.compare.duplicate'),
+        "warning",
+        "bottom-right"
+      );
+    }
     compareStore.addItem(props.item);
     emit('compare', true)
 }

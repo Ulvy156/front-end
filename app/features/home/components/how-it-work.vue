@@ -18,8 +18,8 @@
                         <BaseIconClient name="search" size="28" />
                     </div>
                 </el-badge>
-                <h4>Search</h4>
-                <span>Browse verified listings with smart filters</span>
+                <h4>{{ $t('home.howItWork.card.search.title') }}</h4>
+                <span>{{ $t('home.howItWork.card.search.description') }}</span>
             </article>
 
             <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }"
@@ -29,8 +29,8 @@
                         <BaseIconClient name="mouse-pointer-click" size="28" />
                     </div>
                 </el-badge>
-                <h4>Pick</h4>
-                <span>Compare rooms and save your favorites</span>
+                <h4>{{ $t('home.howItWork.card.pick.title') }}</h4>
+                <span>{{ $t('home.howItWork.card.pick.description') }}</span>
             </article>
 
             <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }"
@@ -40,8 +40,8 @@
                         <BaseIconClient name="message-square" size="28" />
                     </div>
                 </el-badge>
-                <h4>Connect</h4>
-                <span>Message landlords directly, schedule visits</span>
+                <h4>{{ $t('home.howItWork.card.connect.title') }}</h4>
+                <span>{{ $t('home.howItWork.card.connect.description') }}</span>
             </article>
 
             <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }"
@@ -51,8 +51,8 @@
                         <BaseIconClient name="key" size="28" />
                     </div>
                 </el-badge>
-                <h4>Search</h4>
-                <span>Sign the lease and enjoy your new home</span>
+                <h4>{{ $t('home.howItWork.card.move_in.title') }}</h4>
+                <span>{{ $t('home.howItWork.card.move_in.description') }}</span>
             </article>
         </div>
     </section>

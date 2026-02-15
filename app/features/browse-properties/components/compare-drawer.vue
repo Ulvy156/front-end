@@ -13,31 +13,32 @@
               @click="close"
             />
             <p>{{ $t("property.compare.title") }}</p>
-            <p class="text-(--nav-active-item)">( {{ images.length }} / 4 )</p>
+            <p class="text-(--nav-active-item)">( {{ compareStore.getImage.length }} / 4 )</p>
           </div>
 
-          <TransitionGroup
-  name="slide-up"
-  tag="div"
-  class="flex gap-x-4 items-center"
->
-  <BaseImage
-    v-for="value in images"
-    :key="value.id"
-    @click="removeItem(value.id)"
-    style="height: 100px; object-fit: cover"
-    class="border border-(--nav-active-item) rounded-(--radius) cursor-pointer"
-    :src="value.img[0]?.imageKey!"
-  />
-</TransitionGroup>
-
+          <animationGroup
+            key="property.compare.title"
+            class="flex gap-x-4 items-center"
+          >
+            <BaseImage
+              v-for="value in compareStore.getImage"
+              :key="value.id"
+              @click="removeItem(value.id)"
+              style="height: 100px; object-fit: cover"
+              class="border border-(--nav-active-item) rounded-(--radius) cursor-pointer"
+              :src="value.img[0]?.imageKey!"
+            />
+          </animationGroup>
         </div>
         <div class="flex flex-col gap-5">
           <button
-            @click="close"
-            :disabled="images.length < 2"
-            :class="{'opacity-[0.5] cursor-not-allowed': images.length < 2, 'cursor-pointer': images.length >= 2}"
-            class="flex items-center text-white bg-(--nav-active-item) py-2 px-4 rounded-(--radius) gap-x-2 "
+            @click="compareStore.isCompare = true"
+            :disabled="compareStore.getImage.length < 2"
+            :class="{
+              'opacity-[0.5] cursor-not-allowed': compareStore.getImage.length < 2,
+              'cursor-pointer': compareStore.getImage.length >= 2,
+            }"
+            class="flex items-center text-white bg-(--nav-active-item) py-2 px-4 rounded-(--radius) gap-x-2"
           >
             <BaseIconClient name="git-compare-arrows" class="cursor-pointer" />
             {{ $t("property.compare.title") }}
@@ -53,6 +54,8 @@
       </div>
     </section>
   </transition>
+
+  <compareProperties/>
 </template>
 
 <script setup lang="ts">
@@ -60,6 +63,8 @@ import { ref, watch } from "vue";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import BaseImage from "~/components/ui/BaseImage.vue";
 import { useCompareProperty } from "#imports";
+import animationGroup from "~/components/animation/animation-group.vue";
+const compareProperties = defineAsyncComponent(() => import('./compare-properties.vue'))
 
 const props = defineProps<{
   visible: boolean;
@@ -72,13 +77,6 @@ const emit = defineEmits<{
 // local state
 const localVisible = ref(props.visible);
 const compareStore = useCompareProperty();
-
-const images = computed(() =>
-  compareStore.propertyCardItem.map((val) => ({
-    img: val.images,
-    id: val.id,
-  })),
-);
 
 function close() {
   localVisible.value = false; // close internally

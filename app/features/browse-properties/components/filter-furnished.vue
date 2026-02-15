@@ -44,7 +44,7 @@
         </div>
       </div>
       <!-- furnishing -->
-      <div>
+      <!-- <div>
         <span class="flex items-center mb-1 gap-x-2 text-(--gray)">
           <BaseIconClient
             name="bath"
@@ -63,7 +63,7 @@
             {{ value.label }}
           </span>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -77,70 +77,67 @@ const bedrooms = readonly([
   {
     id: "bd1",
     label: "Any",
-    value: 0
+    value: 0,
   },
   {
     id: "bd2",
     label: "1",
-    value: 1
+    value: 1,
   },
   {
     id: "bd3",
     label: "2",
-    value: 2
+    value: 2,
   },
   {
     id: "bd4",
     label: "3+",
-    value: 3
+    value: 3,
   },
 ]);
 const bathrooms = readonly([
   {
     id: "bh1",
     label: "Any",
-    value: 0
+    value: 0,
   },
   {
     id: "bh2",
     label: "1",
-    value: 1
+    value: 1,
   },
   {
     id: "bh3",
     label: "2",
-    value: 2
+    value: 2,
   },
-    {
+  {
     id: "fn4",
     label: "3+",
-    value: 3
+    value: 3,
   },
 ]);
 const furnishing = readonly([
   {
     id: "fn1",
     label: "Any",
-    value: 0
+    value: 0,
   },
   {
     id: "fn2",
     label: "Furnished",
-    value: 1
+    value: 1,
   },
   {
     id: "fn3",
     label: "Unfurnished",
-    value: 2
+    value: 2,
   },
 ]);
 
-
-function activeClass(mainId: number,subId: number) {
-  return mainId === subId ? 'active' : 'default-class';
+function activeClass(mainId: number, subId: number) {
+  return mainId === subId ? "active" : "default-class";
 }
-
-
 </script>
 
 <style scoped>

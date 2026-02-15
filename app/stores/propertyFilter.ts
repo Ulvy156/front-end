@@ -7,6 +7,7 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
     locationName: '',
     orderType: null as number | null,
     location: null as number | null,
+    locationType: null as string | null,
     roomType: 0,
     bedroom: 0,
     bathroom: 0,
@@ -16,6 +17,8 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
     result: 0,
     page: 1,
     limit: 6,
+    lng: null as number | null,
+    lat: null as number | null,
   }),
 
   getters: {

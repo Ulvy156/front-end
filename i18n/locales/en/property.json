@@ -13,6 +13,8 @@
         "size":"Size",
         "floor":"Floor",
         "view":"Views",
+        "report":"Report Listings",
+        "similar":"Similar Properties",
         "location": {
             "title": "Location",
             "province":"Province",
@@ -41,7 +43,22 @@
         "parking_desc":"No parking available",
         "compare": {
             "title":"Compare",
-            "clear":"Clear"
+            "clear":"Clear",
+            "comparasion":"Compare Properties",
+            "details":"View Details",
+            "duplicate":"Can't add duplicate property",
+            "limit_compare":"You can compare up to 4 rooms",
+            "table": {
+                "price":"Monthly Price",
+                "deposite":"Deposite",
+                "size":"Size",
+                "type":"Type",
+                "location":"Location",
+                "available":"Available",
+                "availableFrom": "Available From",
+                "bathroom": "Bathroom",
+                "bedroom": "Bedroom"
+            }
         }
     }
 }

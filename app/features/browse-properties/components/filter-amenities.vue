@@ -33,7 +33,7 @@ const selectedId = ref<number[]>([]);
 const filterStore = usePropertyFilterStore();
 
 function activeClass(subId: number) {
-  return selectedId.value.includes(subId) ? "active" : "default-class";
+  return filterStore.amenities.includes(subId) ? "active" : "default-class";
 }
 function onSelect(id: number) {
   if (selectedId.value.includes(id)) {

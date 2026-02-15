@@ -1,3 +1,5 @@
+import type { PhoneNumberType } from "~/types/phoneNumber";
+
 export type ParkingType = 'MOTO' | 'CAR' | 'BICYCLE' | 'TUK_TUK';
 
 export interface PropertyDetail {
@@ -66,6 +68,7 @@ export interface PropertyName {
 
 export interface Phone {
   phoneNumber: string;
+  type: PhoneNumberType
 }
 
 export interface Image {

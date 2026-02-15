@@ -27,6 +27,7 @@
     </div>
     <!-- content -->
     <div class="grid grid-cols-1 gap-y-7 mt-5">
+      <searchBar/>
       <!-- price range -->
       <filterPrice />
 
@@ -59,6 +60,7 @@ import filterFurnished from "./filter-furnished.vue";
 import filterAmenities from "./filter-amenities.vue";
 import filterHouseRules from "./filter-house-rules.vue";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
+import searchBar from "./search-bar.vue";
 
 const { data: location, isFetched } = useHomePageQuery();
 const { data: properties } = usePropertyTypeQuery();

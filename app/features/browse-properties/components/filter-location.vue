@@ -63,6 +63,7 @@ const searchLocations = (query: string, cb: (results: Location[]) => void) => {
 
 const onSelect = (item: Location) => {
   filterStore.location = item.id;
+  filterStore.locationType = item.type;
 };
 </script>
 

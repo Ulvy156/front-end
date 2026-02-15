@@ -10,7 +10,7 @@
             <h2>{{ $t('home.choseUs.title') }}</h2>
             <h5 class="text-(--gray)">{{ $t('home.choseUs.description') }}</h5>
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 my-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
 
             <div class="card shadow-md">
                 <span style="background-image: var(--gradient-amber);" 
@@ -51,13 +51,12 @@ import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 <style scoped>
 .card {
     display: grid;
-    row-gap: 20px;
     cursor: pointer;
     background: white;
     border-radius: var(--radius) /* 0.25rem = 4px */;
     padding: calc(var(--spacing) * 7) /* 1.75rem = 28px */;
     border-color: color-mix(in oklab, var(--color-emerald-200)  40%, transparent);
-    aspect-ratio: 10/7;
+    aspect-ratio: 10/5;
     transition: 
         background 0.5s ease,
         transform 0.5s ease,

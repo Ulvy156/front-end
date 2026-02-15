@@ -26,7 +26,7 @@
           "description": "Connect directly with landlords without any middlemen or hidden fees"
         },
         "search": {
-          "title": "Direct Contact",
+          "title": "Smart Filter",
           "description": "Find your perfect room with our advanced filters and location-based search"
         },
         "free": {
@@ -40,17 +40,21 @@
       "title": "How It Works",
       "description": "Find your perfect room in just four simple steps. It's fast, easy, and completely free!",
       "card": {
-        "contact": {
-          "title": "Direct Contact",
-          "description": "Connect directly with landlords without any middlemen or hidden fees"
-        },
         "search": {
-          "title": "Direct Contact",
-          "description": "Find your perfect room with our advanced filters and location-based search"
+          "title": "Search",
+          "description": "Browse verified listings with smart filters"
         },
-        "free": {
-          "title": "Free Support",
-          "description": "Included for now we’re here to help you find your home"
+        "pick": {
+          "title": "Pick",
+          "description": "Compare rooms and save your favorites"
+        },
+        "connect": {
+          "title": "Connect",
+          "description": "Message landlords directly, schedule visits"
+        },
+        "move_in": {
+          "title": "Move In",
+          "description": "Sign the lease and enjoy your new home"
         }
       }
     },

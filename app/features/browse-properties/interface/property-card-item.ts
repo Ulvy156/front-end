@@ -23,7 +23,6 @@ export interface PropertyCardItem {
   id: string;
   title: string;
   monthly_price: number;
-  sizeSqm: number;
   totalViews: number;
   bathroom: number;
   bedroom: number;
@@ -31,6 +30,9 @@ export interface PropertyCardItem {
   images: PropertyImage[];
   district: District;
   propertyType: PropertyType;
+  deposit: number;
+  sizeSqm: number;
+  availableFrom: Date;
 }
 
 export interface Meta {

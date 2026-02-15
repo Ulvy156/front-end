@@ -12,6 +12,7 @@
     "furnishing":"Furnishing",
     "amenity":"Amenities",
     "rules":"House Rules",
-    "clear":"Clear Filters"
+    "clear":"Clear Filters",
+    "order_by":"Order By"
   }
 }

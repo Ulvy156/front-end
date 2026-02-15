@@ -9,6 +9,7 @@
       <propertyParking :property="property!"/>
       <propertyAmenities :property="property!"/>
       <propertyHosueRule :property="property!"/>
+      <relatedProperties/>
     </div>
     <!-- land lord -->
     <div class="w-[30%] sticky top-[20%] h-fit self-start">
@@ -28,6 +29,8 @@ import propertyPriceLease from "./property-price-lease.vue";
 import propertyAmenities from "./property-amenities.vue";
 import propertyHosueRule from "./property-hosue-rule.vue";
 import propertyParking from "./property-parking.vue";
+import relatedProperties from './related-properties.vue';
+import { incrementView } from "~/services/increment-view";
 
 const api = useApi();
 const route = useRoute();
@@ -44,6 +47,10 @@ const { data: property } = await useAsyncData<PropertyDetail>(
     api.get<PropertyDetail>(`/property/${id.value}`).then((res) => res.data),
   { watch: [id] },
 );
+
+onMounted(async () => {
+    await incrementView(route.params.id as string);
+})
 </script>
 
 <style scoped>
