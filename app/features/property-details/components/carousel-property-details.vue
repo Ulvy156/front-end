@@ -12,7 +12,7 @@
         :key="item?.imageKey"
         class="carousel-item"
       >
-        <BaseImage class="cursor-pointer" fit="cover" @click="showPreview = !showPreview" :src="item.imageKey" />
+        <BaseImage class="cursor-pointer" fit="cover" :src="item.imageKey" />
       </el-carousel-item>
     </el-carousel>
     <div class="flex items-center gap-x-4">
@@ -76,7 +76,7 @@
     </div>
   </div>
 
-  <BaseImagePreviewModal v-model:visible="showPreview" :images="property?.images!" />
+  <!-- <BaseImagePreviewModal v-model:visible="showPreview" :images="property?.images!" /> -->
 
 </template>
 
@@ -86,9 +86,9 @@ import type { PropertyDetail } from "../interface/properties-details";
 import BaseImage from "~/components/ui/BaseImage.vue";
 import { formatView } from "#imports";
 import { useLangKey } from "#imports";
-const BaseImagePreviewModal = defineAsyncComponent(
-  () => import('~/components/ui/BaseImagePreviewModal.vue')
-)
+// const BaseImagePreviewModal = defineAsyncComponent(
+//   () => import('~/components/ui/BaseImagePreviewModal.vue')
+// )
 
 const props = defineProps<{
   property: PropertyDetail;

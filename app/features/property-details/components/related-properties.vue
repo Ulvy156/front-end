@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section v-if="data.length > 0">
     <h4 class="mb-4">{{ $t('property.similar') }}</h4>
     <div class="grid grid-cols-2 gap-5">
       <propertyCard
@@ -36,8 +36,8 @@ async function getRelatedProperties(id: string) {
   }
 }
 
-onMounted(() => {
-  getRelatedProperties(route.params.id as string);
+onMounted(async() => {
+  await getRelatedProperties(route.params.id as string);
 });
 </script>
 

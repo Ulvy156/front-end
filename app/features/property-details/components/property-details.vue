@@ -31,22 +31,28 @@ import propertyHosueRule from "./property-hosue-rule.vue";
 import propertyParking from "./property-parking.vue";
 import relatedProperties from './related-properties.vue';
 import { incrementView } from "~/services/increment-view";
+import { useSEO } from "#imports";
 
 const api = useApi();
 const route = useRoute();
+const config = useRuntimeConfig();
+const seo = useSEO();
 
 const id = computed(() => route.params.id as string);
-const type = computed(() =>
-  useCurrentLang().value == "en"
-    ? property.value?.propertyType.nameEn
-    : property.value?.propertyType.nameKh,
-);
 
 const { data: property } = await useAsyncData<PropertyDetail>(
   () =>
     api.get<PropertyDetail>(`/property/${id.value}`).then((res) => res.data),
   { watch: [id] },
 );
+
+if(property.value) {
+  seo.setSEO({
+    title: property.value?.title ?? '',
+    description: property.value?.description ?? '',
+    image: `${config.public.R2_PUB_URL}/${property.value?.images[0]?.imageKey}`,
+  });
+}
 
 onMounted(async () => {
     await incrementView(route.params.id as string);

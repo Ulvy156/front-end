@@ -28,9 +28,40 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
   },
 
   actions: {
+    init() {
+      if (!import.meta.client) return
+
+      const cookie = useCookie('property_filter', {
+        maxAge: 60 * 60 * 24 * 7,
+
+        encode: (value) => JSON.stringify(value),
+        decode: (value) => {
+          try {
+            return JSON.parse(value)
+          } catch {
+            return null
+          }
+        },
+      })
+
+      // Restore state
+      if (cookie.value) {
+        Object.assign(this.$state, cookie.value)
+      }
+
+      // Auto save on state change
+      this.$subscribe(() => {
+        cookie.value = { ...this.$state }
+      })
+    },
+
     reset() {
       this.$reset()
+
+      if (import.meta.client) {
+        const cookie = useCookie('property_filter')
+        cookie.value = null
+      }
     },
   },
 })
-

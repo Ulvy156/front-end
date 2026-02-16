@@ -102,6 +102,7 @@ watch(items, ()=>{
 })
 
 onMounted(async () => {
+  filterStore.init()
   await refresh();
 });
 </script>
