@@ -19,10 +19,12 @@
                 <div class="overlay"></div>
 
                 <div class="content">
-                    <p>{{ currentLng === 'en' ? value.nameEn : value.nameKh }}</p>
-                    <p>{{ value.totalListings }} results</p>
+                    <p>{{ value[langKey] }}</p>
+                    <p>{{ value.totalListings }} {{ $t('results') }}</p>
                 </div>
             </article>
+
+            <skeletonProperty :number-of-items="4" :is-hide="popularLocations.length > 0"/>
 
         </section>
     </section>
@@ -31,6 +33,10 @@
 <script lang="ts" setup>
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import type { PopularDistrict } from '../featured-listings/feature.listings';
+import skeletonProperty from "~/components/animation/skeleton-property.vue";
+import { useLangKey } from '#imports';
+
+const langKey = useLangKey();
 
 
 defineProps<{

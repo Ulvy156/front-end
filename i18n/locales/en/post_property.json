@@ -1,0 +1,18 @@
+{
+    "post_property": {
+        "title":"List Your Porperty",
+        "desc":"Create a stunning listing that atrracts quality tenants",
+        "steps":{
+            "one":"Property Type",
+            "two":"Basic Info",
+            "three":"Location",
+            "four":"Pricing",
+            "five":"Amenities",
+            "six":"Photos",
+            "seven":"Preview"
+        },
+        "back":"Back",
+        "continue":"Continue",
+        "draft":"Save as Draft"
+    }
+}

@@ -37,13 +37,19 @@ const api = useApi();
 const route = useRoute();
 const config = useRuntimeConfig();
 const seo = useSEO();
+const properFilter = usePropertyFilterStore();
 
 const id = computed(() => route.params.id as string);
 
 const { data: property } = await useAsyncData<PropertyDetail>(
   () =>
-    api.get<PropertyDetail>(`/property/${id.value}`).then((res) => res.data),
-  { watch: [id] },
+    api.post<PropertyDetail>(`/property/property-details`, {
+      id: id.value,
+      lat: properFilter.lat,
+      lng: properFilter.lng,
+    }).then((res) => res.data),
+  { watch: [id] }
+  ,
 );
 
 if(property.value) {

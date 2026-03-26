@@ -26,11 +26,20 @@
         </p>
       </div>
       <!-- address -->
-      <div class="col-span-2">
+      <div >
         <p class="text-(--gray)" style="font-size: 13px">
           {{ $t("property.location.address") }}
         </p>
         <p>{{ property.address }}</p>
+      </div>
+       <!-- distance -->
+      <div >
+        <p class="text-(--gray)" style="font-size: 13px">
+          {{ $t("property.location.distance") }}
+        </p>
+        <p class="font-semibold" style="font-size: 16px">
+          {{ property.distanceKm }} KM
+        </p>
       </div>
       <!-- nearby -->
       <div class="border-l-4 border-(--nav-active-item) rounded-(--radius) p-3 bg-(--bg-gray) col-span-2">

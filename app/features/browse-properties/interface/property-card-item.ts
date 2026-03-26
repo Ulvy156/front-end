@@ -33,6 +33,7 @@ export interface PropertyCardItem {
   deposit: number;
   sizeSqm: number;
   availableFrom: Date;
+  distanceKm: number | null;
 }
 
 export interface Meta {

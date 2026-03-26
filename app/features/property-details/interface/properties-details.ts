@@ -11,6 +11,7 @@ export interface PropertyDetail {
   lat: number | null;
   lng: number | null;
   nearby_location: string | null;
+  distanceKm: number | null;
 
   title: string;
   description: string;

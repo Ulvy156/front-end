@@ -1,20 +1,37 @@
 <template>
-  <div class="border-b border-gray">
-    <el-carousel
-      height="60dvh"
-      indicator-position="outside"
-      arrow="always"
-      :autoplay="false"
-      class="property-carousel"
-    >
-      <el-carousel-item
-        v-for="item in property?.images"
-        :key="item?.imageKey"
-        class="carousel-item"
+  <section class="border-b border-gray">
+    <div class="flex gap-x-2 items-start ">
+      <el-carousel
+        ref="carouselRef"
+        height="60dvh"
+        indicator-position="outside"
+        arrow="always"
+        :autoplay="false"
+        class="w-[80%]"
+        :activeIndex
+        @change="onCarouselChange"
       >
-        <BaseImage class="cursor-pointer" fit="cover" :src="item.imageKey" />
-      </el-carousel-item>
-    </el-carousel>
+        <el-carousel-item
+          v-for="item in property?.images"
+          :key="item?.imageKey"
+          class="carousel-item"
+        >
+          <BaseImage :rounded="true" class="cursor-pointer" fit="cover" :src="item.imageKey" />
+        </el-carousel-item>
+      </el-carousel>
+      <div class="flex flex-col gap-y-2 w-[20%] overflow-y-auto">
+        <BaseImage
+          @click="goToSlide(i)"
+          v-for="(item, i) in property?.images"
+          :rounded="true"
+          width="10"
+          :height="10"
+          fit="contain"
+          :src="item.imageKey"
+          :class="{'border-2 border-(--nav-active-item)' : activeIndex === i}"
+        />
+      </div>
+    </div>
     <div class="flex items-center gap-x-4">
       <!-- property type -->
       <span
@@ -58,7 +75,7 @@
       <!-- view -->
       <div class="flex items-center gap-x-2 lowercase">
         <BaseIconClient name="eye" />
-        <p>{{ formatView(property.totalViews) }} {{ $t('property.view') }} </p>
+        <p>{{ formatView(property.totalViews) }} {{ $t("property.view") }}</p>
       </div>
       <!-- posted at -->
       <div class="flex items-center gap-x-2">
@@ -72,12 +89,11 @@
     <!-- price -->
     <div class="flex gap-x-2 items-end my-6">
       <h2 class="text-(--nav-active-item)">${{ property.monthly_price }}</h2>
-      <p style="font-size: 18px; color: var(--gray);">/{{ $t("month") }}</p>
+      <p style="font-size: 18px; color: var(--gray)">/{{ $t("month") }}</p>
     </div>
-  </div>
+  </section>
 
   <!-- <BaseImagePreviewModal v-model:visible="showPreview" :images="property?.images!" /> -->
-
 </template>
 
 <script lang="ts" setup>
@@ -86,18 +102,24 @@ import type { PropertyDetail } from "../interface/properties-details";
 import BaseImage from "~/components/ui/BaseImage.vue";
 import { formatView } from "#imports";
 import { useLangKey } from "#imports";
-// const BaseImagePreviewModal = defineAsyncComponent(
-//   () => import('~/components/ui/BaseImagePreviewModal.vue')
-// )
 
 const props = defineProps<{
   property: PropertyDetail;
 }>();
+
+
 const langKey = useLangKey();
-const showPreview = ref(false);
+const activeIndex = ref(0);
+const carouselRef = ref()
 
+function goToSlide(index: number) {
+  activeIndex.value = index
+  carouselRef.value?.setActiveItem(index)
+}
+function onCarouselChange(current: number, prev: number) {
+  activeIndex.value = current;
+}
 </script>
-
 
 <style scoped>
 .carousel-item {

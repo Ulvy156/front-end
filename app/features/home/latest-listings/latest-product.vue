@@ -27,6 +27,9 @@
             :total-view="value.totalViews"
             :is-available="value.isAvailable"
             :hide-compare-icon="true" />
+
+            <skeletonProperty :number-of-items="4" :is-hide="latestListings.length > 0"/>
+
         </section>
     </section>
 </template>
@@ -35,6 +38,7 @@
 import BaseIcon from '~/components/ui/BaseIcon.client.vue';
 import productCard from '../components/product-card.vue';
 import type { FeaturedProperty } from '../featured-listings/feature.listings';
+import skeletonProperty from "~/components/animation/skeleton-property.vue";
 
 defineProps<{
     latestListings: FeaturedProperty[]

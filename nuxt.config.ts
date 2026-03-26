@@ -31,6 +31,7 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3001',
       R2_PUB_URL: process.env.NUXT_PUBLIC_R2_PUB_URL,
       googleMapsKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_KEY,
+      BASE_URL: 'http://localhost:3000'
     }
   },
   image: {
@@ -71,7 +72,8 @@ export default defineNuxtConfig({
           'en/filter.json',
           'en/card.json',
           'en/property.json',
-          'en/footer.json'
+          'en/footer.json',
+          'en/post_property.json',
         ]
       },
       {

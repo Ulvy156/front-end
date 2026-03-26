@@ -86,6 +86,14 @@
             </BaseTooltip>
             <span>{{ props.item.sizeSqm }} m<sup>2</sup></span>
           </div>
+
+          <div class="amenities">
+            <BaseTooltip :content="$t('card.distance')">
+              <BaseIcon name="land-plot" :size="14" />
+            </BaseTooltip>
+            <span>{{ props.item.distanceKm }} KM</span>
+          </div>
+
         </div>
         <span
           class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full"

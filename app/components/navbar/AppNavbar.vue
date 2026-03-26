@@ -29,10 +29,12 @@
 
         <span class="text-gray-300">|</span>
 
-        <div class="menu-items">
+        <NuxtLink 
+        :class="{'menu-item-active': startsWith('/post-property')}"
+        to="/post-property" class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
           <p>{{ $t('nav.postRoom') }}</p>
-        </div>
+        </NuxtLink>
 
         <span class="text-gray-300">|</span>
 

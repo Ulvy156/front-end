@@ -28,6 +28,7 @@
         :hide-compare-icon="true"
         :is-available="value.isAvailable"
       />
+      <skeletonProperty :is-hide="featuredListings.length > 0"/>
     </section>
   </section>
 </template>
@@ -35,6 +36,7 @@
 <script lang="ts" setup>
 import productCard from "../components/product-card.vue";
 import type { FeaturedProperty } from "./feature.listings";
+import skeletonProperty from "~/components/animation/skeleton-property.vue";
 
 defineProps<{
   featuredListings: FeaturedProperty[];

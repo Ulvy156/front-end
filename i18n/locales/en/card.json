@@ -2,6 +2,7 @@
   "card": {
     "size": "size",
     "bedroom": "bedroom",
-    "bathroom": "bathroom"
+    "bathroom": "bathroom",
+    "distance": "Distance"
   }
 }

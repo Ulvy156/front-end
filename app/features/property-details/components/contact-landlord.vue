@@ -59,7 +59,7 @@
         {{ $t("property.share") }}
       </h5>
       <!-- facebook -->
-      <span class="icon">
+      <span @click="openShare('FB', shareUrl, property.title)" class="icon">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="20"
@@ -77,7 +77,7 @@
         </svg>
       </span>
       <!-- telegram -->
-      <span class="icon">
+      <span @click="openShare('TG', shareUrl, property.title)" class="icon">
         <BaseIconClient name="message-square-text" />
       </span>
       <!-- copy link -->
@@ -92,6 +92,7 @@
       <BaseIconClient name="flag" />
       {{ $t("property.report") }}
     </span>
+    {{ shareUrl }}
   </section>
 </template>
 
@@ -102,7 +103,14 @@ import type { PropertyDetail } from "../interface/properties-details";
 import { useFullUrl } from "#imports";
 import { useCopy } from "#imports";
 import { getTelegramLink } from "#imports";
+import { openShare } from "#imports";
+const route = useRoute()
 
+const shareUrl = computed(() =>
+  import.meta.client
+    ? window.location.origin + route.fullPath
+    : ''
+)
 const props = defineProps<{
   property: PropertyDetail;
 }>();

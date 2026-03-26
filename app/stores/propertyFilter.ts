@@ -26,7 +26,7 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
       ...state,
     }),
   },
-
+  persist: true,
   actions: {
     init() {
       if (!import.meta.client) return
