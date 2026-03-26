@@ -12,6 +12,8 @@
       <whyChoseUs/>
       <!-- how it work -->
       <howItWork/>
+      <!-- landlord -->
+      <!-- <lanlordSection/> -->
     </section>
   </section>
 </template>
@@ -24,6 +26,7 @@ import latestProduct from '~/features/home/latest-listings/latest-product.vue';
 import { useHomePageQuery } from '~/features/home/composable/useHomePageQuery';
 import whyChoseUs from '~/features/home/components/why-chose-us.vue';
 import howItWork from '~/features/home/components/how-it-work.vue';
+// import lanlordSection from '~/features/home/components/lanlord-section.vue';
 
 definePageMeta({
   headerOverlay: true,

@@ -13,8 +13,9 @@
         <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-7 mt-3 ">
             <productCard 
             v-for="value in latestListings" 
+            :id="value.id"
             :key="value.id" 
-            :price="value.price"
+            :price="value.monthly_price"
             :src="value.images[0]?.imageKey ?? ''" 
             :title="value.title" 
             :content="value.title"
@@ -26,6 +27,9 @@
             :total-view="value.totalViews"
             :is-available="value.isAvailable"
             :hide-compare-icon="true" />
+
+            <skeletonProperty :number-of-items="4" :is-hide="latestListings.length > 0"/>
+
         </section>
     </section>
 </template>
@@ -34,6 +38,7 @@
 import BaseIcon from '~/components/ui/BaseIcon.client.vue';
 import productCard from '../components/product-card.vue';
 import type { FeaturedProperty } from '../featured-listings/feature.listings';
+import skeletonProperty from "~/components/animation/skeleton-property.vue";
 
 defineProps<{
     latestListings: FeaturedProperty[]

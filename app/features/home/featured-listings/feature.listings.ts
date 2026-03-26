@@ -1,7 +1,7 @@
 export interface FeaturedProperty {
   id: string
   title: string
-  price: number
+  monthly_price: number
   sizeSqm: number
   totalViews: number
   bathroom: number,
@@ -23,6 +23,7 @@ export interface FeaturedProperty {
   propertyType: {
     nameEn: string
     nameKh: string
+    icon: string
   }
 }
 

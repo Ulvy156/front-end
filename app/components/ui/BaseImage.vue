@@ -1,13 +1,20 @@
 <script setup lang="ts">
 const config = useRuntimeConfig();
 
-const props = defineProps<{
-  src: string
-  alt?: string
-  width?: number
-  height?: number
-  rounded?: boolean
-}>()
+const props = withDefaults(
+  defineProps<{
+    src: string
+    alt?: string
+    width?: number | string
+    height?: number
+    rounded?: boolean
+    fit?: 'cover' | 'contain'
+  }>(),
+  {
+    fit: 'cover',
+  }
+)
+
 
 const hasError = ref(false)
 const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
@@ -16,14 +23,13 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
 <template>
   <NuxtImg
     v-if="src && !hasError"
+    :style="{ objectFit: props.fit }"
     :src="imgSrc"
     :alt="alt || 'image'"
-    :width="width"
-    :height="height"
     format="webp"
     loading="lazy"
     @error="hasError = true"
-    class="object-cover"
+    class="image"
     :class="{ 'rounded-lg': rounded }"
   />
 
@@ -39,3 +45,11 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
     No Image
   </div>
 </template>
+
+<style scoped>
+.image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+</style>

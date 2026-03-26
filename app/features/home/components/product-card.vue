@@ -5,6 +5,7 @@
     :visible-once="{ opacity: 1, y: 0 }"
     :hovered="{ y: -5 }"
     class="card"
+    @click="$router.push(`/properties/details/${id}`)"
   >
     <!-- IMAGE WRAPPER -->
     <div class="relative overflow-hidden rounded-md">
@@ -33,28 +34,31 @@
       <!-- IMAGE -->
       <BaseImage
         :src="src"
-        class="w-full object-cover transition-transform duration-500 group-hover:scale-105 aspect-16/5"
       />
     </div>
 
     <!-- CONTENT -->
     <div class="flex flex-col gap-y-4 mt-3">
       <div class="flex justify-between items-center">
-        <h4 class="flex items-center">
-          ${{ price }}
+        <div class="flex items-center">
+          <h4 class="text-(--nav-active-item)">${{ props.price }}</h4>
           <p class="ml-1">/{{ $t("month") }}</p>
-        </h4>
-        <BaseBadge class="w-fit" type="primary" :content="isAvailable">
+        </div>
+        <span class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full ">
           <BaseIcon name="check" :size="16" />
-        </BaseBadge>
+          {{ isAvailable }}
+        </span>
       </div>
 
       <div>
         <p class="line-clamp-1">{{ content }}</p>
 
-        <div class="flex items-center gap-x-2 text-gray-500">
+        <div class="flex items-center gap-x-2 text-gray-500 mt-2">
           <BaseIcon name="map-pinned" :size="15" />
-          <span>{{ location }}</span>
+          <span>
+            {{ props.location.province[langKey] }} /
+            {{ props.location[langKey] }}
+          </span>
         </div>
       </div>
 
@@ -81,7 +85,10 @@
             <span>{{ size }} m<sup>2</sup></span>
           </div>
         </div>
-        <BaseBadge class="w-fit" type="primary" :content="type" />
+        <span class="flex items-center gap-x-2 text-(--nav-active-item) bg-(--nav-active) p-1 px-2 rounded-full ">
+          <BaseIcon :name="props.type.icon" size="12"/>
+          {{ props.type[langKey] }}
+        </span>
       </div>
     </div>
   </article>
@@ -89,13 +96,13 @@
 
 <script lang="ts" setup>
 import BaseIcon from "~/components/ui/BaseIcon.client.vue";
-import BaseBadge from "~/components/ui/BaseBadge.vue";
 import BaseImage from "~/components/ui/BaseImage.vue";
 import BaseTooltip from "~/components/ui/BaseTooltip.vue";
 import { formatView } from "#imports";
 
 const props = withDefaults(
   defineProps<{
+    id: string;
     price: number;
     src: string;
     title: string;
@@ -114,6 +121,7 @@ const props = withDefaults(
     type: {
       nameEn: string;
       nameKh: string;
+      icon: string,
     };
     size: number;
     totalView: number;
@@ -129,18 +137,17 @@ const props = withDefaults(
     hideCompareIcon: false,
   },
 );
-const visible = ref<boolean[]>([]);
-const location = computed(() =>
-  useCurrentLang().value == "en"
-    ? `${props.location.province.nameEn} ${props.location.nameEn}`
-    : `${props.location.province.nameKh} ${props.location.nameKh}`,
-);
+const currentLang = useCurrentLang();
+const langKey = useLangKey();
 
-const type = computed(() =>
-  useCurrentLang().value == "en" ? props.type.nameEn : props.type.nameKh,
-);
 const isAvailable = computed(() =>
-  useCurrentLang().value == "en" ? "Available" : "ទំនេរ",
+  props.isAvailable
+    ? currentLang.value === "en"
+      ? "Available"
+      : "ទំនេរ"
+    : currentLang.value === "en"
+    ? "Unavailable"
+    : "មិនទំនេរ",
 );
 </script>
 
