@@ -8,6 +8,10 @@ export function useNotify() {
     message: string,
     type: NotifyType = 'info'
   ) => {
+    if (import.meta.server) {
+      return
+    }
+
     ElNotification({
       title,
       message,

@@ -1,0 +1,44 @@
+diff --git a/es/hooks/use-timeout/index.mjs b/es/hooks/use-timeout/index.mjs
+index 34630cb..e1bbf36 100644
+--- a/es/hooks/use-timeout/index.mjs
++++ b/es/hooks/use-timeout/index.mjs
+@@ -2,12 +2,14 @@ import { tryOnScopeDispose } from "@vueuse/core";
+ 
+ //#region ../../packages/hooks/use-timeout/index.ts
+ function useTimeout() {
+-	let timeoutHandle;
++	let timeoutHandle;
++	// Use global timers so this hook also works during SSR, where `window` is undefined.
++	const timers = globalThis;
+ 	const registerTimeout = (fn, delay) => {
+ 		cancelTimeout();
+-		timeoutHandle = window.setTimeout(fn, delay);
++		timeoutHandle = timers.setTimeout(fn, delay);
+ 	};
+-	const cancelTimeout = () => window.clearTimeout(timeoutHandle);
++	const cancelTimeout = () => timers.clearTimeout(timeoutHandle);
+ 	tryOnScopeDispose(() => cancelTimeout());
+ 	return {
+ 		registerTimeout,
+diff --git a/lib/hooks/use-timeout/index.js b/lib/hooks/use-timeout/index.js
+index 1bc0b75..722fa69 100644
+--- a/lib/hooks/use-timeout/index.js
++++ b/lib/hooks/use-timeout/index.js
+@@ -4,12 +4,14 @@ let _vueuse_core = require("@vueuse/core");
+ 
+ //#region ../../packages/hooks/use-timeout/index.ts
+ function useTimeout() {
+-	let timeoutHandle;
++	let timeoutHandle;
++	// Use global timers so this hook also works during SSR, where `window` is undefined.
++	const timers = globalThis;
+ 	const registerTimeout = (fn, delay) => {
+ 		cancelTimeout();
+-		timeoutHandle = window.setTimeout(fn, delay);
++		timeoutHandle = timers.setTimeout(fn, delay);
+ 	};
+-	const cancelTimeout = () => window.clearTimeout(timeoutHandle);
++	const cancelTimeout = () => timers.clearTimeout(timeoutHandle);
+ 	(0, _vueuse_core.tryOnScopeDispose)(() => cancelTimeout());
+ 	return {
+ 		registerTimeout,
