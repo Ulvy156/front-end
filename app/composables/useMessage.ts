@@ -8,6 +8,10 @@ export function useMessage() {
     type: MessageType = 'info',
     placement: MessagePlacement = 'top'
   ) => {
+    if (import.meta.server) {
+      return
+    }
+
     ElMessage({
       message,
       type,

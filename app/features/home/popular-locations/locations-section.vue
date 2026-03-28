@@ -70,11 +70,11 @@ const featuredListings = shallowRef([
         title: "$300 / month",
         content: "3 Bedroom - Toul Kok",
     },
-    // {
-    //     url: "https://imgs.search.brave.com/ogWs1GoK-tgVfjq3Ca_QTRQESyYeZPpcRaDrPclks2w/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jYW1y/ZWFsdHlzZXJ2aWNl/LmNvbS93cC1jb250/ZW50L3VwbG9hZHMv/MjAyMi8wOC9waG5v/bS1wZW5oLWNvbmRv/LXNhbGUtcGhub20t/cGVuaC1yZWFsLWVz/dGF0ZS1yZW50LXNh/bGUtUzEwNzkwNjgy/LmpwZw",
-    //     title: "$300 / month",
-    //     content: "3 Bedroom - Toul Kok",
-    // },
+    {
+        url: "https://imgs.search.brave.com/lk4zfgYgQOabQauW5kUbI-pBvDWuMFDwxnNtatwLR-A/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9scC1j/bXMtcHJvZHVjdGlv/bi5pbWdpeC5uZXQv/MjAxOS0wNi9pU3Rv/Y2tfMDAwMDMxNzE1/NTY0TWVkaXVtLmpw/Zz9hdXRvPWZvcm1h/dCxjb21wcmVzcyZx/PTcyJmZpdD1jcm9w/Jnc9MzYwJmFyPTE6/MQ",
+        title: "$300 / month",
+        content: "3 Bedroom - Toul Kok",
+    },
 ])
 </script>
 
