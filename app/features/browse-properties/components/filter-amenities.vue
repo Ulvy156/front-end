@@ -24,27 +24,25 @@
 </template>
 
 <script lang="ts" setup>
-import { usePropertyAmenities } from "../composable/propertyAmenities";
+import { usePropertyAmenityOptions } from "../composable/usePropertyAmenityOptions";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
-const { data: amenities } = usePropertyAmenities();
-const selectedId = ref<number[]>([]);
+const { data: amenities } = usePropertyAmenityOptions();
 const filterStore = usePropertyFilterStore();
 
 function activeClass(subId: number) {
   return filterStore.amenities.includes(subId) ? "active" : "default-class";
 }
 function onSelect(id: number) {
-  if (selectedId.value.includes(id)) {
-    const result = selectedId.value.filter((v) => v !== id);
-    selectedId.value = result;
-  }else {
-    selectedId.value.push(id);
+  if (filterStore.amenities.includes(id)) {
+    filterStore.amenities = filterStore.amenities.filter((value) => value !== id);
+    return;
   }
-  filterStore.amenities = selectedId.value;
+
+  filterStore.amenities = [...filterStore.amenities, id];
 }
-const selectedItems = computed(() => selectedId.value.length);
+const selectedItems = computed(() => filterStore.amenities.length);
 
 
 </script>

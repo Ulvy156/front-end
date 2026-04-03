@@ -25,11 +25,10 @@
 
 <script lang="ts" setup>
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import { usePropertyRules } from "../composable/propertyRules";
+import { usePropertyRuleOptions } from "../composable/usePropertyRuleOptions";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
-const { data: rules } = usePropertyRules();
-const selectedId = ref<number[]>([]);
+const { data: rules } = usePropertyRuleOptions();
 const filterStore = usePropertyFilterStore();
 
 
@@ -38,15 +37,14 @@ function activeClass(subId: number) {
 }
 
 function onSelect(id: number) {
-  if (selectedId.value.includes(id)) {
-    const result = selectedId.value.filter((v) => v !== id);
-    selectedId.value = result;
-  }else {
-    selectedId.value.push(id);
+  if (filterStore.houseRules.includes(id)) {
+    filterStore.houseRules = filterStore.houseRules.filter((value) => value !== id);
+    return;
   }
-  filterStore.houseRules = selectedId.value;
+
+  filterStore.houseRules = [...filterStore.houseRules, id];
 }
-const selectedItems = computed(() => selectedId.value.length);
+const selectedItems = computed(() => filterStore.houseRules.length);
 </script>
 
 <style scoped>

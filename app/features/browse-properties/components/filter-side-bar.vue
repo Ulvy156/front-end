@@ -51,8 +51,6 @@
 
 <script lang="ts" setup>
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import { useHomePageQuery } from "~/features/home/composable/useHomePageQuery";
-import { usePropertyTypeQuery } from "../composable/properTypeQuery";
 import filterLocation from "./filter-location.vue";
 import filterProperty from "./filter-property.vue";
 import filterPrice from "./filter-price.vue";
@@ -62,26 +60,7 @@ import filterHouseRules from "./filter-house-rules.vue";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
 import searchBar from "./search-bar.vue";
 
-const { data: location, isFetched } = useHomePageQuery();
-const { data: properties } = usePropertyTypeQuery();
 const filterStore = usePropertyFilterStore();
-
-const filter = reactive({
-  price: 0,
-  location: 0,
-  propertyType: 0,
-});
-
-watch(
-  [isFetched, location, properties],
-  ([fetched, loc, props]) => {
-    if (!fetched) return;
-
-    filter.location = loc?.popularLocations?.[0]?.districtId ?? 0;
-    filter.propertyType = props?.[0]?.id ?? 0;
-  },
-  { immediate: true },
-);
 </script>
 
 <style scoped>

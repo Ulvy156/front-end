@@ -1,22 +1,10 @@
+import type {
+  PropertyCardLocation,
+  PropertyCardType,
+} from "~/types/property-card";
+
 interface PropertyImage {
   imageKey: string;
-}
-
-interface Province {
-  nameEn: string;
-  nameKh: string;
-}
-
-interface District {
-  nameEn: string;
-  nameKh: string;
-  province: Province;
-}
-
-interface PropertyType {
-  nameEn: string;
-  nameKh: string;
-  icon: string;
 }
 
 export interface PropertyCardItem {
@@ -28,8 +16,8 @@ export interface PropertyCardItem {
   bedroom: number;
   isAvailable: boolean;
   images: PropertyImage[];
-  district: District;
-  propertyType: PropertyType;
+  district: PropertyCardLocation;
+  propertyType: PropertyCardType;
   deposit: number;
   sizeSqm: number;
   availableFrom: Date;

@@ -1,20 +1,15 @@
-import { useApi } from "#imports";
-import { useCookie } from "#app";
+import type { AxiosInstance } from 'axios'
+import type { Ref } from 'vue'
 
-export async function incrementView(id: string) {
-  if (!import.meta.client) return;
-  if (!id) return;
+export async function incrementView(
+  api: AxiosInstance,
+  viewed: Ref<string[]>,
+  id: string,
+) {
+  if (!import.meta.client || !id) return
+  if (viewed.value.includes(id)) return
 
-  const api = useApi();
+  await api.patch(`/property/increment-view/${id}`)
 
-  const viewed = useCookie<string[]>("viewed_properties", {
-    maxAge: 60 * 60 * 6, // 6 hours
-    default: () => [],
-  });
-
-  if (viewed.value.includes(id)) return;
-
-  await api.patch(`/property/increment-view/${id}`);
-
-  viewed.value = [...viewed.value, id];
+  viewed.value = [...viewed.value, id]
 }

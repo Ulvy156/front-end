@@ -23,7 +23,7 @@ import featureProduct from '~/features/home/featured-listings/feature-properties
 import appBg from '~/features/home/components/app-bg.vue';
 import locationsSection from '~/features/home/popular-locations/locations-section.vue';
 import latestProduct from '~/features/home/latest-listings/latest-product.vue';
-import { useHomePageQuery } from '~/features/home/composable/useHomePageQuery';
+import { useHomePageData } from '~/features/home/composable/useHomePageData';
 import whyChoseUs from '~/features/home/components/why-chose-us.vue';
 import howItWork from '~/features/home/components/how-it-work.vue';
 // import lanlordSection from '~/features/home/components/lanlord-section.vue';
@@ -41,7 +41,7 @@ useSeoMeta({
   ogUrl: 'https://yourdomain.com',
 })
 
-const { data } = useHomePageQuery();
+const { data } = await useHomePageData();
 
 
 </script>

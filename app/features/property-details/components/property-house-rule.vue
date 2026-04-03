@@ -1,7 +1,7 @@
 <template>
   <section
     v-if="props.property.rules.length > 0"
-    class="p-5 border border-gray rounded-(--radius) bg-white"
+    class="rounded-(--radius) border border-gray bg-white p-5"
   >
     <div class="flex flex-col gap-x-2">
       <h3>
@@ -14,10 +14,8 @@
       </h3>
       <span>{{ $t("property.rules.desc") }}</span>
     </div>
-    <!-- rules item -->
-    <section class="flex flex-col lg:flex-row gap-8 mt-5">
-      <!-- ALLOWED -->
-      <div class="flex flex-wrap items-start gap-5 w-1/2 h-fit">
+    <section class="mt-5 flex flex-col gap-8 lg:flex-row">
+      <div class="flex h-fit w-1/2 flex-wrap items-start gap-5">
         <rulesItem
           v-for="rule in allowedRules"
           :key="rule.icon"
@@ -25,9 +23,8 @@
           :isAllowed="true"
         />
       </div>
-      <div class="border-r border-gray hidden lg:block md:block"></div>
-      <!-- NOT ALLOWED -->
-      <div class="flex flex-wrap items-start gap-5 w-1/2">
+      <div class="hidden border-r border-gray lg:block md:block"></div>
+      <div class="flex w-1/2 flex-wrap items-start gap-5">
         <rulesItem
           v-for="rule in notAllowedRules"
           :key="rule.icon"
@@ -40,9 +37,10 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
+
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import type { PropertyDetail } from "../interface/properties-details";
-import { useCurrentLang } from "#imports";
 import rulesItem from "./rules-item.vue";
 
 const props = defineProps<{

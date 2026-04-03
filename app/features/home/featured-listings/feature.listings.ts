@@ -1,3 +1,8 @@
+import type {
+  PropertyCardLocation,
+  PropertyCardType,
+} from "~/types/property-card";
+
 export interface FeaturedProperty {
   id: string
   title: string
@@ -11,20 +16,8 @@ export interface FeaturedProperty {
     imageKey: string
   }[]
 
-  district: {
-    nameEn: string
-    nameKh: string
-    province: {
-      nameEn: string
-      nameKh: string
-    }
-  }
-
-  propertyType: {
-    nameEn: string
-    nameKh: string
-    icon: string
-  }
+  district: PropertyCardLocation
+  propertyType: PropertyCardType
 }
 
 export interface PopularDistrict {
@@ -33,4 +26,3 @@ export interface PopularDistrict {
   nameEn: string;
   totalListings: number;
 }
-

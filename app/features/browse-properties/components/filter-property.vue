@@ -25,10 +25,10 @@
 
 <script lang="ts" setup>
 import { usePropertyFilterStore } from "~/stores/propertyFilter";
-import { usePropertyTypeQuery } from "../composable/properTypeQuery";
+import { usePropertyTypeOptions } from "../composable/usePropertyTypeOptions";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 
-const { data: properties } = usePropertyTypeQuery();
+const { data: properties } = usePropertyTypeOptions();
 const filterStore = usePropertyFilterStore()
 
 

@@ -8,7 +8,7 @@
       <propertyPriceLease :property="property!"/>
       <propertyParking :property="property!"/>
       <propertyAmenities :property="property!"/>
-      <propertyHosueRule :property="property!"/>
+      <propertyHouseRule :property="property!"/>
       <relatedProperties/>
     </div>
     <!-- land lord -->
@@ -19,7 +19,6 @@
 </template>
 
 <script setup lang="ts">
-import type { PropertyDetail } from "../interface/properties-details";
 import contactLandlord from "./contact-landlord.vue";
 import carouselPropertyDetails from "./carousel-property-details.vue";
 import propertyDescription from "./property-description.vue";
@@ -27,42 +26,12 @@ import propertyRooms from "./property-rooms.vue";
 import propertyLocation from "./property-location.vue";
 import propertyPriceLease from "./property-price-lease.vue";
 import propertyAmenities from "./property-amenities.vue";
-import propertyHosueRule from "./property-hosue-rule.vue";
+import propertyHouseRule from "./property-house-rule.vue";
 import propertyParking from "./property-parking.vue";
 import relatedProperties from './related-properties.vue';
-import { incrementView } from "~/services/increment-view";
-import { useSEO } from "#imports";
+import { usePropertyDetails } from "../composable/usePropertyDetails";
 
-const api = useApi();
-const route = useRoute();
-const config = useRuntimeConfig();
-const seo = useSEO();
-const properFilter = usePropertyFilterStore();
-
-const id = computed(() => route.params.id as string);
-
-const { data: property } = await useAsyncData<PropertyDetail>(
-  () =>
-    api.post<PropertyDetail>(`/property/property-details`, {
-      id: id.value,
-      lat: properFilter.lat,
-      lng: properFilter.lng,
-    }).then((res) => res.data),
-  { watch: [id] }
-  ,
-);
-
-if(property.value) {
-  seo.setSEO({
-    title: property.value?.title ?? '',
-    description: property.value?.description ?? '',
-    image: `${config.public.R2_PUB_URL}/${property.value?.images[0]?.imageKey}`,
-  });
-}
-
-onMounted(async () => {
-    await incrementView(route.params.id as string);
-})
+const { property } = await usePropertyDetails()
 </script>
 
 <style scoped>

@@ -38,82 +38,14 @@
 </template>
 
 <script lang="ts" setup>
-import BaseInput from "~/components/ui/BaseInput.vue";
-import { usePropertyFilterStore } from "~/stores/propertyFilter";
-import { getCurrentLocation } from "#imports";
-import { useNotify } from "#imports";
-import { checkLocationPermission } from "#imports";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import { usePropertySort } from "../composable/usePropertySort";
 
-const filterStore = usePropertyFilterStore();
-const selectOption = [
-  {
-    id: 0,
-    label: "Newest First",
-  },
-  {
-    id: 1,
-    label: "Price: Low to High",
-  },
-  {
-    id: 2,
-    label: "Price: High to Low",
-  },
-  {
-    id: 3,
-    label: "Most Popular",
-  },
-  {
-    id: 4,
-    label: "Nearest Location",
-  },
-];
+const { filterStore, sortOptions: selectOption } = usePropertySort()
 const directionOptions = [
   { label: "Horizontal", value: 2, icon: "grid-2x2" },
   { label: "Vertical", value: 3, icon: "grid-3x2" },
 ];
-
-watch(
-  () => filterStore.orderType,
-  async (newVal) => {
-    // empty location when user chose other
-    if (newVal !== 4) {
-      filterStore.lat = null;
-      filterStore.lng = null;
-      return;
-    }
-
-    try {
-      
-      const status = await checkLocationPermission();
-      if (status === 'denied') {
-        useNotify().warning(
-          'Location access is blocked. Please enable it in your browser settings.',
-        );
-
-        filterStore.orderType = null;
-        return
-      }
-
-      const location = await getCurrentLocation()
-      
-
-      filterStore.lat = location.latitude
-      filterStore.lng = location.longitude
-
-    } catch (err) {
-      // Reset back to default sorting
-      filterStore.orderType = null;
-
-      // Show notification
-      useNotify().warning(
-        'We can’t show nearest properties because location access was denied.',
-      );
-    }
-  }
-)
-
-
 </script>
 
 <style scoped>

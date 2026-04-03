@@ -5,66 +5,24 @@
       <p>{{ $t("filter.location") }}</p>
     </div>
     <el-autocomplete
-      @clear="() => filterStore.location = null"
+      @clear="clearLocation"
       clearable
       v-model="keyword"
       :fetch-suggestions="searchLocations"
       placeholder="Search location"
       value-key="label"
       style="width: 100%"
-      @select="onSelect"
+      @select="selectLocation"
     />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { useDebounceFn } from "@vueuse/core";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import { usePropertyFilterStore } from "~/stores/propertyFilter";
+import { useLocationAutocomplete } from "../composable/useLocationAutocomplete";
 
-interface Location {
-  id: number;
-  nameEn: string;
-  nameKh: string;
-  type: "district" | "province";
-  label: string;
-}
-
-const api = useApi();
-const filterStore = usePropertyFilterStore();
-const keyword = ref();
-
-// debounced fetch (1s)
-const fetchLocations = useDebounceFn(
-  async (query: string, cb: (r: Location[]) => void) => {
-    if (!query || query.length < 2) {
-      cb([]);
-      return;
-    }
-
-    const res = await api.get("location", {
-      params: { q: query },
-    });
-
-    cb(
-      res.data.map((item: any) => ({
-        ...item,
-        label: `${item.nameEn} — ${item.nameKh}`,
-      })),
-    );
-  },
-  1000, // 1 second
-);
-
-// el-autocomplete hook
-const searchLocations = (query: string, cb: (results: Location[]) => void) => {
-  fetchLocations(query, cb);
-};
-
-const onSelect = (item: Location) => {
-  filterStore.location = item.id;
-  filterStore.locationType = item.type;
-};
+const { keyword, clearLocation, searchLocations, selectLocation } =
+  useLocationAutocomplete()
 </script>
 
 <style scoped>

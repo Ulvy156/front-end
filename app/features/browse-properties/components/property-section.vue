@@ -60,49 +60,12 @@
 </template>
 
 <script lang="ts" setup>
+import { defineAsyncComponent, ref } from "vue";
 import propertyCard from "./property-card.vue";
-import type { Meta, PropertyCardItem } from "../interface/property-card-item";
-import { debounce } from "lodash-unified";
 import BasePagination from "~/components/ui/BasePagination.vue";
+import { useBrowseProperties } from "../composable/useBrowseProperties";
 const drawerComponent = defineAsyncComponent(() => import('./compare-drawer.vue'))
 
 const drawerVisible = ref(false)
-const filterStore = usePropertyFilterStore();
-const api = useApi();
-const isFetching = ref(true);
-const { data, refresh } = useAsyncData("browse-properties", () =>
-  api
-    .post("/property/browse-properties", {
-      ...filterStore.queryParams,
-    })
-    .then((res) => res.data)
-    .finally(() => (isFetching.value = false)),
-);
-
-const items = computed<PropertyCardItem[]>(() => data.value?.items ?? []);
-const meta = computed<Meta>(() => data.value?.meta);
-// debounce refresh
-const debouncedRefresh = debounce(() => {
-  refresh();
-}, 1000);
-
-// watch filters
-watch(
-  () => filterStore.queryParams,
-  () => {
-    isFetching.value = true;
-
-    debouncedRefresh();
-  },
-  { deep: true },
-);
-
-watch(items, ()=>{
-  filterStore.result = items.value.length;
-})
-
-onMounted(async () => {
-  filterStore.init()
-  await refresh();
-});
+const { filterStore, isFetching, items, meta } = useBrowseProperties()
 </script>

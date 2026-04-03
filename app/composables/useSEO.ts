@@ -1,36 +1,45 @@
+import { computed, ref } from 'vue'
+
 export const useSEO = () => {
   const route = useRoute()
   const config = useRuntimeConfig()
+  const title = ref('')
+  const description = ref('')
+  const image = ref<string>()
+
+  const fullUrl = computed(() => `${config.public.BASE_URL}${route.fullPath}`)
+
+  useSeoMeta({
+    // Google SEO
+    title: () => title.value,
+    description: () => description.value,
+
+    // Open Graph
+    ogTitle: () => title.value,
+    ogDescription: () => description.value,
+    ogImage: () => image.value,
+    ogUrl: () => fullUrl.value,
+    ogType: 'website',
+
+    // Twitter
+    twitterCard: 'summary_large_image',
+    twitterTitle: () => title.value,
+    twitterDescription: () => description.value,
+    twitterImage: () => image.value,
+  })
 
   const setSEO = ({
-    title,
-    description,
-    image,
+    title: nextTitle,
+    description: nextDescription,
+    image: nextImage,
   }: {
     title: string
     description: string
     image?: string
   }) => {
-    const fullUrl = `${config.public.BASE_URL}${route.fullPath}`
-
-    useSeoMeta({
-      // Google SEO
-      title,
-      description,
-
-      // Open Graph
-      ogTitle: title,
-      ogDescription: description,
-      ogImage: image,
-      ogUrl: fullUrl,
-      ogType: 'website',
-
-      // Twitter
-      twitterCard: 'summary_large_image',
-      twitterTitle: title,
-      twitterDescription: description,
-      twitterImage: image,
-    })
+    title.value = nextTitle
+    description.value = nextDescription
+    image.value = nextImage
   }
 
   return { setSEO }
