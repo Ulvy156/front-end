@@ -30,23 +30,37 @@
 
     <!-- Right -->
     <button
-      @click="emit('next')"
-      class="flex items-center gap-2 bg-(--nav-active-item) text-white px-4 py-3 rounded-xl font-semibold transition"
+      @click="isLastStep ? emit('publish') : emit('next')"
+      :disabled="loading"
+      class="flex items-center gap-2 text-white px-4 py-3 rounded-xl font-semibold transition bg-(--nav-active-item) disabled:opacity-70 disabled:cursor-not-allowed"
     >
-      {{ $t('post_property.continue') }}
-      <BaseIconClient name="arrow-right" :size="18" />
+      <svg v-if="loading" class="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"/>
+      </svg>
+      <BaseIconClient v-else :name="isLastStep ? 'upload' : 'arrow-right'" :size="18" />
+      <span v-if="loading">{{ $t("post_property.publishing") }}</span>
+      <span v-else>{{ isLastStep ? $t("post_property.publish") : $t("post_property.continue") }}</span>
     </button>
   </div>
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue'
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-
+const props = defineProps<{
+  currentStep: number
+  totalSteps: number
+  autoSaveText?: string
+  loading?: boolean
+}>()
 const emit = defineEmits<{
   (e: "back"): void;
   (e: "next"): void;
   (e: "save"): void;
+  (e: "publish"): void;
 }>();
+const isLastStep = computed(() => props.currentStep === props.totalSteps);
 </script>
 
 
