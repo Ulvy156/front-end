@@ -1,146 +1,102 @@
 <template>
-    <!-- PAGE BACKGROUND -->
-    <section class="min-h-dvh flex items-center justify-center px-4
-           bg-linear-to-br from-slate-200 via-slate-100 to-slate-200">
-        <!-- GLASS CARD -->
-        <form class="w-full max-w-md
-             bg-white/70 backdrop-blur-xl
-             border border-white/60
-             shadow-[0_25px_50px_-15px_rgba(0,0,0,0.25)]
-             rounded-2xl p-6
-             flex flex-col items-center gap-y-6">
-            <!-- Header -->
-            <div class="text-center space-y-1">
-                <h3 class="text-xl font-semibold text-slate-900">
-                    {{ t('auth.createAcc') }}
-                </h3>
-                <p class="text-slate-500 text-sm">
-                    {{ t('auth.createAccDec') }}
-                </p>
-            </div>
+    <section class="min-h-dvh flex items-stretch">
 
-            <!-- Google -->
-            <button type="button" class="w-full flex items-center justify-center gap-x-3
-               rounded-xl border border-slate-200
-               bg-white/80 py-3 font-medium text-slate-800
-               hover:bg-white hover:shadow-sm transition">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 48 48">
-                    <path fill="#ffc107"
-                        d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917" />
-                    <path fill="#ff3d00"
-                        d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691" />
-                    <path fill="#4caf50"
-                        d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44" />
-                    <path fill="#1976d2"
-                        d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917" />
-                </svg>
-                <span>{{ t('auth.google') }}</span>
-            </button>
+        <!-- Brand Panel (desktop left) -->
+        <div class="hidden lg:flex lg:w-5/12 xl:w-[45%] relative overflow-hidden
+                    flex-col justify-between p-12
+                    bg-linear-to-br from-blue-600 via-blue-500 to-indigo-600 text-white">
 
-            <!-- Telegram -->
-            <button type="button" class="w-full flex items-center justify-center gap-x-3
-               rounded-xl border border-slate-200
-               bg-white/80 py-3 font-medium text-slate-800
-               hover:bg-white hover:shadow-sm transition">
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 256 256">
-                    <defs>
-                        <linearGradient id="SVGuySfwdaH" x1="50%" x2="50%" y1="0%" y2="100%">
-                            <stop offset="0%" stop-color="#2aabee" />
-                            <stop offset="100%" stop-color="#229ed9" />
-                        </linearGradient>
-                    </defs>
-                    <path fill="url(#SVGuySfwdaH)"
-                        d="M128 0C94.06 0 61.48 13.494 37.5 37.49A128.04 128.04 0 0 0 0 128c0 33.934 13.5 66.514 37.5 90.51C61.48 242.506 94.06 256 128 256s66.52-13.494 90.5-37.49c24-23.996 37.5-56.576 37.5-90.51s-13.5-66.514-37.5-90.51C194.52 13.494 161.94 0 128 0" />
-                    <path fill="#fff"
-                        d="M57.94 126.648q55.98-24.384 74.64-32.152c35.56-14.786 42.94-17.354 47.76-17.441c1.06-.017 3.42.245 4.96 1.49c1.28 1.05 1.64 2.47 1.82 3.467c.16.996.38 3.266.2 5.038c-1.92 20.24-10.26 69.356-14.5 92.026c-1.78 9.592-5.32 12.808-8.74 13.122c-7.44.684-13.08-4.912-20.28-9.63c-11.26-7.386-17.62-11.982-28.56-19.188c-12.64-8.328-4.44-12.906 2.76-20.386c1.88-1.958 34.64-31.748 35.26-34.45c.08-.338.16-1.598-.6-2.262c-.74-.666-1.84-.438-2.64-.258c-1.14.256-19.12 12.152-54 35.686c-5.1 3.508-9.72 5.218-13.88 5.128c-4.56-.098-13.36-2.584-19.9-4.708c-8-2.606-14.38-3.984-13.82-8.41c.28-2.304 3.46-4.662 9.52-7.072" />
-                </svg>
-                <span>{{ t('auth.telegram') }}</span>
-            </button>
+            <div class="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-white/10 blur-3xl pointer-events-none" />
+            <div class="absolute -bottom-10 -right-10 w-96 h-96 rounded-full bg-indigo-400/20 blur-3xl pointer-events-none" />
 
-            <!-- Divider -->
-            <div class="flex items-center w-full gap-x-3 text-sm text-slate-400">
-                <span class="flex-1 h-px bg-slate-200"></span>
-                {{ t('auth.or') }}
-                <span class="flex-1 h-px bg-slate-200"></span>
-            </div>
+            <NuxtLink to="/" class="relative z-10 flex items-center gap-x-2.5 w-fit">
+                <div class="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
+                    </svg>
+                </div>
+                <span class="text-xl font-bold tracking-tight">Rentify</span>
+            </NuxtLink>
 
-            <!-- Manual login -->
-            <div class="grid grid-cols-1 w-full gap-y-4">
-                <!-- Email -->
-                <div>
-                    <label for="mail" class="text-sm font-medium text-slate-700">
-                        {{ t('auth.email') }}
-                    </label>
-                    <BaseInput id="mail" size="large" :placeholder="t('auth.emailPlaceholder')" v-model="email">
-                        <template >
-                            <BaseIcon name="mail" />
-                        </template>
-                    </BaseInput>
+            <div class="relative z-10 space-y-8">
+                <div class="space-y-4">
+                    <h1 class="text-4xl font-bold leading-tight">
+                        {{ step === 1 ? 'Join thousands of renters in Cambodia' : 'One last step to get started' }}
+                    </h1>
+                    <p class="text-blue-100 text-base leading-relaxed max-w-xs">
+                        {{
+                            step === 1
+                                ? 'Create a free account to browse listings, save favorites, and connect with landlords.'
+                                : 'Enter the 6-digit code we sent to your email to activate your account.'
+                        }}
+                    </p>
                 </div>
 
-                <!-- Password -->
-                <div>
-                    <label for="password" class="text-sm font-medium text-slate-700">
-                            {{ t('auth.password') }}
-                        </label>
-
-                    <BaseInput id="password" show-password type="password" size="large" :placeholder="t('auth.passwordPlaceholder')"
-                        v-model="password">
-                        <template >
-                            <BaseIcon name="lock-keyhole" />
-                        </template>
-                    </BaseInput>
-                </div>
+                <ul class="space-y-3.5">
+                    <li v-for="item in brandFeatures" :key="item" class="flex items-center gap-x-3 text-blue-50">
+                        <div class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none">
+                                <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round" />
+                            </svg>
+                        </div>
+                        <span class="text-sm">{{ item }}</span>
+                    </li>
+                </ul>
             </div>
 
-            <!-- Submit -->
-            <button type="submit" class="w-full rounded-xl bg-blue-500 py-3
-               font-semibold text-white
-               hover:bg-blue-600 transition">
-                {{ t('auth.signUp') }}
-            </button>
-            <div class="flex items-center gap-x-3">
-                <span>{{ $t("auth.haveAccount") }}</span>
-                <NuxtLink to="/auth/login" class="text-sm text-blue-500 font-semibold" >{{ $t("auth.signIn") }}</NuxtLink>
-            </div>  
-            <div class="flex">
-                <span>{{ $t('auth.agreement') }}</span>
-                &nbsp;
-                <NuxtLink to="/auth/login" class="text-sm text-blue-500 font-semibold" >{{ $t("auth.terms") }}</NuxtLink>
-                &nbsp;
-                <NuxtLink to="/auth/login" class="text-sm text-blue-500 font-semibold" >{{ $t("auth.policy") }}</NuxtLink>
-            </div>
+            <p class="relative z-10 text-blue-200/80 text-xs">
+                {{ t('auth.agreement') }}
+            </p>
+        </div>
 
-        </form>
+        <!-- Form Panel -->
+        <div class="flex-1 flex items-center justify-center bg-slate-50 px-6 py-14">
+            <SignUpForm v-if="step === 1" @registered="onRegistered" />
+            <OtpVerify v-else :email="registeredEmail" @back="onBack" />
+        </div>
+
     </section>
 </template>
 
 <script setup lang="ts">
+import SignUpForm from '~/features/auth/components/SignUpForm.vue'
+import OtpVerify from '~/features/auth/components/OtpVerify.vue'
+
 const { t } = useI18n()
 
+const brandFeatures = [
+    'Free to browse thousands of listings',
+    'Save favorites and compare properties',
+    'List your property and find tenants fast',
+]
+
 useSeoMeta({
-    title: `${t('auth.welcome')} | Rentify`,
-    description: t('auth.subtitle'),
-
-    ogTitle: `${t('auth.welcome')} | Rentify`,
-    ogDescription: t('auth.subtitle'),
+    title: `${t('auth.createAccount')} | Rentify`,
+    description: t('auth.createAccountDesc'),
+    ogTitle: `${t('auth.createAccount')} | Rentify`,
+    ogDescription: t('auth.createAccountDesc'),
     ogType: 'website',
-
-    twitterTitle: `${t('auth.welcome')} | Rentify`,
-    twitterDescription: t('auth.subtitle'),
+    twitterCard: 'summary_large_image',
+    twitterTitle: `${t('auth.createAccount')} | Rentify`,
+    twitterDescription: t('auth.createAccountDesc'),
     robots: 'noindex, nofollow',
 })
-definePageMeta({
-    layout: 'auth'
-})
-import BaseInput from '~/components/ui/BaseInput.vue'
-import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 
+definePageMeta({ layout: 'auth' })
 
-const email = ref('')
-const password = ref('')
+const step = ref<1 | 2>(1)
+const registeredEmail = ref('')
 
-const submit = () => {
-    console.log({ email: email.value, password: password.value })
+const onRegistered = (email: string) => {
+    registeredEmail.value = email
+    step.value = 2
+}
+
+const onBack = () => {
+    step.value = 1
+    registeredEmail.value = ''
 }
 </script>
