@@ -11,8 +11,204 @@
             "six":"Photos",
             "seven":"Preview"
         },
-        "back":"Back",
-        "continue":"Continue",
-        "draft":"Save as Draft"
+        "back": "Back",
+        "continue": "Continue",
+        "draft": "Save as Draft",
+        "optional": "Optional",
+        "property_type": {
+            "title": "Property Type",
+            "subtitle": "Type & ownership",
+            "description": "What type of property are you listing?"
+        },
+        "publish": "Publish Listing",
+        "publishing": "Publishing...",
+        "basic_info": {
+            "title": "Property Type",
+            "subtitle": "Details & description",
+            "property_title": "Property Title",
+            "property_title_placeholder": "e.g., Cozy Studio in BKK1 with Pool Access",
+            "description": "Description",
+            "description_placeholder": "Describe details about your property...",
+            "property_details": "Property Details",
+            "bedrooms": "Bedrooms",
+            "bathrooms": "Bathrooms",
+            "size": "Size (m²)",
+            "fully_furnished": "Fully Furnished",
+            "fully_furnished_desc": "Includes bed, desk, wardrobe, and essential furniture",
+            "tips_title": "Tips for a great listing",
+            "tips": {
+                "0": "Use a catchy, descriptive title that highlights key features",
+                "1": "Mention the neighborhood and nearby amenities",
+                "2": "Be specific about what's included (furniture, appliances, etc.)"
+            },
+            "characters": "characters"
+        },
+        "errors": {
+            "title_required": "Property title is required",
+            "description_required": "Description is required",
+            "size_required": "Size is required"
+        },
+        "validation_failed": "Please fill in all required fields",
+        "location": {
+            "title": "Location",
+            "subtitle": "Where is it?",
+            "province": "Province/City",
+            "select_province": "Select province",
+            "district": "District",
+            "select_district": "Select district",
+            "street_address": "Street Address",
+            "street_placeholder": "e.g., Street 123, House #45",
+            "maps_link": "Google Maps Link",
+            "maps_hint": "Paste a Google Maps link to help renters find your property easily",
+            "latitude": "Latitude ",
+            "longitude": "Longitude",
+            "hide_address": "Hide exact address",
+            "hide_address_desc": "Only show district/area to renters. Full address shared after booking.",
+            "map_preview": "Map Preview",
+            "map_empty": "Map preview will appear here",
+            "map_empty_desc": "Based on your selected location",
+            "confirm_directions": "Open Google Maps?",
+            "confirm_directions_desc": "This will open Google Maps to get directions from your current location.",
+            "cancel": "Cancel",
+            "confirm": "Open",
+            "map_click_hint": "Click on the map to pin your location",
+            "confirm_pin": "Set this location?",
+            "confirm_pin_desc": "This will be saved as your property location.",
+            "pinned_at": "Pinned at",
+            "reset_pin": "Remove pin"
+        },
+        "pricing": {
+            "title": "Pricing",
+            "subtitle": "Rent & availability",
+            "monthly_rent": "Monthly Rent",
+            "security_deposit": "Security Deposit",
+            "deposit_hint": "Typically 1-2 months rent",
+            "min_stay": "Minimum Stay Length",
+            "available_from": "Available From",
+            "available_from_hint": "When can tenants move in?",
+            "property_available": "Property Available",
+            "property_available_desc": "Toggle off if the property is currently rented or unavailable",
+            "stay_options": {
+                "1m": {
+                    "label": "1 Month",
+                    "desc": "Month-to-month"
+                },
+                "3m": {
+                    "label": "3 Months",
+                    "desc": "Short-term"
+                },
+                "6m": {
+                    "label": "6 Months",
+                    "desc": "Medium-term"
+                },
+                "1y": {
+                    "label": "1 Year",
+                    "desc": "Standard lease"
+                },
+                "2y": {
+                    "label": "2 Years",
+                    "desc": "Long-term"
+                }
+            },
+            "move_in_estimate": "Move-in cost estimate",
+            "rent_label": "rent",
+            "deposit_label": "deposit"
+        },
+        "amenities": {
+            "title": "Amenities",
+            "subtitle": "Select the amenities available at your property",
+            "list": {
+                "wifi": "Wi-Fi",
+                "ac": "Air Conditioning",
+                "hot_water": "Hot Water",
+                "kitchen": "Kitchen",
+                "furnished": "Furnished",
+                "tv": "TV",
+                "balcony": "Balcony",
+                "washer": "Washer",
+                "parking": "Parking",
+                "security": "Security",
+                "gym": "Gym",
+                "pool": "Swimming Pool"
+            },
+            "parking_options": "Parking Options",
+            "add_parking": "Add Parking",
+            "no_parking": "No parking available",
+            "enter_parking": "Enter parking name",
+            "number_of_slots": "Number of Slots",
+            "slots": "Slots",
+            "slots_placeholder": "e.g. 2",
+            "free_parking": "Free Parking",
+            "price_per_month": "Price",
+            "price_placeholder": "e.g. 50",
+            "note": "Note",
+            "note_placeholder": "Any additional info...",
+            "parking_types": {
+                "BIKE": "Bike",
+                "MOTORBIKE": "Motorbike",
+                "CAR": "Car",
+                "TUK_TUK": "Tuk Tuk",
+                "AIRPLANE": "Airplane",
+                "BOAT": "Boat"
+            },
+            "house_rules": "House Rules",
+            "rules": {
+                "pets_allowed": "Pets Allowed",
+                "smoking_allowed": "Smoking Allowed",
+                "guests_allowed": "Guests Allowed",
+                "parties_allowed": "Parties Allowed"
+            },
+            "additional_notes": "Additional Notes"
+        },
+        "photos": {
+            "title": "Photos",
+            "subtitle": "Add images",
+            "property_photos": "Property Photos",
+            "cover_hint": "Add at least 3 photos. First photo will be the cover image.",
+            "drag_drop": "Drag & drop images here",
+            "or_browse": "or click to browse from your device",
+            "guidelines_title": "Photo Guidelines",
+            "guideline_1": "Minimum 3 photos required, up to 20 photos",
+            "guideline_2": "Recommended size: 1920×1080px or higher",
+            "guideline_3": "Formats: JPG, PNG, WebP (max 10MB each)",
+            "guideline_4": "Show all rooms, bathroom, kitchen, and exterior",
+            "photos_added": "photos added",
+            "reorder_hint": "Drag to reorder · Click star to set cover",
+            "cover": "COVER",
+            "photo_label": "Photo",
+            "set_cover": "Set as cover",
+            "remove": "Remove"
+        },
+        "preview": {
+            "title": "Preview",
+            "subtitle": "Review & publish",
+            "review_title": "Review Your Listing",
+            "review_desc": "Make sure everything looks good before publishing",
+            "no_photos": "No photos uploaded yet",
+            "no_location": "Location not set",
+            "no_description": "No description provided",
+            "untitled": "Untitled Property",
+            "furnished": "Furnished",
+            "edit_photos": "Edit Photos",
+            "bed": "bed",
+            "bath": "bath",
+            "about": "About this property",
+            "house_rules": "House Rules",
+            "no_pets": "No pets",
+            "no_smoking": "No smoking",
+            "no_guests": "No guests",
+            "no_parties": "No parties",
+            "pricing_details": "Pricing Details",
+            "min_stay": "Minimum Stay",
+            "status": "Status",
+            "available": "Available",
+            "unavailable": "Unavailable",
+            "edit_property_type": "Edit Property Type",
+            "edit_basic_info": "Edit Basic Info",
+            "edit_location": "Edit Location",
+            "edit_pricing": "Edit Pricing",
+            "edit_amenities": "Edit Amenities",
+            "edit_photos": "Edit Photos"
+        }
     }
 }

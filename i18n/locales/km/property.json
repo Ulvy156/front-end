@@ -1,0 +1,65 @@
+{
+  "property": {
+    "back": "ត្រឡប់ទៅបញ្ជី",
+    "call": "ហៅឥឡូវ",
+    "telegram": "តេឡេក្រា",
+    "contact": "ទំនាក់ទំនង",
+    "share": "ចែករំលែក",
+    "available": "មាន",
+    "posted_at": "បានប្រកាស",
+    "desc": "ការពិពណ៌នា",
+    "bedroom": "បន្ទប់គេង",
+    "bathroom": "បន្ទប់ទឹក",
+    "size": "ទំហំ",
+    "floor": "ជាន់",
+    "view": "ចំនួនមើល",
+    "report": "រាយការណ៍",
+    "similar": "អចលនទ្រព្យស្រដៀង",
+    "location": {
+      "title": "ទីតាំង",
+      "province": "ខេត្ត",
+      "city": "ក្រុង",
+      "district": "ស្រុក",
+      "khan": "ខណ្ឌ",
+      "address": "អាស័យដ្ឋាន",
+      "distance": "ចំងាយ",
+      "nearby_address": "ទីតាំងជិត"
+    },
+    "price": {
+      "title": "តម្លៃ",
+      "montly": "ប្រចាំខែ",
+      "deposit": "ប្រាក់កក់",
+      "lease": "រយៈពេល",
+      "available": "មាន",
+      "utilities": "សេវាកម្ម",
+      "year": "ឆ្នាំ"
+    },
+    "amenity": "សេវាកម្ម",
+    "rules": {
+      "title": "ច្បាប់",
+      "desc": "ច្បាប់ទាំងនេះ"
+    },
+    "parking": "ចំណត",
+    "month": "ខែ",
+    "parking_desc": "គ្មានចំណត",
+    "compare": {
+      "title": "ប្រៀបធៀប",
+      "clear": "លុប",
+      "comparasion": "ប្រៀបធៀប",
+      "details": "មើល",
+      "duplicate": "មិនអាចបន្ថែមដដែល",
+      "limit_compare": "អាចប្រៀបធៀបបាន ",
+      "table": {
+        "price": "តម្លៃ",
+        "deposite": "កក់",
+        "size": "ទំហំ",
+        "type": "ប្រភេទ",
+        "location": "ទីតាំង",
+        "available": "ទំនេរ",
+        "availableFrom": "ទំនេរតាំងពី",
+        "bathroom": "បន្ទប់ទឹក",
+        "bedroom": "បន្ទប់គេង"
+      }
+    }
+  }
+}

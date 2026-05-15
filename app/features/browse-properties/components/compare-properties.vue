@@ -59,6 +59,7 @@ const compareStore = useCompareProperty();
 const router = useRouter();
 
 const viewPropertyDetails = (id: string) => {
+  if (!id) return;
   compareStore.isCompare = false;
   router.push(`/properties/details/${id}`);
 };

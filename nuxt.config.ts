@@ -84,8 +84,9 @@ export default defineNuxtConfig({
           'km/auth.json',
           'km/filter.json',
           'km/card.json',
-          'en/footer.json',
-          'en/property.json',
+          'km/property.json',
+          'km/footer.json',
+          'km/post_property.json',
         ]
       }
     ],
