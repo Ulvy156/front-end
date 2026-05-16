@@ -1,12 +1,12 @@
 <template>
-  <article
-    v-motion
-    :initial="{ opacity: 0, y: 20 }"
-    :visible-once="{ opacity: 1, y: 0 }"
-    :hovered="{ y: -5 }"
-    class="card"
-    @click="$router.push(`/properties/details/${props.item.id}`)"
-  >
+   <article
+     v-motion
+     :initial="{ opacity: 0, y: 20 }"
+     :visible-once="{ opacity: 1, y: 0 }"
+     :hovered="{ y: -5 }"
+     class="card"
+     @click="props.item.id && $router.push(`/properties/details/${props.item.id}`)"
+   >
     <div class="relative overflow-hidden rounded-md">
       <div class="floating-actions">
         <div class="flex flex-col justify-between h-[40%]">

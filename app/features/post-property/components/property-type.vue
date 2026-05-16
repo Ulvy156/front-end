@@ -1,7 +1,13 @@
 <script setup lang="ts">
-import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
+import { ref, inject, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 
-const selected = ref<string | null>('house')
+const { t } = useI18n();
+const form = inject<any>('postPropertyForm', {});
+
+
+const selected = ref<string>('house');
 
 const propertyTypes = [
   { value: 'room', label: 'Room', sub: 'បន្ទប់', icon: 'bed' },
@@ -12,21 +18,32 @@ const propertyTypes = [
 ]
 
 function selectType(type: string) {
-  selected.value = type
+  selected.value = type;
+  form.propertyType = type;
+  console.log('Property type selected:', type);
 }
+
+onMounted(() => {
+  if (!form.propertyType) {
+    form.propertyType = 'house'
+    selected.value = 'house'
+  } else {
+    selected.value = form.propertyType
+  }
+})
 </script>
 
 <template>
   <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 rounded-(--radius) p-5 shadow-md">
     <div class="col-span-full">
-      <h4>Property Type</h4>
-      <p>Type & ownership</p>
+      <h4>{{ t("post_property.property_type.title") }}</h4>
+      <p>{{ t("post_property.property_type.subtitle") }}</p>
     </div>
 
     <span class="w-full col-span-full border-t border-gray"></span>
 
     <div class="col-span-full">
-      <p>What type of property are you listing?</p>
+      <p>{{ t("post_property.property_type.description") }}</p>
     </div>
     <div
       v-for="item in propertyTypes"

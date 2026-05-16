@@ -10,9 +10,9 @@ interface RetriableRequestConfig extends InternalAxiosRequestConfig {
 
 export default defineNuxtPlugin(() => {
   const config = useRuntimeConfig()
-  const accessToken = useCookie<string | null>('access_token', {
-    sameSite: 'lax',
-  })
+  const router = useRouter()
+  const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+  const authStore = useAuthStore()
 
   const api = axios.create({
     baseURL: config.public.apiBaseUrl,
@@ -22,15 +22,20 @@ export default defineNuxtPlugin(() => {
   let refreshPromise: Promise<string | null> | null = null
 
   const applyAccessToken = (request: InternalAxiosRequestConfig, token?: string | null) => {
-    if (!token) {
-      return request
-    }
-
+    if (!token) return request
     const headers = AxiosHeaders.from(request.headers)
     headers.set('Authorization', `Bearer ${token}`)
     request.headers = headers
-
     return request
+  }
+
+  // Called when both tokens are gone — wipe local state and send user to login
+  const clearSession = () => {
+    accessToken.value = null
+    authStore.clear()
+    if (import.meta.client) {
+      router.replace('/auth/login')
+    }
   }
 
   const refreshAccessToken = async () => {
@@ -40,13 +45,12 @@ export default defineNuxtPlugin(() => {
         {},
         { withCredentials: true },
       )
-
       const nextToken = data?.accessToken ?? null
       accessToken.value = nextToken
-
       return nextToken
     } catch {
-      accessToken.value = null
+      // Refresh token is expired or missing — full session is dead
+      clearSession()
       return null
     }
   }
@@ -60,18 +64,27 @@ export default defineNuxtPlugin(() => {
     async (error: AxiosError) => {
       const originalRequest = error.config as RetriableRequestConfig | undefined
       const status = error.response?.status
-      const isRefreshRequest = originalRequest?.url?.includes('/auth/refresh-token')
 
-      if (
-        status !== 401 ||
-        !originalRequest ||
-        originalRequest._retry ||
-        isRefreshRequest
-      ) {
-        if (status === 401) {
-          accessToken.value = null
-        }
+      // Only act on 401 responses from authenticated requests
+      if (status !== 401 || !originalRequest) {
+        return Promise.reject(error)
+      }
 
+      // Never intercept the refresh endpoint itself
+      if (originalRequest.url?.includes('/auth/refresh-token')) {
+        return Promise.reject(error)
+      }
+
+      // Skip refresh when the request had no token — the 401 is from a public
+      // endpoint (e.g. wrong login credentials) and there is nothing to refresh
+      const hadToken = !!(originalRequest.headers as Record<string, string>)?.['Authorization']
+      if (!hadToken) {
+        return Promise.reject(error)
+      }
+
+      // Still getting 401 after a successful refresh — session is invalid
+      if (originalRequest._retry) {
+        clearSession()
         return Promise.reject(error)
       }
 
