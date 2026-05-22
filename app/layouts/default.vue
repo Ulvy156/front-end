@@ -15,7 +15,7 @@ import footerApp from '~/components/footer/footer-app.vue'
 
 const route = useRoute()
 const authStore = useAuthStore()
-const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const accessToken = useAccessToken()
 
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {

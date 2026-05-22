@@ -135,7 +135,7 @@
       "namePlaceholder": "Full name",
       "nameRequired": "Name is required",
       "email": "Email",
-      "emailPlaceholder": "user@example.com",
+      "emailPlaceholder": "user{'@'}example.com",
       "emailRequired": "Email is required",
       "emailInvalid": "Enter a valid email address",
       "password": "Password",

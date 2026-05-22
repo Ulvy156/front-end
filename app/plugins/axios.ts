@@ -8,12 +8,11 @@ interface RetriableRequestConfig extends InternalAxiosRequestConfig {
   _retry?: boolean
 }
 
-export default defineNuxtPlugin(() => {
+export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
   const router = useRouter()
-  const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+  const accessToken = useAccessToken()
   const authStore = useAuthStore()
-  const { locale } = useI18n()
 
   const api = axios.create({
     baseURL: config.public.apiBaseUrl,
@@ -57,7 +56,8 @@ export default defineNuxtPlugin(() => {
   }
 
   api.interceptors.request.use((request) => {
-    request.headers['accept-language'] = locale.value
+    const locale = (nuxtApp.$i18n as any)?.locale?.value ?? 'en'
+    request.headers['accept-language'] = locale
     return applyAccessToken(request, accessToken.value)
   })
 

@@ -88,6 +88,17 @@
                 </el-form-item>
             </div>
 
+            <!-- Phone (optional) -->
+            <div class="space-y-1.5">
+                <label for="phone" class="block text-sm font-medium text-slate-700">
+                    {{ t('auth.phone') }}
+                </label>
+                <el-form-item prop="phone" :style="{ marginBottom: 0 }">
+                    <BaseInput icon="phone" id="phone" size="large"
+                        :placeholder="t('auth.phonePlaceholder')" v-model="form.phone" />
+                </el-form-item>
+            </div>
+
             <!-- Role -->
             <div class="space-y-1.5">
                 <span class="block text-sm font-medium text-slate-700">{{ t('auth.iAmA') }}</span>
@@ -161,6 +172,7 @@ export interface RegisterPayload {
     email: string
     password: string
     role: 'USER' | 'LANDLORD'
+    phone?: string
 }
 
 const emit = defineEmits<{ registered: [email: string, payload: RegisterPayload] }>()
@@ -173,7 +185,7 @@ const { extract } = useErrorMsg()
 
 const { registerRules } = useAuthFormRules()
 const { formRef, form, rules, isSubmitting, handleSubmit, setFieldError } = useForm(
-    { name: '', email: '', password: '' },
+    { name: '', email: '', password: '', phone: '' },
     registerRules,
 )
 
@@ -190,6 +202,7 @@ const submit = handleSubmit(async () => {
             email: form.email,
             password: form.password,
             role: role.value,
+            ...(form.phone.trim() ? { phone: form.phone.trim() } : {}),
         }
         await api.post('/auth/register', payload)
         emit('registered', form.email, payload)

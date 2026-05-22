@@ -15,7 +15,9 @@ export const useAuthFormRules = () => {
   ]
 
   const loginRules: FormRules = {
-    email: emailRules,
+    identifier: [
+      { required: true, message: () => t('auth.identifierRequired'), trigger: 'blur' },
+    ],
     password: [
       { required: true, message: () => t('auth.passwordRequired'), trigger: 'blur' },
     ],

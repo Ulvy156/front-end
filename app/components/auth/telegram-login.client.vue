@@ -5,18 +5,29 @@
 <script setup lang="ts">
 const telegramBtn = ref<HTMLDivElement | null>(null)
 const { $axios } = useNuxtApp()
-const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const accessToken = useAccessToken()
 const authStore = useAuthStore()
 
 onMounted(() => {
   ;(window as any).onTelegramAuth = async (user: any) => {
-    const { data } = await $axios.post<{ accessToken: string; user_id: string }>(
+    const { data } = await $axios.post<{ accessToken?: string; access_token?: string; user_id: string; is_new_user: boolean }>(
       '/auth/telegram-login',
       user,
     )
-    accessToken.value = data.accessToken
-    await authStore.fetchProfile()
-    await navigateTo('/')
+    const token = data.accessToken ?? data.access_token
+    if (!token) return
+    accessToken.value = token
+    if (data.is_new_user) {
+      await navigateTo('/auth/role-select', { replace: true })
+    } else {
+      await authStore.fetchProfile()
+      if (authStore.isAuthenticated) {
+        await navigateTo('/', { replace: true })
+      } else {
+        accessToken.value = null
+        await navigateTo('/auth/login', { replace: true })
+      }
+    }
   }
 
   const script = document.createElement('script')

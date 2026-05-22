@@ -114,7 +114,7 @@ const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
 const { $axios } = useNuxtApp()
-const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const accessToken = useAccessToken()
 const queryClient = useQueryClient()
 const { t } = useI18n()
 

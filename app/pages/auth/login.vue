@@ -101,13 +101,13 @@
                 <!-- Fields -->
                 <div class="space-y-4">
                     <div class="space-y-1.5">
-                        <label for="mail" class="block text-sm font-medium text-slate-700">
-                            {{ t('auth.email') }}
+                        <label for="identifier" class="block text-sm font-medium text-slate-700">
+                            {{ t('auth.identifier') }}
                         </label>
-                        <el-form-item prop="email" :style="{ marginBottom: 0 }">
-                            <BaseInput icon="mail" id="mail" size="large"
-                                :placeholder="t('auth.emailPlaceholder')"
-                                v-model="form.email" />
+                        <el-form-item prop="identifier" :style="{ marginBottom: 0 }">
+                            <BaseInput icon="mail" id="identifier" size="large"
+                                :placeholder="t('auth.identifierPlaceholder')"
+                                v-model="form.identifier" />
                         </el-form-item>
                     </div>
 
@@ -166,12 +166,12 @@ import BaseInput from '~/components/ui/BaseInput.vue'
 import { useErrorMsg } from '~/composables/useErrorMsg'
 import { useForm } from '~/composables/useForm'
 import { useAuthFormRules } from '~/features/auth/composable/useAuthFormRules'
-
+import { setCookie } from '#imports'
 const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
-const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const accessToken = useAccessToken()
 const config = useRuntimeConfig()
 const { extract } = useErrorMsg()
 
@@ -197,7 +197,7 @@ definePageMeta({ layout: 'auth' })
 
 const { loginRules } = useAuthFormRules()
 const { formRef, form, rules, isSubmitting, handleSubmit } = useForm(
-    { email: '', password: '' },
+    { identifier: '', password: '' },
     loginRules,
 )
 
@@ -207,19 +207,32 @@ const loginWithGoogle = () => {
 
 const submit = handleSubmit(async () => {
     try {
-        const { data } = await api.post<{ accessToken: string; user_id: string }>('/auth/login', {
-            email: form.email,
+        const { data } = await api.post<{ accessToken?: string; access_token?: string; user_id: string }>('/auth/login', {
+            identifier: form.identifier,
             password: form.password,
         })
-        accessToken.value = data.accessToken
+        const token = data.accessToken
+
+        setCookie('access_token', token);
+        if (!token) {
+            notify.error(t('common.somethingWentWrong'))
+            return
+        }
+        accessToken.value = token
         await authStore.fetchProfile()
-        await navigateTo('/')
+        if (!authStore.isAuthenticated) {
+            // fetchProfile failed silently (token rejected or backend issue)
+            accessToken.value = null
+            notify.error(t('common.somethingWentWrong'))
+            return
+        }
+        await navigateTo('/', { replace: true })
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
         const msg = extract(err)
         if (status === 403 && (msg.toLowerCase().includes('not verified') || msg.includes('ផ្ទៀងផ្ទាត់'))) {
             notify.info(msg)
-            await navigateTo(`/auth/verify?email=${encodeURIComponent(form.email)}`)
+            await navigateTo(`/auth/verify?email=${encodeURIComponent(form.identifier)}`)
         } else {
             notify.error(msg)
         }

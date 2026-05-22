@@ -39,6 +39,12 @@ function isAllowed(
 }
 
 export const vCan: Directive<HTMLElement, CanPermission | CanPermission[]> = {
+  // SSR: auth state is never populated on the server (profile is fetched client-side),
+  // so render all elements and let the client-side mounted hook handle show/hide.
+  getSSRProps() {
+    return {}
+  },
+
   mounted(el, binding) {
     const authStore = useAuthStore()
     const anchor = document.createComment('v-can') // placeholder while the element is hidden

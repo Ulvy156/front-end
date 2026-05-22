@@ -13,16 +13,26 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'auth' })
 
-const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const accessToken = useAccessToken()
 const authStore = useAuthStore()
 const route = useRoute()
 
 onMounted(async () => {
-  const token = route.query.token as string | undefined
+  const token = (route.query.token as string | undefined)?.trim()
+  const isNewUser = route.query.is_new_user === 'true'
   if (token) {
     accessToken.value = token
-    await authStore.fetchProfile()
-    await navigateTo('/', { replace: true })
+    if (isNewUser) {
+      await navigateTo('/auth/role-select', { replace: true })
+    } else {
+      await authStore.fetchProfile()
+      if (authStore.isAuthenticated) {
+        await navigateTo('/', { replace: true })
+      } else {
+        accessToken.value = null
+        await navigateTo('/auth/login', { replace: true })
+      }
+    }
   } else {
     await navigateTo('/auth/login', { replace: true })
   }

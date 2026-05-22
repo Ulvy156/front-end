@@ -30,17 +30,15 @@
         <span class="text-gray-300">|</span>
 
         <NuxtLink
-          v-can="'landlord'"
           :class="{'menu-item-active': startsWith('/post-property')}"
           to="/post-property" class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
           <p>{{ $t('nav.postRoom') }}</p>
         </NuxtLink>
 
-        <span v-can="'landlord'" class="text-gray-300">|</span>
+        <span  class="text-gray-300">|</span>
 
         <NuxtLink
-          v-can="'user'"
           to="/user/favourites"
           :class="{'menu-item-active': startsWith('/user/favourites')}"
           class="menu-items"
@@ -49,7 +47,7 @@
           <p>{{ $t('nav.favourites') }}</p>
         </NuxtLink>
 
-        <span v-can="'user'" class="text-gray-300">|</span>
+        <span class="text-gray-300">|</span>
       </div>
 
       <!-- Right -->
@@ -105,7 +103,7 @@ import { useQueryClient } from '@tanstack/vue-query'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const accessToken = useAccessToken()
 const { $axios } = useNuxtApp()
 const queryClient = useQueryClient()
 

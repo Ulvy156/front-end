@@ -94,7 +94,7 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
-const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const accessToken = useAccessToken()
 const { extract } = useErrorMsg()
 
 const otpDigits = reactive(['', '', '', '', '', ''])

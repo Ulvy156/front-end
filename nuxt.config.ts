@@ -31,7 +31,9 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080',
       R2_PUB_URL: process.env.NUXT_PUBLIC_R2_PUB_URL,
       googleMapsKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_KEY,
-      BASE_URL: 'http://localhost:3000'
+      BASE_URL: 'http://localhost:3000',
+      // Must match the backend JWT access-token expiry (in seconds)
+      accessTokenMaxAge: Number(process.env.NUXT_PUBLIC_ACCESS_TOKEN_MAX_AGE) || 900,
     }
   },
   image: {
@@ -45,6 +47,9 @@ export default defineNuxtConfig({
     ],
   },
   fonts: {
+    providers: {
+      bunny: false,
+    },
     families: [
       {
         name: 'Manrope',
