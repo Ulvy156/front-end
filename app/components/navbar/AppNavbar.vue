@@ -47,6 +47,37 @@
       <!-- Right -->
       <div class="flex items-center justify-end gap-4">
         <switchLngClient />
+
+        <!-- Unauthenticated -->
+        <NuxtLink v-if="!authStore.isAuthenticated" to="/auth/login"
+          class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white
+                 hover:bg-blue-700 transition-colors">
+          {{ $t('auth.signIn') }}
+        </NuxtLink>
+
+        <!-- Authenticated -->
+        <el-dropdown v-else trigger="click" @command="handleCommand">
+          <button class="flex items-center gap-x-2 rounded-xl border border-slate-200 bg-white
+                         px-3 py-2 text-sm font-medium text-slate-700
+                         hover:border-slate-300 hover:shadow-sm transition-all cursor-pointer">
+            <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center
+                        text-blue-700 text-xs font-bold shrink-0">
+              {{ userInitials }}
+            </div>
+            <span class="max-w-25 truncate">{{ authStore.user?.name }}</span>
+            <BaseIcon name="chevron-down" :size="14" class="text-slate-400" />
+          </button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="profile">
+                <BaseIcon name="user" :size="14" class="mr-2" /> {{ $t('nav.profile') }}
+              </el-dropdown-item>
+              <el-dropdown-item command="logout" divided class="text-red-500">
+                <BaseIcon name="log-out" :size="14" class="mr-2" /> {{ $t('nav.signOut') }}
+              </el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
       </div>
     </nav>
   </header>
@@ -58,20 +89,40 @@
 <script lang="ts" setup>
 import switchLngClient from './switch-lng.client.vue';
 import BaseIcon from '../ui/BaseIcon.client.vue';
-// import MobileNavDrawer from './MobileNavDrawer.vue';
 import { useActiveRoute } from '~/composables/useActiveRoute';
 
 const { isActive, startsWith } = useActiveRoute();
 const route = useRoute()
+const router = useRouter()
+const authStore = useAuthStore()
+const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const { $axios } = useNuxtApp()
 
-// if on home page keep navbar as fixed 
-// otherwise keep it as stikcy
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
     return 'fixed left-1/2 -translate-x-1/2 w-full';
   }
   return 'sticky mb-2 m-auto w-full';
 })
+
+const userInitials = computed(() => {
+  const name = authStore.user?.name ?? ''
+  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
+})
+
+const handleCommand = async (cmd: string) => {
+  if (cmd === 'profile') {
+    router.push('/user/profile')
+  } else if (cmd === 'logout') {
+    try {
+      await $axios.post('/auth/logout')
+    } finally {
+      accessToken.value = null
+      authStore.clear()
+      router.replace('/auth/login')
+    }
+  }
+}
 </script>
 
 <style scoped>

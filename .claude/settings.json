@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Personal\\\\front-end-room\" -Force)",
+      "Bash(Select-Object Name, PSIsContainer)",
+      "Bash(git -C \"c:\\\\Personal\\\\front-end-room\" log --oneline --max-count=10)",
+      "Read(//c/Personal/back-end-room/API/**)"
+    ]
+  }
+}

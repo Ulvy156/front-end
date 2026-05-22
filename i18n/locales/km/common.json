@@ -12,7 +12,14 @@
     "home": "Home",
     "browseRoom": "Browse Room",
     "postRoom": "Post Properties",
-    "favourites": "Favourites"
+    "favourites": "Favourites",
+    "profile": "គណនី",
+    "signOut": "ចាកចេញ"
   },
-  "month": "month"
+  "month": "month",
+  "somethingWentWrong": "មានបញ្ហា។ សូមព្យាយាមម្តងទៀត។",
+  "error": "កំហុស",
+  "success": "ជោគជ័យ",
+  "warning": "ព្រមាន",
+  "info": "ព័ត៌មាន"
 }

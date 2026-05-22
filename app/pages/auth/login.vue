@@ -22,18 +22,15 @@
 
             <div class="relative z-10 space-y-8">
                 <div class="space-y-4">
-                    <h1 class="text-4xl font-bold leading-tight">
-                        Find your perfect<br />home in Cambodia
-                    </h1>
+                    <h1 class="text-4xl font-bold leading-tight">{{ t('auth.brandTitle') }}</h1>
                     <p class="text-blue-100 text-base leading-relaxed max-w-xs">
-                        Thousands of rooms, apartments, and houses from verified landlords — all in one place.
+                        {{ t('auth.brandDesc') }}
                     </p>
                 </div>
 
                 <ul class="space-y-3.5">
                     <li v-for="item in brandFeatures" :key="item" class="flex items-center gap-x-3 text-blue-50">
-                        <div
-                            class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center flex-shrink-0">
+                        <div class="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center shrink-0">
                             <svg class="w-3 h-3" viewBox="0 0 12 12" fill="none">
                                 <path d="M2 6l3 3 5-5" stroke="white" stroke-width="1.5" stroke-linecap="round"
                                     stroke-linejoin="round" />
@@ -75,20 +72,16 @@
 
                 <!-- Social logins -->
                 <div class="space-y-3">
-                    <button type="button" class="w-full flex items-center justify-center gap-x-3
+                    <button type="button" @click="loginWithGoogle" class="w-full flex items-center justify-center gap-x-3
                            rounded-xl border border-slate-200 bg-white
                            py-2.5 font-medium text-slate-700 text-sm
                            hover:border-slate-300 hover:shadow-sm
                            active:scale-[0.99] transition-all duration-150 cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 48 48">
-                            <path fill="#ffc107"
-                                d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917" />
-                            <path fill="#ff3d00"
-                                d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691" />
-                            <path fill="#4caf50"
-                                d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44" />
-                            <path fill="#1976d2"
-                                d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917" />
+                            <path fill="#ffc107" d="M43.611 20.083H42V20H24v8h11.303c-1.649 4.657-6.08 8-11.303 8c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C12.955 4 4 12.955 4 24s8.955 20 20 20s20-8.955 20-20c0-1.341-.138-2.65-.389-3.917" />
+                            <path fill="#ff3d00" d="m6.306 14.691l6.571 4.819C14.655 15.108 18.961 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.046 6.053 29.268 4 24 4C16.318 4 9.656 8.337 6.306 14.691" />
+                            <path fill="#4caf50" d="M24 44c5.166 0 9.86-1.977 13.409-5.192l-6.19-5.238A11.9 11.9 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44" />
+                            <path fill="#1976d2" d="M43.611 20.083H42V20H24v8h11.303a12.04 12.04 0 0 1-4.087 5.571l.003-.002l6.19 5.238C36.971 39.205 44 34 44 24c0-1.341-.138-2.65-.389-3.917" />
                         </svg>
                         <span>{{ t('auth.google') }}</span>
                     </button>
@@ -137,20 +130,18 @@
                 </div>
 
                 <!-- Submit -->
-                <button type="submit" :disabled="isLoading"
+                <button type="submit" :disabled="isSubmitting"
                     class="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white
                            hover:bg-blue-700 active:scale-[0.99]
                            shadow-sm shadow-blue-200/60
                            transition-all duration-150 cursor-pointer
                            disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
-                    <span v-if="isLoading" class="flex items-center justify-center gap-x-2">
+                    <span v-if="isSubmitting" class="flex items-center justify-center gap-x-2">
                         <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
-                                stroke-width="4" />
-                            <path class="opacity-75" fill="currentColor"
-                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                         </svg>
-                        Signing in...
+                        {{ t('auth.signingIn') }}
                     </span>
                     <span v-else>{{ t('auth.signIn') }}</span>
                 </button>
@@ -172,8 +163,8 @@
 <script setup lang="ts">
 import telegramLogin from '~/components/auth/telegram-login.client.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
-import type { FormInstance } from 'element-plus'
-import type { AxiosError } from 'axios'
+import { useErrorMsg } from '~/composables/useErrorMsg'
+import { useForm } from '~/composables/useForm'
 import { useAuthFormRules } from '~/features/auth/composable/useAuthFormRules'
 
 const { t } = useI18n()
@@ -181,12 +172,14 @@ const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
 const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const config = useRuntimeConfig()
+const { extract } = useErrorMsg()
 
-const brandFeatures = [
-    'Browse verified listings across Cambodia',
-    'Connect directly with trusted landlords',
-    'Save favorites and compare properties',
-]
+const brandFeatures = computed(() => [
+    t('auth.brandFeature1'),
+    t('auth.brandFeature2'),
+    t('auth.brandFeature3'),
+])
 
 useSeoMeta({
     title: `${t('auth.welcome')} | Rentify`,
@@ -202,18 +195,17 @@ useSeoMeta({
 
 definePageMeta({ layout: 'auth' })
 
-const formRef = ref<FormInstance>()
-const form = reactive({ email: '', password: '' })
-const isLoading = ref(false)
 const { loginRules } = useAuthFormRules()
+const { formRef, form, rules, isSubmitting, handleSubmit } = useForm(
+    { email: '', password: '' },
+    loginRules,
+)
 
-const submit = async () => {
-    try {
-        await formRef.value?.validate()
-    } catch {
-        return
-    }
-    isLoading.value = true
+const loginWithGoogle = () => {
+    window.location.href = `${config.public.apiBaseUrl}/auth/google`
+}
+
+const submit = handleSubmit(async () => {
     try {
         const { data } = await api.post<{ accessToken: string; user_id: string }>('/auth/login', {
             email: form.email,
@@ -223,22 +215,14 @@ const submit = async () => {
         await authStore.fetchProfile()
         await navigateTo('/')
     } catch (err) {
-        const status = (err as AxiosError)?.response?.status
-        const msg = ((err as AxiosError)?.response?.data as Record<string, string> | undefined)?.message
-        if (status === 401) {
-            notify.error(
-                msg?.toLowerCase().includes('lock')
-                    ? 'Your account has been locked. Please contact support.'
-                    : 'Invalid email or password.',
-                'Login Failed',
-            )
-        } else if (status === 429) {
-            notify.error('Too many attempts. Try again in 15 minutes.', 'Rate Limited')
+        const status = (err as { response?: { status?: number } })?.response?.status
+        const msg = extract(err)
+        if (status === 403 && (msg.toLowerCase().includes('not verified') || msg.includes('ផ្ទៀងផ្ទាត់'))) {
+            notify.info(msg)
+            await navigateTo(`/auth/verify?email=${encodeURIComponent(form.email)}`)
         } else {
-            notify.error('Something went wrong. Please try again.')
+            notify.error(msg)
         }
-    } finally {
-        isLoading.value = false
     }
-}
+})
 </script>

@@ -28,7 +28,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       imageBaseUrl: process.env.NUXT_PUBLIC_IMAGE_BASE_URL,
-      apiBaseUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:3001',
+      apiBaseUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080',
       R2_PUB_URL: process.env.NUXT_PUBLIC_R2_PUB_URL,
       googleMapsKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_KEY,
       BASE_URL: 'http://localhost:3000'

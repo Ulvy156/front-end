@@ -20,11 +20,11 @@
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "^14.3.0",
     "@vueuse/motion": "^3.0.3",
-    "axios": "^1.16.0",
+    "axios": "^1.16.1",
     "dayjs": "^1.11.20",
     "element-plus": "^2.14.0",
     "lodash-unified": "^1.0.3",
-    "nuxt": "^4.4.5",
+    "nuxt": "^4.4.6",
     "pinia": "^3.0.4",
     "pinia-plugin-persistedstate": "^4.7.1",
     "tailwindcss": "^4.3.0",
@@ -33,10 +33,10 @@
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.1.5",
-    "@iconify-json/lucide": "^1.2.107",
+    "@iconify-json/lucide": "^1.2.108",
     "@iconify-json/mdi": "^1.2.3",
-    "@types/google.maps": "^3.64.0",
-    "@types/node": "^25.7.0"
+    "@types/google.maps": "^3.64.1",
+    "@types/node": "^25.9.1"
   },
   "pnpm": {
     "patchedDependencies": {

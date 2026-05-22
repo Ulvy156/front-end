@@ -14,9 +14,9 @@ import AppNavbar from '~/components/navbar/AppNavbar.vue'
 import footerApp from '~/components/footer/footer-app.vue'
 
 const route = useRoute()
+const authStore = useAuthStore()
+const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
 
-// if on home page keep navbar as fixed 
-// otherwise keep it as stikcy
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
     return 'w-full';
@@ -31,11 +31,15 @@ useHead(() => ({
   },
 }))
 
-onMounted(() => {
+onMounted(async () => {
   const saved = localStorage.getItem('lang')
   if (saved === 'en' || saved === 'km') {
-    setLocale(saved)   
+    setLocale(saved)
   }
 
+  // Rehydrate auth state after a hard refresh if the access token cookie is still alive
+  if (accessToken.value && !authStore.user) {
+    authStore.fetchProfile()
+  }
 })
 </script>

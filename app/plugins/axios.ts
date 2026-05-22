@@ -13,6 +13,7 @@ export default defineNuxtPlugin(() => {
   const router = useRouter()
   const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
   const authStore = useAuthStore()
+  const { locale } = useI18n()
 
   const api = axios.create({
     baseURL: config.public.apiBaseUrl,
@@ -56,6 +57,7 @@ export default defineNuxtPlugin(() => {
   }
 
   api.interceptors.request.use((request) => {
+    request.headers['accept-language'] = locale.value
     return applyAccessToken(request, accessToken.value)
   })
 

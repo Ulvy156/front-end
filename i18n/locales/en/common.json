@@ -12,10 +12,17 @@
     "home": "Home",
     "browseRoom": "Browse Properties",
     "postRoom": "Post Properties",
-    "favourites": "Favourites"
+    "favourites": "Favourites",
+    "profile": "Profile",
+    "signOut": "Sign out"
   },
   "month": "month",
-  "all":"All",
-  "results":"Results",
-  "copied":"Copied to clipboard"
+  "all": "All",
+  "results": "Results",
+  "copied": "Copied to clipboard",
+  "somethingWentWrong": "Something went wrong. Please try again.",
+  "error": "Error",
+  "success": "Success",
+  "warning": "Warning",
+  "info": "Info"
 }

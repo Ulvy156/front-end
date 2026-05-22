@@ -5,16 +5,15 @@
         <div class="space-y-3 text-center">
             <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mx-auto">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-blue-600" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                    stroke-linejoin="round">
+                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <rect width="20" height="16" x="2" y="4" rx="2" />
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                 </svg>
             </div>
             <div class="space-y-1">
-                <h2 class="text-2xl font-bold text-slate-900">Verify your email</h2>
+                <h2 class="text-2xl font-bold text-slate-900">{{ t('auth.verifyEmail') }}</h2>
                 <p class="text-slate-500 text-sm">
-                    We sent a 6-digit code to
+                    {{ t('auth.codeSentTo') }}
                     <span class="font-medium text-slate-700">{{ email }}</span>
                 </p>
             </div>
@@ -49,39 +48,80 @@
                     <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
                     <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
                 </svg>
-                Verifying...
+                {{ t('auth.verifying') }}
             </span>
-            <span v-else>Verify account</span>
+            <span v-else>{{ t('auth.verifyAccount') }}</span>
         </button>
+
+        <!-- Resend code (only shown when resendData is provided) -->
+        <div v-if="resendData" class="text-center text-sm text-slate-500">
+            <button
+                v-if="resendCooldown === 0"
+                type="button"
+                :disabled="isResending"
+                @click="resend"
+                class="font-semibold text-blue-600 hover:text-blue-700 transition-colors cursor-pointer
+                       disabled:opacity-60 disabled:cursor-not-allowed">
+                <span v-if="isResending">{{ t('auth.sending') }}</span>
+                <span v-else>{{ t('auth.resendCode') }}</span>
+            </button>
+            <span v-else class="text-slate-400">
+                {{ t('auth.resendIn', { n: resendCooldown }) }}
+            </span>
+        </div>
 
         <!-- Back -->
         <p class="text-center text-sm text-slate-500">
-            Wrong email?
+            {{ t('auth.wrongEmail') }}
             <button type="button" @click="emit('back')"
                 class="ml-1 font-semibold text-blue-600 hover:text-blue-700 transition-colors cursor-pointer">
-                Go back
+                {{ t('auth.goBack') }}
             </button>
         </p>
     </form>
 </template>
 
 <script setup lang="ts">
-import type { AxiosError } from 'axios'
+import type { RegisterPayload } from './SignUpForm.vue'
 
-const props = defineProps<{ email: string }>()
+const props = defineProps<{
+    email: string
+    resendData?: RegisterPayload | null
+}>()
 const emit = defineEmits<{ back: [] }>()
 
+const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
 const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const { extract } = useErrorMsg()
 
 const otpDigits = reactive(['', '', '', '', '', ''])
 const otpInputs: HTMLInputElement[] = []
 const otp = computed(() => otpDigits.join(''))
 
 const isLoading = ref(false)
+const isResending = ref(false)
 const error = ref('')
+
+const resendCooldown = ref(0)
+let cooldownTimer: ReturnType<typeof setInterval> | null = null
+
+const startCooldown = () => {
+    resendCooldown.value = 60
+    cooldownTimer = setInterval(() => {
+        resendCooldown.value--
+        if (resendCooldown.value <= 0 && cooldownTimer) {
+            clearInterval(cooldownTimer)
+            cooldownTimer = null
+        }
+    }, 1000)
+}
+
+onUnmounted(() => {
+    if (cooldownTimer) clearInterval(cooldownTimer)
+})
 
 const handleInput = (index: number, event: InputEvent) => {
     const val = (event.target as HTMLInputElement).value.replace(/\D/g, '').slice(-1)
@@ -108,9 +148,24 @@ const resetOtp = () => {
     nextTick(() => otpInputs[0]?.focus())
 }
 
+const resend = async () => {
+    if (!props.resendData) return
+    isResending.value = true
+    try {
+        await api.post('/auth/register', props.resendData)
+        notify.success(t('auth.codeSentSuccess'))
+        startCooldown()
+        resetOtp()
+    } catch (err) {
+        notify.error(extract(err))
+    } finally {
+        isResending.value = false
+    }
+}
+
 const submit = async () => {
     if (otp.value.length < 6) {
-        error.value = 'Please enter the 6-digit code'
+        error.value = t('auth.enterCode')
         return
     }
     isLoading.value = true
@@ -123,14 +178,12 @@ const submit = async () => {
         await authStore.fetchProfile()
         await navigateTo('/')
     } catch (err) {
-        const status = (err as AxiosError)?.response?.status
-        if (status === 400) {
-            error.value = 'Invalid or expired code. Please try again.'
+        const status = (err as { response?: { status?: number } })?.response?.status
+        if (status === 400 || status === 429) {
+            error.value = extract(err)
             resetOtp()
-        } else if (status === 429) {
-            notify.error('Too many attempts. Try again in 15 minutes.', 'Rate Limited')
         } else {
-            notify.error('Something went wrong. Please try again.')
+            notify.error(extract(err))
         }
     } finally {
         isLoading.value = false

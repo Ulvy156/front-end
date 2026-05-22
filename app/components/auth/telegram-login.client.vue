@@ -3,18 +3,20 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
-
 const telegramBtn = ref<HTMLDivElement | null>(null)
+const { $axios } = useNuxtApp()
+const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
+const authStore = useAuthStore()
 
 onMounted(() => {
-  // expose callback globally (Telegram requirement)
-  ;(window as any).onTelegramAuth = (user: any) => {
-    fetch('/api/auth/telegram', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(user),
-    })
+  ;(window as any).onTelegramAuth = async (user: any) => {
+    const { data } = await $axios.post<{ accessToken: string; user_id: string }>(
+      '/auth/telegram-login',
+      user,
+    )
+    accessToken.value = data.accessToken
+    await authStore.fetchProfile()
+    await navigateTo('/')
   }
 
   const script = document.createElement('script')
