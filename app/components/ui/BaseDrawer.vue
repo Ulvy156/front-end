@@ -1,26 +1,35 @@
 <template>
-  <el-drawer v-model="modelValue" :direction="direction" resizable>
+  <el-drawer
+    :model-value="modelValue"
+    :direction="direction"
+    :title="title"
+    :size="size"
+    :destroy-on-close="destroyOnClose"
+    resizable
+    @update:model-value="$emit('update:modelValue', $event)"
+  >
     <slot></slot>
   </el-drawer>
 </template>
 
 <script lang="ts" setup>
-type Drawer = "rtl" | "ltr" | "ttb" | "btt";
+type DrawerDirection = 'rtl' | 'ltr' | 'ttb' | 'btt'
 
 withDefaults(
   defineProps<{
     modelValue: boolean
-    direction?: Drawer
+    direction?: DrawerDirection
+    title?: string
+    size?: string
+    destroyOnClose?: boolean
   }>(),
   {
     direction: 'btt',
-  }
+    destroyOnClose: false,
+  },
 )
 
 defineEmits<{
   (e: 'update:modelValue', value: boolean): void
 }>()
-
 </script>
-
-<style></style>

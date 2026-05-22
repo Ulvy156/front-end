@@ -1,34 +1,6 @@
 <template>
   <section class="grid grid-cols-2 gap-5">
-    <el-skeleton
-      v-for="value in 6"
-      :key="value"
-      style="width: 100%"
-      animated
-      v-show="isFetching"
-      :initial="{ opacity: 0, y: 20, scale: 0.96 }"
-      :animate="{ opacity: 1, y: 0, scale: 1 }"
-      :transition="{ duration: 0.5, easing: 'ease-out' }"
-    >
-      <template #template>
-        <el-skeleton-item variant="image" style="width: 100%; height: 30dvh" />
-        <div style="padding: 14px">
-          <el-skeleton-item variant="h3" style="width: 50%" />
-          <div
-            style="
-              display: flex;
-              align-items: center;
-              justify-items: space-between;
-              margin-top: 16px;
-              height: 16px;
-            "
-          >
-            <el-skeleton-item variant="text" style="margin-right: 16px" />
-            <el-skeleton-item variant="text" style="width: 30%" />
-          </div>
-        </div>
-      </template>
-    </el-skeleton>
+    <SkeletonProperty :number-of-items="6" :is-hide="!isFetching" />
     <NuxtImg
       v-show="items.length === 0 && !isFetching"
       class="col-span-full m-auto"

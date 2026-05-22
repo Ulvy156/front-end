@@ -29,7 +29,7 @@
   </header>
 
   <!-- Drawer -->
-  <el-drawer
+  <BaseDrawer
     v-model="drawer"
     direction="rtl"
     size="80%"
@@ -73,11 +73,12 @@
         </div>
       </div>
     </div>
-  </el-drawer>
+  </BaseDrawer>
 </template>
 
 <script setup lang="ts">
 import switchLng from './switch-lng.client.vue'
+import BaseDrawer from '~/components/ui/BaseDrawer.vue'
 
 const drawer = ref(false)
 </script>
