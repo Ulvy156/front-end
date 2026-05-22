@@ -10,7 +10,15 @@
     <div class="relative overflow-hidden rounded-md">
       <div class="floating-actions">
         <div class="flex flex-col justify-between h-[40%]">
-          <button class="fab">
+          <button
+            class="fab transition-colors"
+            :class="[
+              props.isFavourited ? 'text-red-500' : '',
+              props.isFavouritePending ? 'animate-pulse cursor-wait' : '',
+            ]"
+            :disabled="props.isFavouritePending"
+            @click.stop="$emit('favourite')"
+          >
             <BaseIcon name="heart" :size="18" />
           </button>
 
@@ -116,15 +124,20 @@ const props = withDefaults(
     item: PropertyCardViewModel
     hideCompareIcon?: boolean
     imageClass?: string
+    isFavourited?: boolean
+    isFavouritePending?: boolean
   }>(),
   {
     hideCompareIcon: false,
     imageClass: '',
+    isFavourited: false,
+    isFavouritePending: false,
   },
 )
 
 defineEmits<{
   (e: 'compare'): void
+  (e: 'favourite'): void
 }>()
 
 const currentLang = useCurrentLang()

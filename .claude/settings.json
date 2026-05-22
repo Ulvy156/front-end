@@ -4,7 +4,16 @@
       "Bash(Get-ChildItem -Path \"c:\\\\Personal\\\\front-end-room\" -Force)",
       "Bash(Select-Object Name, PSIsContainer)",
       "Bash(git -C \"c:\\\\Personal\\\\front-end-room\" log --oneline --max-count=10)",
-      "Read(//c/Personal/back-end-room/API/**)"
+      "Read(//c/Personal/back-end-room/API/**)",
+      "Bash(Get-ChildItem -Path \"c:\\\\Personal\\\\front-end-room\\\\app\\\\features\\\\property-details\" -File)",
+      "Bash(Select-Object FullName, Name)",
+      "Bash(pnpm add *)",
+      "Bash(pnpm approve-builds *)",
+      "Bash(r)",
+      "Bash(echo \"a`r`n`r`n\")",
+      "Bash(exit 0)",
+      "Bash(pnpm postinstall *)",
+      "Bash(pnpm install *)"
     ]
   }
 }

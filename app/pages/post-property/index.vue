@@ -9,6 +9,8 @@
 </template>
 
 <script lang="ts" setup>
+definePageMeta({ middleware: 'landlord' })
+
 import postSection from '~/features/post-property/components/post-section.vue';
 import { reactive, provide } from 'vue';
 

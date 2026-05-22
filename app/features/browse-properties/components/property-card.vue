@@ -2,8 +2,11 @@
   <PropertyCardView
     :item="cardItem"
     :hide-compare-icon="hideCompareIcon"
+    :is-favourited="isFavourited(props.item.id)"
+    :is-favourite-pending="isToggling(props.item.id)"
     image-class="w-full object-cover aspect-16/5"
     @compare="handleCompare"
+    @favourite="toggle(props.item.id)"
   />
 </template>
 
@@ -14,6 +17,7 @@ import { useI18n } from 'vue-i18n'
 import PropertyCardView from '~/components/property/PropertyCard.vue'
 import { useMessage } from '~/composables/useMessage'
 import { useCompareProperty } from '~/stores/useCompareProperty'
+import { useFavourites } from '~/features/favourite/composable/useFavourites'
 import type { PropertyCardViewModel } from '~/types/property-card'
 import type { PropertyCardItem } from '../interface/property-card-item'
 
@@ -35,6 +39,7 @@ const emit = defineEmits<{
 const compareStore = useCompareProperty()
 const { showMessage } = useMessage()
 const { t } = useI18n()
+const { isFavourited, isToggling, toggle } = useFavourites()
 
 const cardItem = computed<PropertyCardViewModel>(() => ({
   id: props.item.id,

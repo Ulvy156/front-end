@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { Role } from '~/types/role'
 
 export interface AuthUser {
   id: string
@@ -6,7 +7,7 @@ export interface AuthUser {
   email: string
   imgUrl: string | null
   isLocked: boolean
-  role: 'USER' | 'LANDLORD' | 'ADMIN'
+  role: Role
   createdAt: string
   updatedAt: string
 }
@@ -19,8 +20,9 @@ export const useAuthStore = defineStore('auth', {
 
   getters: {
     isAuthenticated: (state) => !!state.user,
-    isAdmin: (state) => state.user?.role === 'ADMIN',
-    isLandlord: (state) => state.user?.role === 'LANDLORD' || state.user?.role === 'ADMIN',
+    isUser:      (state) => state.user?.role === Role.USER,
+    isLandlord:  (state) => state.user?.role === Role.LANDLORD || state.user?.role === Role.ADMIN,
+    isAdmin:     (state) => state.user?.role === Role.ADMIN,
   },
 
   actions: {

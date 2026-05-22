@@ -1,4 +1,4 @@
 import { createRoleGuard } from '~/utils/roleGuard'
 import { Role } from '~/types/role'
 
-export default createRoleGuard(Role.ADMIN)
+export default createRoleGuard(Role.LANDLORD)

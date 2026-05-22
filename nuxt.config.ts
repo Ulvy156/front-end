@@ -74,6 +74,7 @@ export default defineNuxtConfig({
           'en/property.json',
           'en/footer.json',
           'en/post_property.json',
+          'en/favourites.json',
         ]
       },
       {
@@ -87,6 +88,7 @@ export default defineNuxtConfig({
           'km/property.json',
           'km/footer.json',
           'km/post_property.json',
+          'km/favourites.json',
         ]
       }
     ],

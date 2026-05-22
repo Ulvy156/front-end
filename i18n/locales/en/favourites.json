@@ -1,0 +1,10 @@
+{
+  "favourites": {
+    "title": "My Favourites",
+    "empty": "You haven't saved any properties yet.",
+    "browse": "Browse Properties",
+    "saved": "Added to favourites",
+    "removed": "Removed from favourites",
+    "count": "No saved properties | {n} saved property | {n} saved properties"
+  }
+}

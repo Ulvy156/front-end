@@ -17,6 +17,7 @@
     "@nuxtjs/i18n": "^10.3.0",
     "@pinia/nuxt": "^0.11.3",
     "@tailwindcss/vite": "^4.3.0",
+    "@tanstack/vue-query": "^5.100.11",
     "@vueup/vue-quill": "^1.2.0",
     "@vueuse/core": "^14.3.0",
     "@vueuse/motion": "^3.0.3",
@@ -37,10 +38,5 @@
     "@iconify-json/mdi": "^1.2.3",
     "@types/google.maps": "^3.64.1",
     "@types/node": "^25.9.1"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "element-plus@2.13.6": "patches/element-plus@2.13.6.patch"
-    }
   }
 }

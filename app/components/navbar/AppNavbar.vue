@@ -29,19 +29,27 @@
 
         <span class="text-gray-300">|</span>
 
-        <NuxtLink 
-        :class="{'menu-item-active': startsWith('/post-property')}"
-        to="/post-property" class="menu-items">
+        <NuxtLink
+          v-can="'landlord'"
+          :class="{'menu-item-active': startsWith('/post-property')}"
+          to="/post-property" class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
           <p>{{ $t('nav.postRoom') }}</p>
         </NuxtLink>
 
-        <span class="text-gray-300">|</span>
+        <span v-can="'landlord'" class="text-gray-300">|</span>
 
-        <div class="menu-items">
+        <NuxtLink
+          v-can="'user'"
+          to="/user/favourites"
+          :class="{'menu-item-active': startsWith('/user/favourites')}"
+          class="menu-items"
+        >
           <BaseIcon name="heart" :size="16" />
           <p>{{ $t('nav.favourites') }}</p>
-        </div>
+        </NuxtLink>
+
+        <span v-can="'user'" class="text-gray-300">|</span>
       </div>
 
       <!-- Right -->
@@ -93,10 +101,13 @@ import { useActiveRoute } from '~/composables/useActiveRoute';
 
 const { isActive, startsWith } = useActiveRoute();
 const route = useRoute()
+import { useQueryClient } from '@tanstack/vue-query'
+
 const router = useRouter()
 const authStore = useAuthStore()
 const accessToken = useCookie<string | null>('access_token', { sameSite: 'lax' })
 const { $axios } = useNuxtApp()
+const queryClient = useQueryClient()
 
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
@@ -119,6 +130,7 @@ const handleCommand = async (cmd: string) => {
     } finally {
       accessToken.value = null
       authStore.clear()
+      queryClient.removeQueries({ queryKey: ['favourites'] })
       router.replace('/auth/login')
     }
   }
