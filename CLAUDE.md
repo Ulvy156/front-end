@@ -26,23 +26,24 @@ After adding a new middleware file, always run `pnpm postinstall` so Nuxt regene
 
 ```
 app/
-├── pages/           # Nuxt file-based routing
+├── pages/           # Nuxt file-based routing (incl. admin/ — admin-only pages)
 ├── features/        # Domain-driven feature modules
 │   ├── auth/        # Login, sign-up, OTP, reset-password components & composables
 │   ├── browse-properties/
 │   ├── property-details/
 │   ├── post-property/
 │   ├── home/
-│   └── favourite/   # Favourite feature (TanStack Query)
+│   ├── favourite/   # Favourite feature (TanStack Query)
+│   └── admin/       # Admin dashboard, users, landlords, properties management
 ├── components/      # Shared UI components (ui/, navbar/, footer/, property/, auth/)
 ├── stores/          # Pinia stores (auth, propertyFilter, compareProperty)
-├── composables/     # Reusable Vue composables
+├── composables/     # Reusable Vue composables (incl. useAccessToken — access-token cookie)
 ├── directives/      # Custom Vue directives (can.ts)
 ├── plugins/         # Nuxt plugins (axios, pinia persistence, vue-query, directives)
 ├── middleware/       # Route middleware (auth, user, landlord, admin)
-├── layouts/         # Page layouts (default, auth)
+├── layouts/         # Page layouts (default, auth, admin)
 ├── types/           # TypeScript type definitions (property-card, role)
-├── utils/           # Shared logic (roleGuard factory)
+├── utils/           # Shared logic (roleGuard factory, cookie helpers)
 ├── services/        # Thin API service layer
 ├── i18n/locales/    # Translation JSON files (en/, km/)
 └── config/          # Static configuration objects
@@ -66,6 +67,13 @@ File-based routing via `app/pages/`. Key routes:
 | `/auth/reset-password` | 3-step forgot/reset password | — |
 | `/auth/verify` | Standalone OTP verify (unverified account) | — |
 | `/auth/callback` | Google OAuth redirect handler | — |
+| `/auth/role-select` | Choose USER/LANDLORD after first OAuth/Telegram sign-up | — |
+| `/admin` | Admin dashboard (stats, recent activity) | `admin` |
+| `/admin/users` | Manage users (create/edit via drawer) | `admin` |
+| `/admin/landlords` | Manage landlords & their properties | `admin` |
+| `/admin/properties` | Manage property listings | `admin` |
+
+Admin routes use the `admin` layout (sidebar nav via `AdminNavItem`) instead of `default`/`auth`.
 
 ### Roles & Authorization
 
@@ -137,7 +145,8 @@ All four middleware files are 3-line wrappers around `createRoleGuard` in `app/u
 
 Full auth implementation follows `back-end-room/API/INTEGRATION.md`. Key points:
 
-- **Token storage**: access token in `useCookie('access_token')`, refresh token is HttpOnly (server-managed)
+- **Token storage**: access token via `useAccessToken()` (wraps `useCookie('access_token')`, max-age from `NUXT_PUBLIC_ACCESS_TOKEN_MAX_AGE`), refresh token is HttpOnly (server-managed)
+- For non-reactive, client-only cookie reads/writes (e.g. one-off checks outside Vue setup), use the plain helpers in `app/utils/cookie.ts` (`getCookie`/`setCookie`/`deleteCookie`/`hasCookie`) instead of `useCookie`
 - **After login**: `accessToken.value = data.accessToken` → `authStore.fetchProfile()`
 - **Google OAuth**: button redirects to `${apiBaseUrl}/auth/google` → server redirects to `/auth/callback?token=...`
 - **Telegram**: widget calls `window.onTelegramAuth` → `$axios.post('/auth/telegram-login', user)`
@@ -190,7 +199,7 @@ NUXT_PUBLIC_GOOGLE_MAPS_KEY   # Google Maps API key
 
 Two locales: `en` (default) and `km` (Khmer). No URL prefix — locale toggled manually and stored in `localStorage`. Translation files live in `i18n/locales/en/` and `i18n/locales/km/`, split by domain:
 
-`common`, `home`, `auth`, `filter`, `card`, `property`, `footer`, `post_property`, `favourites`
+`common`, `home`, `auth`, `filter`, `card`, `property`, `footer`, `post_property`, `favourites`, `admin`
 
 **Never hardcode UI strings.** All user-facing text must use `t('key')`. Backend error messages are already localised by the server (via `accept-language` header) — pass them through `extract(err)` directly.
 
