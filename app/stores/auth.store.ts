@@ -26,11 +26,13 @@ export const useAuthStore = defineStore('auth', {
   },
 
   actions: {
-    async fetchProfile() {
+    async fetchProfile(token?: string) {
       const api = useApi()
       this.isFetching = true
       try {
-        const { data } = await api.get<AuthUser>('/auth/profile')
+        const { data } = await api.get<AuthUser>('/auth/profile', token ? {
+          headers: { Authorization: `Bearer ${token}` },
+        } : undefined)
         this.user = data
       } catch {
         this.user = null

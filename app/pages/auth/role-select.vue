@@ -82,6 +82,8 @@
 </template>
 
 <script setup lang="ts">
+import { resolvePostLoginRoute } from '~/utils/roleGuard'
+
 definePageMeta({ layout: 'auth' })
 
 const { t } = useI18n()
@@ -100,7 +102,7 @@ const selectRole = async (role: 'USER' | 'LANDLORD') => {
     const { data } = await api.post<{ accessToken: string }>('/auth/refresh-token')
     accessToken.value = data.accessToken
     await authStore.fetchProfile()
-    await navigateTo('/', { replace: true })
+    await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
   } catch (err) {
     notify.error(extract(err))
   } finally {

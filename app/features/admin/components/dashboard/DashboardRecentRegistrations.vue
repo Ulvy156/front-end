@@ -2,6 +2,7 @@
 import type { RecentRegistration } from '../../types/dashboard'
 import AdminRoleBadge from '../shared/AdminRoleBadge.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
+import { initials } from '~/utils/initials'
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 
@@ -11,10 +12,6 @@ defineProps<{
   items: RecentRegistration[]
   loading?: boolean
 }>()
-
-function initials(name: string) {
-  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
-}
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import type { TopProperty } from '../../types/dashboard'
 
@@ -7,12 +8,6 @@ defineProps<{
   items: TopProperty[]
   loading?: boolean
 }>()
-
-const config = useRuntimeConfig()
-
-function imageUrl(imageKey: string) {
-  return `${config.public.R2_PUB_URL}/${imageKey}`
-}
 </script>
 
 <template>
@@ -48,12 +43,7 @@ function imageUrl(imageKey: string) {
 
         <!-- Thumbnail -->
         <div class="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-          <img
-            v-if="prop.images.length"
-            :src="imageUrl(prop.images[0].imageKey)"
-            :alt="prop.title"
-            class="w-full h-full object-cover"
-          />
+          <BaseImage v-if="prop.images.length" :src="prop.images[0].imageKey" :alt="prop.title" />
           <BaseIcon v-else name="building" :size="18" class="text-gray-300" />
         </div>
 

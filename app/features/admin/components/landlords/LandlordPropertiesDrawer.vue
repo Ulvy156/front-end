@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseDrawer from '~/components/ui/BaseDrawer.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminLandlordProperties } from '../../composables/useAdminLandlordProperties'
+import { initials } from '~/utils/initials'
 import dayjs from 'dayjs'
 
 const props = defineProps<{
@@ -20,16 +22,7 @@ const isOpen = computed({
 const landlordIdRef = computed(() => props.landlordId)
 const { data, isPending } = useAdminLandlordProperties(landlordIdRef)
 
-const config = useRuntimeConfig()
 const langKey = useLangKey()
-
-function imageUrl(imageKey: string) {
-  return `${config.public.R2_PUB_URL}/${imageKey}`
-}
-
-function initials(name: string) {
-  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
-}
 
 function locationLabel(property: typeof data.value.properties[0]) {
   const d = property.district
@@ -87,12 +80,7 @@ function locationLabel(property: typeof data.value.properties[0]) {
         >
           <!-- Thumbnail -->
           <div class="w-14 h-14 rounded-lg overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-            <img
-              v-if="prop.images.length"
-              :src="imageUrl(prop.images[0].imageKey)"
-              :alt="prop.title"
-              class="w-full h-full object-cover"
-            />
+            <BaseImage v-if="prop.images.length" :src="prop.images[0].imageKey" :alt="prop.title" />
             <BaseIcon v-else name="building" :size="20" class="text-gray-300" />
           </div>
 

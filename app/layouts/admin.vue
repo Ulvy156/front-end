@@ -88,7 +88,9 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="logout" class="text-red-500!">
-                <BaseIcon name="log-out" :size="14" class="mr-2" />
+                <ClientOnly>
+                  <BaseIcon name="log-out" :size="14" class="mr-2" />
+                </ClientOnly>
                 {{ $t('admin.nav.logout') }}
               </el-dropdown-item>
             </el-dropdown-menu>

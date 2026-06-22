@@ -1,16 +1,26 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { AdminProperty } from '../types/property'
+import type { AdminPropertiesResponse, AdminPropertiesFilter } from '../types/property'
 
 const QUERY_KEY = 'admin-properties'
 
-export function useAdminProperties() {
+export function useAdminProperties(filters: Ref<AdminPropertiesFilter>) {
   const { $axios } = useNuxtApp()
   const queryClient = useQueryClient()
 
   const { data, isPending, isError } = useQuery({
-    queryKey: [QUERY_KEY],
+    queryKey: computed(() => [QUERY_KEY, { ...filters.value }]),
     queryFn: async () => {
-      const { data } = await $axios.get<AdminProperty[]>('/property')
+      const params: Record<string, string | number | boolean> = {
+        page: filters.value.page,
+        limit: filters.value.limit,
+      }
+      if (filters.value.search) params.search = filters.value.search
+      if (filters.value.isPublished !== undefined) params.isPublished = filters.value.isPublished
+      if (filters.value.isFeatured !== undefined) params.isFeatured = filters.value.isFeatured
+      if (filters.value.isAvailable !== undefined) params.isAvailable = filters.value.isAvailable
+      if (filters.value.landlordId) params.landlordId = filters.value.landlordId
+
+      const { data } = await $axios.get<AdminPropertiesResponse>('/admin/properties', { params })
       return data
     },
   })

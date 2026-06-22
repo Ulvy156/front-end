@@ -1,0 +1,43 @@
+{
+  "profile": {
+    "title": "My Profile",
+    "save": "Save",
+    "cancel": "Cancel",
+    "avatar": {
+      "title": "Profile Photo",
+      "upload": "Upload",
+      "remove": "Remove",
+      "hint": "Max 1 MB. JPG, PNG, or WebP.",
+      "tooLarge": "File is too large. Maximum size is 1 MB.",
+      "invalidType": "Please select an image file.",
+      "uploadSuccess": "Profile photo updated.",
+      "deleteTitle": "Remove Photo",
+      "deleteConfirm": "Are you sure you want to remove your profile photo?",
+      "deleteBtn": "Remove",
+      "deleteSuccess": "Profile photo removed."
+    },
+    "info": {
+      "title": "Personal Information",
+      "name": "Name",
+      "email": "Email",
+      "role": "Role",
+      "joined": "Member Since",
+      "phone": "Phone",
+      "edit": "Edit",
+      "nameRequired": "Name is required",
+      "updateSuccess": "Name updated."
+    },
+    "password": {
+      "title": "Password",
+      "subtitle": "Update your password to keep your account secure.",
+      "change": "Change Password",
+      "current": "Current Password",
+      "new": "New Password",
+      "currentRequired": "Current password is required",
+      "newRequired": "New password is required",
+      "requirements": "Min 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 symbol.",
+      "submit": "Update Password",
+      "success": "Password updated successfully."
+    }
+  }
+}

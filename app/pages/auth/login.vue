@@ -166,7 +166,7 @@ import BaseInput from '~/components/ui/BaseInput.vue'
 import { useErrorMsg } from '~/composables/useErrorMsg'
 import { useForm } from '~/composables/useForm'
 import { useAuthFormRules } from '~/features/auth/composable/useAuthFormRules'
-import { setCookie } from '#imports'
+import { resolvePostLoginRoute } from '~/utils/roleGuard'
 const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
@@ -207,26 +207,24 @@ const loginWithGoogle = () => {
 
 const submit = handleSubmit(async () => {
     try {
-        const { data } = await api.post<{ accessToken?: string; access_token?: string; user_id: string }>('/auth/login', {
+        const { data } = await api.post<{ accessToken: string }>('/auth/login', {
             identifier: form.identifier,
             password: form.password,
         })
         const token = data.accessToken
-
-        setCookie('access_token', token);
         if (!token) {
             notify.error(t('common.somethingWentWrong'))
             return
         }
         accessToken.value = token
-        await authStore.fetchProfile()
+        await authStore.fetchProfile(token)
         if (!authStore.isAuthenticated) {
             // fetchProfile failed silently (token rejected or backend issue)
             accessToken.value = null
             notify.error(t('common.somethingWentWrong'))
             return
         }
-        await navigateTo('/', { replace: true })
+        await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
         const msg = extract(err)

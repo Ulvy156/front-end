@@ -76,10 +76,12 @@
           <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item command="profile">
-                <BaseIcon name="user" :size="14" class="mr-2" /> {{ $t('nav.profile') }}
+                <ClientOnly><BaseIcon name="user" :size="14" class="mr-2" /></ClientOnly>
+                {{ $t('nav.profile') }}
               </el-dropdown-item>
               <el-dropdown-item command="logout" divided class="text-red-500">
-                <BaseIcon name="log-out" :size="14" class="mr-2" /> {{ $t('nav.signOut') }}
+                <ClientOnly><BaseIcon name="log-out" :size="14" class="mr-2" /></ClientOnly>
+                {{ $t('nav.signOut') }}
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>

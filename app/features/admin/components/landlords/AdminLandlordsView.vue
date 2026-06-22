@@ -7,6 +7,7 @@ import AdminRoleBadge from '~/features/admin/components/shared/AdminRoleBadge.vu
 import UserFormDrawer from '~/features/admin/components/users/UserFormDrawer.vue'
 import LandlordPropertiesDrawer from '~/features/admin/components/landlords/LandlordPropertiesDrawer.vue'
 import { useAdminLandlords } from '~/features/admin/composables/useAdminUsers'
+import { initials } from '~/utils/initials'
 import type { AdminUser } from '~/features/admin/types/user'
 
 const { t } = useI18n()
@@ -100,21 +101,15 @@ async function handleDelete(user: AdminUser) {
   }
 }
 
-function initials(name: string) {
-  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
-}
 </script>
 
 <template>
   <div>
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
-      <div>
-        <h2 class="text-lg font-semibold text-gray-900">{{ $t('admin.landlords.title') }}</h2>
-        <p class="text-sm text-gray-400 mt-0.5">
-          {{ $t('admin.landlords.totalCount', { n: data?.meta.total ?? 0 }) }}
-        </p>
-      </div>
+      <p class="text-sm text-gray-400">
+        {{ $t('admin.landlords.totalCount', { n: data?.meta.total ?? 0 }) }}
+      </p>
       <el-button type="primary" @click="openCreate">
         <BaseIcon name="user-plus" :size="14" class="mr-1.5" />
         {{ $t('admin.landlords.create') }}

@@ -8,7 +8,7 @@ export function useAdminLandlordProperties(landlordId: Ref<string | null>) {
     queryKey: computed(() => ['admin-landlord-properties', landlordId.value]),
     queryFn: async () => {
       const { data } = await $axios.get<LandlordPropertiesResponse>(
-        `/admin/landlord/${landlordId.value}/properties`,
+        `/admin/landlords/${landlordId.value}/properties`,
       )
       return data
     },

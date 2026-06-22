@@ -1,0 +1,21 @@
+{
+  "feedback": {
+    "button": "Feedback",
+    "title": "Send Feedback",
+    "typeLabel": "Type",
+    "types": {
+      "bug": "Bug",
+      "suggestion": "Suggestion",
+      "other": "Other"
+    },
+    "typeRequired": "Please select a feedback type",
+    "descriptionLabel": "Description",
+    "descriptionPlaceholder": "Describe what happened or what you'd like to see improved...",
+    "descriptionRequired": "Description is required",
+    "descriptionMin": "Description must be at least 10 characters",
+    "rateLimit": "You can submit up to 3 feedback reports per hour.",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "submitSuccess": "Feedback submitted. Thank you!"
+  }
+}

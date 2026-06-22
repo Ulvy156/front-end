@@ -2,51 +2,55 @@
 import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminProperties } from '~/features/admin/composables/useAdminProperties'
-import type { AdminProperty } from '~/features/admin/types/property'
+import type { AdminProperty, AdminPropertiesFilter } from '~/features/admin/types/property'
 
 const { t } = useI18n()
 const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
-const config = useRuntimeConfig()
 const langKey = useLangKey()
 
-const { data, isPending, togglePublish, toggleAvailability, setFeatured, deleteProperty } = useAdminProperties()
-
-// ── Client-side filter + pagination ──────────────────────────
-const searchQuery  = ref('')
+// ── Server-side filter + pagination ─────────────────────────
+const searchInput = ref('')
 const statusFilter = ref<'all' | 'published' | 'unpublished'>('all')
-const currentPage  = ref(1)
-const PAGE_SIZE    = 20
+const PAGE_SIZE = 20
 const FEATURED_MAX = 3
 
-const featuredCount = computed(() => data.value?.filter(p => p.isFeatured).length ?? 0)
-
-const filteredItems = computed<AdminProperty[]>(() => {
-  if (!data.value) return []
-  let list = data.value
-  if (statusFilter.value === 'published')   list = list.filter(p => p.isPublished)
-  if (statusFilter.value === 'unpublished') list = list.filter(p => !p.isPublished)
-  const q = searchQuery.value.trim().toLowerCase()
-  if (q) list = list.filter(p =>
-    p.title.toLowerCase().includes(q) || p.user.name.toLowerCase().includes(q),
-  )
-  return list
+const filters = ref<AdminPropertiesFilter>({
+  page: 1,
+  limit: PAGE_SIZE,
 })
 
-const paginatedItems = computed(() =>
-  filteredItems.value.slice((currentPage.value - 1) * PAGE_SIZE, currentPage.value * PAGE_SIZE),
-)
+const searchDebounce = ref<ReturnType<typeof setTimeout>>()
+watch(searchInput, (val) => {
+  clearTimeout(searchDebounce.value)
+  searchDebounce.value = setTimeout(() => {
+    filters.value = { ...filters.value, search: val.trim() || undefined, page: 1 }
+  }, 300)
+})
 
-watch([searchQuery, statusFilter], () => { currentPage.value = 1 })
+watch(statusFilter, (val) => {
+  filters.value = {
+    ...filters.value,
+    isPublished: val === 'published' ? true : val === 'unpublished' ? false : undefined,
+    page: 1,
+  }
+})
 
-function imageUrl(imageKey: string) {
-  return `${config.public.R2_PUB_URL}/${imageKey}`
-}
+const { data, isPending, togglePublish, toggleAvailability, setFeatured, deleteProperty } = useAdminProperties(filters)
+
+const items = computed(() => data.value?.items ?? [])
+const meta = computed(() => data.value?.meta)
+const featuredCount = computed(() => items.value.filter(p => p.isFeatured).length)
 
 function locationLabel(p: AdminProperty) {
   return `${p.district[langKey.value]}, ${p.district.province[langKey.value]}`
+}
+
+function handlePageChange(page: number) {
+  filters.value = { ...filters.value, page }
 }
 
 // ── Per-row loading state ─────────────────────────────────────
@@ -104,12 +108,9 @@ async function handleDelete(prop: AdminProperty) {
   <div>
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
-      <div>
-        <h2 class="text-lg font-semibold text-gray-900">{{ $t('admin.properties.title') }}</h2>
-        <p class="text-sm text-gray-400 mt-0.5">
-          {{ $t('admin.properties.totalCount', { n: filteredItems.length }) }}
-        </p>
-      </div>
+      <p class="text-sm text-gray-400">
+        {{ $t('admin.properties.totalCount', { n: meta?.total ?? 0 }) }}
+      </p>
       <div
         class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm font-medium border"
         :class="featuredCount >= FEATURED_MAX
@@ -123,7 +124,7 @@ async function handleDelete(prop: AdminProperty) {
 
     <!-- Filters -->
     <div class="flex gap-3 mb-4">
-      <el-input v-model="searchQuery" :placeholder="$t('admin.properties.searchPlaceholder')" clearable class="max-w-72">
+      <el-input v-model="searchInput" :placeholder="$t('admin.properties.searchPlaceholder')" clearable class="max-w-72">
         <template #prefix>
           <BaseIcon name="search" :size="14" class="text-gray-400" />
         </template>
@@ -142,18 +143,19 @@ async function handleDelete(prop: AdminProperty) {
 
     <!-- Table -->
     <div v-else class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      <el-table :data="paginatedItems" row-key="id">
+      <el-table :data="items" row-key="id">
 
         <el-table-column :label="$t('admin.properties.columns.property')" min-width="260">
           <template #default="{ row }">
             <div class="flex items-center gap-3 py-1">
               <div class="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-                <img v-if="row.images.length" :src="imageUrl(row.images[0].imageKey)" :alt="row.title" class="w-full h-full object-cover" />
+                <BaseImage v-if="row.images.length" :src="row.images[0].imageKey" :alt="row.title" />
                 <BaseIcon v-else name="building" :size="20" class="text-gray-300" />
               </div>
               <div class="min-w-0">
                 <p class="text-sm font-medium text-gray-900 truncate">{{ row.title }}</p>
                 <p class="text-xs text-gray-400 truncate">{{ row.user.name }} · {{ locationLabel(row) }}</p>
+                <p class="text-xs text-gray-400">{{ row.propertyType[langKey] }}</p>
               </div>
             </div>
           </template>
@@ -184,11 +186,12 @@ async function handleDelete(prop: AdminProperty) {
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.properties.columns.engagement')" width="100">
+        <el-table-column :label="$t('admin.properties.columns.engagement')" width="120">
           <template #default="{ row }">
             <div class="flex flex-col gap-1 text-xs text-gray-500">
               <span class="flex items-center gap-1"><BaseIcon name="eye" :size="12" /> {{ row.totalViews.toLocaleString() }}</span>
               <span class="flex items-center gap-1"><BaseIcon name="heart" :size="12" /> {{ row.favouriteCount }}</span>
+              <span v-if="row.reportCount" class="flex items-center gap-1 text-red-500"><BaseIcon name="flag" :size="12" /> {{ row.reportCount }}</span>
             </div>
           </template>
         </el-table-column>
@@ -237,15 +240,21 @@ async function handleDelete(prop: AdminProperty) {
         </el-table-column>
       </el-table>
 
-      <div v-if="filteredItems.length > PAGE_SIZE" class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
+      <div v-if="meta && meta.totalPages > 1" class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
         <p class="text-xs text-gray-400">
           {{ $t('admin.users.showing', {
-            from: (currentPage - 1) * PAGE_SIZE + 1,
-            to: Math.min(currentPage * PAGE_SIZE, filteredItems.length),
-            total: filteredItems.length,
+            from: (meta.page - 1) * meta.limit + 1,
+            to: Math.min(meta.page * meta.limit, meta.total),
+            total: meta.total,
           }) }}
         </p>
-        <el-pagination v-model:current-page="currentPage" :page-size="PAGE_SIZE" :total="filteredItems.length" layout="prev, pager, next" />
+        <el-pagination
+          :current-page="meta.page"
+          :page-size="meta.limit"
+          :total="meta.total"
+          layout="prev, pager, next"
+          @current-change="handlePageChange"
+        />
       </div>
     </div>
   </div>

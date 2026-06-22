@@ -52,6 +52,15 @@ const feedbackSubStats = computed(() => {
     { label: t('admin.dashboard.stats.other'),      value: s.byType.OTHER,      color: 'gray' as const },
   ]
 })
+
+const engagementSubStats = computed(() => {
+  const s = data.value?.stats.engagement
+  if (!s) return []
+  return [
+    { label: t('admin.dashboard.stats.favourites'), value: s.totalFavourites, color: 'red'   as const },
+    { label: t('admin.dashboard.stats.reports'),    value: s.totalReports,    color: 'amber' as const },
+  ]
+})
 </script>
 
 <template>
@@ -63,7 +72,7 @@ const feedbackSubStats = computed(() => {
 
   <template v-else>
     <!-- Row 1: Stat cards -->
-    <div class="grid grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-5 gap-4 mb-6">
       <DashboardStatCard
         icon="users"
         icon-bg="bg-blue-50 text-blue-600"
@@ -94,6 +103,14 @@ const feedbackSubStats = computed(() => {
         :title="t('admin.dashboard.stats.feedback')"
         :total="data?.stats.feedback.total ?? 0"
         :sub-stats="feedbackSubStats"
+        :loading="pending"
+      />
+      <DashboardStatCard
+        icon="bar-chart-3"
+        icon-bg="bg-violet-50 text-violet-600"
+        :title="t('admin.dashboard.stats.engagement')"
+        :total="data?.stats.engagement.totalViews ?? 0"
+        :sub-stats="engagementSubStats"
         :loading="pending"
       />
     </div>

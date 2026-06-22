@@ -11,6 +11,8 @@
 </template>
 
 <script setup lang="ts">
+import { resolvePostLoginRoute } from '~/utils/roleGuard'
+
 definePageMeta({ layout: 'auth' })
 
 const accessToken = useAccessToken()
@@ -25,9 +27,9 @@ onMounted(async () => {
     if (isNewUser) {
       await navigateTo('/auth/role-select', { replace: true })
     } else {
-      await authStore.fetchProfile()
+      await authStore.fetchProfile(token)
       if (authStore.isAuthenticated) {
-        await navigateTo('/', { replace: true })
+        await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
       } else {
         accessToken.value = null
         await navigateTo('/auth/login', { replace: true })

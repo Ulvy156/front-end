@@ -3,6 +3,8 @@
 </template>
 
 <script setup lang="ts">
+import { resolvePostLoginRoute } from '~/utils/roleGuard'
+
 const telegramBtn = ref<HTMLDivElement | null>(null)
 const { $axios } = useNuxtApp()
 const accessToken = useAccessToken()
@@ -20,9 +22,9 @@ onMounted(() => {
     if (data.is_new_user) {
       await navigateTo('/auth/role-select', { replace: true })
     } else {
-      await authStore.fetchProfile()
+      await authStore.fetchProfile(token)
       if (authStore.isAuthenticated) {
-        await navigateTo('/', { replace: true })
+        await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
       } else {
         accessToken.value = null
         await navigateTo('/auth/login', { replace: true })

@@ -6,6 +6,10 @@ type GuardRequirement = 'auth' | Role
  * Factory that creates a Nuxt route middleware from a role requirement.
  * All four middleware files call this — keeping the guard logic in one place.
  *
+ * Auth hydration (access-token check + refresh-token fallback) is handled
+ * by the global middleware `admin-redirect.global.ts` which runs first on
+ * every request. Role guards only inspect the already-populated store.
+ *
  * Access rules:
  *   'auth'         → any authenticated user; unauthenticated → /auth/login
  *   Role.USER      → USER (+ ADMIN); others → /
@@ -16,7 +20,7 @@ type GuardRequirement = 'auth' | Role
  * Unauthenticated users are always redirected to /auth/login regardless of guard.
  */
 export function createRoleGuard(required: GuardRequirement) {
-  return defineNuxtRouteMiddleware(() => {
+  return defineNuxtRouteMiddleware(async () => {
     const authStore = useAuthStore()
 
     if (!authStore.isAuthenticated) {
@@ -49,6 +53,12 @@ function checkAccess(userRole: Role, required: Role): boolean {
  * Redirects to the most meaningful page for their actual role.
  */
 function resolveRedirect(userRole: Role): string {
+  if (userRole === Role.ADMIN) return '/admin'
   if (userRole === Role.LANDLORD) return '/post-property'
   return '/' // USER or unknown
+}
+
+export function resolvePostLoginRoute(role?: Role): string {
+  if (role === Role.ADMIN) return '/admin'
+  return '/'
 }

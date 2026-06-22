@@ -82,6 +82,7 @@
 </template>
 
 <script setup lang="ts">
+import { resolvePostLoginRoute } from '~/utils/roleGuard'
 import type { RegisterPayload } from './SignUpForm.vue'
 
 const props = defineProps<{
@@ -175,8 +176,8 @@ const submit = async () => {
             otp: otp.value,
         })
         accessToken.value = data.accessToken
-        await authStore.fetchProfile()
-        await navigateTo('/')
+        await authStore.fetchProfile(data.accessToken)
+        await navigateTo(resolvePostLoginRoute(authStore.user?.role))
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
         if (status === 400 || status === 429) {

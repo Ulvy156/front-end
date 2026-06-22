@@ -4,9 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  app: {
-    pageTransition: { name: 'page', mode: 'out-in' },
-  },
+  app: {},
   // Page data is fetched separately
   experimental: {
     payloadExtraction: true
@@ -81,6 +79,8 @@ export default defineNuxtConfig({
           'en/post_property.json',
           'en/favourites.json',
           'en/admin.json',
+          'en/profile.json',
+          'en/feedback.json',
         ]
       },
       {
@@ -96,6 +96,8 @@ export default defineNuxtConfig({
           'km/post_property.json',
           'km/favourites.json',
           'km/admin.json',
+          'km/profile.json',
+          'km/feedback.json',
         ]
       }
     ],

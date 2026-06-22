@@ -28,6 +28,11 @@ export interface DashboardStats {
       OTHER: number
     }
   }
+  engagement: {
+    totalViews: number
+    totalFavourites: number
+    totalReports: number
+  }
 }
 
 export interface RecentRegistration {

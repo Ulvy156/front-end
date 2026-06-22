@@ -6,12 +6,17 @@
   </main>
 
   <footerApp/>
+
+  <ClientOnly>
+    <FeedbackDialog v-if="authStore.isAuthenticated" />
+  </ClientOnly>
 </template>
 
 
 <script setup lang="ts">
 import AppNavbar from '~/components/navbar/AppNavbar.vue'
 import footerApp from '~/components/footer/footer-app.vue'
+import FeedbackDialog from '~/features/feedback/components/feedback-dialog.vue'
 
 const route = useRoute()
 const authStore = useAuthStore()
