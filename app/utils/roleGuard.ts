@@ -54,11 +54,12 @@ function checkAccess(userRole: Role, required: Role): boolean {
  */
 function resolveRedirect(userRole: Role): string {
   if (userRole === Role.ADMIN) return '/admin'
-  if (userRole === Role.LANDLORD) return '/post-property'
+  if (userRole === Role.LANDLORD) return '/landlord'
   return '/' // USER or unknown
 }
 
 export function resolvePostLoginRoute(role?: Role): string {
   if (role === Role.ADMIN) return '/admin'
+  if (role === Role.LANDLORD) return '/landlord'
   return '/'
 }

@@ -1,0 +1,67 @@
+{
+  "landlord": {
+    "nav": {
+      "title": "Rentify Landlord",
+      "overview": "Overview",
+      "dashboard": "Dashboard",
+      "properties": "Properties",
+      "myProperties": "My Properties",
+      "postProperty": "Post Property",
+      "account": "Account",
+      "settings": "Settings",
+      "logout": "Logout"
+    },
+    "dashboard": {
+      "retry": "Retry",
+      "noData": "No data yet.",
+      "recentActivity": "Recent Activity",
+      "topProperties": "Top Properties",
+      "favourited": "favourited",
+      "available": "Available",
+      "unavailable": "Unavailable",
+      "stats": {
+        "properties": "Properties",
+        "views": "Total Views",
+        "favourites": "Favourites",
+        "published": "Published",
+        "unpublished": "Unpublished",
+        "available": "Available",
+        "unavailable": "Unavailable"
+      }
+    },
+    "properties": {
+      "totalCount": "{n} properties",
+      "searchPlaceholder": "Search properties…",
+      "filterAll": "All Status",
+      "filterPublished": "Published",
+      "filterUnpublished": "Unpublished",
+      "filterAllAvailability": "All Availability",
+      "filterAvailable": "Available",
+      "filterUnavailable": "Unavailable",
+      "noProperties": "No properties found.",
+      "published": "Published",
+      "unpublished": "Unpublished",
+      "available": "Available",
+      "unavailable": "Unavailable",
+      "featured": "Featured",
+      "showing": "Showing {from}–{to} of {total}",
+      "duplicate": "Duplicate",
+      "duplicateTitle": "Duplicate Property",
+      "duplicateConfirm": "Create a copy of \"{title}\"? The copy will be unpublished and without images.",
+      "duplicateBtn": "Duplicate",
+      "cancelBtn": "Cancel",
+      "duplicateSuccess": "Property duplicated successfully.",
+      "columns": {
+        "property": "Property",
+        "status": "Status",
+        "price": "Price",
+        "engagement": "Engagement",
+        "created": "Created",
+        "actions": "Actions"
+      }
+    },
+    "settings": {
+      "comingSoon": "Account settings coming soon."
+    }
+  }
+}

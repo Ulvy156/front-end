@@ -1,0 +1,67 @@
+{
+  "landlord": {
+    "nav": {
+      "title": "Rentify ម្ចាស់ផ្ទះ",
+      "overview": "ទិដ្ឋភាពទូទៅ",
+      "dashboard": "ផ្ទាំងគ្រប់គ្រង",
+      "properties": "អចលនទ្រព្យ",
+      "myProperties": "អចលនទ្រព្យរបស់ខ្ញុំ",
+      "postProperty": "បង្ហោះអចលនទ្រព្យ",
+      "account": "គណនី",
+      "settings": "ការកំណត់",
+      "logout": "ចាកចេញ"
+    },
+    "dashboard": {
+      "retry": "ព្យាយាមម្តងទៀត",
+      "noData": "មិនមានទិន្នន័យនៅឡើយ។",
+      "recentActivity": "សកម្មភាពថ្មីៗ",
+      "topProperties": "អចលនទ្រព្យកំពូល",
+      "favourited": "បានចូលចិត្ត",
+      "available": "មាន",
+      "unavailable": "មិនមាន",
+      "stats": {
+        "properties": "អចលនទ្រព្យ",
+        "views": "ការមើលសរុប",
+        "favourites": "ចំណូលចិត្ត",
+        "published": "បានផ្សព្វផ្សាយ",
+        "unpublished": "មិនបានផ្សព្វផ្សាយ",
+        "available": "មាន",
+        "unavailable": "មិនមាន"
+      }
+    },
+    "properties": {
+      "totalCount": "{n} អចលនទ្រព្យ",
+      "searchPlaceholder": "ស្វែងរកអចលនទ្រព្យ…",
+      "filterAll": "ស្ថានភាពទាំងអស់",
+      "filterPublished": "បានផ្សព្វផ្សាយ",
+      "filterUnpublished": "មិនបានផ្សព្វផ្សាយ",
+      "filterAllAvailability": "ភាពអាចរកបានទាំងអស់",
+      "filterAvailable": "មាន",
+      "filterUnavailable": "មិនមាន",
+      "noProperties": "រកមិនឃើញអចលនទ្រព្យ។",
+      "published": "បានផ្សព្វផ្សាយ",
+      "unpublished": "មិនបានផ្សព្វផ្សាយ",
+      "available": "មាន",
+      "unavailable": "មិនមាន",
+      "featured": "ពិសេស",
+      "showing": "បង្ហាញ {from}–{to} ក្នុងចំណោម {total}",
+      "duplicate": "ចម្លង",
+      "duplicateTitle": "ចម្លងអចលនទ្រព្យ",
+      "duplicateConfirm": "បង្កើតច្បាប់ចម្លងនៃ \"{title}\"? ច្បាប់ចម្លងនឹងមិនត្រូវបានផ្សព្វផ្សាយ និងគ្មានរូបភាព។",
+      "duplicateBtn": "ចម្លង",
+      "cancelBtn": "បោះបង់",
+      "duplicateSuccess": "បានចម្លងអចលនទ្រព្យដោយជោគជ័យ។",
+      "columns": {
+        "property": "អចលនទ្រព្យ",
+        "status": "ស្ថានភាព",
+        "price": "តម្លៃ",
+        "engagement": "ការចូលរួម",
+        "created": "បង្កើតនៅ",
+        "actions": "សកម្មភាព"
+      }
+    },
+    "settings": {
+      "comingSoon": "ការកំណត់គណនីនឹងមកដល់ឆាប់ៗ។"
+    }
+  }
+}

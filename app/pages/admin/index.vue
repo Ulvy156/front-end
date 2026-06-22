@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DashboardStatCard from '~/features/admin/components/dashboard/DashboardStatCard.vue'
+import DashboardStatCard from '~/components/dashboard/DashboardStatCard.vue'
 import DashboardRecentRegistrations from '~/features/admin/components/dashboard/DashboardRecentRegistrations.vue'
 import DashboardRecentFeedback from '~/features/admin/components/dashboard/DashboardRecentFeedback.vue'
 import DashboardLatestListings from '~/features/admin/components/dashboard/DashboardLatestListings.vue'

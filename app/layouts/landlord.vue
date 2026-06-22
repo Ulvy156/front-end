@@ -8,7 +8,7 @@
       <div class="h-16 flex items-center gap-2 px-5 border-b border-gray-200 shrink-0">
         <NuxtImg src="/rentify-logo.webp" class="h-9" alt="Rentify logo" />
         <span class="font-semibold text-gray-900 text-sm leading-tight">
-          {{ $t('admin.nav.title') }}
+          {{ $t('landlord.nav.title') }}
         </span>
       </div>
 
@@ -16,51 +16,25 @@
       <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-0.5">
 
         <!-- OVERVIEW -->
-        <p class="admin-section-label">{{ $t('admin.nav.overview') }}</p>
-        <BaseSidebarNavItem to="/admin" icon="layout-dashboard" :label="$t('admin.nav.dashboard')" :exact="true" />
+        <p class="sidebar-section-label">{{ $t('landlord.nav.overview') }}</p>
+        <BaseSidebarNavItem to="/landlord" icon="layout-dashboard" :label="$t('landlord.nav.dashboard')" :exact="true" />
 
-        <!-- PEOPLE -->
-        <p class="admin-section-label">{{ $t('admin.nav.people') }}</p>
-        <BaseSidebarNavItem to="/admin/users" icon="users" :label="$t('admin.nav.users')" />
-        <BaseSidebarNavItem to="/admin/landlords" icon="user-check" :label="$t('admin.nav.landlords')" />
-
-        <!-- LISTINGS -->
-        <p class="admin-section-label">{{ $t('admin.nav.listings') }}</p>
-        <BaseSidebarNavItem
-          to="/admin/pending"
-          icon="clock"
-          :label="$t('admin.nav.pendingApproval')"
-          :badge="pendingCount"
-        />
-        <BaseSidebarNavItem to="/admin/properties" icon="building" :label="$t('admin.nav.allProperties')" />
-        <BaseSidebarNavItem to="/admin/featured" icon="star" :label="$t('admin.nav.featured')" />
-
-        <!-- CONFIGURATION -->
-        <p class="admin-section-label">{{ $t('admin.nav.configuration') }}</p>
-        <BaseSidebarNavItem to="/admin/property-types" icon="layers" :label="$t('admin.nav.propertyTypes')" />
-        <BaseSidebarNavItem to="/admin/amenities" icon="sparkles" :label="$t('admin.nav.amenities')" />
-        <BaseSidebarNavItem to="/admin/house-rules" icon="shield-check" :label="$t('admin.nav.houseRules')" />
-
-        <!-- REPORTS -->
-        <p class="admin-section-label">{{ $t('admin.nav.reports') }}</p>
-        <BaseSidebarNavItem
-          to="/admin/feedback"
-          icon="message-square"
-          :label="$t('admin.nav.feedback')"
-          :badge="feedbackCount"
-        />
+        <!-- PROPERTIES -->
+        <p class="sidebar-section-label">{{ $t('landlord.nav.properties') }}</p>
+        <BaseSidebarNavItem to="/landlord/properties" icon="building" :label="$t('landlord.nav.myProperties')" />
+        <BaseSidebarNavItem to="/landlord/post-property" icon="circle-plus" :label="$t('landlord.nav.postProperty')" />
 
       </nav>
 
       <!-- Bottom: Settings + Logout -->
       <div class="border-t border-gray-200 p-3 space-y-0.5 shrink-0">
-        <BaseSidebarNavItem to="/admin/settings" icon="settings" :label="$t('admin.nav.settings')" />
+        <BaseSidebarNavItem to="/landlord/settings" icon="settings" :label="$t('landlord.nav.settings')" />
         <button
           class="flex w-full items-center gap-3 px-3 py-2 rounded-lg text-sm text-red-500 hover:bg-red-50 transition-colors cursor-pointer"
           @click="logout"
         >
           <BaseIcon name="log-out" :size="16" class="shrink-0" />
-          <span>{{ $t('admin.nav.logout') }}</span>
+          <span>{{ $t('landlord.nav.logout') }}</span>
         </button>
       </div>
 
@@ -91,7 +65,7 @@
                 <ClientOnly>
                   <BaseIcon name="log-out" :size="14" class="mr-2" />
                 </ClientOnly>
-                {{ $t('admin.nav.logout') }}
+                {{ $t('landlord.nav.logout') }}
               </el-dropdown-item>
             </el-dropdown-menu>
           </template>
@@ -111,6 +85,7 @@
 import { useQueryClient } from '@tanstack/vue-query'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseSidebarNavItem from '~/components/ui/BaseSidebarNavItem.vue'
+import { initials } from '~/utils/initials'
 
 const router = useRouter()
 const route = useRoute()
@@ -120,29 +95,15 @@ const accessToken = useAccessToken()
 const queryClient = useQueryClient()
 const { t } = useI18n()
 
-// Wire these to API endpoints when available
-const pendingCount = ref(0)
-const feedbackCount = ref(0)
-
-const userInitials = computed(() => {
-  const name = authStore.user?.name ?? ''
-  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
-})
+const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 
 const pageTitle = computed(() => {
   const path = route.path
-  if (path === '/admin')                        return t('admin.nav.dashboard')
-  if (path.startsWith('/admin/users'))          return t('admin.nav.users')
-  if (path.startsWith('/admin/landlords'))      return t('admin.nav.landlords')
-  if (path.startsWith('/admin/pending'))        return t('admin.nav.pendingApproval')
-  if (path.startsWith('/admin/properties'))     return t('admin.nav.allProperties')
-  if (path.startsWith('/admin/featured'))       return t('admin.nav.featured')
-  if (path.startsWith('/admin/property-types')) return t('admin.nav.propertyTypes')
-  if (path.startsWith('/admin/amenities'))      return t('admin.nav.amenities')
-  if (path.startsWith('/admin/house-rules'))    return t('admin.nav.houseRules')
-  if (path.startsWith('/admin/feedback'))       return t('admin.nav.feedback')
-  if (path.startsWith('/admin/settings'))       return t('admin.nav.settings')
-  return t('admin.nav.title')
+  if (path === '/landlord')                    return t('landlord.nav.dashboard')
+  if (path.startsWith('/landlord/properties')) return t('landlord.nav.myProperties')
+  if (path.startsWith('/landlord/post-property')) return t('landlord.nav.postProperty')
+  if (path.startsWith('/landlord/settings'))      return t('landlord.nav.settings')
+  return t('landlord.nav.title')
 })
 
 const logout = async () => {
@@ -162,7 +123,7 @@ const handleCommand = async (cmd: string) => {
 </script>
 
 <style scoped>
-.admin-section-label {
+.sidebar-section-label {
   font-size: var(--text-xs);
   font-weight: 600;
   color: #9ca3af;
