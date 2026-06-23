@@ -29,6 +29,10 @@ export async function usePropertyDetails() {
 
   const id = computed(() => route.params.id as string)
 
+  onMounted(async () => {
+    await incrementView(api, viewedProperties, id.value)
+  })
+
   const { data: property } = await useAsyncData<PropertyDetail>(
     () =>
       fetchPropertyDetails({
@@ -57,10 +61,6 @@ export async function usePropertyDetails() {
     },
     { immediate: true },
   )
-
-  onMounted(async () => {
-    await incrementView(api, viewedProperties, id.value)
-  })
 
   return {
     property,

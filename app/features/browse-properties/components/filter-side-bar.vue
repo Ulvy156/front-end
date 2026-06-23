@@ -1,6 +1,7 @@
 <template>
   <section
-    class="p-7 rounded-lg shadow-md h-[70dvh] overflow-y-auto sticky top-[20%] z-5 bg-(--card)"
+    class="p-7 rounded-lg overflow-y-auto bg-(--card)"
+    :class="isDrawer ? 'h-full' : 'shadow-md h-[70dvh] sticky top-[20%] z-5'"
   >
     <div class="flex justify-between items-center w-full">
       <div class="flex items-center gap-x-3 border-b border-b-(--bg-gray)">
@@ -59,6 +60,8 @@ import filterAmenities from "./filter-amenities.vue";
 import filterHouseRules from "./filter-house-rules.vue";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
 import searchBar from "./search-bar.vue";
+
+withDefaults(defineProps<{ isDrawer?: boolean }>(), { isDrawer: false })
 
 const filterStore = usePropertyFilterStore();
 </script>

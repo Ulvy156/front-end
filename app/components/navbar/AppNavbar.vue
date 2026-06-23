@@ -90,24 +90,22 @@
     </nav>
   </header>
 
-  <!-- for mobile only -->
-  <!-- <MobileNavDrawer /> -->
+  <MobileNavDrawer />
 </template>
 
 <script lang="ts" setup>
 import switchLngClient from './switch-lng.client.vue';
 import BaseIcon from '../ui/BaseIcon.client.vue';
+import MobileNavDrawer from './MobileNavDrawer.vue';
 import { useActiveRoute } from '~/composables/useActiveRoute';
+import { initials } from '~/utils/initials'
 
 const { isActive, startsWith } = useActiveRoute();
 const route = useRoute()
-import { useQueryClient } from '@tanstack/vue-query'
 
 const router = useRouter()
 const authStore = useAuthStore()
-const accessToken = useAccessToken()
-const { $axios } = useNuxtApp()
-const queryClient = useQueryClient()
+const { logout } = useLogout()
 
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
@@ -116,23 +114,13 @@ const overlay = computed(() => {
   return 'sticky mb-2 m-auto w-full';
 })
 
-const userInitials = computed(() => {
-  const name = authStore.user?.name ?? ''
-  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
-})
+const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 
 const handleCommand = async (cmd: string) => {
   if (cmd === 'profile') {
     router.push('/user/profile')
   } else if (cmd === 'logout') {
-    try {
-      await $axios.post('/auth/logout')
-    } finally {
-      accessToken.value = null
-      authStore.clear()
-      queryClient.removeQueries({ queryKey: ['favourites'] })
-      router.replace('/auth/login')
-    }
+    await logout()
   }
 }
 </script>

@@ -43,6 +43,16 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    optimizeDeps: {
+      include: [
+        '@tanstack/vue-query',
+        'axios',
+        'dayjs',
+        'dayjs/plugin/relativeTime',
+        'lodash-unified',
+        'pinia-plugin-persistedstate',
+      ],
+    },
   },
   fonts: {
     providers: {

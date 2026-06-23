@@ -12,15 +12,37 @@
             :src="property?.user.imgUrl"
           />
           <div>
-            <h6 class="text-lg">{{ property?.user.name }}</h6>
-            <span class="text-(--gray)">{{ property?.user.role }}</span>
+            <NuxtLink
+              :to="`/landlord/profile/${property?.userId}`"
+              class="text-lg font-semibold hover:text-(--nav-active-item) transition-colors"
+              @click.stop
+            >
+              {{ property?.user.name }}
+            </NuxtLink>
+            <span class="text-(--gray) block">{{ property?.user.role }}</span>
           </div>
         </div>
+        <!-- email -->
+        <div
+          v-if="property?.user.email"
+          class="flex items-center justify-between gap-x-3 bg-(--bg-gray) p-3 rounded-(--radius) mt-4"
+        >
+          <div class="flex items-center gap-x-3">
+            <BaseIconClient name="mail" />
+            <p>{{ property.user.email }}</p>
+          </div>
+          <BaseIconClient
+            @click="copy(property.user.email!)"
+            class="cursor-pointer"
+            name="copy"
+          />
+        </div>
         <!-- socail media -->
-        <div class="grid grid-cols-1 gap-y-5 mt-4">
+        <div v-if="phoneNumber.length > 0 || telegram.length > 0" class="grid grid-cols-1 gap-y-5 mt-4">
           <!-- phone number -->
           <div
             v-for="phone in phoneNumber"
+            :key="phone.phoneNumber"
             class="flex items-center justify-between gap-x-3 bg-(--bg-gray) p-3 rounded-(--radius)"
           >
             <div class="flex items-center gap-x-3">
@@ -34,14 +56,19 @@
             />
           </div>
           <!-- call now -->
-          <div
+          <a
+            v-if="phoneNumber.length > 0"
+            :href="`tel:${phoneNumber[0].phoneNumber}`"
             class="flex justify-center items-center gap-x-3 bg-(--nav-active-item) text-white p-3 rounded-md"
           >
             <BaseIconClient name="phone-call" />
             <p class="">{{ $t("property.call") }}</p>
-          </div>
+          </a>
           <!-- telegram -->
-          <a target="_blank" :href="getTelegramLink(telegram[0]?.phoneNumber!)!"
+          <a
+            v-if="telegram.length > 0"
+            target="_blank"
+            :href="getTelegramLink(telegram[0].phoneNumber)!"
             class="flex justify-center items-center gap-x-3 border border-[#e2e0e0] bg-(--bg-gray) p-3 rounded-md"
           >
             <BaseIconClient name="message-square-text" />
@@ -88,23 +115,33 @@
     <!-- report -->
     <span
       class="flex items-center gap-x-2 justify-center bg-white p-3 rounded-(--radius) cursor-pointer hover:bg-(--nav-active) hover:text-(--nav-active-item) transition-all"
+      @click="handleReport"
     >
       <BaseIconClient name="flag" />
       {{ $t("property.report") }}
     </span>
-    {{ shareUrl }}
+    <reportPropertyDialog ref="reportDialog" :property-id="property.id" />
   </section>
 </template>
 
 <script lang="ts" setup>
 import BaseAvatar from "~/components/ui/BaseAvatar.vue";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import reportPropertyDialog from "./report-property-dialog.vue";
 import type { PropertyDetail } from "../interface/properties-details";
 import { useFullUrl } from "#imports";
 import { useCopy } from "#imports";
 import { getTelegramLink } from "#imports";
 import { openShare } from "#imports";
 const route = useRoute()
+const { requireAuth } = useRequireAuth()
+
+const reportDialog = ref<InstanceType<typeof reportPropertyDialog>>()
+
+function handleReport() {
+  requireAuth(() => reportDialog.value?.open())
+}
+
 
 const shareUrl = computed(() =>
   import.meta.client

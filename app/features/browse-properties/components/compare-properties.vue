@@ -1,7 +1,7 @@
 <template>
   <BaseModal
     :title="$t('property.compare.comparasion')"
-    width="70%"
+    :width="isMobile ? '95%' : '70%'"
     v-model="compareStore.isCompare"
     style="padding: 30px"
   >
@@ -12,7 +12,7 @@
       <div
         v-for="value in compareStore.getImage"
         :key="value.id"
-        class="relative overflow-x-auto w-65 h-50 rounded-xl overflow-hidden border border-(--nav-active-item)"
+        class="relative overflow-x-auto w-40 h-32 md:w-65 md:h-50 rounded-xl overflow-hidden border border-(--nav-active-item)"
       >
         <!-- Image -->
         <BaseImage
@@ -57,6 +57,13 @@ import compareTable from "./compare-table.vue";
 
 const compareStore = useCompareProperty();
 const router = useRouter();
+const isMobile = ref(false)
+
+onMounted(() => {
+  const mq = window.matchMedia('(max-width: 768px)')
+  isMobile.value = mq.matches
+  mq.addEventListener('change', (e) => { isMobile.value = e.matches })
+})
 
 const viewPropertyDetails = (id: string) => {
   if (!id) return;

@@ -4,7 +4,7 @@
       v-if="localVisible"
       class="fixed bottom-0 left-0 right-0 z-50 p-5 bg-white shadow-lg border-t border-gray"
     >
-      <div class="flex justify-between mx-20">
+      <div class="flex justify-between mx-4 md:mx-20">
         <div class="flex gap-x-10 items-center">
           <div class="flex gap-2 items-center">
             <BaseIconClient
@@ -24,8 +24,7 @@
               v-for="value in compareStore.getImage"
               :key="value.id"
               @click="removeItem(value.id)"
-              style="height: 100px; object-fit: cover"
-              class="border border-(--nav-active-item) rounded-(--radius) cursor-pointer"
+              class="h-16 md:h-25 object-cover border border-(--nav-active-item) rounded-(--radius) cursor-pointer"
               :src="value.img[0]?.imageKey!"
             />
           </animationGroup>

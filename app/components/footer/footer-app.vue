@@ -16,7 +16,7 @@
 
           <div class="flex gap-3 mt-5">
             <button class="social-btn">
-              <BaseIcon name="mdi:facebook" :size="18" />
+              <Icon name="mdi:facebook" :size="18" />
             </button>
             <button class="social-btn">
               <BaseIcon name="send" :size="18"/>
@@ -56,7 +56,7 @@
               <span>hello@roomkh.com</span>
             </li>
             <li class="flex items-center gap-3">
-              <BaseIcon name="mdi:telegram" :size="18" />
+              <Icon name="mdi:telegram" :size="18" />
               <span>@roomkh</span>
             </li>
           </ul>

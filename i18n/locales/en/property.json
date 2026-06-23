@@ -14,6 +14,17 @@
         "floor":"Floor",
         "view":"Views",
         "report":"Report Listings",
+        "reportDialog": {
+            "title": "Report This Listing",
+            "descriptionLabel": "Reason for reporting",
+            "descriptionPlaceholder": "Describe why you are reporting this listing...",
+            "descriptionRequired": "Please provide a reason",
+            "descriptionMin": "Reason must be at least 10 characters",
+            "submit": "Submit Report",
+            "cancel": "Cancel",
+            "submitSuccess": "Report submitted successfully",
+            "rateLimit": "You can submit up to 5 reports per hour"
+        },
         "similar":"Similar Properties",
         "location": {
             "title": "Location",
@@ -42,6 +53,7 @@
         "parking":"Parking",
         "month":"Month",
         "parking_desc":"No parking available",
+        "show_all_photos":"Show all photos",
         "compare": {
             "title":"Compare",
             "clear":"Clear",

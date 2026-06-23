@@ -25,7 +25,7 @@
         @back="prev"
         @next="next"
         @save="saveDraft"
-        @publish="publish"
+        @submit="publish"
       />
     </div>
 

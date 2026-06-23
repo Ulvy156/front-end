@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { LandlordPropertiesResponse, LandlordPropertiesFilter } from '../types/property'
+import type { LandlordPropertiesResponse, LandlordPropertiesFilter, LandlordProperty } from '../types/property'
 
 const QUERY_KEY = 'landlord-properties'
 
@@ -24,14 +24,47 @@ export function useLandlordProperties(filters: Ref<LandlordPropertiesFilter>) {
   })
 
   const invalidate = () => queryClient.invalidateQueries({ queryKey: [QUERY_KEY] })
+  const invalidateDashboard = () => queryClient.invalidateQueries({ queryKey: ['landlord-dashboard'] })
+
+  function updatePropertyInCache(id: string, patch: Partial<LandlordProperty>) {
+    queryClient.setQueriesData<LandlordPropertiesResponse>(
+      { queryKey: [QUERY_KEY] },
+      (old) => old ? { ...old, items: old.items.map(p => p.id === id ? { ...p, ...patch } : p) } : old,
+    )
+  }
+
+  const togglePublish = useMutation({
+    mutationFn: async (id: string) => {
+      const { data } = await $axios.patch<{ id: string; isPublished: boolean }>(`/property/toggle-publish/${id}`)
+      return data
+    },
+    onSuccess: (res) => {
+      updatePropertyInCache(res.id, { isPublished: res.isPublished })
+      invalidateDashboard()
+    },
+  })
+
+  const toggleAvailability = useMutation({
+    mutationFn: async (id: string) => {
+      const { data } = await $axios.patch<{ id: string; isAvailable: boolean }>(`/property/toggle-availability/${id}`)
+      return data
+    },
+    onSuccess: (res) => {
+      updatePropertyInCache(res.id, { isAvailable: res.isAvailable })
+      invalidateDashboard()
+    },
+  })
 
   const duplicateProperty = useMutation({
-    mutationFn: (id: string) => $axios.post(`/property/${id}/duplicate`),
+    mutationFn: async (id: string) => {
+      const { data } = await $axios.post<LandlordProperty>(`/property/${id}/duplicate`)
+      return data
+    },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['landlord-dashboard'] })
+      invalidateDashboard()
       invalidate()
     },
   })
 
-  return { data, isPending, isError, duplicateProperty }
+  return { data, isPending, isError, togglePublish, toggleAvailability, duplicateProperty }
 }

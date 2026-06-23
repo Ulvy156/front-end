@@ -1,8 +1,22 @@
 import type { Role } from '~/types/role'
 
 export interface UserPhone {
+  id: number
   phoneNumber: string
   type: string
+}
+
+export interface NewPhone {
+  id: number
+  phoneNumber: string
+  type: string
+  createdAt: string
+}
+
+export interface ContactVisibility {
+  showPhone: boolean
+  showTelegram: boolean
+  showEmail: boolean
 }
 
 export interface UserProfile {
@@ -16,4 +30,7 @@ export interface UserProfile {
   createdAt: string
   updatedAt: string
   phones: UserPhone[]
+  showPhone: boolean
+  showTelegram: boolean
+  showEmail: boolean
 }

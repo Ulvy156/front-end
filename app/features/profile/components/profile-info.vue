@@ -106,15 +106,5 @@ const submitName = handleSubmit(async () => {
       <p class="mt-1 text-sm text-gray-900">{{ dayjs(profile.createdAt).format('MMMM D, YYYY') }}</p>
     </div>
 
-    <!-- Phone numbers -->
-    <div v-if="profile.phones.length">
-      <label class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ $t('profile.info.phone') }}</label>
-      <div class="mt-1 space-y-1">
-        <p v-for="phone in profile.phones" :key="phone.phoneNumber" class="text-sm text-gray-900">
-          {{ phone.phoneNumber }}
-          <span class="text-xs text-gray-400 ml-1">({{ phone.type }})</span>
-        </p>
-      </div>
-    </div>
   </div>
 </template>

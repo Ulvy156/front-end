@@ -6,7 +6,7 @@ import { useFeedback } from '../composables/useFeedback'
 const { t } = useI18n()
 const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
-const { submit: submitMutation } = useFeedback()
+const { submit: submitFeedback } = useFeedback()
 
 const isOpen = ref(false)
 
@@ -39,7 +39,7 @@ watch(isOpen, (open) => {
 
 const submit = handleSubmit(async () => {
   try {
-    await submitMutation.mutateAsync({
+    await submitFeedback({
       type: form.type as 'BUG' | 'SUGGESTION' | 'OTHER',
       description: form.description,
     })

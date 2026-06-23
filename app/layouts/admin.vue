@@ -108,26 +108,19 @@
 </template>
 
 <script setup lang="ts">
-import { useQueryClient } from '@tanstack/vue-query'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseSidebarNavItem from '~/components/ui/BaseSidebarNavItem.vue'
+import { initials } from '~/utils/initials'
 
-const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
-const { $axios } = useNuxtApp()
-const accessToken = useAccessToken()
-const queryClient = useQueryClient()
+const { logout } = useLogout()
 const { t } = useI18n()
 
-// Wire these to API endpoints when available
 const pendingCount = ref(0)
 const feedbackCount = ref(0)
 
-const userInitials = computed(() => {
-  const name = authStore.user?.name ?? ''
-  return name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase()
-})
+const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 
 const pageTitle = computed(() => {
   const path = route.path
@@ -144,17 +137,6 @@ const pageTitle = computed(() => {
   if (path.startsWith('/admin/settings'))       return t('admin.nav.settings')
   return t('admin.nav.title')
 })
-
-const logout = async () => {
-  try {
-    await $axios.post('/auth/logout')
-  } finally {
-    accessToken.value = null
-    authStore.clear()
-    queryClient.removeQueries({ queryKey: ['favourites'] })
-    router.replace('/auth/login')
-  }
-}
 
 const handleCommand = async (cmd: string) => {
   if (cmd === 'logout') await logout()

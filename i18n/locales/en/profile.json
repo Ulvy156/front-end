@@ -27,6 +27,31 @@
       "nameRequired": "Name is required",
       "updateSuccess": "Name updated."
     },
+    "phones": {
+      "title": "Phone Numbers",
+      "phoneNumbers": "Phone Numbers",
+      "noPhones": "No phone numbers added yet.",
+      "add": "Add Phone Number",
+      "placeholder": "0xx xxx xxxx",
+      "required": "Phone number is required.",
+      "invalidFormat": "Must start with 0 and be 8–10 digits (e.g. 012345678).",
+      "addSuccess": "Phone number added.",
+      "deleteSuccess": "Phone number removed.",
+      "limitReached": "Maximum of {max} phone numbers reached.",
+      "telegram": "Telegram",
+      "managedByTelegram": "Managed by Telegram"
+    },
+    "visibility": {
+      "title": "Contact Visibility",
+      "description": "Control which contact details are visible on your public profile and property listings.",
+      "showPhone": "Phone Number",
+      "showPhoneDesc": "Show your phone number to visitors",
+      "showTelegram": "Telegram",
+      "showTelegramDesc": "Show your Telegram contact to visitors",
+      "showEmail": "Email Address",
+      "showEmailDesc": "Show your email address to visitors",
+      "updateSuccess": "Contact visibility updated."
+    },
     "password": {
       "title": "Password",
       "subtitle": "Update your password to keep your account secure.",

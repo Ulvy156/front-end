@@ -5,7 +5,7 @@
     </div>
     <!-- price -->
     <div
-      class="grid grid-cols-4 gap-5 mt-5 pb-6 "
+      class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-5 pb-6"
     >
       <!-- monthly rent -->
       <div class="card">

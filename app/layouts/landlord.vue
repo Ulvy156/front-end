@@ -47,6 +47,24 @@
       <header class="sticky top-0 z-20 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
         <h1 class="text-base font-semibold text-gray-900">{{ pageTitle }}</h1>
 
+        <div class="flex items-center gap-3">
+
+        <!-- Language switcher -->
+        <el-dropdown trigger="click" @command="switchLang">
+          <button class="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-600 hover:border-slate-300 transition cursor-pointer">
+            <span>{{ locale === 'en' ? '🇬🇧' : '🇰🇭' }}</span>
+            <span class="text-xs font-medium">{{ locale === 'en' ? 'EN' : 'KM' }}</span>
+            <BaseIcon name="chevron-down" :size="12" class="text-slate-400" />
+          </button>
+          <template #dropdown>
+            <el-dropdown-menu>
+              <el-dropdown-item command="en">🇬🇧 English</el-dropdown-item>
+              <el-dropdown-item command="km">🇰🇭 ខ្មែរ</el-dropdown-item>
+            </el-dropdown-menu>
+          </template>
+        </el-dropdown>
+
+        <!-- User dropdown -->
         <el-dropdown trigger="click" @command="handleCommand">
           <button
             class="flex items-center gap-x-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-slate-300 hover:shadow-sm transition-all cursor-pointer"
@@ -70,6 +88,7 @@
             </el-dropdown-menu>
           </template>
         </el-dropdown>
+        </div>
       </header>
 
       <!-- Page content -->
@@ -82,20 +101,21 @@
 </template>
 
 <script setup lang="ts">
-import { useQueryClient } from '@tanstack/vue-query'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseSidebarNavItem from '~/components/ui/BaseSidebarNavItem.vue'
 import { initials } from '~/utils/initials'
 
-const router = useRouter()
 const route = useRoute()
 const authStore = useAuthStore()
-const { $axios } = useNuxtApp()
-const accessToken = useAccessToken()
-const queryClient = useQueryClient()
-const { t } = useI18n()
+const { logout } = useLogout()
+const { t, locale, setLocale } = useI18n()
 
 const userInitials = computed(() => initials(authStore.user?.name ?? ''))
+
+function switchLang(lang: string) {
+  localStorage.setItem('lang', lang)
+  setLocale(lang)
+}
 
 const pageTitle = computed(() => {
   const path = route.path
@@ -105,17 +125,6 @@ const pageTitle = computed(() => {
   if (path.startsWith('/landlord/settings'))      return t('landlord.nav.settings')
   return t('landlord.nav.title')
 })
-
-const logout = async () => {
-  try {
-    await $axios.post('/auth/logout')
-  } finally {
-    accessToken.value = null
-    authStore.clear()
-    queryClient.removeQueries({ queryKey: ['favourites'] })
-    router.replace('/auth/login')
-  }
-}
 
 const handleCommand = async (cmd: string) => {
   if (cmd === 'logout') await logout()

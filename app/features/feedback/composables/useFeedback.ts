@@ -1,5 +1,3 @@
-import { useMutation } from '@tanstack/vue-query'
-
 interface SubmitFeedbackPayload {
   type: 'BUG' | 'SUGGESTION' | 'OTHER'
   description: string
@@ -8,9 +6,7 @@ interface SubmitFeedbackPayload {
 export function useFeedback() {
   const { $axios } = useNuxtApp()
 
-  const submit = useMutation({
-    mutationFn: (payload: SubmitFeedbackPayload) => $axios.post('/feedback', payload),
-  })
+  const submit = (payload: SubmitFeedbackPayload) => $axios.post('/feedback', payload)
 
   return { submit }
 }

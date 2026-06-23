@@ -1,5 +1,5 @@
 <template>
-  <section class="grid grid-cols-2 gap-5">
+  <section class="grid grid-cols-1 sm:grid-cols-2 gap-5">
     <SkeletonProperty :number-of-items="6" :is-hide="!isFetching" />
     <NuxtImg
       v-show="items.length === 0 && !isFetching"
@@ -35,6 +35,7 @@
 import { defineAsyncComponent, ref } from "vue";
 import propertyCard from "./property-card.vue";
 import BasePagination from "~/components/ui/BasePagination.vue";
+import SkeletonProperty from "~/components/animation/skeleton-property.vue";
 import { useBrowseProperties } from "../composable/useBrowseProperties";
 const drawerComponent = defineAsyncComponent(() => import('./compare-drawer.vue'))
 

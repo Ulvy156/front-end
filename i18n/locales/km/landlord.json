@@ -26,7 +26,10 @@
         "published": "បានផ្សព្វផ្សាយ",
         "unpublished": "មិនបានផ្សព្វផ្សាយ",
         "available": "មាន",
-        "unavailable": "មិនមាន"
+        "unavailable": "មិនមាន",
+        "monthlyLimit": "កម្រិតប្រចាំខែ",
+        "postedThisMonth": "បានបង្ហោះក្នុងខែនេះ",
+        "remaining": "នៅសល់"
       }
     },
     "properties": {
@@ -45,12 +48,21 @@
       "unavailable": "មិនមាន",
       "featured": "ពិសេស",
       "showing": "បង្ហាញ {from}–{to} ក្នុងចំណោម {total}",
+      "publish": "ផ្សព្វផ្សាយ",
+      "unpublish": "លាក់",
+      "publishSuccess": "អចលនទ្រព្យបានដាក់ឡើង។",
+      "unpublishSuccess": "អចលនទ្រព្យបានផ្លាស់ទៅពង្រាង។",
+      "markRented": "សម្គាល់ថាបានជួល",
+      "markAvailable": "សម្គាល់ថាមាន",
+      "markedRented": "អចលនទ្រព្យត្រូវបានសម្គាល់ថាបានជួល។",
+      "markedAvailable": "អចលនទ្រព្យត្រូវបានសម្គាល់ថាមាន។",
       "duplicate": "ចម្លង",
       "duplicateTitle": "ចម្លងអចលនទ្រព្យ",
       "duplicateConfirm": "បង្កើតច្បាប់ចម្លងនៃ \"{title}\"? ច្បាប់ចម្លងនឹងមិនត្រូវបានផ្សព្វផ្សាយ និងគ្មានរូបភាព។",
       "duplicateBtn": "ចម្លង",
       "cancelBtn": "បោះបង់",
       "duplicateSuccess": "បានចម្លងអចលនទ្រព្យដោយជោគជ័យ។",
+      "viewDetails": "មើលព័ត៌មានលម្អិត",
       "columns": {
         "property": "អចលនទ្រព្យ",
         "status": "ស្ថានភាព",
@@ -60,8 +72,72 @@
         "actions": "សកម្មភាព"
       }
     },
+    "propertyDetail": {
+      "backToProperties": "ត្រលប់ទៅអចលនទ្រព្យ",
+      "notFound": "រកមិនឃើញអចលនទ្រព្យ។",
+      "views": "ការមើល",
+      "favourites": "ចំណូលចិត្ត",
+      "reports": "រាយការណ៍",
+      "posted": "បានបង្ហោះ",
+      "images": "រូបភាព",
+      "priceLease": "តម្លៃ និងកិច្ចសន្យា",
+      "monthlyRent": "ថ្លៃជួលប្រចាំខែ",
+      "deposit": "ប្រាក់កក់",
+      "minStay": "រយៈពេលស្នាក់នៅអប្បបរមា",
+      "availableFrom": "មានចាប់ពី",
+      "roomsDetails": "បន្ទប់ និងព័ត៌មានលម្អិត",
+      "bedrooms": "បន្ទប់គេង",
+      "bathrooms": "បន្ទប់ទឹក",
+      "size": "ទំហំ",
+      "floor": "ជាន់",
+      "furnished": "មានគ្រឿងសង្ហារឹម",
+      "unfurnished": "គ្មានគ្រឿងសង្ហារឹម",
+      "description": "ការពិពណ៌នា",
+      "location": "ទីតាំង",
+      "address": "អាសយដ្ឋាន",
+      "district": "ស្រុក/ខណ្ឌ",
+      "nearby": "នៅជិត",
+      "amenities": "សម្ភារៈបរិក្ខារ",
+      "houseRules": "វិន័យផ្ទះ",
+      "parking": "ចំណតរថយន្ត",
+      "free": "ឥតគិតថ្លៃ",
+      "paid": "គិតថ្លៃ",
+      "spaces": "កន្លែង",
+      "metadata": "ព័ត៌មានអចលនទ្រព្យ",
+      "propertyType": "ប្រភេទអចលនទ្រព្យ",
+      "propertyId": "លេខសម្គាល់អចលនទ្រព្យ",
+      "createdAt": "បង្កើត",
+      "updatedAt": "កែប្រែចុងក្រោយ"
+    },
+    "editProperty": {
+      "title": "កែប្រែអចលនទ្រព្យ",
+      "subtitle": "កែប្រែព័ត៌មានលម្អិតអចលនទ្រព្យរបស់អ្នក",
+      "photos": "រូបភាព",
+      "photosSubtitle": "គ្រប់គ្រងរូបភាពអចលនទ្រព្យ — បញ្ចូល លុប ឬផ្លាស់ប្ដូររូបគម្រប",
+      "currentPhotos": "រូបភាពបច្ចុប្បន្ន",
+      "addPhotos": "បន្ថែមរូបភាពថ្មី",
+      "pendingUploads": "រួចរាល់សម្រាប់បញ្ចូល",
+      "cover": "គម្រប",
+      "setCover": "កំណត់ជារូបគម្រប",
+      "deletePhoto": "លុបរូបភាព",
+      "uploadPhotos": "បញ្ចូលរូបភាព",
+      "uploading": "កំពុងបញ្ចូល...",
+      "saving": "កំពុងរក្សាទុក...",
+      "saveChanges": "រក្សាទុកការផ្លាស់ប្ដូរ",
+      "uploadSuccess": "រូបភាពបានបញ្ចូលដោយជោគជ័យ។",
+      "coverSet": "រូបគម្របបានកែប្រែ។",
+      "photoDeleted": "រូបភាពបានលុប។",
+      "updateSuccess": "អចលនទ្រព្យបានកែប្រែដោយជោគជ័យ។"
+    },
     "settings": {
       "comingSoon": "ការកំណត់គណនីនឹងមកដល់ឆាប់ៗ។"
+    },
+    "publicProfile": {
+      "memberSince": "សមាជិកតាំងពី",
+      "totalListings": "{n} អចលនទ្រព្យដែលបានផ្សព្វផ្សាយ",
+      "properties": "អចលនទ្រព្យ",
+      "seoTitle": "{name} — ប្រវត្តិម្ចាស់ផ្ទះ | Rentify KH",
+      "seoDescription": "មើលប្រវត្តិរបស់ {name} និងអចលនទ្រព្យ {count} ដែលបានផ្សព្វផ្សាយនៅលើ Rentify KH។"
     }
   }
 }

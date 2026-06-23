@@ -6,6 +6,9 @@ export interface LandlordStats {
   unavailable: number
   totalViews: number
   totalFavourites: number
+  propertiesThisMonth: number
+  monthlyLimit: number
+  propertiesRemaining: number
 }
 
 export interface LandlordRecentActivity {

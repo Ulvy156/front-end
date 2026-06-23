@@ -5,7 +5,7 @@
       <h3>{{ $t("property.parking") }}</h3>
     </div>
     <div v-if="props.property.parkings?.length"
-    class="grid grid-cols-2 gap-5 mt-5">
+    class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
       <article
         class="bg-(--bg-gray) p-3 rounded-(--radius) w-fit"
         v-for="value in props.property.parkings"

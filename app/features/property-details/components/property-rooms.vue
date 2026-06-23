@@ -1,5 +1,5 @@
 <template>
-    <div class="grid grid-cols-4 gap-x-4 p-5 rounded-(--radius) bg-(--card) border border-gray">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-(--radius) bg-(--card) border border-gray">
         <div class="card">
             <BaseIconClient color="var(--nav-active-item)" name="bed"/>
             <div>

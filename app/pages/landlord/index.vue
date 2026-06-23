@@ -20,6 +20,15 @@ const propertySubStats = computed(() => {
   ]
 })
 
+const postingLimitSubStats = computed(() => {
+  const s = data.value?.stats
+  if (!s) return []
+  return [
+    { label: t('landlord.dashboard.stats.postedThisMonth'), value: s.propertiesThisMonth, color: 'blue'  as const },
+    { label: t('landlord.dashboard.stats.remaining'),       value: s.propertiesRemaining,  color: s.propertiesRemaining === 0 ? 'red' as const : 'green' as const },
+  ]
+})
+
 const viewSubStats = computed(() => [] as { label: string; value: string | number; color: 'gray' }[])
 
 const favouriteSubStats = computed(() => [] as { label: string; value: string | number; color: 'gray' }[])
@@ -34,13 +43,21 @@ const favouriteSubStats = computed(() => [] as { label: string; value: string | 
 
   <template v-else>
     <!-- Row 1: Stat cards -->
-    <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-4 gap-4 mb-6">
       <DashboardStatCard
         icon="building"
         icon-bg="bg-blue-50 text-blue-600"
         :title="t('landlord.dashboard.stats.properties')"
         :total="data?.stats.totalProperties ?? 0"
         :sub-stats="propertySubStats"
+        :loading="pending"
+      />
+      <DashboardStatCard
+        icon="calendar-plus"
+        icon-bg="bg-violet-50 text-violet-600"
+        :title="t('landlord.dashboard.stats.monthlyLimit')"
+        :total="data?.stats.monthlyLimit ?? 0"
+        :sub-stats="postingLimitSubStats"
         :loading="pending"
       />
       <DashboardStatCard

@@ -1,4 +1,5 @@
 <template>
+  <div class="overflow-x-auto">
   <el-table :data="compareStore.propertyCardItem" style="width: 100%">
     <el-table-column :label="$t('property.compare.table.price')" width="160">
       <template #default="scope">
@@ -74,6 +75,7 @@
       </template>
     </el-table-column>
   </el-table>
+  </div>
 </template>
 
 <script lang="ts" setup>

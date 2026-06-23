@@ -1,33 +1,69 @@
+import axios from 'axios'
 import { Role } from '~/types/role'
 
 type GuardRequirement = 'auth' | Role
 
-/**
- * Factory that creates a Nuxt route middleware from a role requirement.
- * All four middleware files call this — keeping the guard logic in one place.
- *
- * Auth hydration (access-token check + refresh-token fallback) is handled
- * by the global middleware `admin-redirect.global.ts` which runs first on
- * every request. Role guards only inspect the already-populated store.
- *
- * Access rules:
- *   'auth'         → any authenticated user; unauthenticated → /auth/login
- *   Role.USER      → USER (+ ADMIN); others → /
- *   Role.LANDLORD  → LANDLORD (+ ADMIN); others → /
- *   Role.ADMIN     → ADMIN only; others → /
- *
- * ADMIN bypasses USER and LANDLORD guards (full access principle).
- * Unauthenticated users are always redirected to /auth/login regardless of guard.
- */
+function isTokenExpired(token: string): boolean {
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload.exp * 1000 < Date.now()
+  } catch {
+    return true
+  }
+}
+
+async function refreshAndHydrate(
+  config: ReturnType<typeof useRuntimeConfig>,
+  accessToken: ReturnType<typeof useAccessToken>,
+  authStore: ReturnType<typeof useAuthStore>,
+) {
+  const headers: Record<string, string> = {}
+  if (import.meta.server) {
+    const cookie = useRequestHeaders(['cookie']).cookie
+    if (cookie) headers.cookie = cookie
+  }
+  const { data } = await axios.post(
+    `${config.public.apiBaseUrl}/auth/refresh-token`,
+    {},
+    { withCredentials: true, headers },
+  )
+  const token = data?.accessToken ?? null
+  if (token) {
+    accessToken.value = token
+    await authStore.fetchProfile(token)
+  }
+}
+
+async function hydrateAuth() {
+  const authStore = useAuthStore()
+  if (authStore.user) return
+
+  const accessToken = useAccessToken()
+  const config = useRuntimeConfig()
+
+  if (accessToken.value && !isTokenExpired(accessToken.value)) {
+    await authStore.fetchProfile()
+  } else {
+    accessToken.value = null
+    try {
+      await refreshAndHydrate(config, accessToken, authStore)
+    } catch {
+      // Refresh token is also gone — user must log in again
+    }
+  }
+}
+
 export function createRoleGuard(required: GuardRequirement) {
   return defineNuxtRouteMiddleware(async () => {
     const authStore = useAuthStore()
+
+    await hydrateAuth()
 
     if (!authStore.isAuthenticated) {
       return navigateTo('/auth/login')
     }
 
-    if (required === 'auth') return // logged in — no role constraint
+    if (required === 'auth') return
 
     const userRole = authStore.user?.role as Role | undefined
     if (!userRole) return navigateTo('/auth/login')

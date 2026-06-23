@@ -17,7 +17,6 @@
 import AppNavbar from '~/components/navbar/AppNavbar.vue'
 import footerApp from '~/components/footer/footer-app.vue'
 import FeedbackDialog from '~/features/feedback/components/feedback-dialog.vue'
-
 const route = useRoute()
 const authStore = useAuthStore()
 const accessToken = useAccessToken()
@@ -36,13 +35,12 @@ useHead(() => ({
   },
 }))
 
-onMounted(async () => {
+onMounted(() => {
   const saved = localStorage.getItem('lang')
   if (saved === 'en' || saved === 'km') {
     setLocale(saved)
   }
 
-  // Rehydrate auth state after a hard refresh if the access token cookie is still alive
   if (accessToken.value && !authStore.user) {
     authStore.fetchProfile()
   }

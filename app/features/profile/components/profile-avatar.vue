@@ -2,6 +2,7 @@
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import { ElMessageBox } from 'element-plus'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseImage from '~/components/ui/BaseImage.vue'
 import { initials as getInitials } from '~/utils/initials'
 
 const props = defineProps<{
@@ -72,7 +73,7 @@ async function handleDelete() {
   <div class="flex items-center gap-5">
     <div class="relative">
       <div class="w-20 h-20 rounded-full bg-gray-100 flex items-center justify-center text-xl font-bold text-gray-500 overflow-hidden ring-2 ring-gray-200">
-        <img v-if="imgUrl" :src="imgUrl" class="w-full h-full object-cover" :alt="name" />
+        <BaseImage v-if="imgUrl" :src="imgUrl" :alt="name" :rounded="false" fit="cover" />
         <span v-else>{{ userInitials }}</span>
       </div>
       <div v-if="isUploading || isDeleting" class="absolute inset-0 rounded-full bg-black/40 flex items-center justify-center">

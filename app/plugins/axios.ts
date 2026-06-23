@@ -29,13 +29,12 @@ export default defineNuxtPlugin((nuxtApp) => {
     return request
   }
 
-  // Called when both tokens are gone — wipe local state and send user to login
+  // Called when both tokens are gone — wipe local state.
+  // Navigation to /auth/login is handled by route middleware, not here,
+  // to avoid conflicting with in-flight middleware navigation.
   const clearSession = () => {
     accessToken.value = null
     authStore.clear()
-    if (import.meta.client) {
-      router.replace('/auth/login')
-    }
   }
 
   const refreshAccessToken = async () => {

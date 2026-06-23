@@ -4,7 +4,7 @@
       <BaseIconClient name="map-pin" size="20" />
       <h3>{{ $t("property.location.title") }}</h3>
     </div>
-    <div class="grid grid-cols-2 gap-5 mt-5">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
       <!-- city or province -->
       <div>
         <p class="text-(--gray)" style="font-size: 13px">
@@ -42,7 +42,7 @@
         </p>
       </div>
       <!-- nearby -->
-      <div class="border-l-4 border-(--nav-active-item) rounded-(--radius) p-3 bg-(--bg-gray) col-span-2">
+      <div class="border-l-4 border-(--nav-active-item) rounded-(--radius) p-3 bg-(--bg-gray) col-span-1 md:col-span-2">
         <p class="text-(--gray)" style="font-size: 13px">
           {{ $t("property.location.nearby_address") }}
         </p>

@@ -9,11 +9,12 @@ withDefaults(
     type?: 'text' | 'textarea' | 'number' | 'password' | 'email' | 'search' | 'tel' | 'url',
     icon?: string,
     size?: 'large' | 'default' | 'small'
+    clearable?: boolean
+    disabled?: boolean
   }>(),
   {
     type: 'text',
     size: 'default',
-    
   }
 )
 
@@ -21,7 +22,7 @@ defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <el-input :type :placeholder :size :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)">
+  <el-input :type :placeholder :size :clearable :disabled :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)">
     <template v-if="icon" #prefix>
       <BaseIconClient :name="icon" />
     </template>

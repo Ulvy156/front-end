@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { UserProfile } from '../types/profile'
+import type { ContactVisibility, NewPhone, UserProfile } from '../types/profile'
 
 const PROFILE_KEY = ['profile']
 
@@ -60,5 +60,41 @@ export function useProfile() {
     },
   })
 
-  return { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword }
+  const updateContactVisibility = useMutation({
+    mutationFn: async (payload: Partial<ContactVisibility>) => {
+      const { data } = await $axios.patch<ContactVisibility>('/user/me/contact-visibility', payload)
+      return data
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(PROFILE_KEY, (old: UserProfile | undefined) =>
+        old ? { ...old, ...data } : old,
+      )
+    },
+  })
+
+  const addPhone = useMutation({
+    mutationFn: async (phoneNumber: string) => {
+      const { data } = await $axios.post<NewPhone>('/user/me/phones', { phoneNumber })
+      return data
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(PROFILE_KEY, (old: UserProfile | undefined) =>
+        old ? { ...old, phones: [...old.phones, { id: data.id, phoneNumber: data.phoneNumber, type: data.type }] } : old,
+      )
+    },
+  })
+
+  const deletePhone = useMutation({
+    mutationFn: async (id: number) => {
+      await $axios.delete(`/user/me/phones/${id}`)
+      return id
+    },
+    onSuccess: (deletedId) => {
+      queryClient.setQueryData(PROFILE_KEY, (old: UserProfile | undefined) =>
+        old ? { ...old, phones: old.phones.filter(p => p.id !== deletedId) } : old,
+      )
+    },
+  })
+
+  return { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone }
 }

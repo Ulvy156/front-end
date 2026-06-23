@@ -15,7 +15,7 @@
       <span>{{ $t("property.rules.desc") }}</span>
     </div>
     <section class="mt-5 flex flex-col gap-8 lg:flex-row">
-      <div class="flex h-fit w-1/2 flex-wrap items-start gap-5">
+      <div class="flex h-fit w-full md:w-1/2 flex-wrap items-start gap-5">
         <rulesItem
           v-for="rule in allowedRules"
           :key="rule.icon"
@@ -24,7 +24,7 @@
         />
       </div>
       <div class="hidden border-r border-gray lg:block md:block"></div>
-      <div class="flex w-1/2 flex-wrap items-start gap-5">
+      <div class="flex w-full md:w-1/2 flex-wrap items-start gap-5">
         <rulesItem
           v-for="rule in notAllowedRules"
           :key="rule.icon"

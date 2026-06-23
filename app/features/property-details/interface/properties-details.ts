@@ -50,7 +50,7 @@ export interface User {
   role: 'ADMIN' | 'USER';
   phones: Phone[];
   name: string;
-  email: string;
+  email: string | null;
 }
 
 export interface Parking {

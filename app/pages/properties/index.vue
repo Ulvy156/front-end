@@ -1,6 +1,6 @@
 <template>
   <section class="mt-10 grid grid-cols-1 gap-y-6">
-    <div class="flex justify-between items-center w-full">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center w-full gap-4">
       <div>
         <div class="flex items-center gap-x-5 text-(--nav-active-item) mb-3">
           <span
@@ -13,24 +13,46 @@
         <h2>{{ $t("filter.available") }}</h2>
         <p class="text-(--gradient-primary)">{{ $t("filter.description") }}</p>
       </div>
-      <filterChip />
+      <div class="flex items-center gap-3">
+        <button
+          class="md:hidden flex items-center gap-2 px-4 py-2 rounded-lg border border-(--nav-active-item) text-(--nav-active-item) bg-(--nav-active) cursor-pointer"
+          @click="showFilterDrawer = true"
+        >
+          <BaseIconClient name="funnel" :size="16" />
+          {{ $t('filter.title') }}
+        </button>
+        <filterChip />
+      </div>
     </div>
-    <section class="flex justify-between gap-x-10">
-      <filterSideBar class="w-[25%]" />
-      <div class="w-[75%]">
+    <section class="flex flex-col md:flex-row justify-between gap-y-6 md:gap-x-10">
+      <filterSideBar class="hidden md:block w-full md:w-[25%]" />
+      <div class="w-full md:w-[75%]">
         <propertySection />
       </div>
     </section>
+
+    <!-- Mobile filter drawer -->
+    <BaseDrawer
+      v-model="showFilterDrawer"
+      direction="ltr"
+      :title="$t('filter.title')"
+      size="85%"
+    >
+      <filterSideBar is-drawer />
+    </BaseDrawer>
   </section>
 </template>
 
 <script lang="ts" setup>
 import filterSideBar from "~/features/browse-properties/components/filter-side-bar.vue";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import BaseDrawer from "~/components/ui/BaseDrawer.vue";
 import propertySection from "~/features/browse-properties/components/property-section.vue";
 import { usePropertyFilterStore } from "~/stores/propertyFilter";
 import filterChip from "~/features/browse-properties/components/filter-chip.vue";
 import { useSEO } from "#imports";
+
+const showFilterDrawer = ref(false)
 
 const filterStore = usePropertyFilterStore();
 const SEO = useSEO();

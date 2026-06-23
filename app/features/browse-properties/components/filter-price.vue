@@ -4,7 +4,7 @@
             <BaseIconClient name="dollar-sign" color="var(--nav-active-item)"/>
             <p>{{ $t("filter.priceRange") }}</p>
         </div>
-        <div class="flex justify-between gap-x-5 font-semibold">
+        <div class="flex flex-col sm:flex-row justify-between gap-y-2 sm:gap-x-5 font-semibold">
             <BaseInput type="number" size="small" v-model.number="filter.min" icon="dollar-sign"/>
             <BaseIconClient class="rotate-90" size="40" name="arrow-up-0-1"/>
             <BaseInput type="number" v-model.number="filter.max" icon="dollar-sign"/>

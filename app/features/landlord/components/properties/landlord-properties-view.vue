@@ -3,6 +3,7 @@ import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useLandlordProperties } from '~/features/landlord/composables/useLandlordProperties'
 import type { LandlordProperty, LandlordPropertiesFilter } from '~/features/landlord/types/property'
@@ -46,7 +47,8 @@ watch(availabilityFilter, (val) => {
   }
 })
 
-const { data, isPending, duplicateProperty } = useLandlordProperties(filters)
+const router = useRouter()
+const { data, isPending, togglePublish, toggleAvailability, duplicateProperty } = useLandlordProperties(filters)
 
 const items = computed(() => data.value?.items ?? [])
 const meta = computed(() => data.value?.meta)
@@ -59,7 +61,25 @@ function handlePageChange(page: number) {
   filters.value = { ...filters.value, page }
 }
 
-const duplicatingId = ref<string | null>(null)
+const busyId = ref<string | null>(null)
+
+async function handleTogglePublish(prop: LandlordProperty) {
+  busyId.value = prop.id
+  try {
+    await togglePublish.mutateAsync(prop.id)
+    success(prop.isPublished ? t('landlord.properties.unpublishSuccess') : t('landlord.properties.publishSuccess'))
+  } catch (err) { notifyError(extract(err)) }
+  finally { busyId.value = null }
+}
+
+async function handleToggleAvailability(prop: LandlordProperty) {
+  busyId.value = prop.id
+  try {
+    await toggleAvailability.mutateAsync(prop.id)
+    success(prop.isAvailable ? t('landlord.properties.markedRented') : t('landlord.properties.markedAvailable'))
+  } catch (err) { notifyError(extract(err)) }
+  finally { busyId.value = null }
+}
 
 async function handleDuplicate(prop: LandlordProperty) {
   try {
@@ -70,12 +90,13 @@ async function handleDuplicate(prop: LandlordProperty) {
     )
   } catch { return }
 
-  duplicatingId.value = prop.id
+  busyId.value = prop.id
   try {
-    await duplicateProperty.mutateAsync(prop.id)
+    const newProp = await duplicateProperty.mutateAsync(prop.id)
     success(t('landlord.properties.duplicateSuccess'))
+    router.push(`/properties/details/${newProp.id}`)
   } catch (err) { notifyError(extract(err)) }
-  finally { duplicatingId.value = null }
+  finally { busyId.value = null }
 }
 </script>
 
@@ -90,11 +111,7 @@ async function handleDuplicate(prop: LandlordProperty) {
 
     <!-- Filters -->
     <div class="flex gap-3 mb-4">
-      <el-input v-model="searchInput" :placeholder="t('landlord.properties.searchPlaceholder')" clearable class="max-w-72">
-        <template #prefix>
-          <BaseIcon name="search" :size="14" class="text-gray-400" />
-        </template>
-      </el-input>
+      <BaseInput v-model="searchInput" :placeholder="t('landlord.properties.searchPlaceholder')" clearable icon="search" class="max-w-72" />
       <el-select v-model="statusFilter" class="w-44">
         <el-option :label="t('landlord.properties.filterAll')" value="all" />
         <el-option :label="t('landlord.properties.filterPublished')" value="published" />
@@ -132,7 +149,9 @@ async function handleDuplicate(prop: LandlordProperty) {
                   <BaseIcon v-else name="building" :size="20" class="text-gray-300" />
                 </div>
                 <div class="min-w-0">
-                  <p class="text-sm font-medium text-gray-900 truncate">{{ row.title }}</p>
+                  <NuxtLink :to="`/landlord/properties/${row.id}`" class="text-sm font-medium text-gray-900 truncate hover:text-emerald-600 block">
+                    {{ row.title }}
+                  </NuxtLink>
                   <p class="text-xs text-gray-400 truncate">{{ locationLabel(row) }}</p>
                   <p class="text-xs text-gray-400">{{ row.propertyType[langKey] }}</p>
                 </div>
@@ -174,6 +193,9 @@ async function handleDuplicate(prop: LandlordProperty) {
               <div class="flex flex-col gap-1 text-xs text-gray-500">
                 <span class="flex items-center gap-1"><BaseIcon name="eye" :size="12" /> {{ row.totalViews.toLocaleString() }}</span>
                 <span class="flex items-center gap-1"><BaseIcon name="heart" :size="12" /> {{ row.favouriteCount }}</span>
+                <span v-if="row.reportCount > 0" class="flex items-center gap-1 text-red-500">
+                  <BaseIcon name="flag" :size="12" /> {{ row.reportCount }}
+                </span>
               </div>
             </template>
           </el-table-column>
@@ -184,13 +206,37 @@ async function handleDuplicate(prop: LandlordProperty) {
             </template>
           </el-table-column>
 
-          <el-table-column :label="t('landlord.properties.columns.actions')" width="80" align="right">
+          <el-table-column :label="t('landlord.properties.columns.actions')" width="100" align="right">
             <template #default="{ row }">
-              <el-tooltip :content="t('landlord.properties.duplicate')" placement="top">
-                <el-button text size="small" class="text-gray-400!" :loading="duplicatingId === row.id" @click="handleDuplicate(row)">
-                  <BaseIcon name="copy" :size="15" />
+              <el-dropdown trigger="click" :disabled="busyId === row.id">
+                <el-button text size="small" class="text-gray-400!" :loading="busyId === row.id">
+                  <BaseIcon name="ellipsis-vertical" :size="16" />
                 </el-button>
-              </el-tooltip>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item @click="router.push(`/landlord/properties/${row.id}`)">
+                      <BaseIcon name="eye" :size="14" class="mr-2" />
+                      {{ t('landlord.properties.viewDetails') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item @click="router.push(`/landlord/properties/${row.id}/edit`)">
+                      <BaseIcon name="pencil" :size="14" class="mr-2" />
+                      {{ t('landlord.editProperty.title') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item divided @click="handleTogglePublish(row)">
+                      <BaseIcon :name="row.isPublished ? 'eye-off' : 'eye'" :size="14" class="mr-2" />
+                      {{ row.isPublished ? t('landlord.properties.unpublish') : t('landlord.properties.publish') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item :disabled="!row.isPublished" @click="handleToggleAvailability(row)">
+                      <BaseIcon :name="row.isAvailable ? 'house-off' : 'house'" :size="14" class="mr-2" />
+                      {{ row.isAvailable ? t('landlord.properties.markRented') : t('landlord.properties.markAvailable') }}
+                    </el-dropdown-item>
+                    <el-dropdown-item divided @click="handleDuplicate(row)">
+                      <BaseIcon name="copy" :size="14" class="mr-2" />
+                      {{ t('landlord.properties.duplicate') }}
+                    </el-dropdown-item>
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
             </template>
           </el-table-column>
         </el-table>

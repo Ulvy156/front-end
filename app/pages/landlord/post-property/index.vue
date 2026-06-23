@@ -12,58 +12,11 @@
 definePageMeta({ middleware: 'landlord', layout: 'landlord' })
 
 import postSection from '~/features/post-property/components/post-section.vue'
-import { reactive, provide } from 'vue'
+import { provide } from 'vue'
+import { createPropertyForm, createPropertyFormErrors } from '~/utils/propertyFormDefaults'
 
-const postPropertyForm = reactive({
-  propertyType: '',
-  propertyTitle: '',
-  description: '',
-  bedrooms: 0,
-  bathrooms: 0,
-  size: '',
-  fullyFurnished: false,
-  province: '',
-  district: '',
-  districtId: 0,
-  streetAddress: '',
-  mapsLink: '',
-  latitude: null,
-  longitude: null,
-  hideAddress: false,
-  rent: '',
-  deposit: '',
-  minStay: '',
-  availableFrom: '',
-  isAvailable: true,
-  amenities: [],
-  parkings: [],
-  parkingDetails: {},
-  houseRules: {
-    petsAllowed: false,
-    smokingAllowed: false,
-    guestsAllowed: false,
-    partiesAllowed: false,
-  },
-  additionalNotes: '',
-  photos: [],
-  photoFiles: [],
-})
-
-const formErrors = reactive({
-  propertyType: '',
-  propertyTitle: '',
-  description: '',
-  size: '',
-  province: '',
-  district: '',
-  streetAddress: '',
-  mapsLink: '',
-  rent: '',
-  minStay: '',
-  availableFrom: '',
-  photos: '',
-  amenities: '',
-})
+const postPropertyForm = createPropertyForm()
+const formErrors = createPropertyFormErrors()
 
 provide('postPropertyForm', postPropertyForm)
 provide('formErrors', formErrors)

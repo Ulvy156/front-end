@@ -1,6 +1,6 @@
 <template>
-  <section class="flex gap-x-10 ">
-    <div class="w-[65%] flex flex-col gap-y-7">
+  <section class="flex flex-col lg:flex-row gap-y-8 lg:gap-x-10">
+    <div class="w-full lg:w-[65%] flex flex-col gap-y-7">
       <carouselPropertyDetails :property="property!"/>
       <propertyRooms :property="property!"/>
       <propertyDescription :property="property!"/>
@@ -12,7 +12,7 @@
       <relatedProperties/>
     </div>
     <!-- land lord -->
-    <div class="w-[30%] sticky top-[20%] h-fit self-start">
+    <div class="w-full lg:w-[30%] lg:sticky lg:top-[20%] h-fit self-start">
       <contactLandlord :property="property!" />
     </div>
   </section>

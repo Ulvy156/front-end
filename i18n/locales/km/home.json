@@ -1,17 +1,64 @@
 {
   "home": {
     "hero": {
-      "title": "Find Your Perfect Room",
-      "content": "Discover comfortable and affordable rooms across Cambodia"
+      "title": "ស្វែងរកបន្ទប់ល្អឥតខ្ចោះរបស់អ្នក",
+      "content": "ស្វែងរកបន្ទប់ស្នាក់នៅផាសុកភាព និងតម្លៃសមរម្យទូទាំងកម្ពុជា"
     },
     "featured": {
-      "title": "Featured Listings",
-      "description": "Hand-picked rooms with exceptional quality and value",
-      "badge": "FEATURED",
-      "newList": "Fresh listings added to our platform",
-      "justListed": "Just listed"
+      "title": "ការផ្សាយពិសេស",
+      "description": "បន្ទប់ដែលបានជ្រើសរើសដោយមានគុណភាព និងតម្លៃល្អ",
+      "badge": "ពិសេស",
+      "newList": "ការផ្សាយថ្មីបន្ថែមទៅលើវេទិការបស់យើង",
+      "justListed": "ទើបតែផ្សាយ"
     },
-    "popularLocation": "Popular Locations",
-    "latestListings": "Latest Listings"
+    "location": {
+      "title": "ទីតាំងពេញនិយម",
+      "description": "ស្វែងរកបន្ទប់នៅតំបន់ពេញនិយមបំផុតក្នុងកម្ពុជា"
+    },
+    "popularLocation": "ទីតាំងពេញនិយម",
+    "latestListings": "ការផ្សាយថ្មីបំផុត",
+    "choseUs": {
+      "choseUs": "ហេតុអ្វីជ្រើសរើសយើង",
+      "title": "អ្វីគ្រប់យ៉ាងដែលអ្នកត្រូវការដើម្បីស្វែងរកផ្ទះ",
+      "description": "យើងបានបង្កើតវេទិកាដ៏ទូលំទូលាយបំផុតសម្រាប់ជួលបន្ទប់នៅកម្ពុជា ជាមួយមុខងារដែលរចនាឡើងដើម្បីធ្វើឱ្យការស្វែងរករបស់អ្នកងាយស្រួល",
+      "card": {
+        "contact": {
+          "title": "ទំនាក់ទំនងផ្ទាល់",
+          "description": "ទំនាក់ទំនងផ្ទាល់ជាមួយម្ចាស់ផ្ទះដោយគ្មានអន្តរការី ឬថ្លៃលាក់កំបាំង"
+        },
+        "search": {
+          "title": "ស្វែងរកឆ្លាតវៃ",
+          "description": "ស្វែងរកបន្ទប់ល្អឥតខ្ចោះជាមួយតម្រងកម្រិតខ្ពស់ និងការស្វែងរកតាមទីតាំង"
+        },
+        "free": {
+          "title": "ជំនួយឥតគិតថ្លៃ",
+          "description": "រួមបញ្ចូលជាមួយនឹងសេវាកម្ម យើងនៅទីនេះដើម្បីជួយអ្នកស្វែងរកផ្ទះ"
+        }
+      }
+    },
+    "howItWork": {
+      "process": "ដំណើរការសាមញ្ញ",
+      "title": "របៀបដែលវាដំណើរការ",
+      "description": "ស្វែងរកបន្ទប់ល្អឥតខ្ចោះក្នុងជំហានសាមញ្ញចំនួនបួន។ វារហ័ស ងាយស្រួល និងឥតគិតថ្លៃទាំងស្រុង!",
+      "card": {
+        "search": {
+          "title": "ស្វែងរក",
+          "description": "រកមើលការផ្សាយដែលបានផ្ទៀងផ្ទាត់ជាមួយតម្រងឆ្លាតវៃ"
+        },
+        "pick": {
+          "title": "ជ្រើសរើស",
+          "description": "ប្រៀបធៀបបន្ទប់ និងរក្សាទុកចំណូលចិត្តរបស់អ្នក"
+        },
+        "connect": {
+          "title": "ភ្ជាប់ទំនាក់ទំនង",
+          "description": "ផ្ញើសារទៅម្ចាស់ផ្ទះផ្ទាល់ កំណត់ពេលទស្សនា"
+        },
+        "move_in": {
+          "title": "ចូលស្នាក់នៅ",
+          "description": "ចុះហត្ថលេខាលើកិច្ចសន្យា ហើយរីករាយជាមួយផ្ទះថ្មីរបស់អ្នក"
+        }
+      }
+    },
+    "process": {}
   }
 }

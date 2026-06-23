@@ -11,7 +11,7 @@
       </h3>
     </div>
     <!-- amenities item -->
-    <div class="grid grid-cols-4 gap-5 mt-5 pb-6">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-5 pb-6">
       <div
         class="flex items-center justify-between gap-x-3 bg-(--nav-active) text-(--nav-active-item) p-2 rounded-(--radius)"
         v-for="value in props.property.amenities"

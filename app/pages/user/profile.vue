@@ -2,12 +2,14 @@
 import ProfileAvatar from '~/features/profile/components/profile-avatar.vue'
 import ProfileInfo from '~/features/profile/components/profile-info.vue'
 import ChangePassword from '~/features/profile/components/change-password.vue'
+import ContactVisibility from '~/features/profile/components/contact-visibility.vue'
+import PhoneManagement from '~/features/profile/components/phone-management.vue'
 import { useProfile } from '~/features/profile/composables/useProfile'
 
 definePageMeta({ layout: 'default', middleware: 'auth' })
 
 const { t } = useI18n()
-const { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword } = useProfile()
+const { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone } = useProfile()
 
 useSeoMeta({
   title: `${t('profile.title')} | Rentify`,
@@ -47,6 +49,18 @@ useSeoMeta({
       <div class="bg-white rounded-xl border border-gray-200 p-6">
         <h2 class="text-sm font-semibold text-gray-900 mb-4">{{ $t('profile.info.title') }}</h2>
         <ProfileInfo :profile="profile" :update-mutation="updateName" />
+      </div>
+
+      <!-- Phone management card (landlord/admin only) -->
+      <div v-can="'landlord'" class="bg-white rounded-xl border border-gray-200 p-6">
+        <h2 class="text-sm font-semibold text-gray-900 mb-4">{{ $t('profile.phones.title') }}</h2>
+        <PhoneManagement :profile="profile" :add-mutation="addPhone" :delete-mutation="deletePhone" />
+      </div>
+
+      <!-- Contact visibility card -->
+      <div class="bg-white rounded-xl border border-gray-200 p-6">
+        <h2 class="text-sm font-semibold text-gray-900 mb-4">{{ $t('profile.visibility.title') }}</h2>
+        <ContactVisibility :profile="profile" :mutation="updateContactVisibility" />
       </div>
 
       <!-- Security card -->
