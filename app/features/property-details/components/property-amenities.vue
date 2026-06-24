@@ -1,54 +1,28 @@
 <template>
-  <section class="p-5 border border-gray rounded-(--radius) bg-white">
-    <div class="flex items-center gap-x-2">
-      <h3>
-        <BaseIconClient
-          color="var(--nav-active-item)"
-          size="20"
-          name="sparkles"
-        />
-        {{ $t("property.amenity") }}
-      </h3>
-    </div>
-    <!-- amenities item -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mt-5 pb-6">
+  <section v-if="props.property.amenities.length">
+    <h2 class="text-xl font-bold text-gray-800 mb-3.5">{{ $t("property.amenity") }}</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-2.5">
       <div
-        class="flex items-center justify-between gap-x-3 bg-(--nav-active) text-(--nav-active-item) p-2 rounded-(--radius)"
         v-for="value in props.property.amenities"
+        :key="value.icon"
+        class="flex items-center gap-3 bg-white border border-gray-200 rounded-lg py-3 px-4"
       >
-        <div class="flex items-center gap-x-3">
-          <BaseIconClient color="var(--nav-active-item)" :name="value.icon" />
-          <p >{{ value[currentKey] }}</p>
-        </div>
-        <BaseIconClient color="var(--nav-active-item)" name="check-check" />
+        <span class="w-5.5 h-5.5 rounded-full flex items-center justify-center bg-(--nav-active) shrink-0">
+          <BaseIconClient :name="value.icon" :size="13" color="var(--nav-active-item)" />
+        </span>
+        <span class="text-sm text-gray-500">{{ value[currentKey] }}</span>
       </div>
     </div>
   </section>
 </template>
 
 <script lang="ts" setup>
-import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import type { PropertyDetail } from "../interface/properties-details";
-import { useLangKey } from "#imports";
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import type { PropertyDetail } from "../interface/properties-details"
 
 const props = defineProps<{
-  property: PropertyDetail;
-}>();
-const currentKey = useLangKey();
+  property: PropertyDetail
+}>()
 
+const currentKey = useLangKey()
 </script>
-
-<style scoped>
-.card {
-  padding: 15px;
-  border-radius: var(--radius);
-  background: var(--bg-gray);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border-left: 4px solid var(--nav-active-item);
-}
-.card h4 {
-  font-size: 16px;
-}
-</style>

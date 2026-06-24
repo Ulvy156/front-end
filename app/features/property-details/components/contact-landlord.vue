@@ -1,140 +1,144 @@
 <template>
-  <section class="w-full h-fit grid grid-cols-1 gap-y-5 sticky z-10 top-0">
-    <div
-      class="col-span-1 rounded-(--radius) border border-(--border-gray) p-5 bg-(--card)"
-    >
-      <h5>{{ $t("property.contact") }}</h5>
-      <!-- profile -->
-      <div class="mt-5">
-        <div class="flex items-center gap-x-5">
-          <BaseAvatar
-            :name="property?.user.name"
-            :src="property?.user.imgUrl"
-          />
-          <div>
-            <NuxtLink
-              :to="`/landlord/profile/${property?.userId}`"
-              class="text-lg font-semibold hover:text-(--nav-active-item) transition-colors"
-              @click.stop
-            >
-              {{ property?.user.name }}
-            </NuxtLink>
-            <span class="text-(--gray) block">{{ property?.user.role }}</span>
-          </div>
-        </div>
-        <!-- email -->
-        <div
-          v-if="property?.user.email"
-          class="flex items-center justify-between gap-x-3 bg-(--bg-gray) p-3 rounded-(--radius) mt-4"
+  <aside class="border border-gray-200 rounded-lg p-5 shadow-[0_4px_20px_rgba(17,24,39,0.04)] overflow-hidden bg-white">
+    <!-- Indigo top accent bar -->
+    <div class="h-[3px] bg-(--nav-active-item) rounded-full -mx-5 -mt-5 mb-4"></div>
+
+    <!-- Price -->
+    <div class="flex items-baseline gap-1.5 mb-1">
+      <span class="text-[38px] font-extrabold text-gray-800 leading-none">${{ property.monthly_price }}</span>
+      <span class="text-[15px] text-gray-400">/ {{ $t('month') }}</span>
+    </div>
+    <div class="text-[13px] text-gray-400 mb-4 pb-4 border-b border-gray-200">
+      {{ formatDuration(property.minimumStayLength) }} {{ $t('property.price.lease').toLowerCase() }} · ${{ property.deposit }} {{ $t('property.price.deposit').toLowerCase() }}
+    </div>
+
+    <!-- Landlord -->
+    <div class="flex items-center gap-3 mb-4">
+      <BaseAvatar :name="property.user.name" :src="property.user.imgUrl" />
+      <div>
+        <NuxtLink
+          :to="`/landlord/profile/${property.userId}`"
+          class="text-[15px] font-semibold text-gray-800 hover:text-(--nav-active-item) transition-colors"
         >
-          <div class="flex items-center gap-x-3">
-            <BaseIconClient name="mail" />
-            <p>{{ property.user.email }}</p>
-          </div>
-          <BaseIconClient
-            @click="copy(property.user.email!)"
-            class="cursor-pointer"
-            name="copy"
-          />
-        </div>
-        <!-- socail media -->
-        <div v-if="phoneNumber.length > 0 || telegram.length > 0" class="grid grid-cols-1 gap-y-5 mt-4">
-          <!-- phone number -->
-          <div
-            v-for="phone in phoneNumber"
-            :key="phone.phoneNumber"
-            class="flex items-center justify-between gap-x-3 bg-(--bg-gray) p-3 rounded-(--radius)"
+          {{ property.user.name }}
+        </NuxtLink>
+        <div class="text-xs text-gray-400">{{ property.user.role }}</div>
+      </div>
+    </div>
+
+    <!-- Contact button -->
+    <a
+      v-if="phoneNumber.length"
+      :href="`tel:${phoneNumber[0].phoneNumber}`"
+      class="w-full bg-(--nav-active-item) text-white rounded-lg py-3.5 text-[15px] font-semibold text-center block"
+    >
+      {{ $t('property.contact') }}
+    </a>
+    <button
+      v-else
+      class="w-full bg-(--nav-active-item) text-white border-none rounded-lg py-3.5 text-[15px] font-semibold cursor-pointer"
+    >
+      {{ $t('property.contact') }}
+    </button>
+
+    <!-- Call now -->
+    <a
+      v-if="phoneNumber.length"
+      :href="`tel:${phoneNumber[0].phoneNumber}`"
+      class="w-full flex items-center justify-center gap-2 bg-green-500 text-white rounded-lg py-3.5 text-[15px] font-semibold mt-2.5 text-center"
+    >
+      <BaseIconClient name="phone-call" :size="17" />
+      {{ $t('property.call') }}
+    </a>
+
+    <!-- Contact rows -->
+    <div class="flex flex-col gap-2 mt-3.5">
+      <div
+        v-if="property.user.email"
+        class="flex items-center gap-2.5 bg-[#f4f5f7] rounded-lg px-3.5 py-2.5"
+      >
+        <BaseIconClient name="mail" :size="16" color="var(--nav-active-item)" />
+        <span class="flex-1 text-[13px] text-gray-500 truncate">{{ property.user.email }}</span>
+        <BaseIconClient name="copy" :size="15" class="text-gray-400 cursor-pointer shrink-0" @click="copy(property.user.email!)" />
+      </div>
+      <div
+        v-for="phone in phoneNumber"
+        :key="phone.phoneNumber"
+        class="flex items-center gap-2.5 bg-[#f4f5f7] rounded-lg px-3.5 py-2.5"
+      >
+        <BaseIconClient name="phone" :size="16" color="var(--nav-active-item)" />
+        <span class="flex-1 text-[13px] text-gray-500">{{ phone.phoneNumber }}</span>
+        <BaseIconClient name="copy" :size="15" class="text-gray-400 cursor-pointer shrink-0" @click="copy(phone.phoneNumber)" />
+      </div>
+    </div>
+
+    <!-- Telegram -->
+    <a
+      v-if="telegram.length"
+      target="_blank"
+      :href="getTelegramLink(telegram[0].phoneNumber)!"
+      class="w-full flex items-center justify-center gap-2 bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) rounded-lg py-3 text-[15px] font-semibold mt-2 text-center"
+    >
+      <BaseIconClient name="message-square-text" :size="17" />
+      {{ $t('property.telegram') }}
+    </a>
+
+    <!-- Share -->
+    <div class="border-t border-gray-200 mt-4 pt-4">
+      <div class="flex items-center gap-3 mb-3.5">
+        <span class="text-[13px] font-semibold text-gray-400">{{ $t('property.share') }}</span>
+        <div class="flex gap-2">
+          <button
+            class="share-btn"
+            @click="openShare('FB', shareUrl, property.title)"
           >
-            <div class="flex items-center gap-x-3">
-              <BaseIconClient name="phone-call" />
-              <p class="">{{ phone.phoneNumber }}</p>
-            </div>
-            <BaseIconClient
-              @click="copy(phone.phoneNumber)"
-              class="cursor-pointer"
-              name="copy"
-            />
-          </div>
-          <!-- call now -->
-          <a
-            v-if="phoneNumber.length > 0"
-            :href="`tel:${phoneNumber[0].phoneNumber}`"
-            class="flex justify-center items-center gap-x-3 bg-(--nav-active-item) text-white p-3 rounded-md"
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
+              <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                d="M6.5 10v4h3v7h4v-7h3l1-4h-4V8c0-.545.455-1 1-1h3V3h-3c-2.723 0-5 2.277-5 5v2z" />
+            </svg>
+          </button>
+          <button
+            class="share-btn"
+            @click="openShare('TG', shareUrl, property.title)"
           >
-            <BaseIconClient name="phone-call" />
-            <p class="">{{ $t("property.call") }}</p>
-          </a>
-          <!-- telegram -->
-          <a
-            v-if="telegram.length > 0"
-            target="_blank"
-            :href="getTelegramLink(telegram[0].phoneNumber)!"
-            class="flex justify-center items-center gap-x-3 border border-[#e2e0e0] bg-(--bg-gray) p-3 rounded-md"
+            <BaseIconClient name="message-square-text" :size="18" />
+          </button>
+          <button
+            class="share-btn"
+            @click="copy(useFullUrl().getFullUrl())"
           >
-            <BaseIconClient name="message-square-text" />
-            <p class="">{{ $t("property.telegram") }}</p>
-          </a>
+            <BaseIconClient name="link" :size="17" />
+          </button>
         </div>
       </div>
     </div>
-    <!-- share social media -->
-    <div
-      class="grid grid-cols-3 gap-5 rounded-lg p-5 border border-(--border-gray) bg-(--card)"
-    >
-      <h5 class="col-span-full flex items-center gap-x-3">
-        <BaseIconClient name="share-2" />
-        {{ $t("property.share") }}
-      </h5>
-      <!-- facebook -->
-      <span @click="openShare('FB', shareUrl, property.title)" class="icon">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="20"
-          height="20"
-          viewBox="0 0 24 24"
-        >
-          <path
-            fill="none"
-            stroke="currentColor"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="1.5"
-            d="M6.5 10v4h3v7h4v-7h3l1-4h-4V8c0-.545.455-1 1-1h3V3h-3c-2.723 0-5 2.277-5 5v2z"
-          />
-        </svg>
-      </span>
-      <!-- telegram -->
-      <span @click="openShare('TG', shareUrl, property.title)" class="icon">
-        <BaseIconClient name="message-square-text" />
-      </span>
-      <!-- copy link -->
-      <span class="icon" @click="copy(useFullUrl().getFullUrl())">
-        <BaseIconClient name="copy" />
-      </span>
-    </div>
-    <!-- report -->
-    <span
-      class="flex items-center gap-x-2 justify-center bg-white p-3 rounded-(--radius) cursor-pointer hover:bg-(--nav-active) hover:text-(--nav-active-item) transition-all"
+
+    <!-- Report -->
+    <button
+      class="w-full flex items-center justify-center gap-2 bg-transparent text-red-500 border border-red-200 rounded-lg py-3 text-sm font-semibold cursor-pointer"
       @click="handleReport"
     >
-      <BaseIconClient name="flag" />
-      {{ $t("property.report") }}
-    </span>
+      <BaseIconClient name="flag" :size="15" />
+      {{ $t('property.report') }}
+    </button>
     <reportPropertyDialog ref="reportDialog" :property-id="property.id" />
-  </section>
+  </aside>
 </template>
 
 <script lang="ts" setup>
-import BaseAvatar from "~/components/ui/BaseAvatar.vue";
-import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import reportPropertyDialog from "./report-property-dialog.vue";
-import type { PropertyDetail } from "../interface/properties-details";
-import { useFullUrl } from "#imports";
-import { useCopy } from "#imports";
-import { getTelegramLink } from "#imports";
-import { openShare } from "#imports";
+import BaseAvatar from "~/components/ui/BaseAvatar.vue"
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import reportPropertyDialog from "./report-property-dialog.vue"
+import type { PropertyDetail } from "../interface/properties-details"
+import { useFullUrl } from "#imports"
+import { useCopy } from "#imports"
+import { getTelegramLink } from "#imports"
+import { openShare } from "#imports"
+
 const route = useRoute()
+const { t } = useI18n()
 const { requireAuth } = useRequireAuth()
+const langKey = useLangKey()
 
 const reportDialog = ref<InstanceType<typeof reportPropertyDialog>>()
 
@@ -142,42 +146,39 @@ function handleReport() {
   requireAuth(() => reportDialog.value?.open())
 }
 
-
 const shareUrl = computed(() =>
-  import.meta.client
-    ? window.location.origin + route.fullPath
-    : ''
+  import.meta.client ? window.location.origin + route.fullPath : ''
 )
-const props = defineProps<{
-  property: PropertyDetail;
-}>();
 
-const { copy } = useCopy();
-// extract phone number only ( not telegram )
+const props = defineProps<{
+  property: PropertyDetail
+}>()
+
+const { copy } = useCopy()
+
 const phoneNumber = computed(
-  () =>
-    props.property?.user?.phones?.filter((item) => item.type === "PHONE") ?? [],
-);
+  () => props.property?.user?.phones?.filter((item) => item.type === "PHONE") ?? [],
+)
 const telegram = computed(
-  () =>
-    props.property?.user?.phones?.filter((item) => item.type === "TELEGRAM") ?? [],
-);
+  () => props.property?.user?.phones?.filter((item) => item.type === "TELEGRAM") ?? [],
+)
 </script>
 
 <style scoped>
-.icon {
-  background: var(--bg-gray);
-  padding: 20px;
+.share-btn {
+  width: 40px;
+  height: 40px;
+  background: #f4f5f7;
+  border: none;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius);
   cursor: pointer;
-}
-
-.icon:hover {
-  background: var(--nav-active);
   color: var(--nav-active-item);
-  transition: 0.5s all;
+  transition: background 0.2s;
+}
+.share-btn:hover {
+  background: var(--nav-active);
 }
 </style>

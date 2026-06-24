@@ -78,19 +78,36 @@
         <span class="text-red-500">*</span>
         <span v-if="formErrors.availableFrom" class="text-red-500 text-xs font-normal ml-1">{{ formErrors.availableFrom }}</span>
       </label>
-      <div class="relative w-64">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
-        </svg>
-        <input
-          v-model="form.availableFrom"
-          type="date"
-          :class="formErrors.availableFrom ? 'border-red-400' : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-          class="w-full pl-9 pr-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition text-gray-700"
-          @change="formErrors.availableFrom = ''"
-        />
-      </div>
+      <BaseDatePicker
+        :model-value="form.availableFrom"
+        :placeholder="t('post_property.pricing.available_from')"
+        @update:model-value="form.availableFrom = $event; formErrors.availableFrom = ''"
+      />
       <p class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.available_from_hint") }}</p>
+    </div>
+
+    <!-- Open / Close Time -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <div>
+        <label class="block text-sm font-medium text-gray-800 mb-1.5">
+          {{ t("post_property.pricing.open_time") }}
+        </label>
+        <BaseTimePicker
+          v-model="form.openTime"
+          :placeholder="t('post_property.pricing.open_time')"
+        />
+        <p class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.open_time_hint") }}</p>
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-800 mb-1.5">
+          {{ t("post_property.pricing.close_time") }}
+        </label>
+        <BaseTimePicker
+          v-model="form.closeTime"
+          :placeholder="t('post_property.pricing.close_time')"
+        />
+        <p class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.close_time_hint") }}</p>
+      </div>
     </div>
 
     <BaseToggle v-model="form.isAvailable" :label="t('post_property.pricing.property_available')" :description="t('post_property.pricing.property_available_desc')" />
@@ -99,6 +116,8 @@
 
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
+import BaseDatePicker from "~/components/ui/BaseDatePicker.vue"
+import BaseTimePicker from "~/components/ui/BaseTimePicker.vue"
 import BaseToggle from "~/components/ui/BaseToggle.vue"
 
 const props = defineProps<{ form: any; formErrors: any }>()

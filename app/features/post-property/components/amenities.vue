@@ -74,34 +74,16 @@
       <label class="block text-sm font-medium text-gray-800 mb-2">{{
         t("post_property.amenities.house_rules")
       }}</label>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="pets_allowed" v-model="form.houseRules.petsAllowed"
-            class="h-4 w-4 text-emerald-500 border-gray-300 rounded" @change="console.log('Pets allowed toggled:', form.houseRules.petsAllowed)" />
-          <label for="pets_allowed" class="text-sm text-gray-700">{{
-            t(`post_property.amenities.rules.pets_allowed`)
-          }}</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="smoking_allowed" v-model="form.houseRules.smokingAllowed"
-            class="h-4 w-4 text-emerald-500 border-gray-300 rounded" @change="console.log('Smoking allowed toggled:', form.houseRules.smokingAllowed)" />
-          <label for="smoking_allowed" class="text-sm text-gray-700">{{
-            t(`post_property.amenities.rules.smoking_allowed`)
-          }}</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="guests_allowed" v-model="form.houseRules.guestsAllowed"
-            class="h-4 w-4 text-emerald-500 border-gray-300 rounded" @change="console.log('Guests allowed toggled:', form.houseRules.guestsAllowed)" />
-          <label for="guests_allowed" class="text-sm text-gray-700">{{
-            t(`post_property.amenities.rules.guests_allowed`)
-          }}</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="parties_allowed" v-model="form.houseRules.partiesAllowed"
-            class="h-4 w-4 text-emerald-500 border-gray-300 rounded" @change="console.log('Parties allowed toggled:', form.houseRules.partiesAllowed)" />
-          <label for="parties_allowed" class="text-sm text-gray-700">{{
-            t(`post_property.amenities.rules.parties_allowed`)
-          }}</label>
+      <div class="grid grid-cols-3 gap-4">
+        <div v-for="rule in rules" :key="rule.id">
+          <div @click="toggleRule(rule.id)" :class="form.ruleKeys?.includes(rule.id)
+              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
+            "
+            class="flex items-center justify-start gap-4 px-3 py-3 border rounded-lg transition cursor-pointer text-center">
+            <BaseIconClient :name="rule.icon" class="text-2xl mb-1" />
+            <span class="text-sm font-medium">{{ rule.name }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -168,21 +150,33 @@ import { inject, ref, computed } from "vue";
 import { useI18n } from "vue-i18n";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyAmenityOptions } from "~/features/browse-properties/composable/usePropertyAmenityOptions";
+import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions";
 
 const { t } = useI18n();
+const langKey = useLangKey();
 
 const form = inject<any>("postPropertyForm", {});
 const formErrors = inject<any>("formErrors", {});
 
 if (!form.parkingDetails) form.parkingDetails = {};
+if (!form.ruleKeys) form.ruleKeys = [];
 
 const { data: amenityOptions } = usePropertyAmenityOptions();
+const { data: ruleOptions } = usePropertyRuleOptions();
 
 const amenities = computed(() =>
   amenityOptions.value.map((item: any) => ({
     id: item.id,
     code: item.code || item.key,
     icon: item.icon || "sparkles",
+  })),
+);
+
+const rules = computed(() =>
+  ruleOptions.value.map((item: any) => ({
+    id: item.id,
+    name: item[langKey.value] || item.nameEn,
+    icon: item.icon || "scroll-text",
   })),
 );
 
@@ -203,7 +197,13 @@ function toggleAmenity(id: number) {
   if (idx > -1) form.amenities.splice(idx, 1);
   else form.amenities.push(id);
   formErrors.amenities = "";
-  console.log('Amenity toggled:', id, 'Current amenities:', form.amenities);
+}
+
+function toggleRule(id: number) {
+  if (!form.ruleKeys) form.ruleKeys = [];
+  const idx = form.ruleKeys.indexOf(id);
+  if (idx > -1) form.ruleKeys.splice(idx, 1);
+  else form.ruleKeys.push(id);
 }
 
 function toggleParking(key) {

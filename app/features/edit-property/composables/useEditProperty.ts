@@ -100,17 +100,14 @@ export function useEditProperty(propertyId: Ref<string>) {
       amenities: p.amenities.map((a: any) => a.id).filter(Boolean),
       parkings: parkingKeys,
       parkingDetails,
-      houseRules: {
-        petsAllowed: false,
-        smokingAllowed: false,
-        guestsAllowed: false,
-        partiesAllowed: false,
-      },
+      ruleKeys: [] as number[],
       additionalNotes: '',
       photos: [] as string[],
       photoFiles: [] as File[],
       floor: p.floor,
       totalFloors: p.totalFloors,
+      openTime: p.openTime || '',
+      closeTime: p.closeTime || '',
     }
   }
 
@@ -151,7 +148,10 @@ export function useEditProperty(propertyId: Ref<string>) {
       minimumStayLength: MIN_STAY_TO_MONTHS[form.minStay] || undefined,
       availableFrom: form.availableFrom ? new Date(form.availableFrom).toISOString() : undefined,
       amenityKeys: Array.isArray(form.amenities) ? form.amenities.map(Number).filter(Number.isFinite) : [],
+      ruleKeys: Array.isArray(form.ruleKeys) ? form.ruleKeys.map(Number).filter(Number.isFinite) : [],
       parkings,
+      openTime: form.openTime || undefined,
+      closeTime: form.closeTime || undefined,
     }
   }
 

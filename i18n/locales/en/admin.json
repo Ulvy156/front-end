@@ -17,6 +17,7 @@
       "houseRules": "House Rules",
       "reports": "Reports",
       "feedback": "Feedback",
+      "propertyReports": "Property Reports",
       "settings": "Settings",
       "logout": "Logout"
     },
@@ -194,6 +195,13 @@
         "SUGGESTION": "Suggestion",
         "OTHER": "Other"
       }
+    },
+    "reports": {
+      "totalCount": "{n} reports",
+      "empty": "No reports yet.",
+      "confirmDelete": "Delete this report?",
+      "delete": "Delete",
+      "deleteSuccess": "Report deleted"
     }
   }
 }

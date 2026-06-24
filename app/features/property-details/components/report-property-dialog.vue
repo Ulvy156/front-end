@@ -1,17 +1,23 @@
 <script lang="ts" setup>
 import type { FormRules } from 'element-plus'
-import { usePropertyReport } from '../composable/usePropertyReport'
+import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
+import { usePropertyReport, type ReportType } from '../composable/usePropertyReport'
 
 const props = defineProps<{ propertyId: string }>()
 
 const { t } = useI18n()
+const langKey = useLangKey()
 const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
-const { report } = usePropertyReport()
+const { report, fetchReportTypes } = usePropertyReport()
 
 const isOpen = ref(false)
+const reportTypes = ref<ReportType[]>([])
 
 const rules: FormRules = {
+  reportTypeId: [
+    { required: true, message: () => t('property.reportDialog.typeRequired'), trigger: 'change' },
+  ],
   description: [
     { required: true, message: () => t('property.reportDialog.descriptionRequired'), trigger: 'blur' },
     { min: 10, message: () => t('property.reportDialog.descriptionMin'), trigger: 'blur' },
@@ -25,15 +31,26 @@ const {
   handleSubmit,
   setFieldError,
   reset,
-} = useForm({ description: '' }, rules)
+} = useForm({ reportTypeId: null as number | null, description: '' }, rules)
 
-watch(isOpen, (open) => {
-  if (!open) reset()
+watch(isOpen, async (open) => {
+  if (open) {
+    if (!reportTypes.value.length) {
+      try {
+        reportTypes.value = await fetchReportTypes()
+      } catch {}
+    }
+  } else {
+    reset()
+  }
 })
 
 const submit = handleSubmit(async () => {
   try {
-    await report(props.propertyId, form.description)
+    await report(props.propertyId, {
+      reportTypeId: form.reportTypeId!,
+      description: form.description,
+    })
     success(t('property.reportDialog.submitSuccess'))
     isOpen.value = false
   } catch (err) {
@@ -52,7 +69,7 @@ defineExpose({ open })
   <el-dialog
     v-model="isOpen"
     :title="t('property.reportDialog.title')"
-    width="460px"
+    width="500px"
     :close-on-click-modal="false"
   >
     <el-form
@@ -63,6 +80,23 @@ defineExpose({ open })
       class="space-y-1"
       @submit.prevent="submit"
     >
+      <el-form-item :label="t('property.reportDialog.typeLabel')" prop="reportTypeId">
+        <div class="grid grid-cols-2 gap-2 w-full">
+          <div
+            v-for="rt in reportTypes"
+            :key="rt.id"
+            class="flex items-center gap-2 px-3 py-2.5 border rounded-lg cursor-pointer transition-colors"
+            :class="form.reportTypeId === rt.id
+              ? 'border-red-400 bg-red-50 text-red-700'
+              : 'border-gray-200 text-gray-600 hover:border-gray-300 hover:bg-gray-50'"
+            @click="form.reportTypeId = rt.id"
+          >
+            <BaseIconClient :name="rt.icon" :size="16" />
+            <span class="text-sm font-medium">{{ rt[langKey] }}</span>
+          </div>
+        </div>
+      </el-form-item>
+
       <el-form-item :label="t('property.reportDialog.descriptionLabel')" prop="description">
         <el-input
           v-model="form.description"

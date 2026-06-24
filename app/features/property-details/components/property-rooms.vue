@@ -1,57 +1,49 @@
 <template>
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 p-5 rounded-(--radius) bg-(--card) border border-gray">
-        <div class="card">
-            <BaseIconClient color="var(--nav-active-item)" name="bed"/>
-            <div>
-                <p>{{ $t('property.bedroom') }}</p>
-                <b>{{ property.bedroom }}</b>
-            </div>
-        </div>
-        <div class="card">
-            <BaseIconClient color="var(--nav-active-item)" name="bath"/>
-            <div>
-                <p>{{ $t('property.bathroom') }}</p>
-                <b>{{ property.bathroom }}</b>
-            </div>
-        </div>
-        <div class="card">
-            <BaseIconClient color="var(--nav-active-item)" name="bath"/>
-            <div>
-                <p>{{ $t('property.size') }}</p>
-                <b>{{ property.sizeSqm }} m<sup>2</sup></b>
-            </div>
-        </div>
-        <div class="card">
-            <BaseIconClient color="var(--nav-active-item)" name="hospital"/>
-            <div>
-                <p>{{ $t('property.floor') }}</p>
-                <b>{{ property.floor }} / {{ property.totalFloors }}</b>
-            </div>
-        </div>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5">
+    <div v-for="fact in facts" :key="fact.label" class="key-fact">
+      <div class="flex items-center gap-1.5 mb-2">
+        <BaseIconClient :name="fact.icon" :size="15" class="text-gray-400" />
+        <span class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold">
+          {{ fact.label }}
+        </span>
+      </div>
+      <div class="text-xl font-bold text-gray-800">{{ fact.value }}</div>
     </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import type { PropertyDetail } from "../interface/properties-details";
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import type { PropertyDetail } from "../interface/properties-details"
+
+const { t } = useI18n()
 
 const props = defineProps<{
-  property: PropertyDetail;
-}>();
+  property: PropertyDetail
+}>()
+
+const facts = computed(() => {
+  const items = [
+    { icon: 'bed', label: t('property.bedroom'), value: String(props.property.bedroom) },
+    { icon: 'shower-head', label: t('property.bathroom'), value: String(props.property.bathroom) },
+    { icon: 'ruler', label: t('property.size'), value: `${props.property.sizeSqm} m²` },
+    { icon: 'layers', label: t('property.floor'), value: `${props.property.floor} / ${props.property.totalFloors}` },
+    { icon: 'sofa', label: t('property.furnishing'), value: props.property.furnished ? t('property.furnished') : t('property.unfurnished') },
+    { icon: 'calendar', label: t('property.price.lease'), value: formatDuration(props.property.minimumStayLength) },
+    { icon: 'calendar-check', label: t('property.price.available'), value: formatDateLong(props.property.availableFrom) },
+  ]
+  if (props.property.openTime && props.property.closeTime) {
+    items.push({ icon: 'clock', label: t('property.operating_hours'), value: `${props.property.openTime} - ${props.property.closeTime}` })
+  }
+  return items
+})
 </script>
 
-
 <style scoped>
-.card {
-    display: flex;
-    align-items: center;
-    column-gap: 8px;
-    padding: 12px;
-    background-color: var(--bg-gray);
-    border-radius: 10px;
-}
-
-.card > div > p {
-    color:var(--gray);
+.key-fact {
+  background: #f4f5f7;
+  border-left: 3px solid var(--nav-active-item);
+  border-radius: 12px;
+  padding: 16px 18px;
 }
 </style>

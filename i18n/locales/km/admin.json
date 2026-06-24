@@ -17,6 +17,7 @@
       "houseRules": "វិធានផ្ទះ",
       "reports": "របាយការណ៍",
       "feedback": "មតិកែលម្អ",
+      "propertyReports": "រាយការណ៍អចលនទ្រព្យ",
       "settings": "ការកំណត់",
       "logout": "ចាកចេញ"
     },
@@ -194,6 +195,13 @@
         "SUGGESTION": "សំណើ",
         "OTHER": "ផ្សេងៗ"
       }
+    },
+    "reports": {
+      "totalCount": "{n} រាយការណ៍",
+      "empty": "មិនមានរាយការណ៍នៅឡើយ។",
+      "confirmDelete": "លុបរាយការណ៍នេះ?",
+      "delete": "លុប",
+      "deleteSuccess": "រាយការណ៍ត្រូវបានលុប"
     }
   }
 }

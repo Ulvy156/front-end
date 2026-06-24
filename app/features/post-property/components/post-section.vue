@@ -393,6 +393,12 @@ const publish = async () => {
            .filter((n) => Number.isFinite(n))
        : [];
 
+     const ruleKeys = Array.isArray(form.ruleKeys)
+       ? form.ruleKeys
+           .map((v: any) => Number(v))
+           .filter((n: number) => Number.isFinite(n))
+       : [];
+
      // Validate minimum stay
      if (!minStayMap[form.minStay]) {
        publishError.value = "Please select a valid minimum stay.";
@@ -470,7 +476,10 @@ const publish = async () => {
         folderType: form.propertyType,
 
         amenityKeys,
+        ruleKeys,
         parkings,
+        openTime: form.openTime || undefined,
+        closeTime: form.closeTime || undefined,
       };
 
       console.log("FINAL PAYLOAD:", JSON.stringify(payload, null, 2));

@@ -112,7 +112,11 @@
       },
       "move_in_estimate": "ការប៉ាន់ស្មានថ្លៃចូលរស់នៅ",
       "rent_label": "ថ្លៃជួល",
-      "deposit_label": "ប្រាក់កក់"
+      "deposit_label": "ប្រាក់កក់",
+      "open_time": "ម៉ោងបើក",
+      "close_time": "ម៉ោងបិទ",
+      "open_time_hint": "អចលនទ្រព្យបើកពេលណា?",
+      "close_time_hint": "អចលនទ្រព្យបិទពេលណា?"
     },
     "amenities": {
       "title": "សេវាកម្ម",
@@ -203,6 +207,7 @@
       "no_parties": "គ្មានពិធី",
       "pricing_details": "ព័ត៌មានលម្អិតតម្លៃ",
       "min_stay": "រយៈពេលស្នាក់នៅអប្បបរមា",
+      "operating_hours": "ម៉ោងបើកបិទ",
       "status": "ស្ថានភាព",
       "available": "ទំនេរ",
       "unavailable": "មិនទំនេរ",

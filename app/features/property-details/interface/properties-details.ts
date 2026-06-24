@@ -33,6 +33,8 @@ export interface PropertyDetail {
   minimumStayLength: number;
   floor: number;
   totalFloors: number;
+  openTime: string | null;
+  closeTime: string | null;
 
   createdAt: string;
   updatedAt: string;

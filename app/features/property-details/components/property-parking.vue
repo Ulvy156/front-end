@@ -1,71 +1,40 @@
 <template>
-  <div class="p-5 border border-gray rounded-(--radius) bg-white">
-    <div class="flex items-center gap-x-2">
-      <BaseIconClient name="circle-parking" size="20" />
-      <h3>{{ $t("property.parking") }}</h3>
-    </div>
-    <div v-if="props.property.parkings?.length"
-    class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-      <article
-        class="bg-(--bg-gray) p-3 rounded-(--radius) w-fit"
+  <section>
+    <h2 class="text-xl font-bold text-gray-800 mb-3.5">{{ $t("property.parking") }}</h2>
+    <div v-if="props.property.parkings?.length" class="flex gap-3.5 flex-wrap">
+      <div
         v-for="value in props.property.parkings"
+        :key="value.type"
+        class="flex-1 min-w-[180px] bg-white border border-gray-200 rounded-lg p-4 flex items-center gap-3.5"
       >
-        <!-- name -->
-        <div class="flex items-center gap-x-2 mb-2">
-          <BaseIconClient :name="PARKING_UI[value.type].icon" />
-          <p>{{ PARKING_UI[value.type].label[currentLang] }}</p>
+        <div class="w-[42px] h-[42px] rounded-lg bg-(--nav-active)/10 flex items-center justify-center">
+          <BaseIconClient :name="PARKING_UI[value.type].icon" :size="20" color="var(--nav-active-item)" />
         </div>
-
-        <div class="flex items-center gap-x-4">
-          <span
-            :class="value.isFree ? 'bg-(--nav-active-item)' : 'bg-(--warning)'"
-            class="text-(--warning-foreground) py-1 px-2 rounded-(--radius)"
-          >
-            {{
-              value.isFree
-                ? freeLabel[currentLang].free
-                : freeLabel[currentLang].paid
-            }}
-          </span>
-
-          <!-- price -->
-          <p v-if="!value.isFree">
-            ${{ value.price }} / {{ $t("property.month") }}
-          </p>
-          <!-- slot -->
-          <div class="flex items-center gap-x-2 text-(--gray)">
-            <span>
-              {{ value.slots }}
-              {{ currentLang === "en" ? "parking spaces" : "កន្លែងចត" }}
-            </span>
+        <div>
+          <div class="text-[15px] font-semibold text-gray-800">
+            {{ PARKING_UI[value.type].label[currentLang] }}
+          </div>
+          <div class="text-[13px] text-gray-400 mt-0.5">
+            {{ value.slots }} {{ currentLang === 'en' ? 'slots' : 'កន្លែង' }}
+            · {{ value.isFree ? (currentLang === 'en' ? 'Free' : 'ឥតគិតថ្លៃ') : `$${value.price}/${$t('month')}` }}
           </div>
         </div>
-      </article>
+      </div>
     </div>
-    <span class="text-(--gray)" v-else>
+    <div v-else class="text-sm text-gray-400">
       {{ $t("property.parking_desc") }}
-    </span>
-  </div>
+    </div>
+  </section>
 </template>
 
 <script lang="ts" setup>
-import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import type { PropertyDetail } from "../interface/properties-details";
-import { PARKING_UI } from "~/config/parking.config";
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import type { PropertyDetail } from "../interface/properties-details"
+import { PARKING_UI } from "~/config/parking.config"
 
 const props = defineProps<{
-  property: PropertyDetail;
-}>();
+  property: PropertyDetail
+}>()
 
-const currentLang = useCurrentLang();
-const freeLabel = {
-  en: {
-    free: "Free",
-    paid: "Paid",
-  },
-  km: {
-    free: "ឥតគិតថ្លៃ",
-    paid: "គិតថ្លៃ",
-  },
-};
+const currentLang = useCurrentLang()
 </script>

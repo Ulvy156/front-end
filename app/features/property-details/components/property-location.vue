@@ -1,66 +1,42 @@
 <template>
-  <div class="p-5 border border-gray rounded-(--radius) bg-white">
-    <div class="flex items-center gap-x-2">
-      <BaseIconClient name="map-pin" size="20" />
-      <h3>{{ $t("property.location.title") }}</h3>
+  <section>
+    <h2 class="text-xl font-bold text-gray-800 mb-3">{{ $t("property.location.title") }}</h2>
+    <div class="text-sm text-gray-500 mb-1">
+      {{ property.district[langKey] }}, {{ property.district.province[langKey] }}
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mt-5">
-      <!-- city or province -->
-      <div>
-        <p class="text-(--gray)" style="font-size: 13px">
-          {{ $t("property.location.province") }} /
-          {{ $t("property.location.city") }}
-        </p>
-        <p class="font-semibold" style="font-size: 16px">
-          {{ property.district.province.nameEn }} / {{ property.district.province.nameKh }}
-        </p>
-      </div>
-      <!-- district -->
-      <div>
-        <p class="text-(--gray)" style="font-size: 13px">
-          {{ $t("property.location.district") }} /
-          {{ $t("property.location.khan") }}
-        </p>
-        <p class="font-semibold" style="font-size: 16px">
-          {{ property.district.nameEn }} / {{ property.district.nameKh }}
-        </p>
-      </div>
-      <!-- address -->
-      <div >
-        <p class="text-(--gray)" style="font-size: 13px">
-          {{ $t("property.location.address") }}
-        </p>
-        <p>{{ property.address }}</p>
-      </div>
-       <!-- distance -->
-      <div >
-        <p class="text-(--gray)" style="font-size: 13px">
-          {{ $t("property.location.distance") }}
-        </p>
-        <p class="font-semibold" style="font-size: 16px">
-          {{ property.distanceKm }} KM
-        </p>
-      </div>
-      <!-- nearby -->
-      <div class="border-l-4 border-(--nav-active-item) rounded-(--radius) p-3 bg-(--bg-gray) col-span-1 md:col-span-2">
-        <p class="text-(--gray)" style="font-size: 13px">
-          {{ $t("property.location.nearby_address") }}
-        </p>
-        <p class="col-span-2">{{ nearBy }}</p>
-      </div>
+    <div class="text-sm text-gray-400 mb-3.5">{{ property.address }}</div>
+
+    <!-- Nearby location -->
+    <div v-if="property.nearby_location" class="text-sm text-gray-400 mb-3.5">
+      <BaseIconClient name="map-pin" :size="14" class="inline text-gray-400" />
+      {{ property.nearby_location }}
+      <span v-if="property.distanceKm"> · {{ property.distanceKm }} km</span>
     </div>
-    <div id="map"></div>
-  </div>
+
+    <!-- Map placeholder -->
+    <div class="h-[200px] bg-[#f4f5f7] border border-gray-200 rounded-xl flex items-center justify-center text-gray-400 text-sm font-semibold">
+      <BaseIconClient name="map" :size="20" class="mr-2" />
+      {{ $t("property.location.title") }}
+    </div>
+
+    <a
+      v-if="property.locationUrl"
+      :href="property.locationUrl"
+      target="_blank"
+      class="inline-block mt-3 text-[13px] text-(--nav-active-item) font-semibold no-underline"
+    >
+      {{ $t('property.location.open_map') || 'Open in Google Maps' }} →
+    </a>
+  </section>
 </template>
 
 <script lang="ts" setup>
-import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import type { PropertyDetail } from "../interface/properties-details";
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import type { PropertyDetail } from "../interface/properties-details"
 
 const props = defineProps<{
-  property: PropertyDetail;
-}>();
+  property: PropertyDetail
+}>()
 
-const nearBy = computed(() => props.property.nearby_location ?? 'N/A');
-
+const langKey = useLangKey()
 </script>

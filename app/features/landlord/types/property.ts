@@ -32,6 +32,8 @@ export interface LandlordPropertyDetail {
   totalViews: number
   minimumStayLength: number
   availableFrom: string
+  openTime: string | null
+  closeTime: string | null
   createdAt: string
   updatedAt: string
   images: { id: string; imageKey: string; isCover: boolean }[]

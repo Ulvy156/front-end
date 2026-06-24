@@ -112,7 +112,11 @@
             },
             "move_in_estimate": "Move-in cost estimate",
             "rent_label": "rent",
-            "deposit_label": "deposit"
+            "deposit_label": "deposit",
+            "open_time": "Opening Time",
+            "close_time": "Closing Time",
+            "open_time_hint": "When is the property open?",
+            "close_time_hint": "When does the property close?"
         },
         "amenities": {
             "title": "Amenities",
@@ -203,6 +207,7 @@
             "no_parties": "No parties",
             "pricing_details": "Pricing Details",
             "min_stay": "Minimum Stay",
+            "operating_hours": "Operating Hours",
             "status": "Status",
             "available": "Available",
             "unavailable": "Unavailable",

@@ -20,7 +20,10 @@ export interface UpdatePropertyPayload {
   minimumStayLength?: number
   availableFrom?: string
   amenityKeys?: number[]
+  ruleKeys?: number[]
   parkings?: Array<{ type: string; slots: number; isFree: boolean; price?: number }>
+  openTime?: string
+  closeTime?: string
 }
 
 export async function updateProperty(

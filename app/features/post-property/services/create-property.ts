@@ -21,7 +21,10 @@ export interface CreatePropertyPayload {
   minimumStayLength?: number
   folderType?: string
   amenityKeys: number[]
+  ruleKeys?: number[]
   parkings?: Array<{ type: string; slots: number; isFree: boolean; price?: number }>
+  openTime?: string
+  closeTime?: string
 }
 
 export interface CreatePropertyResponse {

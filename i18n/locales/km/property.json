@@ -6,6 +6,10 @@
     "contact": "ទំនាក់ទំនង",
     "share": "ចែករំលែក",
     "available": "មាន",
+    "featured": "ពិសេស",
+    "furnished": "មានគ្រឿងសង្ហារិម",
+    "unfurnished": "គ្មានគ្រឿងសង្ហារិម",
+    "furnishing": "គ្រឿងសង្ហារិម",
     "posted_at": "បានប្រកាស",
     "desc": "ការពិពណ៌នា",
     "bedroom": "បន្ទប់គេង",
@@ -16,6 +20,8 @@
     "report": "រាយការណ៍",
     "reportDialog": {
       "title": "រាយការណ៍អំពីការផ្សាយនេះ",
+      "typeLabel": "ប្រភេទរាយការណ៍",
+      "typeRequired": "សូមជ្រើសរើសប្រភេទរាយការណ៍",
       "descriptionLabel": "មូលហេតុនៃការរាយការណ៍",
       "descriptionPlaceholder": "ពណ៌នាអំពីមូលហេតុដែលអ្នករាយការណ៍ការផ្សាយនេះ...",
       "descriptionRequired": "សូមផ្តល់មូលហេតុ",
@@ -34,7 +40,9 @@
       "khan": "ខណ្ឌ",
       "address": "អាស័យដ្ឋាន",
       "distance": "ចំងាយ",
-      "nearby_address": "ទីតាំងជិត"
+      "nearby_address": "ទីតាំងជិត",
+      "open_map": "បើកក្នុង Google Maps",
+      "view_on_map": "មើលផែនទី"
     },
     "price": {
       "title": "តម្លៃ",
@@ -45,6 +53,7 @@
       "utilities": "សេវាកម្ម",
       "year": "ឆ្នាំ"
     },
+    "operating_hours": "ម៉ោងបើក",
     "amenity": "សេវាកម្ម",
     "rules": {
       "title": "ច្បាប់",

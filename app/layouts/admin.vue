@@ -49,6 +49,7 @@
           :label="$t('admin.nav.feedback')"
           :badge="feedbackCount"
         />
+        <BaseSidebarNavItem to="/admin/reports" icon="flag" :label="$t('admin.nav.propertyReports')" />
 
       </nav>
 
@@ -134,6 +135,7 @@ const pageTitle = computed(() => {
   if (path.startsWith('/admin/amenities'))      return t('admin.nav.amenities')
   if (path.startsWith('/admin/house-rules'))    return t('admin.nav.houseRules')
   if (path.startsWith('/admin/feedback'))       return t('admin.nav.feedback')
+  if (path.startsWith('/admin/reports'))        return t('admin.nav.propertyReports')
   if (path.startsWith('/admin/settings'))       return t('admin.nav.settings')
   return t('admin.nav.title')
 })

@@ -50,22 +50,15 @@
 
     <div class="mb-6">
       <label class="block text-sm font-medium text-gray-800 mb-2">{{ t("post_property.amenities.house_rules") }}</label>
-      <div class="grid grid-cols-2 gap-4">
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="edit_pets_allowed" v-model="form.houseRules.petsAllowed" class="h-4 w-4 text-emerald-500 border-gray-300 rounded" />
-          <label for="edit_pets_allowed" class="text-sm text-gray-700">{{ t("post_property.amenities.rules.pets_allowed") }}</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="edit_smoking_allowed" v-model="form.houseRules.smokingAllowed" class="h-4 w-4 text-emerald-500 border-gray-300 rounded" />
-          <label for="edit_smoking_allowed" class="text-sm text-gray-700">{{ t("post_property.amenities.rules.smoking_allowed") }}</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="edit_guests_allowed" v-model="form.houseRules.guestsAllowed" class="h-4 w-4 text-emerald-500 border-gray-300 rounded" />
-          <label for="edit_guests_allowed" class="text-sm text-gray-700">{{ t("post_property.amenities.rules.guests_allowed") }}</label>
-        </div>
-        <div class="flex items-center gap-2">
-          <input type="checkbox" id="edit_parties_allowed" v-model="form.houseRules.partiesAllowed" class="h-4 w-4 text-emerald-500 border-gray-300 rounded" />
-          <label for="edit_parties_allowed" class="text-sm text-gray-700">{{ t("post_property.amenities.rules.parties_allowed") }}</label>
+      <div class="grid grid-cols-3 gap-4">
+        <div v-for="rule in rules" :key="rule.id">
+          <div @click="toggleRule(rule.id)" :class="form.ruleKeys?.includes(rule.id)
+              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
+              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'"
+            class="flex items-center justify-start gap-4 px-3 py-3 border rounded-lg transition cursor-pointer text-center">
+            <BaseIconClient :name="rule.icon" class="text-2xl mb-1" />
+            <span class="text-sm font-medium">{{ rule.name }}</span>
+          </div>
         </div>
       </div>
     </div>
@@ -115,13 +108,21 @@
 import { useI18n } from "vue-i18n"
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 import { usePropertyAmenityOptions } from "~/features/browse-properties/composable/usePropertyAmenityOptions"
+import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions"
 
-const props = defineProps<{ form: any; formErrors: any }>()
+const props = defineProps<{
+  form: any
+  formErrors: any
+  propertyRules?: Array<{ nameEn: string; nameKh: string; icon: string; is_allow: boolean }>
+}>()
 const { t } = useI18n()
+const langKey = useLangKey()
 
 if (!props.form.parkingDetails) props.form.parkingDetails = {}
+if (!props.form.ruleKeys) props.form.ruleKeys = []
 
 const { data: amenityOptions } = usePropertyAmenityOptions()
+const { data: ruleOptions } = usePropertyRuleOptions()
 
 const amenities = computed(() =>
   (amenityOptions.value ?? []).map((item: any) => ({
@@ -130,6 +131,27 @@ const amenities = computed(() =>
     icon: item.icon || "sparkles",
   })),
 )
+
+const rules = computed(() =>
+  (ruleOptions.value ?? []).map((item: any) => ({
+    id: item.id,
+    name: item[langKey.value] || item.nameEn,
+    icon: item.icon || "scroll-text",
+  })),
+)
+
+const ruleKeysInitialized = ref(false)
+watch(ruleOptions, (options) => {
+  if (!ruleKeysInitialized.value && options.length && props.propertyRules?.length) {
+    const allowedNames = new Set(
+      props.propertyRules.filter((r) => r.is_allow).map((r) => r.nameEn),
+    )
+    props.form.ruleKeys = options
+      .filter((opt: any) => allowedNames.has(opt.nameEn))
+      .map((opt: any) => opt.id)
+    ruleKeysInitialized.value = true
+  }
+}, { immediate: true })
 
 const parkingOptions = [
   { key: "BIKE", icon: "bike", label: "bike" },
@@ -146,6 +168,13 @@ function toggleAmenity(id: number) {
   if (idx > -1) props.form.amenities.splice(idx, 1)
   else props.form.amenities.push(id)
   props.formErrors.amenities = ""
+}
+
+function toggleRule(id: number) {
+  if (!props.form.ruleKeys) props.form.ruleKeys = []
+  const idx = props.form.ruleKeys.indexOf(id)
+  if (idx > -1) props.form.ruleKeys.splice(idx, 1)
+  else props.form.ruleKeys.push(id)
 }
 
 function toggleParking(key: string) {

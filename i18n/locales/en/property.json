@@ -6,6 +6,10 @@
         "contact": "Contact Landlord",
         "share": "Share",
         "available":"Available",
+        "featured":"Featured",
+        "furnished":"Furnished",
+        "unfurnished":"Unfurnished",
+        "furnishing":"Furnishing",
         "posted_at":"Posted",
         "desc":"Description",
         "bedroom":"Bedroom",
@@ -16,6 +20,8 @@
         "report":"Report Listings",
         "reportDialog": {
             "title": "Report This Listing",
+            "typeLabel": "Report type",
+            "typeRequired": "Please select a report type",
             "descriptionLabel": "Reason for reporting",
             "descriptionPlaceholder": "Describe why you are reporting this listing...",
             "descriptionRequired": "Please provide a reason",
@@ -34,7 +40,9 @@
             "khan":"Khan",
             "address":"Address",
             "distance":"Distance from your location",
-            "nearby_address":"Nearby Landmarks"
+            "nearby_address":"Nearby Landmarks",
+            "open_map":"Open in Google Maps",
+            "view_on_map":"View on map"
         },
         "price": {
             "title":"Pricing & Lease",
@@ -45,6 +53,7 @@
             "utilities":"Utilities Included",
             "year":"Year"
         },
+        "operating_hours": "Open Hours",
         "amenity":"Amenities",
         "rules": {
             "title":"House Rules",

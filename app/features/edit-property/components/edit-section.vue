@@ -37,7 +37,7 @@
         <editBasicInfo v-else-if="active === 1" :form="form" :form-errors="formErrors" />
         <editLocation v-else-if="active === 2" :form="form" :form-errors="formErrors" />
         <editPrice v-else-if="active === 3" :form="form" :form-errors="formErrors" />
-        <editAmenities v-else-if="active === 4" :form="form" :form-errors="formErrors" />
+        <editAmenities v-else-if="active === 4" :form="form" :form-errors="formErrors" :property-rules="property?.rules" />
         <editPhotos
           v-else
           :property-id="propertyId"

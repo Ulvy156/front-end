@@ -25,17 +25,14 @@ export function createPropertyForm() {
     amenities: [] as number[],
     parkings: [] as string[],
     parkingDetails: {} as Record<string, any>,
-    houseRules: {
-      petsAllowed: false,
-      smokingAllowed: false,
-      guestsAllowed: false,
-      partiesAllowed: false,
-    },
+    ruleKeys: [] as number[],
     additionalNotes: '',
     photos: [] as string[],
     photoFiles: [] as File[],
     floor: 1,
     totalFloors: 1,
+    openTime: '',
+    closeTime: '',
   })
 }
 

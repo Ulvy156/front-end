@@ -38,12 +38,7 @@ const postPropertyForm = reactive({
   amenities: [],
   parkings: [],
   parkingDetails: {},
-  houseRules: {
-    petsAllowed: false,
-    smokingAllowed: false,
-    guestsAllowed: false,
-    partiesAllowed: false,
-  },
+  ruleKeys: [],
   additionalNotes: '',
   photos: [],
   photoFiles: [],

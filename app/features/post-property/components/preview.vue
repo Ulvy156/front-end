@@ -205,27 +205,18 @@
         </div>
 
         <!-- House Rules -->
-        <div v-if="form.amenities && houseRules.length" class="mb-3">
+        <div v-if="selectedRules.length" class="mb-3">
           <p class="text-xs font-medium text-gray-700 mb-2">
             {{ t("post_property.preview.house_rules") }}
           </p>
           <div class="flex flex-wrap gap-3">
             <span
-              v-for="rule in houseRules"
-              :key="rule.key"
+              v-for="rule in selectedRules"
+              :key="rule.id"
               class="flex items-center gap-1 text-xs text-gray-500"
             >
-              <svg
-                class="w-3.5 h-3.5 text-gray-400"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-              >
-                <circle cx="12" cy="12" r="10" />
-                <line x1="4.93" y1="4.93" x2="19.07" y2="19.07" />
-              </svg>
-              {{ rule.label }}
+              <BaseIconClient :name="rule.icon" class="w-3.5 h-3.5 text-gray-400" />
+              {{ rule.name }}
             </span>
           </div>
         </div>
@@ -250,6 +241,10 @@
             >
             <span class="text-gray-500">{{ t("post_property.preview.min_stay") }}</span>
             <span class="text-gray-800 font-medium text-right">{{ minStayLabel }}</span>
+            <template v-if="form.openTime && form.closeTime">
+              <span class="text-gray-500">{{ t("post_property.preview.operating_hours") }}</span>
+              <span class="text-gray-800 font-medium text-right">{{ form.openTime }} - {{ form.closeTime }}</span>
+            </template>
             <span class="text-gray-500">{{ t("post_property.preview.status") }}</span>
             <span class="text-right">
               <span
@@ -297,8 +292,11 @@
 import { inject, computed, ref } from "vue";
 import { useI18n } from "vue-i18n";
 import BaseImage from "~/components/ui/BaseImage.vue";
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions";
 
 const { t } = useI18n();
+const langKey = useLangKey();
 
 const emit = defineEmits(["go-to"]);
 
@@ -336,15 +334,18 @@ const stayMap: Record<string, string> = {
 
 const minStayLabel = computed(() => stayMap[form.minStay] || "—");
 
-const houseRules = computed(() => {
-  if (!form.amenities) return [];
-  const rules = [
-    { key: "no_pets", label: t("post_property.preview.no_pets") },
-    { key: "no_smoking", label: t("post_property.preview.no_smoking") },
-    { key: "no_guests", label: t("post_property.preview.no_guests") },
-    { key: "no_parties", label: t("post_property.preview.no_parties") },
-  ];
-  return rules.filter((r) => form.amenities[r.key]);
+const { data: ruleOptions } = usePropertyRuleOptions();
+
+const selectedRules = computed(() => {
+  const keys = form.ruleKeys as number[] | undefined;
+  if (!keys?.length || !ruleOptions.value?.length) return [];
+  return ruleOptions.value
+    .filter((opt: any) => keys.includes(opt.id))
+    .map((opt: any) => ({
+      id: opt.id,
+      name: opt[langKey.value] || opt.nameEn,
+      icon: opt.icon,
+    }));
 });
 </script>
 ``
