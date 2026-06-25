@@ -6,13 +6,13 @@ import { useApi } from '~/composables/useApi'
 import type { PropertyCardItem } from '~/features/browse-properties/interface/property-card-item'
 import { fetchRelatedProperties } from '../services/property-details'
 
-export function useRelatedProperties() {
+export async function useRelatedProperties() {
   const api = useApi()
   const route = useRoute()
   const id = computed(() => route.params.id as string)
 
-  const { data, status } = useAsyncData<PropertyCardItem[]>(
-    () => `related-properties-${id.value}`,
+  const { data, status } = await useAsyncData<PropertyCardItem[]>(
+    `related-properties-${id.value}`,
     () => fetchRelatedProperties(api, id.value),
     {
       watch: [id],

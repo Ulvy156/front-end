@@ -1,16 +1,18 @@
 <template>
-  <section class="w-full m-auto my-5">
-    <div class="flex items-center text-(--nav-active-item) gap-x-3 mb-2">
-      <span class="w-10 h-1 bg-(--nav-active-item)"></span>
-      <p class="font-bold">{{ $t("home.featured.title") }}</p>
-    </div>
-    <div class="flex justify-between items-center">
-      <div class="grid grid-cols-1 items-center gap-x-2">
-        <h3>{{ $t("home.featured.title") }}</h3>
-        <p class="text-(--gray)">{{ $t("home.featured.description") }}</p>
+  <section class="w-full my-5">
+    <div class="flex items-end justify-between mb-5">
+      <div>
+        <div class="flex items-center gap-2 text-(--nav-active-item) font-bold text-[13px] uppercase tracking-[0.07em] mb-1.5">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.9 6.3 6.9.7-5.1 4.6 1.4 6.8L12 17.8 5.9 20.4l1.4-6.8L2.2 9l6.9-.7z"/></svg>
+          {{ t('home.featured.badge') }}
+        </div>
+        <h2 class="text-[29px] font-extrabold tracking-[-0.02em]">{{ t('home.featured.title') }}</h2>
       </div>
+      <NuxtLink to="/properties" class="text-(--nav-active-item) font-bold text-[15px] no-underline hover:underline">
+        {{ t('home.featured.viewAll') }} →
+      </NuxtLink>
     </div>
-    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-7 mt-3">
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <productCard
         v-for="value in featuredListings"
         :id="value.id"
@@ -28,17 +30,20 @@
         :hide-compare-icon="true"
         :is-available="value.isAvailable"
       />
-      <skeletonProperty :is-hide="featuredListings.length > 0"/>
+      <skeletonProperty :is-hide="featuredListings.length > 0" />
     </section>
   </section>
 </template>
 
 <script lang="ts" setup>
-import productCard from "../components/product-card.vue";
-import type { FeaturedProperty } from "./feature.listings";
-import skeletonProperty from "~/components/animation/skeleton-property.vue";
+import { useI18n } from 'vue-i18n'
+import productCard from '../components/product-card.vue'
+import type { FeaturedProperty } from './feature.listings'
+import skeletonProperty from '~/components/animation/skeleton-property.vue'
+
+const { t } = useI18n()
 
 defineProps<{
-  featuredListings: FeaturedProperty[];
-}>();
+  featuredListings: FeaturedProperty[]
+}>()
 </script>

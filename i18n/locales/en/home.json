@@ -2,19 +2,31 @@
   "home": {
     "location": {
       "title": "Popular Locations",
-      "description": "Discover rooms in Cambodia's most sought-after neighborhoods"
+      "description": "Discover rooms in Cambodia's most sought-after neighborhoods",
+      "subtitle": "Districts renters are searching most this week.",
+      "homes": "homes"
     },
     "latestListings": "Latest Listings",
     "hero": {
       "title": "Find Your Perfect Living Life Style",
-      "content": "Discover comfortable and affordable rooms across Cambodia"
+      "content": "Discover comfortable and affordable rooms across Cambodia",
+      "badge": "homes ready across Cambodia",
+      "search": {
+        "location": "Location",
+        "location_placeholder": "Phnom Penh, Kandal…",
+        "type": "Type",
+        "type_placeholder": "House / Condo",
+        "budget": "Budget",
+        "budget_placeholder": "Up to $1,500"
+      }
     },
     "featured": {
       "title": "Featured Listings",
       "description": "Hand-picked rooms with exceptional quality and value",
       "badge": "FEATURED",
       "newList": "Fresh listings added to our platform",
-      "justListed": "Just listed"
+      "justListed": "Just listed",
+      "viewAll": "View all"
     },
     "choseUs": {
       "choseUs": "Why Choose Us",

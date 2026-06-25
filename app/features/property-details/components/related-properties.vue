@@ -17,7 +17,7 @@
 import propertyCard from '~/features/browse-properties/components/property-card.vue';
 import { useRelatedProperties } from '../composable/useRelatedProperties';
 
-const { relatedProperties, isFetching } = useRelatedProperties()
+const { relatedProperties, isFetching } = await useRelatedProperties()
 </script>
 
 
