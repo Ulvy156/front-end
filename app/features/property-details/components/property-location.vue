@@ -13,15 +13,25 @@
       <span v-if="property.distanceKm"> · {{ property.distanceKm }} km</span>
     </div>
 
-    <!-- Map placeholder -->
-    <div class="h-[200px] bg-[#f4f5f7] border border-gray-200 rounded-xl flex items-center justify-center text-gray-400 text-sm font-semibold">
+    <!-- Map -->
+    <BaseMapClient
+      v-if="property.lat != null && property.lng != null"
+      :model-value="{ lat: property.lat, lng: property.lng }"
+      :readonly="true"
+      height="200px"
+      :zoom="15"
+    />
+    <div
+      v-else
+      class="h-[200px] bg-[#f4f5f7] border border-gray-200 rounded-xl flex items-center justify-center text-gray-400 text-sm font-semibold"
+    >
       <BaseIconClient name="map" :size="20" class="mr-2" />
       {{ $t("property.location.title") }}
     </div>
 
     <a
-      v-if="property.locationUrl"
-      :href="property.locationUrl"
+      v-if="googleMapsUrl"
+      :href="googleMapsUrl"
       target="_blank"
       class="inline-block mt-3 text-[13px] text-(--nav-active-item) font-semibold no-underline"
     >
@@ -32,6 +42,7 @@
 
 <script lang="ts" setup>
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import BaseMapClient from "~/components/ui/BaseMap.client.vue"
 import type { PropertyDetail } from "../interface/properties-details"
 
 const props = defineProps<{
@@ -39,4 +50,12 @@ const props = defineProps<{
 }>()
 
 const langKey = useLangKey()
+
+const googleMapsUrl = computed(() => {
+  if (props.property.locationUrl) return props.property.locationUrl
+  if (props.property.lat != null && props.property.lng != null) {
+    return `https://www.google.com/maps?q=${props.property.lat},${props.property.lng}`
+  }
+  return null
+})
 </script>

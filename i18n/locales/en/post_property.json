@@ -75,7 +75,8 @@
             "confirm_pin": "Set this location?",
             "confirm_pin_desc": "This will be saved as your property location.",
             "pinned_at": "Pinned at",
-            "reset_pin": "Remove pin"
+            "reset_pin": "Remove pin",
+            "use_my_location": "Use my location"
         },
         "pricing": {
             "title": "Pricing",

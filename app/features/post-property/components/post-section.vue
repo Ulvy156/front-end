@@ -447,6 +447,8 @@ const publish = async () => {
         districtId,
         address: form.streetAddress || "",
         locationUrl: mapsLink,
+        lat: form.latitude ? Number(form.latitude) : undefined,
+        lng: form.longitude ? Number(form.longitude) : undefined,
 
         title: form.propertyTitle || "",
         description: form.description || "",

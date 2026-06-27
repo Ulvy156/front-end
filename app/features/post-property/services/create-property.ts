@@ -5,6 +5,8 @@ export interface CreatePropertyPayload {
   districtId: number
   address: string
   locationUrl: string
+  lat?: number
+  lng?: number
   title: string
   description: string
   monthly_price: number

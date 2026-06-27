@@ -121,7 +121,21 @@
        <p class="text-xs text-gray-400 mt-1">{{ t("post_property.location.maps_hint") }}</p>
      </div>
 
-    <!-- Lat / Lng readonly -->
+    <!-- Map Picker -->
+    <div class="mb-5">
+      <label class="block text-sm font-medium text-gray-800 mb-1.5">
+        {{ t("post_property.location.map_preview") }}
+      </label>
+      <p class="text-xs text-gray-400 mb-2">{{ t("post_property.location.map_click_hint") }}</p>
+      <BaseMapClient
+        v-model="mapCoords"
+        height="300px"
+        :zoom="13"
+        :searchable="true"
+      />
+    </div>
+
+    <!-- Lat / Lng -->
     <div class="grid grid-cols-2 gap-4 mb-5">
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
@@ -161,9 +175,10 @@
 </template>
   
 <script setup lang="ts">
-import { inject, watch, ref, onMounted } from "vue"
+import { inject, watch, ref, computed, onMounted } from "vue"
 import { useI18n } from "vue-i18n"
 import BaseToggle from "@/components/ui/BaseToggle.vue"
+import BaseMapClient from "~/components/ui/BaseMap.client.vue"
 import { useCambodiaLocations } from "@/composables/useCambodiaLocations"
 
 const { t } = useI18n()
@@ -171,6 +186,21 @@ const { fetchProvinces, fetchDistrictsByProvinceId, getProvinceId } = useCambodi
 
 const form = inject<any>("postPropertyForm", {})
 const formErrors = inject<any>("formErrors", {})
+
+const mapCoords = computed({
+  get() {
+    if (form.latitude != null && form.longitude != null && form.latitude !== '' && form.longitude !== '') {
+      return { lat: Number(form.latitude), lng: Number(form.longitude) }
+    }
+    return null
+  },
+  set(val: { lat: number; lng: number } | null) {
+    if (val) {
+      form.latitude = val.lat
+      form.longitude = val.lng
+    }
+  },
+})
 
 interface LocationOption {
   id: number

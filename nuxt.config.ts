@@ -28,7 +28,7 @@ export default defineNuxtConfig({
       imageBaseUrl: process.env.NUXT_PUBLIC_IMAGE_BASE_URL,
       apiBaseUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080',
       R2_PUB_URL: process.env.NUXT_PUBLIC_R2_PUB_URL,
-      googleMapsKey: process.env.NUXT_PUBLIC_GOOGLE_MAPS_KEY,
+      maptilerKey: process.env.NUXT_PUBLIC_MAPTILER_KEY || '',
       BASE_URL: 'http://localhost:3000',
       // Must match the backend JWT access-token expiry (in seconds)
       accessTokenMaxAge: Number(process.env.NUXT_PUBLIC_ACCESS_TOKEN_MAX_AGE) || 900,
@@ -51,6 +51,7 @@ export default defineNuxtConfig({
         'dayjs/plugin/relativeTime',
         'lodash-unified',
         'pinia-plugin-persistedstate',
+        '@maptiler/sdk',
       ],
     },
   },
