@@ -22,7 +22,7 @@
     <BasePagination
       class="col-span-full"
       :total="meta?.total ?? 0"
-      :page-size="6"
+      :page-size="20"
       :current-page="filterStore.page"
       @update:current-page="filterStore.page = $event"
     />

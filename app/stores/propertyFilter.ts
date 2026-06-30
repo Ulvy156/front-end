@@ -16,7 +16,7 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
     houseRules: [] as number[],
     result: 0,
     page: 1,
-    limit: 6,
+    limit: 20,
     lng: null as number | null,
     lat: null as number | null,
   }),
@@ -48,6 +48,9 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
       if (cookie.value) {
         Object.assign(this.$state, cookie.value)
       }
+
+      // limit is a config default, not a user preference — always enforce current value
+      this.limit = 20
 
       // Auto save on state change
       this.$subscribe(() => {
