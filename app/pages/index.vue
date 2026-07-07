@@ -7,7 +7,7 @@
       <!-- latest product -->
       <latestProduct :latestListings="data?.latestListings ?? []"/>
       <!-- locations section -->
-      <locationsSection :popularLocations="data?.popularLocations ?? []"/>
+      <locationsSection :popularLocations="data?.popularLocations ?? []" :isLoading="pending"/>
       <!-- why choose us -->
       <whyChoseUs/>
       <!-- how it work -->
@@ -41,7 +41,7 @@ useSeoMeta({
   ogUrl: 'https://yourdomain.com',
 })
 
-const { data } = await useHomePageData();
+const { data, pending } = await useHomePageData();
 
 const totalListings = computed(() =>
   (data.value?.featuredListings?.length ?? 0) + (data.value?.latestListings?.length ?? 0)

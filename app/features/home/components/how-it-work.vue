@@ -1,56 +1,62 @@
 <template>
     <section>
         <div class="flex flex-col text-center items-center m-auto w-[70%] gap-5">
-            <div class="flex items-center gap-x-5 text-(--nav-active-item) p-5 py-4 bg-(--nav-active) rounded-full">
-                <span class="flex items-center bg-(--nav-active) p-2 rounded-full">
-                    <BaseIconClient name="check" />
-                </span>
-                <p>{{ $t('home.howItWork.process') }}</p>
+            <div class="flex items-center gap-2 text-(--nav-active-item) font-bold text-sm uppercase tracking-[0.08em]">
+                <span class="w-6 h-0.75 rounded-full bg-(--nav-active-item)"></span>
+                {{ $t('home.howItWork.process') }}
             </div>
             <h2>{{ $t('home.howItWork.title') }}</h2>
             <h5 class="text-(--gray)">{{ $t('home.howItWork.description') }}</h5>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 my-10 ">
-            <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }"
+            <article v-motion :initial="{ opacity: 0, y: 20 }"
+                :visible-once="{ opacity: 1, y: 0, transition: { delay: 0 } }"
                 class="process">
-                <el-badge :value="1" class="mb-3" :offset="[1, 5]">
-                    <div class="card-icon bg-[#3b82f6] ">
-                        <BaseIconClient name="search" size="28" />
+                <div class="step-icon-wrap mb-3">
+                    <div class="icon-tile icon-tile--primary">
+                        <BaseIconClient name="search" size="24" color="white" />
+                        <span class="step-number">01</span>
                     </div>
-                </el-badge>
+                </div>
                 <h4>{{ $t('home.howItWork.card.search.title') }}</h4>
                 <span>{{ $t('home.howItWork.card.search.description') }}</span>
             </article>
 
-            <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }"
+            <article v-motion :initial="{ opacity: 0, y: 20 }"
+                :visible-once="{ opacity: 1, y: 0, transition: { delay: 150 } }"
                 class="process">
-                <el-badge :value="2" class="mb-3" :offset="[1, 5]">
-                    <div class="card-icon bg-[#a855f7] ">
-                        <BaseIconClient name="mouse-pointer-click" size="28" />
+                <div class="step-icon-wrap mb-3">
+                    <div class="icon-tile icon-tile--primary">
+                        <BaseIconClient name="mouse-pointer-click" size="24" color="white" />
+                        <span class="step-number">02</span>
                     </div>
-                </el-badge>
+                </div>
                 <h4>{{ $t('home.howItWork.card.pick.title') }}</h4>
                 <span>{{ $t('home.howItWork.card.pick.description') }}</span>
             </article>
 
-            <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }"
+            <article v-motion :initial="{ opacity: 0, y: 20 }"
+                :visible-once="{ opacity: 1, y: 0, transition: { delay: 300 } }"
                 class="process">
-                <el-badge :value="3" class="mb-3" :offset="[1, 5]">
-                    <div class="card-icon bg-[#f59e0b]">
-                        <BaseIconClient name="message-square" size="28" />
+                <div class="step-icon-wrap mb-3">
+                    <div class="icon-tile icon-tile--accent">
+                        <BaseIconClient name="message-square" size="24" color="white" />
+                        <span class="step-number">03</span>
                     </div>
-                </el-badge>
+                </div>
                 <h4>{{ $t('home.howItWork.card.connect.title') }}</h4>
                 <span>{{ $t('home.howItWork.card.connect.description') }}</span>
             </article>
 
-            <article v-motion :initial="{ opacity: 0, y: 20 }" :visible-once="{ opacity: 1, y: 0 }"
+            <article v-motion :initial="{ opacity: 0, y: 20 }"
+                :visible-once="{ opacity: 1, y: 0, transition: { delay: 450 } }"
                 class="process">
-                <el-badge :value="4" class="mb-3" :offset="[1, 5]">
-                    <div class="card-icon bg-[#14b8a6] ">
-                        <BaseIconClient name="key" size="28" />
+                <div class="step-icon-wrap mb-3">
+                    <div class="icon-tile icon-tile--primary">
+                        <BaseIconClient name="key" size="24" color="white" />
+                        <span class="step-number">04</span>
                     </div>
-                </el-badge>
+                </div>
                 <h4>{{ $t('home.howItWork.card.move_in.title') }}</h4>
                 <span>{{ $t('home.howItWork.card.move_in.description') }}</span>
             </article>
@@ -64,41 +70,65 @@ import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 </script>
 
 <style scoped>
-.card-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    color: white;
-    border-radius: 15px;
-    width: 50px;
-    height: 50px;
+.step-icon-wrap {
+    position: relative;
+    display: inline-flex;
+    width: fit-content;
 }
 
-.el-badge {
-    transition: transform 0.3s ease-in-out;
+.step-number {
+    position: absolute;
+    bottom: 1px;
+    right: 5px;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1;
+    color: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    transition: color 0.3s ease-in-out;
 }
 
-.process:hover  .el-badge {
-    transform: rotate(8deg) translateY(-3px) scale(1.1);
+.process:hover .step-number {
+    color: rgba(255, 255, 255, 0.65);
 }
 
 .process {
+    position: relative;
     display: flex;
     flex-direction: column;
     border-radius: 20px;
     padding: 24px;
     border: 1px solid var(--color-gray-100);
-    transition: 
+    transition:
         box-shadow 0.3s ease-in-out,
         background 0.3s ease-in-out,
         transform 0.3s ease-in-out,
         ;
 }
 
+@media (min-width: 768px) {
+    .process:not(:last-child)::after {
+        content: '';
+        position: absolute;
+        top: 49px;
+        left: 100%;
+        width: calc(2.5rem - 4px);
+        height: 2px;
+        background: linear-gradient(to right, var(--nav-active-item), transparent);
+        opacity: 0.35;
+        z-index: -1;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+    .process:nth-child(2)::after {
+        display: none;
+    }
+}
+
 .process:hover {
     cursor: pointer;
-    box-shadow: 
+    box-shadow:
     0 4px 6px -1px rgba(0, 0, 0, 0.1),
     0 2px 4px -2px rgba(0, 0, 0, 0.1);
 

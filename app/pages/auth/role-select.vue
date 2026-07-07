@@ -3,16 +3,8 @@
     <div class="w-full max-w-105 space-y-8">
 
       <!-- Logo -->
-      <NuxtLink to="/" class="flex items-center gap-x-2 mx-auto w-fit">
-        <div class="w-9 h-9 rounded-xl bg-blue-600 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-white" viewBox="0 0 24 24"
-            fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-            <polyline points="9 22 9 12 15 12 15 22" />
-          </svg>
-        </div>
-        <span class="font-bold text-slate-800 text-xl">Rentify</span>
+      <NuxtLink to="/" class="mx-auto w-fit">
+        <NuxtImg src="/rentify-logo.webp" alt="Rentify" class="h-9" />
       </NuxtLink>
 
       <!-- Header -->
@@ -26,11 +18,11 @@
         <button type="button" :disabled="isSubmitting" @click="selectRole('USER')"
           class="group flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
                  border-slate-200 bg-white text-slate-600
-                 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700
+                 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700
                  active:scale-[0.98] transition-all duration-150 cursor-pointer
                  disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
-          <div class="w-12 h-12 rounded-xl bg-blue-100 group-hover:bg-blue-200 flex items-center justify-center transition-colors duration-150">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" viewBox="0 0 24 24"
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors duration-150">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
               stroke-linejoin="round">
               <circle cx="12" cy="8" r="4" />
@@ -39,7 +31,7 @@
           </div>
           <div class="text-center space-y-1">
             <p class="font-semibold text-sm">{{ t('auth.roleUserLabel') }}</p>
-            <p class="text-xs text-slate-400 group-hover:text-blue-500 transition-colors duration-150">
+            <p class="text-xs text-slate-400 group-hover:text-emerald-500 transition-colors duration-150">
               {{ t('auth.roleUserDesc') }}
             </p>
           </div>
@@ -48,11 +40,11 @@
         <button type="button" :disabled="isSubmitting" @click="selectRole('LANDLORD')"
           class="group flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
                  border-slate-200 bg-white text-slate-600
-                 hover:border-blue-400 hover:bg-blue-50 hover:text-blue-700
+                 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700
                  active:scale-[0.98] transition-all duration-150 cursor-pointer
                  disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
-          <div class="w-12 h-12 rounded-xl bg-blue-100 group-hover:bg-blue-200 flex items-center justify-center transition-colors duration-150">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-blue-600" viewBox="0 0 24 24"
+          <div class="w-12 h-12 rounded-xl bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors duration-150">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24"
               fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
               stroke-linejoin="round">
               <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
@@ -61,7 +53,7 @@
           </div>
           <div class="text-center space-y-1">
             <p class="font-semibold text-sm">{{ t('auth.roleLandlordLabel') }}</p>
-            <p class="text-xs text-slate-400 group-hover:text-blue-500 transition-colors duration-150">
+            <p class="text-xs text-slate-400 group-hover:text-emerald-500 transition-colors duration-150">
               {{ t('auth.roleLandlordDesc') }}
             </p>
           </div>
@@ -70,7 +62,7 @@
 
       <!-- Loading state -->
       <div v-if="isSubmitting" class="flex items-center justify-center gap-x-2 text-slate-500 text-sm">
-        <svg class="w-4 h-4 animate-spin text-blue-600" viewBox="0 0 24 24" fill="none">
+        <svg class="w-4 h-4 animate-spin text-emerald-600" viewBox="0 0 24 24" fill="none">
           <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
           <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
         </svg>

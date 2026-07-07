@@ -1,12 +1,21 @@
 <template>
-  <PropertyCardView :item="cardItem" :hide-compare-icon="hideCompareIcon" />
+  <PropertyCardView
+    :item="cardItem"
+    :hide-compare-icon="hideCompareIcon"
+    :is-favourited="isFavourited(props.id)"
+    :is-favourite-pending="isToggling(props.id)"
+    @favourite="toggle(props.id)"
+  />
 </template>
 
 <script lang="ts" setup>
 import { computed } from 'vue'
 
 import PropertyCardView from '~/components/property/PropertyCard.vue'
+import { useFavourites } from '~/features/favourite/composable/useFavourites'
 import type { PropertyCardViewModel } from '~/types/property-card'
+
+const { isFavourited, isToggling, toggle } = useFavourites()
 
 const props = withDefaults(
   defineProps<{

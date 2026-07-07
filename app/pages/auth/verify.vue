@@ -7,7 +7,7 @@
     />
     <div v-else class="text-center text-slate-500 text-sm space-y-4">
       <p>{{ $t('auth.noEmailProvided') }}</p>
-      <NuxtLink to="/auth/login" class="font-semibold text-blue-600 hover:text-blue-700 transition-colors">
+      <NuxtLink to="/auth/login" class="font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
         {{ $t('auth.backLogin') }}
       </NuxtLink>
     </div>

@@ -3,6 +3,11 @@
     "size": "size",
     "bedroom": "bedroom",
     "bathroom": "bathroom",
-    "distance": "Distance"
+    "distance": "Distance",
+    "available": "Available",
+    "unavailable": "Unavailable",
+    "favourite": "Add to favourites",
+    "compare": "Add to compare",
+    "views": "views"
   }
 }

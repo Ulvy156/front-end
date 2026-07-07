@@ -10,25 +10,31 @@
     <div class="relative overflow-hidden rounded-md">
       <div class="floating-actions">
         <div class="flex flex-col justify-between h-[40%]">
-          <button
+          <BaseButton
+            circle
+            text
             class="fab transition-colors"
             :class="[
               props.isFavourited ? 'text-red-500' : '',
               props.isFavouritePending ? 'animate-pulse cursor-wait' : '',
             ]"
             :disabled="props.isFavouritePending"
+            :aria-label="$t('card.favourite')"
             @click.stop="$emit('favourite')"
           >
             <BaseIcon name="heart" :size="18" />
-          </button>
+          </BaseButton>
 
-          <button
+          <BaseButton
             v-if="!props.hideCompareIcon"
+            circle
+            text
             class="fab"
+            :aria-label="$t('card.compare')"
             @click.stop="$emit('compare')"
           >
             <BaseIcon name="git-compare-arrows" :size="18" />
-          </button>
+          </BaseButton>
         </div>
 
         <div class="fab fab-wide">
@@ -43,13 +49,18 @@
     <div class="mt-3 flex flex-col gap-y-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center">
-          <h4 class="text-(--nav-active-item)">${{ props.item.monthlyPrice }}</h4>
+          <h4 class="text-(--nav-active-item)">${{ props.item.monthlyPrice.toLocaleString() }}</h4>
           <p class="ml-1">/{{ $t('month') }}</p>
         </div>
         <span
-          class="flex items-center gap-x-2 rounded-full bg-(--nav-active) p-1 px-2 text-(--nav-active-item)"
+          class="flex items-center gap-x-2 rounded-full p-1 px-2"
+          :class="
+            props.item.isAvailable
+              ? 'bg-(--nav-active) text-(--nav-active-item)'
+              : 'bg-(--destructive)/10 text-(--destructive)'
+          "
         >
-          <BaseIcon name="check" :size="16" />
+          <BaseIcon :name="props.item.isAvailable ? 'check' : 'x'" :size="16" />
           {{ isAvailable }}
         </span>
       </div>
@@ -110,12 +121,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useI18n } from 'vue-i18n'
 import { formatView } from '#imports'
 
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseTooltip from '~/components/ui/BaseTooltip.vue'
-import { useCurrentLang } from '~/composables/getCurrentLang'
 import { useLangKey } from '~/composables/useLangKey'
 import type { PropertyCardViewModel } from '~/types/property-card'
 
@@ -140,17 +152,11 @@ defineEmits<{
   (e: 'favourite'): void
 }>()
 
-const currentLang = useCurrentLang()
+const { t } = useI18n()
 const langKey = useLangKey()
 
 const isAvailable = computed(() =>
-  props.item.isAvailable
-    ? currentLang.value === 'en'
-      ? 'Available'
-      : 'ទំនេរ'
-    : currentLang.value === 'en'
-      ? 'Unavailable'
-      : 'មិនទំនេរ',
+  props.item.isAvailable ? t('card.available') : t('card.unavailable'),
 )
 
 const showDistance = computed(
@@ -202,10 +208,10 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 25px;
-  height: 25px;
-  padding: 5px;
-  border-radius: 25px;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border-radius: 34px;
   background: #f9fbfa;
   backdrop-filter: blur(2px);
   color: #628478;

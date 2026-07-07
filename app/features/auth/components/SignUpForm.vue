@@ -3,16 +3,8 @@
         class="w-full max-w-[360px] space-y-5">
 
         <!-- Logo (mobile only) -->
-        <NuxtLink to="/" class="lg:hidden flex items-center gap-x-2 mb-2 mx-auto w-fit">
-            <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" viewBox="0 0 24 24"
-                    fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-                    <polyline points="9 22 9 12 15 12 15 22" />
-                </svg>
-            </div>
-            <span class="font-bold text-slate-800 text-lg">Rentify</span>
+        <NuxtLink to="/" class="lg:hidden mb-2 mx-auto w-fit">
+            <NuxtImg src="/rentify-logo.webp" alt="Rentify" class="h-8" />
         </NuxtLink>
 
         <!-- Header -->
@@ -105,7 +97,7 @@
                 <div class="grid grid-cols-2 gap-3">
                     <button type="button" @click="role = 'USER'"
                         :class="role === 'USER'
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
+                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
                             : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'"
                         class="flex flex-col items-center gap-y-1.5 rounded-xl border-2 p-3
                                text-sm font-medium transition-all duration-150 cursor-pointer">
@@ -119,7 +111,7 @@
                     </button>
                     <button type="button" @click="role = 'LANDLORD'"
                         :class="role === 'LANDLORD'
-                            ? 'border-blue-500 bg-blue-50 text-blue-700'
+                            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
                             : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'"
                         class="flex flex-col items-center gap-y-1.5 rounded-xl border-2 p-3
                                text-sm font-medium transition-all duration-150 cursor-pointer">
@@ -137,8 +129,8 @@
 
         <!-- Submit -->
         <button type="submit" :disabled="isSubmitting"
-            class="w-full rounded-xl bg-blue-600 py-3 text-sm font-semibold text-white
-                   hover:bg-blue-700 active:scale-[0.99] shadow-sm shadow-blue-200/60
+            class="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white
+                   hover:bg-emerald-700 active:scale-[0.99] shadow-sm shadow-emerald-200/60
                    transition-all duration-150 cursor-pointer
                    disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
             <span v-if="isSubmitting" class="flex items-center justify-center gap-x-2">
@@ -155,7 +147,7 @@
         <p class="text-center text-sm text-slate-500">
             {{ t('auth.haveAccount') }}
             <NuxtLink to="/auth/login"
-                class="ml-1 font-semibold text-blue-600 hover:text-blue-700 transition-colors">
+                class="ml-1 font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
                 {{ t('auth.signIn') }}
             </NuxtLink>
         </p>

@@ -2,6 +2,11 @@
   "card": {
     "size": "size",
     "bedroom": "bedroom",
-    "bathroom": "bathroom"
+    "bathroom": "bathroom",
+    "available": "ទំនេរ",
+    "unavailable": "មិនទំនេរ",
+    "favourite": "បន្ថែមទៅចំណូលចិត្ត",
+    "compare": "បន្ថែមទៅការប្រៀបធៀប",
+    "views": "ចំនួនមើល"
   }
 }

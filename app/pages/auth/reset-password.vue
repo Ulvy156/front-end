@@ -23,8 +23,8 @@
                 </div>
 
                 <button type="button" @click="requestOtp" :disabled="isLoading || !email.trim()"
-                    class="w-full rounded-xl bg-blue-500 py-3 font-semibold text-white
-                           hover:bg-blue-600 transition disabled:opacity-60 disabled:cursor-not-allowed">
+                    class="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white
+                           hover:bg-emerald-700 transition disabled:opacity-60 disabled:cursor-not-allowed">
                     <span v-if="isLoading" class="flex items-center justify-center gap-x-2">
                         <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
@@ -45,8 +45,8 @@
             <!-- Step 2: OTP -->
             <template v-else-if="step === 2">
                 <div class="space-y-3 text-center w-full">
-                    <div class="w-14 h-14 rounded-2xl bg-blue-100 flex items-center justify-center mx-auto">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-blue-600" viewBox="0 0 24 24"
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-emerald-600" viewBox="0 0 24 24"
                             fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                             <rect width="20" height="16" x="2" y="4" rx="2" />
                             <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
@@ -72,7 +72,7 @@
                             @input="handleInput(i, $event as InputEvent)"
                             @keydown="handleKeydown(i, $event as KeyboardEvent)"
                             @paste.prevent="handlePaste($event as ClipboardEvent)"
-                            :class="otpError ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-blue-500'"
+                            :class="otpError ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-emerald-500'"
                             class="w-11 h-14 rounded-xl border-2 text-center text-xl font-bold
                                    text-slate-900 bg-white outline-none transition-colors duration-150" />
                     </div>
@@ -80,15 +80,15 @@
                 </div>
 
                 <button type="button" @click="verifyOtp" :disabled="otp.length < 6"
-                    class="w-full rounded-xl bg-blue-500 py-3 font-semibold text-white
-                           hover:bg-blue-600 transition disabled:opacity-60 disabled:cursor-not-allowed">
+                    class="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white
+                           hover:bg-emerald-700 transition disabled:opacity-60 disabled:cursor-not-allowed">
                     {{ t('auth.continue') }}
                 </button>
 
                 <!-- Resend -->
                 <div class="text-sm text-slate-500">
                     <button v-if="resendCooldown === 0" type="button" :disabled="isResending" @click="resendOtp"
-                        class="font-semibold text-blue-600 hover:text-blue-700 transition cursor-pointer disabled:opacity-60">
+                        class="font-semibold text-emerald-600 hover:text-emerald-700 transition cursor-pointer disabled:opacity-60">
                         <span v-if="isResending">{{ t('auth.sending') }}</span>
                         <span v-else>{{ t('auth.resendCode') }}</span>
                     </button>
@@ -124,8 +124,8 @@
                 </div>
 
                 <button type="button" @click="resetPassword" :disabled="isLoading || !newPassword.trim()"
-                    class="w-full rounded-xl bg-blue-500 py-3 font-semibold text-white
-                           hover:bg-blue-600 transition disabled:opacity-60 disabled:cursor-not-allowed">
+                    class="w-full rounded-xl bg-emerald-600 py-3 font-semibold text-white
+                           hover:bg-emerald-700 transition disabled:opacity-60 disabled:cursor-not-allowed">
                     <span v-if="isLoading" class="flex items-center justify-center gap-x-2">
                         <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />

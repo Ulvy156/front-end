@@ -72,7 +72,6 @@ const { t } = useI18n()
 <style scoped>
 .bg-image {
   background-image: url('/bg.png');
-  background-attachment: fixed;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

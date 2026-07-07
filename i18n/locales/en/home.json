@@ -4,7 +4,8 @@
       "title": "Popular Locations",
       "description": "Discover rooms in Cambodia's most sought-after neighborhoods",
       "subtitle": "Districts renters are searching most this week.",
-      "homes": "homes"
+      "homes": "{n} home | {n} homes",
+      "empty": "No popular locations yet."
     },
     "latestListings": "Latest Listings",
     "hero": {
@@ -43,12 +44,12 @@
         },
         "free": {
           "title": "Free Support",
-          "description": "Included for now we’re here to help you find your home"
+          "description": "It's completely free, and we're here to help you find your home"
         }
       }
     },
     "howItWork": {
-      "process": "Simpe Process",
+      "process": "Simple Process",
       "title": "How It Works",
       "description": "Find your perfect room in just four simple steps. It's fast, easy, and completely free!",
       "card": {

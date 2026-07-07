@@ -1,16 +1,35 @@
 <template>
-  <div ref="telegramBtn"></div>
+  <div class="relative inline-block h-10 w-[238px]">
+    <div
+      v-if="!isWidgetReady"
+      class="absolute inset-0 rounded-md bg-gray-100 animate-pulse"
+    />
+    <div ref="telegramBtn" class="absolute inset-0" />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { resolvePostLoginRoute } from '~/utils/roleGuard'
 
 const telegramBtn = ref<HTMLDivElement | null>(null)
+const isWidgetReady = ref(false)
 const { $axios } = useNuxtApp()
 const accessToken = useAccessToken()
 const authStore = useAuthStore()
 
 onMounted(() => {
+  const onMessage = (e: MessageEvent) => {
+    if (e.origin !== 'https://oauth.telegram.org') return
+    try {
+      const data = JSON.parse(e.data)
+      if (data.event === 'ready') isWidgetReady.value = true
+    } catch {
+      // ignore non-JSON messages from other origins
+    }
+  }
+  window.addEventListener('message', onMessage)
+  onUnmounted(() => window.removeEventListener('message', onMessage))
+
   ;(window as any).onTelegramAuth = async (user: any) => {
     const { data } = await $axios.post<{ accessToken?: string; access_token?: string; user_id: string; is_new_user: boolean }>(
       '/auth/telegram-login',
@@ -40,7 +59,7 @@ onMounted(() => {
   script.setAttribute('data-size', 'large')
   script.setAttribute('data-userpic', 'true')
   script.setAttribute('data-request-access', 'write')
-  script.setAttribute('data-on-auth', 'onTelegramAuth')
+  script.setAttribute('data-onauth', 'onTelegramAuth(user)')
 
   telegramBtn.value?.appendChild(script)
 })

@@ -4,7 +4,14 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  app: {},
+  app: {
+    head: {
+      link: [
+        { rel: 'preload', href: 'https://telegram.org/js/telegram-widget.js?22', as: 'script', crossorigin: 'anonymous' },
+        { rel: 'preconnect', href: 'https://oauth.telegram.org' },
+      ],
+    },
+  },
   // Page data is fetched separately
   experimental: {
     payloadExtraction: true
@@ -43,6 +50,10 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    server: {
+      // ngrok's free-tier domain changes on every restart, so allow any host for local testing
+      allowedHosts: true,
+    },
     optimizeDeps: {
       include: [
         '@tanstack/vue-query',
