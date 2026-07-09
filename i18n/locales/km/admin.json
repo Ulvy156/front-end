@@ -59,6 +59,9 @@
       "title": "អចលនទ្រព្យទាំងអស់",
       "totalCount": "{n} អចលនទ្រព្យ",
       "searchPlaceholder": "ស្វែងរកចំណងជើង ឬម្ចាស់...",
+      "landlordPlaceholder": "ត្រងតាមម្ចាស់ផ្ទះ (ឈ្មោះ ឬអ៊ីមែល)...",
+      "viewingSingle": "កំពុងបង្ហាញអចលនទ្រព្យដែលបានត្រង ១",
+      "viewAllProperties": "មើលអចលនទ្រព្យទាំងអស់",
       "featuredCount": "ពិសេស: {n} / {max}",
       "featuredMaxReached": "ដល់កម្រិតអតិបរមាពិសេសហើយ (អតិបរមា ៣)",
       "filterAll": "ទាំងអស់",
@@ -84,12 +87,31 @@
       "deleteTitle": "លុបអចលនទ្រព្យ",
       "deleteConfirm": "តើអ្នកប្រាកដថាចង់លុប \"{title}\" ជាអចិន្ត្រៃយ៍? នេះមិនអាចត្រឡប់វិញបានទេ។",
       "deleteSuccess": "អចលនទ្រព្យត្រូវបានលុប។",
+      "viewDetails": "មើលព័ត៌មានលម្អិត",
       "columns": {
         "property": "អចលនទ្រព្យ",
         "status": "ស្ថានភាព",
         "price": "តម្លៃ",
         "engagement": "ការមើល / ❤",
         "created": "បង្កើត"
+      },
+      "detailsDrawer": {
+        "title": "ព័ត៌មានលម្អិតអចលនទ្រព្យ",
+        "bedroom": "បន្ទប់គេង",
+        "bathroom": "បន្ទប់ទឹក",
+        "size": "ទំហំ",
+        "floor": "ជាន់",
+        "views": "ការមើល",
+        "favourites": "សំណព្វ",
+        "description": "ការពិពណ៌នា",
+        "amenities": "សម្ភារៈបរិក្ខារ",
+        "houseRules": "ច្បាប់ក្នុងផ្ទះ",
+        "propertyId": "លេខសម្គាល់អចលនទ្រព្យ",
+        "owner": "ម្ចាស់អចលនទ្រព្យ",
+        "verified": "បានផ្ទៀងផ្ទាត់",
+        "locked": "បានចាក់សោ",
+        "reports": "រាយការណ៍ ({n})",
+        "viewHistory": "ប្រវត្តិការមើល"
       }
     },
     "landlords": {
@@ -97,6 +119,10 @@
       "totalCount": "{n} ម្ចាស់ផ្ទះសរុប",
       "create": "បង្កើតម្ចាស់ផ្ទះ",
       "viewProperties": "មើលអចលនទ្រព្យ",
+      "verify": "ផ្ទៀងផ្ទាត់ម្ចាស់ផ្ទះ",
+      "unverify": "លុបការផ្ទៀងផ្ទាត់",
+      "verifySuccess": "{name} ត្រូវបានផ្ទៀងផ្ទាត់ហើយ។",
+      "unverifySuccess": "ការផ្ទៀងផ្ទាត់របស់ {name} ត្រូវបានលុប។",
       "propertiesDrawer": {
         "title": "អចលនទ្រព្យម្ចាស់ផ្ទះ",
         "joined": "ចូលរួម {date}",
@@ -201,7 +227,43 @@
       "empty": "មិនមានរាយការណ៍នៅឡើយ។",
       "confirmDelete": "លុបរាយការណ៍នេះ?",
       "delete": "លុប",
-      "deleteSuccess": "រាយការណ៍ត្រូវបានលុប"
+      "deleteSuccess": "រាយការណ៍ត្រូវបានលុប",
+      "viewDetails": "មើលព័ត៌មានលម្អិត",
+      "filterByPropertyId": "ត្រងតាមលេខសម្គាល់អចលនទ្រព្យ...",
+      "copyPropertyId": "ចម្លងលេខសម្គាល់អចលនទ្រព្យ",
+      "detailsDrawer": {
+        "title": "ព័ត៌មានលម្អិតរបស់រាយការណ៍",
+        "reporter": "អ្នករាយការណ៍",
+        "reportedProperty": "អចលនទ្រព្យដែលបានរាយការណ៍",
+        "propertyId": "លេខសម្គាល់អចលនទ្រព្យ",
+        "viewProperty": "មើលអចលនទ្រព្យ"
+      }
+    },
+    "settings": {
+      "save": "រក្សាទុកការផ្លាស់ប្តូរ",
+      "saveSuccess": "ការកំណត់ត្រូវបានធ្វើបច្ចុប្បន្នភាព។",
+      "lastUpdated": "ធ្វើបច្ចុប្បន្នភាពចុងក្រោយ {date}",
+      "maintenanceBannerActive": "របៀបថែទាំកំពុងបើក — សំណើទាំងអស់ក្រៅពីអ្នកគ្រប់គ្រងត្រូវបានទប់ស្កាត់។",
+      "access": {
+        "title": "ការចូលប្រើវេទិកា",
+        "maintenanceMode": "របៀបថែទាំ",
+        "maintenanceModeHint": "ទប់ស្កាត់សំណើទាំងអស់ក្រៅពីអ្នកគ្រប់គ្រង លើកលែងតែការចូល និងការធ្វើឱ្យសញ្ញាថ្មីឡើងវិញ។",
+        "registrationEnabled": "បើកការចុះឈ្មោះ",
+        "registrationEnabledHint": "អនុញ្ញាតឱ្យមានការចុះឈ្មោះថ្មីតាមរយៈអ៊ីមែល តេឡេក្រាម និង Google។"
+      },
+      "limits": {
+        "title": "ដែនកំណត់អចលនទ្រព្យ",
+        "maxPropertiesPerLandlord": "ចំនួនអចលនទ្រព្យអតិបរមាក្នុងមួយម្ចាស់ផ្ទះ (30 ថ្ងៃ)",
+        "maxImagesPerProperty": "ចំនួនរូបភាពអតិបរមាក្នុងមួយអចលនទ្រព្យ",
+        "minPropertyPrice": "តម្លៃប្រចាំខែអប្បបរមា",
+        "maxPropertyPrice": "តម្លៃប្រចាំខែអតិបរមា",
+        "noBound": "គ្មានដែនកំណត់"
+      },
+      "billing": {
+        "title": "វិក្កយបត្រ",
+        "commissionRate": "អត្រាកម្រៃជើងសា (%)",
+        "commissionRateHint": "រក្សាទុកសម្រាប់វិក្កយបត្រ/របាយការណ៍នាពេលអនាគត — មិនទាន់អនុវត្តនៅឡើយ។"
+      }
     }
   }
 }

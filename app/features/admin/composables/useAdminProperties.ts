@@ -19,6 +19,7 @@ export function useAdminProperties(filters: Ref<AdminPropertiesFilter>) {
       if (filters.value.isFeatured !== undefined) params.isFeatured = filters.value.isFeatured
       if (filters.value.isAvailable !== undefined) params.isAvailable = filters.value.isAvailable
       if (filters.value.landlordId) params.landlordId = filters.value.landlordId
+      if (filters.value.propertyId) params.propertyId = filters.value.propertyId
 
       const { data } = await $axios.get<AdminPropertiesResponse>('/admin/properties', { params })
       return data

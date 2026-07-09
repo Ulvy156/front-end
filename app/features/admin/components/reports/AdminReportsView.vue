@@ -5,6 +5,7 @@ import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminReports } from '../../composables/useAdminReports'
 import type { AdminReport, AdminReportsFilter } from '../../types/report'
+import ReportDetailsDrawer from './ReportDetailsDrawer.vue'
 
 dayjs.extend(relativeTime)
 
@@ -12,6 +13,7 @@ const { t } = useI18n()
 const langKey = useLangKey()
 const notify = useNotify()
 const { extract } = useErrorMsg()
+const { copy } = useCopy()
 
 const filter = ref<AdminReportsFilter>({ page: 1, limit: 10 })
 const { data, isPending, reportTypes, remove } = useAdminReports(filter)
@@ -22,6 +24,15 @@ function onTypeFilter(id: number) {
   typeFilter.value = typeFilter.value === id ? null : id
   filter.value = { ...filter.value, page: 1, reportTypeId: typeFilter.value ?? undefined }
 }
+
+const propertyIdInput = ref('')
+const propertyIdDebounce = ref<ReturnType<typeof setTimeout>>()
+watch(propertyIdInput, (val) => {
+  clearTimeout(propertyIdDebounce.value)
+  propertyIdDebounce.value = setTimeout(() => {
+    filter.value = { ...filter.value, propertyId: val.trim() || undefined, page: 1 }
+  }, 300)
+})
 
 function onPageChange(page: number) {
   filter.value = { ...filter.value, page }
@@ -56,6 +67,18 @@ const expandedId = ref<number | null>(null)
 function toggleExpand(id: number) {
   expandedId.value = expandedId.value === id ? null : id
 }
+
+const detailsDrawerOpen = ref(false)
+const selectedReportId = ref<number | null>(null)
+
+function viewDetails(report: AdminReport) {
+  selectedReportId.value = report.id
+  detailsDrawerOpen.value = true
+}
+
+function viewProperty(propertyId: string) {
+  navigateTo({ path: '/admin/properties', query: { propertyId } })
+}
 </script>
 
 <template>
@@ -63,6 +86,18 @@ function toggleExpand(id: number) {
     <p class="text-sm text-gray-400 mb-4">
       {{ t('admin.reports.totalCount', { n: data?.meta?.total ?? 0 }) }}
     </p>
+
+    <!-- Property ID filter -->
+    <el-input
+      v-model="propertyIdInput"
+      :placeholder="t('admin.reports.filterByPropertyId')"
+      clearable
+      class="max-w-72 mb-4"
+    >
+      <template #prefix>
+        <BaseIcon name="search" :size="14" class="text-gray-400" />
+      </template>
+    </el-input>
 
     <!-- Type filter cards -->
     <div v-if="reportTypes?.length" class="flex flex-wrap gap-3 mb-4">
@@ -125,7 +160,18 @@ function toggleExpand(id: number) {
               <span>{{ item.user.email }}</span>
               <span class="flex items-center gap-1">
                 <BaseIcon name="building" :size="12" />
-                <span class="max-w-40 truncate">{{ item.property.title }}</span>
+                <span
+                  class="max-w-40 truncate hover:text-gray-700 hover:underline cursor-pointer"
+                  @click.stop="viewProperty(item.property.id)"
+                >{{ item.property.title }}</span>
+                <el-tooltip :content="t('admin.reports.copyPropertyId')" placement="top">
+                  <BaseIcon
+                    name="copy"
+                    :size="12"
+                    class="text-gray-400 hover:text-gray-600 cursor-pointer"
+                    @click.stop="copy(item.property.id)"
+                  />
+                </el-tooltip>
               </span>
               <span class="ml-auto">{{ dayjs(item.createdAt).fromNow() }}</span>
             </div>
@@ -133,6 +179,17 @@ function toggleExpand(id: number) {
 
           <!-- Actions -->
           <div class="flex items-center gap-2 shrink-0" @click.stop>
+            <el-tooltip :content="t('admin.reports.viewDetails')" placement="top">
+              <el-button
+                size="small"
+                :icon="''"
+                circle
+                @click="viewDetails(item)"
+              >
+                <BaseIcon name="eye" :size="14" />
+              </el-button>
+            </el-tooltip>
+
             <el-popconfirm
               :title="t('admin.reports.confirmDelete')"
               :confirm-button-text="t('admin.reports.delete')"
@@ -166,5 +223,7 @@ function toggleExpand(id: number) {
         @current-change="onPageChange"
       />
     </div>
+
+    <ReportDetailsDrawer v-model="detailsDrawerOpen" :report-id="selectedReportId" />
   </div>
 </template>

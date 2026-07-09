@@ -9,8 +9,9 @@
                 class="w-full max-w-[360px] space-y-5">
 
                 <!-- Logo (mobile only) -->
-                <NuxtLink to="/" class="lg:hidden mb-2 mx-auto w-fit">
+                <NuxtLink to="/" class="lg:hidden mb-2 mx-auto flex items-center gap-2 w-fit">
                     <NuxtImg src="/rentify-logo.webp" alt="Rentify" class="h-8" />
+                    <span class="text-lg font-semibold tracking-tight text-slate-900">Rentify</span>
                 </NuxtLink>
 
                 <!-- Header -->

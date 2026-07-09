@@ -57,15 +57,8 @@
         </div>
       </div>
 
-      <!-- Price + Favourite -->
+      <!-- Price -->
       <div class="flex items-start gap-3">
-        <button
-          v-can="'auth'"
-          class="w-[42px] h-[42px] rounded-full border-[1.5px] border-gray-200 bg-white flex items-center justify-center cursor-pointer shrink-0 hover:border-(--nav-active-item) transition-colors"
-          @click="toggleFavourite"
-        >
-          <BaseIconClient name="heart" :size="20" class="text-gray-400" />
-        </button>
         <div class="text-right">
           <div class="text-[30px] font-bold text-gray-800 leading-none">
             ${{ property!.monthly_price }}<span class="text-[15px] font-medium text-gray-400">/{{ $t('month') }}</span>
@@ -90,8 +83,9 @@
       </div>
 
       <!-- Right sidebar -->
-      <div class="lg:sticky lg:top-6 h-fit self-start">
+      <div class="lg:sticky lg:top-6 h-fit self-start flex flex-col gap-y-3.5">
         <contactLandlord :property="property!" />
+        <safetyNotice />
       </div>
     </div>
 
@@ -102,13 +96,6 @@
         <span class="text-[13px] text-gray-400">/{{ $t('month') }}</span>
       </div>
       <div class="flex items-center gap-2.5">
-        <button
-          v-can="'auth'"
-          class="w-9 h-9 rounded-full border-[1.5px] border-gray-200 bg-white flex items-center justify-center cursor-pointer shrink-0"
-          @click="toggleFavourite"
-        >
-          <BaseIconClient name="heart" :size="18" class="text-gray-400" />
-        </button>
         <a
           v-if="phoneNumber.length"
           :href="`tel:${phoneNumber[0].phoneNumber}`"
@@ -129,6 +116,7 @@
 
 <script setup lang="ts">
 import contactLandlord from "./contact-landlord.vue";
+import safetyNotice from "./safety-notice.vue";
 import carouselPropertyDetails from "./carousel-property-details.vue";
 import propertyDescription from "./property-description.vue";
 import propertyRooms from "./property-rooms.vue";
@@ -146,10 +134,6 @@ const langKey = useLangKey()
 const phoneNumber = computed(
   () => property.value?.user?.phones?.filter((item) => item.type === "PHONE") ?? [],
 )
-
-function toggleFavourite() {
-  // placeholder — wire to useFavourites when needed
-}
 </script>
 
 <style scoped>

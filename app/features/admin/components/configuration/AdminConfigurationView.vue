@@ -85,25 +85,25 @@ async function handleDelete(item: ConfigItemBase) {
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.config.columns.nameEn')" min-width="180">
+        <el-table-column :label="$t('admin.config.columns.nameEn')">
           <template #default="{ row }">
             <span class="text-sm font-medium text-gray-900">{{ row.nameEn }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.config.columns.nameKh')" min-width="180">
+        <el-table-column :label="$t('admin.config.columns.nameKh')" >
           <template #default="{ row }">
             <span class="text-sm text-gray-700">{{ row.nameKh }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.config.columns.identifier')" width="140">
+        <el-table-column :label="$t('admin.config.columns.identifier')" >
           <template #default="{ row }">
             <code class="text-xs bg-gray-50 px-2 py-0.5 rounded text-gray-600">{{ row[idField] }}</code>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.actions')" width="120" align="right">
+        <el-table-column :label="$t('admin.users.columns.actions')" align="right">
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5">
               <el-tooltip :content="$t('admin.config.edit')" placement="top">

@@ -21,7 +21,6 @@ export interface LandlordPropertyDetail {
   sizeSqm: number
   furnished: boolean
   address: string
-  locationUrl: string
   lat: number | null
   lng: number | null
   nearby_location: string | null

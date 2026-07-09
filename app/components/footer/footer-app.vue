@@ -1,12 +1,12 @@
 <template>
-  <footer class=" text-gray-300 mt-36">
+  <footer class="bg-gray-900 text-gray-300 mt-36">
     <div class="max-w-7xl mx-auto px-6 py-14">
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
 
         <!-- Brand -->
         <div>
           <div class="flex items-center mb-4 ">
-            <NuxtImg src="./rentify-logo.webp" class="size-12"/>
+            <NuxtImg src="/rentify-logo.webp" class="size-12" alt="Rentify" />
             <span class="text-xl font-semibold text-white">{{ $t('nav.title')}}</span>
           </div>
 
@@ -19,7 +19,7 @@
               <Icon name="mdi:facebook" :size="18" />
             </button>
             <button class="social-btn">
-              <BaseIcon name="send" :size="18"/>
+              <Icon name="mdi:telegram" :size="18" />
             </button>
             <button class="social-btn">
               <BaseIcon name="mail-check" :size="18"/>
@@ -33,11 +33,14 @@
             {{ $t('footer.quickLinks') }}
           </h4>
           <ul class="space-y-3 text-sm">
-            <!-- <li><NuxtLink to="/about" class="footer-link">{{ $t('footer.about') }}</NuxtLink></li>
-            <li><NuxtLink to="/contact" class="footer-link">{{ $t('footer.contact') }}</NuxtLink></li>
-            <li><NuxtLink to="/terms" class="footer-link">{{ $t('footer.terms') }}</NuxtLink></li>
-            <li><NuxtLink to="/privacy" class="footer-link">{{ $t('footer.privacy') }}</NuxtLink></li>
-            <li><NuxtLink to="/help" class="footer-link">{{ $t('footer.help') }}</NuxtLink></li> -->
+            <template v-for="link in quickLinks" :key="link.to">
+              <li v-if="link.can" v-can="link.can">
+                <NuxtLink :to="link.to" class="footer-link">{{ link.label }}</NuxtLink>
+              </li>
+              <li v-else>
+                <NuxtLink :to="link.to" class="footer-link">{{ link.label }}</NuxtLink>
+              </li>
+            </template>
           </ul>
         </div>
 
@@ -53,11 +56,26 @@
             </li>
             <li class="flex items-center gap-3">
               <BaseIcon name="mail-check" :size="18"/>
-              <span>hello@roomkh.com</span>
+              <span>hello@rentifykh.com</span>
             </li>
             <li class="flex items-center gap-3">
               <Icon name="mdi:telegram" :size="18" />
-              <span>@roomkh</span>
+              <span>@rentifykh</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Legal -->
+        <div>
+          <h4 class="text-white font-semibold mb-4">
+            {{ $t('footer.legal') }}
+          </h4>
+          <ul class="space-y-3 text-sm">
+            <li>
+              <NuxtLink to="/terms" class="footer-link">{{ $t('footer.terms') }}</NuxtLink>
+            </li>
+            <li>
+              <NuxtLink to="/privacy" class="footer-link">{{ $t('footer.privacy') }}</NuxtLink>
             </li>
           </ul>
         </div>
@@ -74,18 +92,12 @@
 
           <!-- Language Switch -->
           <div class="flex items-center gap-2">
-            <Icon name="mdi:earth" size="16" />
-            <button
-              class="hover:text-white transition cursor-pointer"
-              @click="setLocale('en')"
-            >
+            <BaseIcon name="globe" :size="16" />
+            <button class="hover:text-white transition cursor-pointer" @click="setLocale('en')">
               {{ $t('footer.english') }}
             </button>
             <span class="opacity-40">|</span>
-            <button
-              class="hover:text-white transition cursor-pointer"
-              @click="setLocale('km')"
-            >
+            <button class="hover:text-white transition cursor-pointer" @click="setLocale('km')">
               {{ $t('footer.khmer') }}
             </button>
           </div>
@@ -96,13 +108,41 @@
 </template>
 
 <script setup lang="ts">
-  import BaseIcon from '../ui/BaseIcon.client.vue';
+import BaseIcon from '../ui/BaseIcon.client.vue'
 
-const { setLocale } = useI18n()
+const { t, setLocale } = useI18n()
+
+const quickLinks = computed(() => [
+  { to: '/', label: t('nav.home') },
+  { to: '/properties', label: t('nav.browseRoom') },
+  { to: '/post-property', label: t('nav.postRoom'), can: 'landlord' },
+  { to: '/user/favourites', label: t('nav.favourites') },
+])
 </script>
 
 <style scoped>
-footer {
-    background-color: #111827;
+.social-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  background-color: rgb(255 255 255 / 0.1);
+  transition: background-color 0.2s ease;
+  cursor: pointer;
+}
+
+.social-btn:hover {
+  background-color: rgb(255 255 255 / 0.2);
+}
+
+.footer-link {
+  color: inherit;
+  transition: color 0.2s ease;
+}
+
+.footer-link:hover {
+  color: white;
 }
 </style>

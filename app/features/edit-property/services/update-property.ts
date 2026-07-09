@@ -13,7 +13,6 @@ export interface UpdatePropertyPayload {
   furnished?: boolean
   districtId?: number
   address?: string
-  locationUrl?: string
   lat?: number | null
   lng?: number | null
   propertyTypeId?: number

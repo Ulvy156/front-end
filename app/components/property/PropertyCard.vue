@@ -8,39 +8,42 @@
      @click="props.item.id && $router.push(`/properties/details/${props.item.id}`)"
    >
     <div class="relative overflow-hidden rounded-md">
-      <div class="floating-actions">
-        <div class="flex flex-col justify-between h-[40%]">
-          <BaseButton
-            circle
-            text
-            class="fab transition-colors"
-            :class="[
-              props.isFavourited ? 'text-red-500' : '',
-              props.isFavouritePending ? 'animate-pulse cursor-wait' : '',
-            ]"
-            :disabled="props.isFavouritePending"
-            :aria-label="$t('card.favourite')"
-            @click.stop="$emit('favourite')"
-          >
-            <BaseIcon name="heart" :size="18" />
-          </BaseButton>
+      <div class="floating-actions-top">
+        <BaseButton
+          circle
+          text
+          class="fab transition-colors"
+          :class="[
+            props.isFavourited ? 'fab-favourited' : '',
+            props.isFavouritePending ? 'animate-pulse cursor-wait' : '',
+          ]"
+          :disabled="props.isFavouritePending"
+          :aria-label="$t('card.favourite')"
+          @click.stop="$emit('favourite')"
+        >
+          <BaseHeartIcon :filled="props.isFavourited" :size="18" />
+        </BaseButton>
 
-          <BaseButton
-            v-if="!props.hideCompareIcon"
-            circle
-            text
-            class="fab"
-            :aria-label="$t('card.compare')"
-            @click.stop="$emit('compare')"
-          >
-            <BaseIcon name="git-compare-arrows" :size="18" />
-          </BaseButton>
-        </div>
+        <BaseButton
+          v-if="!props.hideCompareIcon"
+          circle
+          text
+          class="fab"
+          :aria-label="$t('card.compare')"
+          @click.stop="$emit('compare')"
+        >
+          <BaseIcon name="git-compare-arrows" :size="18" />
+        </BaseButton>
+      </div>
 
-        <div class="fab fab-wide">
-          <BaseIcon name="eye" :size="16" />
-          <span>{{ formatView(props.item.totalViews) }}</span>
-        </div>
+      <div class="fab fab-wide floating-photos">
+        <BaseIcon name="image" :size="16" />
+        <span>{{ props.item.photoCount }} {{ $t('card.photos') }}</span>
+      </div>
+
+      <div class="fab fab-wide floating-views">
+        <BaseIcon name="eye" :size="16" />
+        <span>{{ formatView(props.item.totalViews) }}</span>
       </div>
 
       <BaseImage :src="props.item.imageSrc" :class="props.imageClass" />
@@ -77,30 +80,30 @@
         </div>
       </div>
 
-      <div class="flex items-center justify-between">
-        <div class="flex items-center gap-x-6">
-          <div class="amenities">
+      <div class="flex flex-col gap-y-3">
+        <div class="flex items-center gap-x-3">
+          <div class="amenity-chip">
             <BaseTooltip :content="$t('card.bathroom')">
               <BaseIcon name="bath" :size="14" />
             </BaseTooltip>
             <span>{{ props.item.bathroom }}</span>
           </div>
 
-          <div class="amenities">
+          <div class="amenity-chip">
             <BaseTooltip :content="$t('card.bedroom')">
               <BaseIcon name="bed-double" :size="14" />
             </BaseTooltip>
             <span>{{ props.item.bedroom }}</span>
           </div>
 
-          <div class="amenities">
+          <div class="amenity-chip">
             <BaseTooltip :content="$t('card.size')">
               <BaseIcon name="expand" :size="13" />
             </BaseTooltip>
             <span>{{ props.item.sizeSqm }} m<sup>2</sup></span>
           </div>
 
-          <div v-if="showDistance" class="amenities">
+          <div v-if="showDistance" class="amenity-chip">
             <BaseTooltip :content="$t('card.distance')">
               <BaseIcon name="land-plot" :size="14" />
             </BaseTooltip>
@@ -108,12 +111,19 @@
           </div>
         </div>
 
-        <span
-          class="flex items-center gap-x-2 rounded-full bg-(--nav-active) p-1 px-2 text-(--nav-active-item)"
-        >
-          <BaseIcon :name="props.item.propertyType.icon" size="12" />
-          {{ props.item.propertyType[langKey] }}
-        </span>
+        <div class="flex items-center justify-between">
+          <span
+            class="flex items-center gap-x-2 rounded-full bg-(--nav-active) p-1 px-2 text-(--nav-active-item)"
+          >
+            <BaseIcon :name="props.item.propertyType.icon" size="12" />
+            {{ props.item.propertyType[langKey] }}
+          </span>
+
+          <span class="flex items-center gap-x-1 text-gray-500 text-sm">
+            <BaseIcon name="eye" :size="14" />
+            {{ formatView(props.item.totalViews) }} {{ $t('card.views') }}
+          </span>
+        </div>
       </div>
     </div>
   </article>
@@ -125,6 +135,7 @@ import { useI18n } from 'vue-i18n'
 import { formatView } from '#imports'
 
 import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseHeartIcon from '~/components/ui/BaseHeartIcon.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseTooltip from '~/components/ui/BaseTooltip.vue'
@@ -190,17 +201,28 @@ img {
   aspect-ratio: 16/9;
 }
 
-.floating-actions {
+.floating-actions-top {
   color: var(--hover-text-color);
   position: absolute;
+  top: 10px;
   right: 10px;
-  padding: 10px 0;
   display: flex;
-  flex-direction: column;
-  align-items: end;
-  justify-content: space-between;
-  height: 100%;
-  gap: 10px;
+  align-items: center;
+  gap: 8px;
+  z-index: 20;
+}
+
+.floating-photos {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  z-index: 20;
+}
+
+.floating-views {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
   z-index: 20;
 }
 
@@ -210,6 +232,7 @@ img {
   justify-content: center;
   width: 34px;
   height: 34px;
+  margin: 0;
   padding: 0;
   border-radius: 34px;
   background: #f9fbfa;
@@ -226,6 +249,16 @@ img {
   transform: translateY(-2px);
 }
 
+.fab.fab-favourited {
+  background: var(--destructive);
+  color: white;
+}
+
+.fab.fab-favourited:hover {
+  background: var(--destructive);
+  opacity: 0.9;
+}
+
 .fab-wide {
   width: auto;
   padding: 0 14px;
@@ -234,9 +267,14 @@ img {
   font-size: 14px;
 }
 
-.amenities {
+.amenity-chip {
   display: flex;
   align-items: center;
   column-gap: 5px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f3f4f6;
+  font-size: 13px;
+  color: #4b5563;
 }
 </style>

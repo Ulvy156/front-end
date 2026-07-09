@@ -71,6 +71,7 @@ defineExpose({ open })
     :title="t('property.reportDialog.title')"
     width="500px"
     :close-on-click-modal="false"
+    append-to-body
   >
     <el-form
       ref="formRef"

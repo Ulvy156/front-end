@@ -5,12 +5,16 @@ import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminProperties } from '~/features/admin/composables/useAdminProperties'
+import { useAdminLandlords, type UserFilters } from '~/features/admin/composables/useAdminUsers'
 import type { AdminProperty, AdminPropertiesFilter } from '~/features/admin/types/property'
+import PropertyDetailsDrawer from './PropertyDetailsDrawer.vue'
 
 const { t } = useI18n()
 const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
 const langKey = useLangKey()
+const route = useRoute()
+const router = useRouter()
 
 // ── Server-side filter + pagination ─────────────────────────
 const searchInput = ref('')
@@ -21,7 +25,21 @@ const FEATURED_MAX = 3
 const filters = ref<AdminPropertiesFilter>({
   page: 1,
   limit: PAGE_SIZE,
+  propertyId: (route.query.propertyId as string) || undefined,
 })
+
+// ── Deep-link to a single property (e.g. from a report) ────────
+const isPinnedToProperty = computed(() => !!filters.value.propertyId)
+
+watch(() => route.query.propertyId, (val) => {
+  filters.value = { ...filters.value, propertyId: (val as string) || undefined, page: 1 }
+})
+
+function clearPropertyFilter() {
+  const query = { ...route.query }
+  delete query.propertyId
+  router.replace({ query })
+}
 
 const searchDebounce = ref<ReturnType<typeof setTimeout>>()
 watch(searchInput, (val) => {
@@ -37,6 +55,23 @@ watch(statusFilter, (val) => {
     isPublished: val === 'published' ? true : val === 'unpublished' ? false : undefined,
     page: 1,
   }
+})
+
+// ── Landlord filter (remote search by name/email → landlordId) ─
+const selectedLandlordId = ref<string>()
+const landlordSearchFilters = ref<UserFilters>({ search: '', page: 1, limit: 10 })
+const { data: landlordOptions, isPending: landlordSearchPending } = useAdminLandlords(landlordSearchFilters)
+
+const landlordSearchDebounce = ref<ReturnType<typeof setTimeout>>()
+function onLandlordSearch(query: string) {
+  clearTimeout(landlordSearchDebounce.value)
+  landlordSearchDebounce.value = setTimeout(() => {
+    landlordSearchFilters.value = { ...landlordSearchFilters.value, search: query, page: 1 }
+  }, 300)
+}
+
+watch(selectedLandlordId, (val) => {
+  filters.value = { ...filters.value, landlordId: val || undefined, page: 1 }
 })
 
 const { data, isPending, togglePublish, toggleAvailability, setFeatured, deleteProperty } = useAdminProperties(filters)
@@ -58,6 +93,15 @@ const publishingId   = ref<string | null>(null)
 const availabilityId = ref<string | null>(null)
 const featuringId    = ref<string | null>(null)
 const deletingId     = ref<string | null>(null)
+
+// ── Details drawer ─────────────────────────────────────────────
+const detailsDrawerOpen = ref(false)
+const selectedPropertyId = ref<string | null>(null)
+
+function viewDetails(prop: AdminProperty) {
+  selectedPropertyId.value = prop.id
+  detailsDrawerOpen.value = true
+}
 
 async function handleTogglePublish(prop: AdminProperty) {
   publishingId.value = prop.id
@@ -122,8 +166,22 @@ async function handleDelete(prop: AdminProperty) {
       </div>
     </div>
 
+    <!-- Pinned to a single property (deep-linked, e.g. from a report) -->
+    <div
+      v-if="isPinnedToProperty"
+      class="flex items-center justify-between mb-4 px-4 py-2.5 rounded-lg bg-blue-50 border border-blue-100"
+    >
+      <p class="flex items-center gap-2 text-sm text-blue-700">
+        <BaseIcon name="filter" :size="14" />
+        {{ $t('admin.properties.viewingSingle') }}
+      </p>
+      <el-button text size="small" @click="clearPropertyFilter">
+        {{ $t('admin.properties.viewAllProperties') }}
+      </el-button>
+    </div>
+
     <!-- Filters -->
-    <div class="flex gap-3 mb-4">
+    <div v-else class="flex gap-3 mb-4">
       <el-input v-model="searchInput" :placeholder="$t('admin.properties.searchPlaceholder')" clearable class="max-w-72">
         <template #prefix>
           <BaseIcon name="search" :size="14" class="text-gray-400" />
@@ -134,6 +192,24 @@ async function handleDelete(prop: AdminProperty) {
         <el-option :label="$t('admin.properties.filterPublished')"   value="published" />
         <el-option :label="$t('admin.properties.filterUnpublished')" value="unpublished" />
       </el-select>
+      <el-select
+        v-model="selectedLandlordId"
+        filterable
+        remote
+        clearable
+        reserve-keyword
+        :remote-method="onLandlordSearch"
+        :loading="landlordSearchPending"
+        :placeholder="$t('admin.properties.landlordPlaceholder')"
+        class="w-56"
+      >
+        <el-option
+          v-for="l in landlordOptions?.items ?? []"
+          :key="l.id"
+          :label="`${l.name} (${l.email})`"
+          :value="l.id"
+        />
+      </el-select>
     </div>
 
     <!-- Skeleton -->
@@ -143,7 +219,7 @@ async function handleDelete(prop: AdminProperty) {
 
     <!-- Table -->
     <div v-else class="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      <el-table :data="items" row-key="id">
+      <el-table :data="items" row-key="id" class="cursor-pointer" @row-click="(row) => viewDetails(row as AdminProperty)">
 
         <el-table-column :label="$t('admin.properties.columns.property')" min-width="260">
           <template #default="{ row }">
@@ -202,9 +278,14 @@ async function handleDelete(prop: AdminProperty) {
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.actions')" width="160" align="right">
+        <el-table-column :label="$t('admin.users.columns.actions')" width="190" align="right">
           <template #default="{ row }">
-            <div class="flex items-center justify-end gap-0.5">
+            <div class="flex items-center justify-end gap-0.5" @click.stop>
+              <el-tooltip :content="$t('admin.properties.viewDetails')" placement="top">
+                <el-button text size="small" class="text-gray-400!" @click="viewDetails(row)">
+                  <BaseIcon name="info" :size="15" />
+                </el-button>
+              </el-tooltip>
               <el-tooltip
                 :content="row.isFeatured ? $t('admin.properties.unfeature') : featuredCount >= FEATURED_MAX ? $t('admin.properties.featuredMaxReached') : $t('admin.properties.feature')"
                 placement="top"
@@ -257,5 +338,7 @@ async function handleDelete(prop: AdminProperty) {
         />
       </div>
     </div>
+
+    <PropertyDetailsDrawer v-model="detailsDrawerOpen" :property-id="selectedPropertyId" />
   </div>
 </template>

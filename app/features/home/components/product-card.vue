@@ -42,6 +42,7 @@ const props = withDefaults(
     }
     size: number
     totalView: number
+    photoCount: number
     hideCompareIcon?: boolean
   }>(),
   {
@@ -51,6 +52,7 @@ const props = withDefaults(
     content: '',
     size: 0,
     totalView: 0,
+    photoCount: 0,
     hideCompareIcon: false,
   },
 )
@@ -61,6 +63,7 @@ const cardItem = computed<PropertyCardViewModel>(() => ({
   content: props.content,
   monthlyPrice: props.price,
   totalViews: props.totalView,
+  photoCount: props.photoCount,
   bathroom: props.bathroom,
   bedroom: props.bedroom,
   isAvailable: props.isAvailable,

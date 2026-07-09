@@ -5,8 +5,11 @@
 
         <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/85 via-emerald-900/50 to-emerald-900/20" />
 
-        <NuxtLink to="/" class="relative z-10 w-fit">
-            <NuxtImg src="/rentify-logo.webp" alt="Rentify" class="h-8" />
+        <NuxtLink to="/" class="relative z-10 flex items-center gap-2.5 w-fit rounded-full bg-white/10 backdrop-blur-sm
+                   pl-3 pr-5 py-2 border border-white/20 shadow-lg
+                   hover:bg-white/20 hover:border-white/30 transition-colors">
+            <NuxtImg src="/rentify-logo.webp" alt="Rentify" class="h-9" />
+            <span class="text-2xl font-bold tracking-tight text-white">Rentify</span>
         </NuxtLink>
 
         <div class="relative z-10 space-y-8">

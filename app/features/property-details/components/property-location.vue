@@ -52,7 +52,6 @@ const props = defineProps<{
 const langKey = useLangKey()
 
 const googleMapsUrl = computed(() => {
-  if (props.property.locationUrl) return props.property.locationUrl
   if (props.property.lat != null && props.property.lng != null) {
     return `https://www.google.com/maps?q=${props.property.lat},${props.property.lng}`
   }

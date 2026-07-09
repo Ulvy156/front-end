@@ -46,6 +46,7 @@ const cardItem = computed<PropertyCardViewModel>(() => ({
   title: props.item.title,
   monthlyPrice: props.item.monthly_price,
   totalViews: props.item.totalViews,
+  photoCount: props.item._count?.images ?? props.item.images?.length ?? 0,
   bathroom: props.item.bathroom,
   bedroom: props.item.bedroom,
   isAvailable: props.item.isAvailable,

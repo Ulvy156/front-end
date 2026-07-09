@@ -77,5 +77,17 @@ export function useAdminUsers(filters: Ref<UserFilters>) {
 }
 
 export function useAdminLandlords(filters: Ref<UserFilters>) {
-  return useAdminUserList(Role.LANDLORD, filters)
+  const base = useAdminUserList(Role.LANDLORD, filters)
+  const { $axios } = useNuxtApp()
+  const queryClient = useQueryClient()
+
+  const toggleVerify = useMutation({
+    mutationFn: async (id: string) => {
+      const { data } = await $axios.patch<{ id: string; isVerified: boolean }>(`/admin/landlords/${id}/verify`)
+      return data
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-landlords'] }),
+  })
+
+  return { ...base, toggleVerify }
 }

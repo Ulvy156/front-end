@@ -7,7 +7,6 @@ export interface PropertyDetail {
   userId: string;
   districtId: number;
   address: string;
-  locationUrl: string;
   lat: number | null;
   lng: number | null;
   nearby_location: string | null;
@@ -49,10 +48,11 @@ export interface PropertyDetail {
 }
 export interface User {
   imgUrl: string | null;
-  role: 'ADMIN' | 'USER';
+  role: 'ADMIN' | 'USER' | 'LANDLORD';
   phones: Phone[];
   name: string;
   email: string | null;
+  isVerified: boolean
 }
 
 export interface Parking {

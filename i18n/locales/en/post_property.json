@@ -58,8 +58,6 @@
             "select_district": "Select district",
             "street_address": "Street Address",
             "street_placeholder": "e.g., Street 123, House #45",
-            "maps_link": "Google Maps Link",
-            "maps_hint": "Paste a Google Maps link to help renters find your property easily",
             "latitude": "Latitude ",
             "longitude": "Longitude",
             "hide_address": "Hide exact address",

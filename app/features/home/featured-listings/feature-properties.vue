@@ -25,6 +25,7 @@
         :type="value.propertyType"
         :size="value.sizeSqm"
         :total-view="value.totalViews"
+        :photo-count="value._count?.images ?? value.images?.length ?? 0"
         :bathroom="value.bathroom"
         :bedroom="value.bedroom"
         :hide-compare-icon="true"

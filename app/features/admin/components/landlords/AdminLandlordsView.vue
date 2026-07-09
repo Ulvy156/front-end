@@ -3,6 +3,7 @@ import { ElMessageBox } from 'element-plus'
 import { Role } from '~/types/role'
 import dayjs from 'dayjs'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseVerifiedBadge from '~/components/ui/BaseVerifiedBadge.vue'
 import AdminRoleBadge from '~/features/admin/components/shared/AdminRoleBadge.vue'
 import UserFormDrawer from '~/features/admin/components/users/UserFormDrawer.vue'
 import LandlordPropertiesDrawer from '~/features/admin/components/landlords/LandlordPropertiesDrawer.vue'
@@ -31,7 +32,7 @@ function onPageChange(page: number) {
 }
 
 // ── Data ─────────────────────────────────────────────────────
-const { data, isPending, createUser, updateUser, lockUser, unlockUser, deleteUser } = useAdminLandlords(filters)
+const { data, isPending, createUser, updateUser, lockUser, unlockUser, deleteUser, toggleVerify } = useAdminLandlords(filters)
 
 // ── Form drawer ───────────────────────────────────────────────
 const formDrawerOpen = ref(false)
@@ -78,6 +79,20 @@ async function handleLockToggle(user: AdminUser) {
     notifyError(extract(err))
   } finally {
     lockingUserId.value = null
+  }
+}
+
+const verifyingUserId = ref<string | null>(null)
+
+async function handleVerifyToggle(user: AdminUser) {
+  verifyingUserId.value = user.id
+  try {
+    await toggleVerify.mutateAsync(user.id)
+    success(t(user.isVerified ? 'admin.landlords.unverifySuccess' : 'admin.landlords.verifySuccess', { name: user.name }))
+  } catch (err) {
+    notifyError(extract(err))
+  } finally {
+    verifyingUserId.value = null
   }
 }
 
@@ -140,7 +155,7 @@ async function handleDelete(user: AdminUser) {
         row-key="id"
         :row-class-name="({ row }: { row: AdminUser }) => row.isLocked ? 'opacity-60' : ''"
       >
-        <el-table-column :label="$t('admin.users.columns.name')" min-width="220">
+        <el-table-column :label="$t('admin.users.columns.name')" min-width="150">
           <template #default="{ row }">
             <div class="flex items-center gap-3 py-1">
               <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shrink-0 overflow-hidden">
@@ -148,7 +163,10 @@ async function handleDelete(user: AdminUser) {
                 <span v-else>{{ initials(row.name) }}</span>
               </div>
               <div class="min-w-0">
-                <p class="text-sm font-medium text-gray-900 truncate">{{ row.name }}</p>
+                <p class="text-sm font-medium text-gray-900 truncate flex items-center gap-1">
+                  <span class="truncate">{{ row.name }}</span>
+                  <BaseVerifiedBadge v-if="row.isVerified" :size="14" />
+                </p>
                 <p class="text-xs text-gray-400 truncate">{{ row.email }}</p>
               </div>
             </div>
@@ -181,12 +199,17 @@ async function handleDelete(user: AdminUser) {
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.actions')" width="160" align="right">
+        <el-table-column :label="$t('admin.users.columns.actions')" width="200" align="right">
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5">
               <el-tooltip :content="$t('admin.landlords.viewProperties')" placement="top">
                 <el-button text size="small" class="text-blue-500!" @click="openProperties(row)">
                   <BaseIcon name="building" :size="15" />
+                </el-button>
+              </el-tooltip>
+              <el-tooltip :content="row.isVerified ? $t('admin.landlords.unverify') : $t('admin.landlords.verify')" placement="top">
+                <el-button text size="small" class="text-emerald-600!" :loading="verifyingUserId === row.id" @click="handleVerifyToggle(row)">
+                  <BaseIcon :name="row.isVerified ? 'shield-off' : 'shield-check'" :size="15" />
                 </el-button>
               </el-tooltip>
               <el-tooltip :content="row.isLocked ? $t('admin.users.unlock') : $t('admin.users.lock')" placement="top">

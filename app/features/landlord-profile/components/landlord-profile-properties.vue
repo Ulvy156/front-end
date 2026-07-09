@@ -74,6 +74,7 @@ const cardItems = computed<PropertyCardViewModel[]>(() =>
     title: item.title,
     monthlyPrice: item.monthly_price,
     totalViews: item.totalViews,
+    photoCount: item._count?.images ?? item.images?.length ?? 0,
     bathroom: item.bathroom,
     bedroom: item.bedroom,
     isAvailable: item.isAvailable,

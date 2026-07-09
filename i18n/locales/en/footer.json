@@ -2,15 +2,14 @@
   "footer": {
     "description": "Cambodia’s trusted rental platform. Find rooms, houses, and apartments that fit your lifestyle.",
     "quickLinks": "Quick Links",
-    "about": "About Us",
     "contact": "Contact",
-    "terms": "Terms of Service",
-    "privacy": "Privacy Policy",
-    "help": "Help Center",
     "copyright": "© 2026 Rentify. All rights reserved.",
     "madeIn": "Made in Cambodia",
     "language": "Language",
     "english": "English",
-    "khmer": "Khmer"
+    "khmer": "Khmer",
+    "legal": "Legal",
+    "terms": "Terms of Service",
+    "privacy": "Privacy Policy"
   }
 }

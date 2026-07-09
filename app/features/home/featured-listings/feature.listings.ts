@@ -15,6 +15,7 @@ export interface FeaturedProperty {
   images: {
     imageKey: string
   }[]
+  _count?: { images: number }
 
   district: PropertyCardLocation
   propertyType: PropertyCardType

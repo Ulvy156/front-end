@@ -38,6 +38,7 @@ export interface AdminPropertiesFilter {
   isFeatured?: boolean
   isAvailable?: boolean
   landlordId?: string
+  propertyId?: string
 }
 
 export interface AdminPropertyDetail {
@@ -61,7 +62,6 @@ export interface AdminPropertyDetail {
   minimumStayLength: number
   lat: number
   lng: number
-  locationUrl: string
   nearby_location: string
   availableFrom: string
   createdAt: string

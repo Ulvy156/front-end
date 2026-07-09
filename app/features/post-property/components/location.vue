@@ -94,33 +94,6 @@
       </div>
     </div>
 
-     <!-- Google Maps Link -->
-     <div class="mb-5">
-       <label class="block text-sm font-medium text-gray-800 mb-1.5">
-         {{ t("post_property.location.maps_link") }} 
-         <span v-if="formErrors.mapsLink" class="text-red-500 text-xs font-normal ml-1">
-            {{ formErrors.mapsLink }}
-         </span>
-       </label>
-       <div class="relative">
-         <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-           <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
-           <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
-         </svg>
-         <input
-           v-model="form.mapsLink"
-           type="url"
-           placeholder="https://maps.google.com/..."
-           :class="formErrors.mapsLink
-             ? 'border-red-400 focus:border-red-400 focus:ring-red-400/15'
-             : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-           class="w-full pl-9 pr-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition"
-           @input="console.log('Maps link input:', form.mapsLink); formErrors.mapsLink = ''"
-         />
-       </div>
-       <p class="text-xs text-gray-400 mt-1">{{ t("post_property.location.maps_hint") }}</p>
-     </div>
-
     <!-- Map Picker -->
     <div class="mb-5">
       <label class="block text-sm font-medium text-gray-800 mb-1.5">

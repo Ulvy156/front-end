@@ -16,12 +16,19 @@
     <div class="flex items-center gap-3 mb-4">
       <BaseAvatar :name="property.user.name" :src="property.user.imgUrl" />
       <div>
-        <NuxtLink
-          :to="`/landlord/profile/${property.userId}`"
-          class="text-[15px] font-semibold text-gray-800 hover:text-(--nav-active-item) transition-colors"
-        >
-          {{ property.user.name }}
-        </NuxtLink>
+        <div class="flex items-center gap-1">
+          <NuxtLink
+            :to="`/landlord/profile/${property.userId}`"
+            class="text-[15px] font-semibold text-gray-800 hover:text-(--nav-active-item) transition-colors"
+          >
+            {{ property.user.name }}
+          </NuxtLink>
+          <BaseVerifiedBadge
+            v-if="property.user.isVerified"
+            :size="19"
+            :title="$t('property.verified')"
+          />
+        </div>
         <div class="text-xs text-gray-400">{{ property.user.role }}</div>
       </div>
     </div>
@@ -128,6 +135,7 @@
 <script lang="ts" setup>
 import BaseAvatar from "~/components/ui/BaseAvatar.vue"
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import BaseVerifiedBadge from "~/components/ui/BaseVerifiedBadge.vue"
 import reportPropertyDialog from "./report-property-dialog.vue"
 import type { PropertyDetail } from "../interface/properties-details"
 import { useFullUrl } from "#imports"
@@ -136,9 +144,7 @@ import { getTelegramLink } from "#imports"
 import { openShare } from "#imports"
 
 const route = useRoute()
-const { t } = useI18n()
 const { requireAuth } = useRequireAuth()
-const langKey = useLangKey()
 
 const reportDialog = ref<InstanceType<typeof reportPropertyDialog>>()
 

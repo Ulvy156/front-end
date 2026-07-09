@@ -29,17 +29,29 @@
     <div class="flex flex-col h-full gap-6">
       <!-- Navigation -->
       <nav class="flex flex-col gap-1">
-        <NuxtLink
-          v-for="item in navItems"
-          :key="item.to"
-          :to="item.to"
-          class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors"
-          :class="isActiveRoute(item) ? 'bg-(--nav-active) text-(--nav-active-item) font-semibold' : 'text-gray-700 hover:bg-gray-50'"
-          @click="drawer = false"
-        >
-          <BaseIcon :name="item.icon" :size="18" />
-          {{ item.label }}
-        </NuxtLink>
+        <template v-for="item in navItems" :key="item.to">
+          <NuxtLink
+            v-if="!item.can"
+            :to="item.to"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors"
+            :class="isActiveRoute(item) ? 'bg-(--nav-active) text-(--nav-active-item) font-semibold' : 'text-gray-700 hover:bg-gray-50'"
+            @click="drawer = false"
+          >
+            <BaseIcon :name="item.icon" :size="18" />
+            {{ item.label }}
+          </NuxtLink>
+          <NuxtLink
+            v-else
+            v-can="item.can"
+            :to="item.to"
+            class="flex items-center gap-3 px-4 py-3 rounded-lg text-sm transition-colors"
+            :class="isActiveRoute(item) ? 'bg-(--nav-active) text-(--nav-active-item) font-semibold' : 'text-gray-700 hover:bg-gray-50'"
+            @click="drawer = false"
+          >
+            <BaseIcon :name="item.icon" :size="18" />
+            {{ item.label }}
+          </NuxtLink>
+        </template>
       </nav>
 
       <!-- Bottom section -->
@@ -102,10 +114,10 @@ const drawer = ref(false)
 const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 
 const navItems = computed(() => [
-  { to: '/', icon: 'house', label: t('nav.home'), exact: true },
-  { to: '/properties', icon: 'search', label: t('nav.browseRoom'), exact: false },
-  { to: '/post-property', icon: 'circle-plus', label: t('nav.postRoom'), exact: false },
-  { to: '/user/favourites', icon: 'heart', label: t('nav.favourites'), exact: false },
+  { to: '/', icon: 'house', label: t('nav.home'), exact: true, can: undefined },
+  { to: '/properties', icon: 'search', label: t('nav.browseRoom'), exact: false, can: undefined },
+  { to: '/post-property', icon: 'circle-plus', label: t('nav.postRoom'), exact: false, can: 'landlord' as const },
+  { to: '/user/favourites', icon: 'heart', label: t('nav.favourites'), exact: false, can: undefined },
 ])
 
 function isActiveRoute(item: { to: string; exact: boolean }) {

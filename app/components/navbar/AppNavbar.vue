@@ -10,33 +10,28 @@
       </NuxtLink>
 
       <!-- Center Search -->
-      <div class="mx-auto flex items-center gap-3 rounded-full border border-(--nav-active-item) bg-white px-4 py-2 text-sm text-gray-600">
-        <NuxtLink to="/" 
+      <div class="mx-auto flex items-center gap-1 rounded-full border border-(--nav-active-item) bg-white px-2 py-1.5 text-sm text-gray-600">
+        <NuxtLink to="/"
         :class="{'menu-item-active': isActive('/')}"
         class="menu-items">
           <BaseIcon name="house" :size="16" />
           <p>{{ $t('nav.home') }} </p>
         </NuxtLink>
 
-        <span class="text-gray-300">|</span>
-
-        <NuxtLink to="/properties" 
+        <NuxtLink to="/properties"
         :class="{'menu-item-active': startsWith('/properties')}"
         class="menu-items">
           <BaseIcon name="search" :size="16" />
           <p>{{ $t('nav.browseRoom') }}</p>
         </NuxtLink>
 
-        <span class="text-gray-300">|</span>
-
         <NuxtLink
+          v-can="'landlord'"
           :class="{'menu-item-active': startsWith('/post-property')}"
           to="/post-property" class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
           <p>{{ $t('nav.postRoom') }}</p>
         </NuxtLink>
-
-        <span  class="text-gray-300">|</span>
 
         <NuxtLink
           to="/user/favourites"
@@ -46,8 +41,6 @@
           <BaseIcon name="heart" :size="16" />
           <p>{{ $t('nav.favourites') }}</p>
         </NuxtLink>
-
-        <span class="text-gray-300">|</span>
       </div>
 
       <!-- Right -->
@@ -56,22 +49,20 @@
 
         <!-- Unauthenticated -->
         <NuxtLink v-if="!authStore.isAuthenticated" to="/auth/login"
-          class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white
+          class="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white
                  hover:bg-blue-700 transition-colors">
           {{ $t('auth.signIn') }}
         </NuxtLink>
 
         <!-- Authenticated -->
         <el-dropdown v-else trigger="click" @command="handleCommand">
-          <button class="flex items-center gap-x-2 rounded-xl border border-slate-200 bg-white
-                         px-3 py-2 text-sm font-medium text-slate-700
-                         hover:border-slate-300 hover:shadow-sm transition-all cursor-pointer">
-            <div class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center
-                        text-blue-700 text-xs font-bold shrink-0">
-              {{ userInitials }}
+          <button class="block rounded-full cursor-pointer">
+            <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center
+                        text-blue-700 text-xs font-bold shrink-0 overflow-hidden
+                        ring-2 ring-blue-200 ring-offset-2 ring-offset-white">
+              <BaseImage v-if="authStore.user?.imgUrl" :src="authStore.user.imgUrl" :alt="authStore.user.name" fit="cover" />
+              <span v-else>{{ userInitials }}</span>
             </div>
-            <span class="max-w-25 truncate">{{ authStore.user?.name }}</span>
-            <BaseIcon name="chevron-down" :size="14" class="text-slate-400" />
           </button>
           <template #dropdown>
             <el-dropdown-menu>
@@ -96,6 +87,7 @@
 <script lang="ts" setup>
 import switchLngClient from './switch-lng.client.vue';
 import BaseIcon from '../ui/BaseIcon.client.vue';
+import BaseImage from '../ui/BaseImage.vue';
 import MobileNavDrawer from './MobileNavDrawer.vue';
 import { useActiveRoute } from '~/composables/useActiveRoute';
 import { initials } from '~/utils/initials'

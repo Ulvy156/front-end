@@ -18,6 +18,8 @@
         "floor":"Floor",
         "view":"Views",
         "report":"Report Listings",
+        "safety_notice":"Always visit in person and verify ownership before paying a deposit.",
+        "verified":"Verified landlord",
         "reportDialog": {
             "title": "Report This Listing",
             "typeLabel": "Report type",

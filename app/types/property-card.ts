@@ -17,6 +17,7 @@ export interface PropertyCardViewModel {
   content?: string
   monthlyPrice: number
   totalViews: number
+  photoCount: number
   bathroom: number
   bedroom: number
   isAvailable: boolean

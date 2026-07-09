@@ -16,6 +16,7 @@ export interface PropertyCardItem {
   bedroom: number;
   isAvailable: boolean;
   images: PropertyImage[];
+  _count?: { images: number };
   district: PropertyCardLocation;
   propertyType: PropertyCardType;
   deposit: number;

@@ -55,22 +55,6 @@ const router = useRouter();
 const form = inject<any>("postPropertyForm");
 const formErrors = inject<any>("formErrors");
 
-// Normalize Google Maps URL helper function
-const normalizeGoogleMapsUrl = (value: string): string | null => {
-  const url = value?.trim();
-  if (!url) return null;
-
-  if (/^https?:\/\/(www\.)?google\.[a-z.]+\/maps\/.+$/i.test(url)) {
-    return url;
-  }
-
-  if (/^https?:\/\/maps\.app\.goo\.gl\/.+$/i.test(url)) {
-    return `https://www.google.com/maps/place/${encodeURIComponent(url)}`;
-  }
-
-  return null;
-};
-
 const active = ref(0);
 const loading = ref(false);
 const publishResult = ref<string | null>(null);
@@ -111,12 +95,6 @@ function validateForm(): boolean {
   }
   if (!form.streetAddress?.trim()) {
     formErrors.streetAddress = "Required";
-    isValid = false;
-  }
-  // Maps link validation
-  const mapsLink = normalizeGoogleMapsUrl(form.mapsLink || "");
-  if (!mapsLink) {
-    formErrors.mapsLink = "Please enter a valid Google Maps URL.";
     isValid = false;
   }
 
@@ -177,7 +155,7 @@ function validateStep(stepIndex): boolean {
   const stepErrorKeysMap = {
     0: ['propertyType'],
     1: ['propertyTitle', 'description', 'size'],
-    2: ['province', 'district', 'streetAddress', 'mapsLink'],
+    2: ['province', 'district', 'streetAddress'],
     3: ['rent', 'minStay', 'availableFrom'],
     4: [],
     5: ['photos'],
@@ -226,12 +204,6 @@ function validateStep(stepIndex): boolean {
       }
       if (!form.streetAddress?.trim()) {
         formErrors.streetAddress = "Required";
-        isValid = false;
-      }
-      // Maps link validation
-      const mapsLink = normalizeGoogleMapsUrl(form.mapsLink || "");
-      if (!mapsLink) {
-        formErrors.mapsLink = "Please enter a valid Google Maps URL.";
         isValid = false;
       }
       break;
@@ -296,7 +268,7 @@ const publish = async () => {
       } else {
         active.value = 1;
       }
-    } else if (formErrors.province || formErrors.district || formErrors.streetAddress || formErrors.mapsLink) {
+    } else if (formErrors.province || formErrors.district || formErrors.streetAddress) {
       active.value = 2; // Location step
     } else if (formErrors.rent || formErrors.minStay || formErrors.availableFrom) {
       active.value = 3; // Price step
@@ -345,28 +317,6 @@ const publish = async () => {
       const n = Number(v);
       return Number.isFinite(n) ? n : undefined;
     };
-
-    const normalizeGoogleMapsUrl = (value: string): string | null => {
-      const url = value?.trim();
-      if (!url) return null;
-
-      if (/^https?:\/\/(www\.)?google\.[a-z.]+\/maps\/.+$/i.test(url)) {
-        return url;
-      }
-
-      if (/^https?:\/\/maps\.app\.goo\.gl\/.+$/i.test(url)) {
-        return `https://www.google.com/maps/place/${encodeURIComponent(url)}`;
-      }
-
-      return null;
-    };
-
-    
-    const mapsLink = normalizeGoogleMapsUrl(form.mapsLink || "");
-    if (!mapsLink) {
-      publishError.value = "Please enter a valid Google Maps URL.";
-      return;
-    }
 
      const districtId = Number(form.districtId);
      if (!districtId) {
@@ -446,7 +396,6 @@ const publish = async () => {
 
         districtId,
         address: form.streetAddress || "",
-        locationUrl: mapsLink,
         lat: form.latitude ? Number(form.latitude) : undefined,
         lng: form.longitude ? Number(form.longitude) : undefined,
 

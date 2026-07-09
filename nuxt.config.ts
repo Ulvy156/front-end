@@ -104,6 +104,7 @@ export default defineNuxtConfig({
           'en/profile.json',
           'en/feedback.json',
           'en/landlord.json',
+          'en/legal.json',
         ]
       },
       {
@@ -122,6 +123,7 @@ export default defineNuxtConfig({
           'km/profile.json',
           'km/feedback.json',
           'km/landlord.json',
+          'km/legal.json',
         ]
       }
     ],

@@ -59,6 +59,9 @@
       "title": "All Properties",
       "totalCount": "{n} properties",
       "searchPlaceholder": "Search title or owner...",
+      "landlordPlaceholder": "Filter by landlord (name or email)...",
+      "viewingSingle": "Showing 1 filtered property",
+      "viewAllProperties": "View all properties",
       "featuredCount": "Featured: {n} / {max}",
       "featuredMaxReached": "Featured limit reached (3 max)",
       "filterAll": "All",
@@ -84,12 +87,31 @@
       "deleteTitle": "Delete Property",
       "deleteConfirm": "Are you sure you want to permanently delete \"{title}\"? This cannot be undone.",
       "deleteSuccess": "Property deleted.",
+      "viewDetails": "View details",
       "columns": {
         "property": "Property",
         "status": "Status",
         "price": "Price",
         "engagement": "Views / ❤",
         "created": "Created"
+      },
+      "detailsDrawer": {
+        "title": "Property Details",
+        "bedroom": "Bedroom",
+        "bathroom": "Bathroom",
+        "size": "Size",
+        "floor": "Floor",
+        "views": "Views",
+        "favourites": "Favourites",
+        "description": "Description",
+        "amenities": "Amenities",
+        "houseRules": "House Rules",
+        "propertyId": "Property ID",
+        "owner": "Property Owner",
+        "verified": "Verified",
+        "locked": "Locked",
+        "reports": "Reports ({n})",
+        "viewHistory": "View History"
       }
     },
     "landlords": {
@@ -97,6 +119,10 @@
       "totalCount": "{n} landlords total",
       "create": "Create Landlord",
       "viewProperties": "View properties",
+      "verify": "Verify landlord",
+      "unverify": "Remove verification",
+      "verifySuccess": "{name} is now verified.",
+      "unverifySuccess": "{name}'s verification has been removed.",
       "propertiesDrawer": {
         "title": "Landlord Properties",
         "joined": "Joined {date}",
@@ -201,7 +227,43 @@
       "empty": "No reports yet.",
       "confirmDelete": "Delete this report?",
       "delete": "Delete",
-      "deleteSuccess": "Report deleted"
+      "deleteSuccess": "Report deleted",
+      "viewDetails": "View details",
+      "filterByPropertyId": "Filter by property ID...",
+      "copyPropertyId": "Copy property ID",
+      "detailsDrawer": {
+        "title": "Report Details",
+        "reporter": "Reporter",
+        "reportedProperty": "Reported Property",
+        "propertyId": "Property ID",
+        "viewProperty": "View Property"
+      }
+    },
+    "settings": {
+      "save": "Save Changes",
+      "saveSuccess": "Settings updated.",
+      "lastUpdated": "Last updated {date}",
+      "maintenanceBannerActive": "Maintenance mode is ON — non-admin requests are currently blocked.",
+      "access": {
+        "title": "Platform Access",
+        "maintenanceMode": "Maintenance mode",
+        "maintenanceModeHint": "Blocks all non-admin requests except login and token refresh.",
+        "registrationEnabled": "Registration enabled",
+        "registrationEnabledHint": "Allows new sign-ups via email, Telegram, and Google."
+      },
+      "limits": {
+        "title": "Listing Limits",
+        "maxPropertiesPerLandlord": "Max properties per landlord (30 days)",
+        "maxImagesPerProperty": "Max images per property",
+        "minPropertyPrice": "Minimum monthly price",
+        "maxPropertyPrice": "Maximum monthly price",
+        "noBound": "No bound"
+      },
+      "billing": {
+        "title": "Billing",
+        "commissionRate": "Commission rate (%)",
+        "commissionRateHint": "Stored for future billing/reporting — not yet enforced."
+      }
     }
   }
 }
