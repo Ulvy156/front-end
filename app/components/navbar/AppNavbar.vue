@@ -26,7 +26,7 @@
         </NuxtLink>
 
         <NuxtLink
-          v-can="'landlord'"
+          v-if="canSeePostProperty"
           :class="{'menu-item-active': startsWith('/post-property')}"
           to="/post-property" class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
@@ -98,6 +98,9 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const { logout } = useLogout()
+const { isLandlord } = useRole()
+
+const canSeePostProperty = computed(() => !authStore.isAuthenticated || isLandlord.value)
 
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
