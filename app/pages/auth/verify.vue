@@ -3,6 +3,7 @@
     <OtpVerify
       v-if="email"
       :email="email"
+      :auto-send-otp="true"
       @back="navigateTo('/auth/login')"
     />
     <div v-else class="text-center text-slate-500 text-sm space-y-4">

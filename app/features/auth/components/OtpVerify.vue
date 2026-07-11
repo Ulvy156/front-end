@@ -53,8 +53,8 @@
             <span v-else>{{ t('auth.verifyAccount') }}</span>
         </button>
 
-        <!-- Resend code (only shown when resendData is provided) -->
-        <div v-if="resendData" class="text-center text-sm text-slate-500">
+        <!-- Resend code (only shown when resendData is provided or auto-send is enabled) -->
+        <div v-if="resendData || autoSendOtp" class="text-center text-sm text-slate-500">
             <button
                 v-if="resendCooldown === 0"
                 type="button"
@@ -88,6 +88,7 @@ import type { RegisterPayload } from './SignUpForm.vue'
 const props = defineProps<{
     email: string
     resendData?: RegisterPayload | null
+    autoSendOtp?: boolean
 }>()
 const emit = defineEmits<{ back: [] }>()
 
@@ -124,6 +125,21 @@ onUnmounted(() => {
     if (cooldownTimer) clearInterval(cooldownTimer)
 })
 
+const sendOtp = () => {
+    if (props.resendData) {
+        return api.post('/auth/register', props.resendData)
+    }
+    return api.post('/auth/resend-otp', { email: props.email })
+}
+
+onMounted(() => {
+    if (!props.autoSendOtp) return
+    startCooldown()
+    sendOtp()
+        .then(() => notify.success(t('auth.codeSentSuccess')))
+        .catch((err) => notify.error(extract(err)))
+})
+
 const handleInput = (index: number, event: InputEvent) => {
     const val = (event.target as HTMLInputElement).value.replace(/\D/g, '').slice(-1)
     otpDigits[index] = val
@@ -150,15 +166,16 @@ const resetOtp = () => {
 }
 
 const resend = async () => {
-    if (!props.resendData) return
     isResending.value = true
     try {
-        await api.post('/auth/register', props.resendData)
+        await sendOtp()
         notify.success(t('auth.codeSentSuccess'))
         startCooldown()
         resetOtp()
     } catch (err) {
+        const status = (err as { response?: { status?: number } })?.response?.status
         notify.error(extract(err))
+        if (status === 429) startCooldown()
     } finally {
         isResending.value = false
     }
