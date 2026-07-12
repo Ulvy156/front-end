@@ -56,7 +56,7 @@
             </li>
             <li class="flex items-center gap-3">
               <BaseIcon name="mail-check" :size="18"/>
-              <span>hello@rentifykh.com</span>
+              <span>rentifykh@gmail.com</span>
             </li>
             <li class="flex items-center gap-3">
               <Icon name="mdi:telegram" :size="18" />
