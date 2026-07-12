@@ -71,9 +71,12 @@
         <div class="grid grid-cols-3 gap-3 mb-3">
           <div>
             <label class="block text-xs text-gray-500 mb-1">{{ t("post_property.amenities.slots") }}</label>
-            <input v-model="form.parkingDetails[pk].slots" type="number" min="0"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 outline-none focus:border-emerald-500 focus:ring-3 focus:ring-emerald-500/15 transition"
-              :placeholder="t('post_property.amenities.slots_placeholder')" />
+            <BaseInput
+              :model-value="form.parkingDetails[pk].slots"
+              type="number"
+              :placeholder="t('post_property.amenities.slots_placeholder')"
+              @update:model-value="(val: string) => form.parkingDetails[pk].slots = val"
+            />
           </div>
           <div class="col-span-2 flex items-center justify-end gap-3">
             <label class="text-sm font-medium text-gray-800">{{ t("post_property.amenities.free_parking") }}</label>
@@ -87,9 +90,13 @@
         <div v-if="!form.parkingDetails[pk]?.isFree" class="grid grid-cols-2 gap-3">
           <div>
             <label class="block text-xs text-gray-500 mb-1">{{ t("post_property.amenities.price_per_month") }} ($)</label>
-            <input v-model="form.parkingDetails[pk].price" type="number" min="0"
-              class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-700 outline-none focus:border-emerald-500 focus:ring-3 focus:ring-emerald-500/15 transition"
-              :placeholder="t('post_property.amenities.price_placeholder')" />
+            <BaseInput
+              :model-value="form.parkingDetails[pk].price"
+              type="number"
+              icon="dollar-sign"
+              :placeholder="t('post_property.amenities.price_placeholder')"
+              @update:model-value="(val: string) => form.parkingDetails[pk].price = val"
+            />
           </div>
         </div>
       </div>
@@ -97,9 +104,13 @@
 
     <div>
       <label class="block text-sm font-medium text-gray-800 mb-1.5">{{ t("post_property.amenities.additional_notes") }}</label>
-      <textarea v-model="form.additionalNotes" rows="3"
-        class="w-full px-3 py-2.5 border border-gray-300 rounded-lg text-sm text-gray-700 outline-none focus:border-emerald-500 focus:ring-3 focus:ring-emerald-500/15 transition resize-none"
-        placeholder="Any other rules, expectations, or information renters should know..."></textarea>
+      <BaseInput
+        :model-value="form.additionalNotes"
+        type="textarea"
+        :rows="3"
+        placeholder="Any other rules, expectations, or information renters should know..."
+        @update:model-value="(val: string) => form.additionalNotes = val"
+      />
     </div>
   </div>
 </template>
@@ -107,6 +118,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import BaseInput from "~/components/ui/BaseInput.vue"
 import { usePropertyAmenityOptions } from "~/features/browse-properties/composable/usePropertyAmenityOptions"
 import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions"
 

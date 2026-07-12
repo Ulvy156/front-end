@@ -14,21 +14,23 @@
           <span class="text-red-500">*</span>
           <span v-if="formErrors.rent" class="text-red-500 text-xs font-normal ml-1">{{ formErrors.rent }}</span>
         </label>
-        <div
-          :class="formErrors.rent ? 'border-red-400' : 'border-gray-300 focus-within:border-emerald-500 focus-within:ring-emerald-500/15'"
-          class="flex items-center border rounded-lg overflow-hidden focus-within:ring-3 transition"
-        >
-          <span class="px-3 py-2.5 bg-gray-50 border-r border-gray-300 text-sm text-gray-500 font-medium">$</span>
-          <input v-model="form.rent" type="number" min="0" placeholder="0" class="flex-1 px-3 py-2.5 text-sm outline-none bg-white text-gray-800" @input="formErrors.rent = ''" />
-          <span class="px-3 py-2.5 text-xs text-gray-400 bg-gray-50 border-l border-gray-300">/month</span>
-        </div>
+        <BaseInput
+          :model-value="form.rent"
+          type="number"
+          icon="dollar-sign"
+          placeholder="0"
+          @update:model-value="(val: string) => { form.rent = val; formErrors.rent = '' }"
+        />
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">{{ t("post_property.pricing.security_deposit") }}</label>
-        <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden focus-within:border-emerald-500 focus-within:ring-3 focus-within:ring-emerald-500/15 transition">
-          <span class="px-3 py-2.5 bg-gray-50 border-r border-gray-300 text-sm text-gray-500 font-medium">$</span>
-          <input v-model="form.deposit" type="number" min="0" placeholder="0" class="flex-1 px-3 py-2.5 text-sm outline-none bg-white text-gray-800" />
-        </div>
+        <BaseInput
+          :model-value="form.deposit"
+          type="number"
+          icon="dollar-sign"
+          placeholder="0"
+          @update:model-value="(val: string) => form.deposit = val"
+        />
         <p class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.deposit_hint") }}</p>
       </div>
     </div>
@@ -119,6 +121,7 @@ import { useI18n } from "vue-i18n"
 import BaseDatePicker from "~/components/ui/BaseDatePicker.vue"
 import BaseTimePicker from "~/components/ui/BaseTimePicker.vue"
 import BaseToggle from "~/components/ui/BaseToggle.vue"
+import BaseInput from "~/components/ui/BaseInput.vue"
 
 const props = defineProps<{ form: any; formErrors: any }>()
 const { t } = useI18n()

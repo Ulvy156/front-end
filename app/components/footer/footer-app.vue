@@ -115,7 +115,7 @@ const { t, setLocale } = useI18n()
 const quickLinks = computed(() => [
   { to: '/', label: t('nav.home') },
   { to: '/properties', label: t('nav.browseRoom') },
-  { to: '/post-property', label: t('nav.postRoom'), can: 'landlord' },
+  { to: '/landlord/post-property', label: t('nav.postRoom'), can: 'landlord' },
   { to: '/user/favourites', label: t('nav.favourites') },
 ])
 </script>

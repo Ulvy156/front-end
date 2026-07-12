@@ -4,6 +4,7 @@ defineProps<{
   modelValue: string | number
   options: { label: string; value: any }[]
   placeholder?: string
+  disabled?: boolean
 }>()
 
 defineEmits(['update:modelValue'])
@@ -13,6 +14,7 @@ defineEmits(['update:modelValue'])
   <el-select
     :placeholder="placeholder"
     :model-value="modelValue"
+    :disabled="disabled"
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <el-option

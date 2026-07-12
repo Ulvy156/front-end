@@ -16,6 +16,20 @@ export function useProfile() {
     },
   })
 
+  watch(profile, (data) => {
+    if (!data) return
+    authStore.setUser({
+      id: data.id,
+      name: data.name,
+      email: data.email,
+      imgUrl: data.imgUrl,
+      isLocked: data.isLocked,
+      role: data.role,
+      createdAt: data.createdAt,
+      updatedAt: data.updatedAt,
+    })
+  }, { immediate: true })
+
   const updateName = useMutation({
     mutationFn: async (name: string) => {
       const { data } = await $axios.patch<UserProfile>('/user/me', { name })

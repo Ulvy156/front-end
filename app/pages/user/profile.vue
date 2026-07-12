@@ -5,8 +5,16 @@ import ChangePassword from '~/features/profile/components/change-password.vue'
 import ContactVisibility from '~/features/profile/components/contact-visibility.vue'
 import PhoneManagement from '~/features/profile/components/phone-management.vue'
 import { useProfile } from '~/features/profile/composables/useProfile'
+import { Role } from '~/types/role'
 
-definePageMeta({ layout: 'default', middleware: 'auth' })
+definePageMeta({
+  layout: 'default',
+  middleware: ['auth', () => {
+    const { role } = useRole()
+    if (role.value === Role.ADMIN) return navigateTo('/admin/settings', { replace: true })
+    if (role.value === Role.LANDLORD) return navigateTo('/landlord/settings', { replace: true })
+  }],
+})
 
 const { t } = useI18n()
 const { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone } = useProfile()

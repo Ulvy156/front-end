@@ -27,8 +27,8 @@
 
         <NuxtLink
           v-if="canSeePostProperty"
-          :class="{'menu-item-active': startsWith('/post-property')}"
-          to="/post-property" class="menu-items">
+          :class="{'menu-item-active': startsWith('/landlord/post-property')}"
+          to="/landlord/post-property" class="menu-items">
           <BaseIcon name="circle-plus" :size="16" />
           <p>{{ $t('nav.postRoom') }}</p>
         </NuxtLink>
@@ -98,9 +98,15 @@ const route = useRoute()
 const router = useRouter()
 const authStore = useAuthStore()
 const { logout } = useLogout()
-const { isLandlord } = useRole()
+const { isLandlord, isAdmin } = useRole()
 
 const canSeePostProperty = computed(() => !authStore.isAuthenticated || isLandlord.value)
+
+const profileRoute = computed(() => {
+  if (isAdmin.value) return '/admin/settings'
+  if (isLandlord.value) return '/landlord/settings'
+  return '/user/profile'
+})
 
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
@@ -113,7 +119,7 @@ const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 
 const handleCommand = async (cmd: string) => {
   if (cmd === 'profile') {
-    router.push('/user/profile')
+    router.push(profileRoute.value)
   } else if (cmd === 'logout') {
     await logout()
   }

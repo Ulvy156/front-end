@@ -73,7 +73,7 @@
         <!-- Authenticated -->
         <template v-else>
           <NuxtLink
-            to="/user/profile"
+            :to="profileRoute"
             class="flex items-center gap-3 mx-4 px-3 py-2.5 rounded-xl border border-gray-200 bg-white hover:bg-gray-50 transition-colors"
             @click="drawer = false"
           >
@@ -109,14 +109,21 @@ const { t } = useI18n()
 const { isActive, startsWith } = useActiveRoute()
 const authStore = useAuthStore()
 const { logout } = useLogout()
+const { isLandlord, isAdmin } = useRole()
 const drawer = ref(false)
 
 const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 
+const profileRoute = computed(() => {
+  if (isAdmin.value) return '/admin/settings'
+  if (isLandlord.value) return '/landlord/settings'
+  return '/user/profile'
+})
+
 const navItems = computed(() => [
   { to: '/', icon: 'house', label: t('nav.home'), exact: true, can: undefined },
   { to: '/properties', icon: 'search', label: t('nav.browseRoom'), exact: false, can: undefined },
-  { to: '/post-property', icon: 'circle-plus', label: t('nav.postRoom'), exact: false, can: 'landlord' as const },
+  { to: '/landlord/post-property', icon: 'circle-plus', label: t('nav.postRoom'), exact: false, can: 'landlord' as const },
   { to: '/user/favourites', icon: 'heart', label: t('nav.favourites'), exact: false, can: undefined },
 ])
 

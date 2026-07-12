@@ -14,17 +14,12 @@
           <span class="text-red-500">*</span>
           <span v-if="formErrors.province" class="text-red-500 text-xs font-normal ml-1">{{ formErrors.province }}</span>
         </label>
-        <select
-          v-model="form.province"
-          @change="onProvinceChange"
-          :class="formErrors.province ? 'border-red-400' : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-          class="w-full px-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition bg-white text-gray-700"
-        >
-          <option value="">{{ t("post_property.location.select_province") }}</option>
-          <option v-for="p in provinces" :key="p.id" :value="p.nameEn">
-            {{ p.nameKh ? `${p.nameKh} (${p.nameEn})` : p.nameEn }}
-          </option>
-        </select>
+        <BaseSelect
+          :model-value="form.province"
+          :options="provinceOptions"
+          :placeholder="t('post_property.location.select_province')"
+          @update:model-value="(val: string) => { form.province = val; onProvinceChange() }"
+        />
       </div>
 
       <div>
@@ -33,18 +28,13 @@
           <span class="text-red-500">*</span>
           <span v-if="formErrors.district" class="text-red-500 text-xs font-normal ml-1">{{ formErrors.district }}</span>
         </label>
-        <select
-          v-model.number="form.districtId"
+        <BaseSelect
+          :model-value="form.districtId"
+          :options="districtOptions"
           :disabled="!form.province"
-          @change="onDistrictChange"
-          :class="formErrors.district ? 'border-red-400' : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-          class="w-full px-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition bg-white text-gray-700 disabled:bg-gray-50 disabled:text-gray-400"
-        >
-          <option value="0">{{ t("post_property.location.select_district") }}</option>
-          <option v-for="d in currentDistricts" :key="d.id" :value="d.id">
-            {{ d.nameKh ? `${d.nameKh} (${d.nameEn})` : d.nameEn }}
-          </option>
-        </select>
+          :placeholder="t('post_property.location.select_district')"
+          @update:model-value="(val: string | number) => { form.districtId = Number(val); onDistrictChange() }"
+        />
       </div>
     </div>
 
@@ -54,20 +44,13 @@
         <span class="text-red-500">*</span>
         <span v-if="formErrors.streetAddress" class="text-red-500 text-xs font-normal ml-1">{{ formErrors.streetAddress }}</span>
       </label>
-      <div class="relative">
-        <svg class="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-          <circle cx="12" cy="9" r="2.5"/>
-        </svg>
-        <input
-          v-model="form.streetAddress"
-          type="text"
-          :placeholder="t('post_property.location.street_placeholder')"
-          :class="formErrors.streetAddress ? 'border-red-400' : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-          class="w-full pl-9 pr-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition"
-          @input="formErrors.streetAddress = ''"
-        />
-      </div>
+      <BaseInput
+        :model-value="form.streetAddress"
+        type="text"
+        icon="map-pin"
+        :placeholder="t('post_property.location.street_placeholder')"
+        @update:model-value="(val: string) => { form.streetAddress = val; formErrors.streetAddress = '' }"
+      />
     </div>
 
     <!-- Map Picker -->
@@ -87,11 +70,11 @@
     <div class="grid grid-cols-2 gap-4 mb-5">
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">{{ t("post_property.location.latitude") }} ({{ t("post_property.optional") }})</label>
-        <input v-model="form.latitude" type="number" step="any" placeholder="e.g., 11.5564" class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg outline-none bg-white text-gray-700" />
+        <BaseInput :model-value="form.latitude" type="number" placeholder="e.g., 11.5564" @update:model-value="(val: string) => form.latitude = val" />
       </div>
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">{{ t("post_property.location.longitude") }} ({{ t("post_property.optional") }})</label>
-        <input v-model="form.longitude" type="number" step="any" placeholder="e.g., 104.9282" class="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg outline-none bg-white text-gray-700" />
+        <BaseInput :model-value="form.longitude" type="number" placeholder="e.g., 104.9282" @update:model-value="(val: string) => form.longitude = val" />
       </div>
     </div>
 
@@ -103,6 +86,8 @@
 import { computed } from "vue"
 import { useI18n } from "vue-i18n"
 import BaseToggle from "@/components/ui/BaseToggle.vue"
+import BaseSelect from "@/components/ui/BaseSelect.vue"
+import BaseInput from "@/components/ui/BaseInput.vue"
 import BaseMapClient from "~/components/ui/BaseMap.client.vue"
 import { useCambodiaLocations } from "@/composables/useCambodiaLocations"
 
@@ -131,6 +116,20 @@ interface LocationOption { id: number; nameEn: string; nameKh?: string }
 const provinces = ref<LocationOption[]>([])
 const currentDistricts = ref<LocationOption[]>([])
 const provinceDistrictsMap = ref<Map<number, LocationOption[]>>(new Map())
+
+const provinceOptions = computed(() =>
+  provinces.value.map((p) => ({
+    label: p.nameKh ? `${p.nameKh} (${p.nameEn})` : p.nameEn,
+    value: p.nameEn,
+  }))
+)
+
+const districtOptions = computed(() =>
+  currentDistricts.value.map((d) => ({
+    label: d.nameKh ? `${d.nameKh} (${d.nameEn})` : d.nameEn,
+    value: d.id,
+  }))
+)
 
 onMounted(async () => {
   const data = await fetchProvinces()
@@ -162,6 +161,8 @@ async function loadDistricts(provinceName: string) {
     currentDistricts.value = provinceDistrictsMap.value.get(provinceId) || []
   } else {
     currentDistricts.value = await fetchDistrictsByProvinceId(provinceId)
+  console.log(provinceId);
+
   }
 }
 
@@ -171,6 +172,7 @@ function onProvinceChange() {
   props.formErrors.province = ''
   props.formErrors.district = ''
   loadDistricts(props.form.province)
+  
 }
 
 function onDistrictChange() {

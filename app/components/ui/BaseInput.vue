@@ -11,6 +11,8 @@ withDefaults(
     size?: 'large' | 'default' | 'small'
     clearable?: boolean
     disabled?: boolean
+    rows?: number
+    maxlength?: number | string
   }>(),
   {
     type: 'text',
@@ -22,7 +24,7 @@ defineEmits(['update:modelValue'])
 </script>
 
 <template>
-  <el-input :type :placeholder :size :clearable :disabled :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)">
+  <el-input :type :placeholder :size :clearable :disabled :rows :maxlength :model-value="modelValue" @update:model-value="$emit('update:modelValue', $event)">
     <template v-if="icon" #prefix>
       <BaseIconClient :name="icon" />
     </template>

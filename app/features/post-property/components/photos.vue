@@ -107,26 +107,19 @@
           <p class="text-xs text-gray-400 truncate">{{ photoNames[index] || '' }}</p>
         </div>
 
-        <button
-          type="button"
+        <BaseButton
+          text
+          circle
+          size="small"
+          :type="index === coverIndex ? 'warning' : 'info'"
           @click="setCover(index)"
-          :class="index === coverIndex ? 'text-emerald-500' : 'text-gray-300 hover:text-amber-400'"
-          class="shrink-0 transition cursor-pointer border-none bg-transparent p-1"
         >
-          <svg class="w-5 h-5" viewBox="0 0 24 24" :fill="index === coverIndex ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2">
-            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
-          </svg>
-        </button>
+          <BaseIconClient name="star" :size="16" />
+        </BaseButton>
 
-        <button
-          type="button"
-          @click="removePhoto(index)"
-          class="shrink-0 text-gray-300 hover:text-red-400 transition cursor-pointer border-none bg-transparent p-1"
-        >
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
+        <BaseButton text circle size="small" type="info" @click="removePhoto(index)">
+          <BaseIconClient name="x" :size="14" />
+        </BaseButton>
       </div>
     </div>
 
@@ -136,6 +129,8 @@
 <script setup lang="ts">
 import { inject, ref } from 'vue'
 import { useI18n } from 'vue-i18n'
+import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 
 const { t } = useI18n()
 

@@ -20,16 +20,12 @@
             ( {{ formErrors.propertyTitle }})
           </span>
         </label>
-        <input
-          v-model="form.propertyTitle"
+        <BaseInput
+          :model-value="form.propertyTitle"
           type="text"
-          maxlength="100"
+          :maxlength="100"
           :placeholder="t('post_property.basic_info.property_title_placeholder')"
-          :class="formErrors.propertyTitle
-            ? 'border-red-400 focus:border-red-400 focus:ring-red-400/15'
-            : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-          class="w-full px-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition"
-          @input="formErrors.propertyTitle = ''"
+          @update:model-value="(val: string) => { form.propertyTitle = val; formErrors.propertyTitle = '' }"
         />
       </div>
 
@@ -41,17 +37,14 @@
             ({{ formErrors.description }})
           </span>
         </label>
-        <textarea
-          v-model="form.description"
-          rows="5"
-          maxlength="2000"
+        <BaseInput
+          :model-value="form.description"
+          type="textarea"
+          :rows="5"
+          :maxlength="2000"
           :placeholder="t('post_property.basic_info.description_placeholder')"
-          :class="formErrors.description
-            ? 'border-red-400 focus:border-red-400 focus:ring-red-400/15'
-            : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-          class="w-full px-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition resize-y"
-          @input="formErrors.description = ''"
-        ></textarea>
+          @update:model-value="(val: string) => { form.description = val; formErrors.description = '' }"
+        />
       </div>
 
       <div class="md:col-span-2">
@@ -81,16 +74,11 @@
               <span class="text-red-500">*</span>
               <span v-if="formErrors.size" class="text-red-500 text-xs font-normal ml-1">( {{ formErrors.size }} )</span>
             </label>
-            <input
-              v-model="form.size"
+            <BaseInput
+              :model-value="form.size"
               type="number"
-              min="1"
               placeholder="e.g., 45"
-              :class="formErrors.size
-                ? 'border-red-400 focus:border-red-400 focus:ring-red-400/15'
-                : 'border-gray-300 focus:border-emerald-500 focus:ring-emerald-500/15'"
-              class="w-full px-3 py-2.5 text-sm border rounded-lg outline-none focus:ring-3 transition"
-              @input="formErrors.size = ''"
+              @update:model-value="(val: string) => { form.size = val; formErrors.size = '' }"
             />
           </div>
         </div>
@@ -117,6 +105,7 @@
 <script setup lang="ts">
 import { useI18n } from "vue-i18n"
 import BaseToggle from "~/components/ui/BaseToggle.vue"
+import BaseInput from "~/components/ui/BaseInput.vue"
 
 const props = defineProps<{ form: any; formErrors: any }>()
 const { t } = useI18n()
