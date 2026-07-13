@@ -42,6 +42,12 @@ export default defineNuxtConfig({
     plugins: [
       tailwindcss(),
     ],
+    build: {
+      // @maptiler/sdk is lazy-loaded (only fetched when BaseMap.client.vue mounts),
+      // so its ~1.4MB chunk never blocks initial page load — raise the limit to
+      // stop Vite flagging that known, already-isolated chunk on every build.
+      chunkSizeWarningLimit: 1500,
+    },
     server: {
       // ngrok's free-tier domain changes on every restart, so allow any host for local testing
       allowedHosts: true,

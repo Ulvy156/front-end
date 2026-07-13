@@ -35,6 +35,7 @@ export function useBrowseProperties() {
   const { data, refresh } = useAsyncData<BrowsePropertiesResponse>(
     'browse-properties',
     fetchProperties,
+    { immediate: false },
   )
 
   const items = computed<PropertyCardItem[]>(() => data.value?.items ?? [])
