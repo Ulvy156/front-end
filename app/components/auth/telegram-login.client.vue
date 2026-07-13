@@ -11,6 +11,13 @@
 <script setup lang="ts">
 import { resolvePostLoginRoute } from '~/utils/roleGuard'
 
+useHead({
+  link: [
+    { rel: 'preload', href: 'https://telegram.org/js/telegram-widget.js?22', as: 'script', crossorigin: 'anonymous' },
+    { rel: 'preconnect', href: 'https://oauth.telegram.org' },
+  ],
+})
+
 const telegramBtn = ref<HTMLDivElement | null>(null)
 const isWidgetReady = ref(false)
 const { $axios } = useNuxtApp()

@@ -4,14 +4,6 @@ import tailwindcss from "@tailwindcss/vite";
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-  app: {
-    head: {
-      link: [
-        { rel: 'preload', href: 'https://telegram.org/js/telegram-widget.js?22', as: 'script', crossorigin: 'anonymous' },
-        { rel: 'preconnect', href: 'https://oauth.telegram.org' },
-      ],
-    },
-  },
   // Page data is fetched separately
   experimental: {
     payloadExtraction: true
