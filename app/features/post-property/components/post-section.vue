@@ -67,55 +67,61 @@ function validateForm(): boolean {
 
   // Property type
   if (!form.propertyType) {
-    formErrors.propertyType = "Required";
+    formErrors.propertyType = t('post_property.errors.required');
     isValid = false;
   }
 
   //  Basic info
   if (!form.propertyTitle?.trim()) {
-    formErrors.propertyTitle = "Required";
+    formErrors.propertyTitle = t('post_property.errors.required');
     isValid = false;
   }
   if (!form.description?.trim()) {
-    formErrors.description = "Required";
+    formErrors.description = t('post_property.errors.required');
     isValid = false;
   }
   if (!form.size || Number(form.size) <= 0) {
-    formErrors.size = "Required";
+    formErrors.size = t('post_property.errors.required');
     isValid = false;
   }
 
   // Location
   if (!form.province) {
-    formErrors.province = "Required";
+    formErrors.province = t('post_property.errors.required');
     isValid = false;
   }
   if (!form.districtId || Number(form.districtId) === 0) {
-    formErrors.district = "Required";
+    formErrors.district = t('post_property.errors.required');
     isValid = false;
   }
   if (!form.streetAddress?.trim()) {
-    formErrors.streetAddress = "Required";
+    formErrors.streetAddress = t('post_property.errors.required');
     isValid = false;
   }
 
   //  Pricing
   if (!form.rent || Number(form.rent) <= 0) {
-    formErrors.rent = "Required";
+    formErrors.rent = t('post_property.errors.required');
     isValid = false;
   }
   if (!form.minStay) {
-    formErrors.minStay = "Required";
+    formErrors.minStay = t('post_property.errors.required');
     isValid = false;
   }
   if (!form.availableFrom) {
-    formErrors.availableFrom = "Required";
+    formErrors.availableFrom = t('post_property.errors.required');
     isValid = false;
   }
 
   //  Photos
   if (!form.photoFiles || form.photoFiles.length < 3) {
-    formErrors.photos = "At least 3 photos required";
+    formErrors.photos = t('post_property.errors.photos_min');
+    isValid = false;
+  }
+
+  //  Amenities
+  if (!form.amenities || form.amenities.length === 0) {
+    formErrors.amenities = t('post_property.errors.amenities_required');
     isValid = false;
   }
 
@@ -151,14 +157,14 @@ const next = () => {
 };
 
 // Validate only the current step and set errors for that step
-function validateStep(stepIndex): boolean {
+function validateStep(stepIndex: number): boolean {
   // Define error keys for each step
-  const stepErrorKeysMap = {
+  const stepErrorKeysMap: Record<number, string[]> = {
     0: ['propertyType'],
     1: ['propertyTitle', 'description', 'size'],
     2: ['province', 'district', 'streetAddress'],
     3: ['rent', 'minStay', 'availableFrom'],
-    4: [],
+    4: ['amenities'],
     5: ['photos'],
     6: []
   };
@@ -176,57 +182,61 @@ function validateStep(stepIndex): boolean {
   switch (stepIndex) {
     case 0: // Property type step
       if (!form.propertyType) {
-        formErrors.propertyType = "Required";
+        formErrors.propertyType = t('post_property.errors.required');
         isValid = false;
       }
       break;
     case 1: // Basic info step
       if (!form.propertyTitle?.trim()) {
-        formErrors.propertyTitle = "Required";
+        formErrors.propertyTitle = t('post_property.errors.required');
         isValid = false;
       }
       if (!form.description?.trim()) {
-        formErrors.description = "Required";
+        formErrors.description = t('post_property.errors.required');
         isValid = false;
       }
       if (!form.size || Number(form.size) <= 0) {
-        formErrors.size = "Required";
+        formErrors.size = t('post_property.errors.required');
         isValid = false;
       }
       break;
     case 2: // Location step
       if (!form.province) {
-        formErrors.province = "Required";
+        formErrors.province = t('post_property.errors.required');
         isValid = false;
       }
       if (!form.districtId || Number(form.districtId) === 0) {
-        formErrors.district = "Required";
+        formErrors.district = t('post_property.errors.required');
         isValid = false;
       }
       if (!form.streetAddress?.trim()) {
-        formErrors.streetAddress = "Required";
+        formErrors.streetAddress = t('post_property.errors.required');
         isValid = false;
       }
       break;
     case 3: // Price step
       if (!form.rent || Number(form.rent) <= 0) {
-        formErrors.rent = "Required";
+        formErrors.rent = t('post_property.errors.required');
         isValid = false;
       }
       if (!form.minStay) {
-        formErrors.minStay = "Required";
+        formErrors.minStay = t('post_property.errors.required');
         isValid = false;
       }
       if (!form.availableFrom) {
-        formErrors.availableFrom = "Required";
+        formErrors.availableFrom = t('post_property.errors.required');
         isValid = false;
       }
       break;
-    case 4: // Amenities step - no required fields
+    case 4: // Amenities step
+      if (!form.amenities || form.amenities.length === 0) {
+        formErrors.amenities = t('post_property.errors.amenities_required');
+        isValid = false;
+      }
       break;
     case 5: // Photos step
       if (!form.photoFiles || form.photoFiles.length < 3) {
-        formErrors.photos = "At least 3 photos required";
+        formErrors.photos = t('post_property.errors.photos_min');
         isValid = false;
       }
       break;
@@ -250,7 +260,7 @@ const saveDraft = () => {
 const publish = async () => {
 
   if (!form) {
-    publishError.value = "Form data is missing.";
+    publishError.value = t('post_property.errors.form_missing');
     return;
   }
 
@@ -272,6 +282,8 @@ const publish = async () => {
       active.value = 2; // Location step
     } else if (formErrors.rent || formErrors.minStay || formErrors.availableFrom) {
       active.value = 3; // Price step
+    } else if (formErrors.amenities) {
+      active.value = 4; // Amenities step
     } else if (formErrors.photos) {
       active.value = 5; // Photos step (step index 5)
     }
@@ -320,19 +332,19 @@ const publish = async () => {
 
      const districtId = Number(form.districtId);
      if (!districtId) {
-       publishError.value = "Please select a district.";
+       publishError.value = t('post_property.errors.district_required');
        return;
      }
 
      // Validate address
      if (!form.streetAddress) {
-       publishError.value = "Please enter an address.";
+       publishError.value = t('post_property.errors.address_required');
        return;
      }
 
      // Validate property type
      if (!typeMap[form.propertyType]) {
-       publishError.value = "Please select a valid property type.";
+       publishError.value = t('post_property.errors.property_type_invalid');
        return;
      }
 
@@ -351,7 +363,7 @@ const publish = async () => {
 
      // Validate minimum stay
      if (!minStayMap[form.minStay]) {
-       publishError.value = "Please select a valid minimum stay.";
+       publishError.value = t('post_property.errors.min_stay_invalid');
        return;
      }
    
@@ -436,15 +448,15 @@ const publish = async () => {
 
        const result = await createProperty(api, payload, form.photoFiles || []);
 
-      publishResult.value = `Published successfully (ID: ${result.id})`;
-      // Redirect 
+      publishResult.value = t('post_property.published_success', { id: result.id });
+      // Redirect
       router.push('/properties');
     } catch (error: any) {
      console.error('Full error:', error);
      publishError.value =
        error?.response?.data?.message ||
        error?.message ||
-       "Publish failed";
+       t('post_property.errors.publish_failed');
 
      console.error("Publish failed:", error);
    } finally {

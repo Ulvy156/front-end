@@ -44,11 +44,18 @@
             "characters": "characters"
         },
         "errors": {
-            "title_required": "Property title is required",
-            "description_required": "Description is required",
-            "size_required": "Size is required"
+            "required": "Required",
+            "photos_min": "At least 3 photos required",
+            "amenities_required": "Please select at least one amenity",
+            "form_missing": "Form data is missing.",
+            "district_required": "Please select a district.",
+            "address_required": "Please enter an address.",
+            "property_type_invalid": "Please select a valid property type.",
+            "min_stay_invalid": "Please select a valid minimum stay.",
+            "publish_failed": "Publish failed"
         },
         "validation_failed": "Please fill in all required fields",
+        "published_success": "Published successfully (ID: {id})",
         "location": {
             "title": "Location",
             "subtitle": "Where is it?",

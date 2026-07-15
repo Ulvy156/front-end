@@ -4,6 +4,10 @@
     <div class="mb-4">
       <h2 class="text-lg font-medium text-gray-900 mb-0.5">
         {{ t("post_property.amenities.title") }}
+        <span class="text-red-500">*</span>
+        <span v-if="formErrors.amenities" class="text-red-500 text-xs font-normal ml-1">
+          {{ formErrors.amenities }}
+        </span>
       </h2>
       <p class="text-sm text-gray-500 mt-4">
         {{ t("post_property.amenities.subtitle") }}
