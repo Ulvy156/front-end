@@ -16,6 +16,7 @@ import { resolvePostLoginRoute } from '~/utils/roleGuard'
 definePageMeta({ layout: 'auth' })
 
 const accessToken = useAccessToken()
+const hasSession = useHasSession()
 const authStore = useAuthStore()
 const route = useRoute()
 
@@ -24,6 +25,7 @@ onMounted(async () => {
   const isNewUser = route.query.is_new_user === 'true'
   if (token) {
     accessToken.value = token
+    hasSession.value = true
     if (isNewUser) {
       await navigateTo('/auth/role-select', { replace: true })
     } else {
@@ -32,6 +34,7 @@ onMounted(async () => {
         await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
       } else {
         accessToken.value = null
+        hasSession.value = null
         await navigateTo('/auth/login', { replace: true })
       }
     }

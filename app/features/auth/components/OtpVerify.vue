@@ -97,6 +97,7 @@ const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
 const accessToken = useAccessToken()
+const hasSession = useHasSession()
 const { extract } = useErrorMsg()
 
 const otpDigits = reactive(['', '', '', '', '', ''])
@@ -193,6 +194,7 @@ const submit = async () => {
             otp: otp.value,
         })
         accessToken.value = data.accessToken
+        hasSession.value = true
         await authStore.fetchProfile(data.accessToken)
         await navigateTo(resolvePostLoginRoute(authStore.user?.role))
     } catch (err) {

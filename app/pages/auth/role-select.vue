@@ -83,6 +83,7 @@ const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
 const accessToken = useAccessToken()
+const hasSession = useHasSession()
 const { extract } = useErrorMsg()
 
 const isSubmitting = ref(false)
@@ -93,6 +94,7 @@ const selectRole = async (role: 'USER' | 'LANDLORD') => {
     await api.patch('/auth/select-role', { role })
     const { data } = await api.post<{ accessToken: string }>('/auth/refresh-token')
     accessToken.value = data.accessToken
+    hasSession.value = true
     await authStore.fetchProfile()
     await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
   } catch (err) {

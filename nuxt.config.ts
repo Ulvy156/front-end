@@ -31,6 +31,10 @@ export default defineNuxtConfig({
       BASE_URL: 'http://localhost:3000',
       // Must match the backend JWT access-token expiry (in seconds)
       accessTokenMaxAge: Number(process.env.NUXT_PUBLIC_ACCESS_TOKEN_MAX_AGE) || 900,
+      // Should roughly match the backend refresh-token expiry (in seconds).
+      // Used only for the client-side "has_session" marker cookie, not the
+      // (httpOnly, backend-owned) refresh token itself.
+      refreshTokenMaxAge: Number(process.env.NUXT_PUBLIC_REFRESH_TOKEN_MAX_AGE) || 60 * 60 * 24 * 7,
     }
   },
   image: {

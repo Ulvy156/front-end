@@ -123,6 +123,7 @@ const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
 const accessToken = useAccessToken()
+const hasSession = useHasSession()
 const config = useRuntimeConfig()
 const { extract } = useErrorMsg()
 
@@ -168,10 +169,12 @@ const submit = handleSubmit(async () => {
             return
         }
         accessToken.value = token
+        hasSession.value = true
         await authStore.fetchProfile(token)
         if (!authStore.isAuthenticated) {
             // fetchProfile failed silently (token rejected or backend issue)
             accessToken.value = null
+            hasSession.value = null
             notify.error(t('common.somethingWentWrong'))
             return
         }

@@ -12,6 +12,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
   const router = useRouter()
   const accessToken = useAccessToken()
+  const hasSession = useHasSession()
   const authStore = useAuthStore()
 
   const api = axios.create({
@@ -34,6 +35,7 @@ export default defineNuxtPlugin((nuxtApp) => {
   // to avoid conflicting with in-flight middleware navigation.
   const clearSession = () => {
     accessToken.value = null
+    hasSession.value = null
     authStore.clear()
   }
 
@@ -46,6 +48,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       )
       const nextToken = data?.accessToken ?? null
       accessToken.value = nextToken
+      hasSession.value = true
       return nextToken
     } catch {
       // Refresh token is expired or missing — full session is dead

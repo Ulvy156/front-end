@@ -15,6 +15,7 @@ function isTokenExpired(token: string): boolean {
 async function refreshAndHydrate(
   config: ReturnType<typeof useRuntimeConfig>,
   accessToken: ReturnType<typeof useAccessToken>,
+  hasSession: ReturnType<typeof useHasSession>,
   authStore: ReturnType<typeof useAuthStore>,
 ) {
   const headers: Record<string, string> = {}
@@ -30,6 +31,7 @@ async function refreshAndHydrate(
   const token = data?.accessToken ?? null
   if (token) {
     accessToken.value = token
+    hasSession.value = true
     await authStore.fetchProfile(token)
   }
 }
@@ -39,17 +41,26 @@ export async function hydrateAuth() {
   if (authStore.user) return
 
   const accessToken = useAccessToken()
+  const hasSession = useHasSession()
   const config = useRuntimeConfig()
 
   if (accessToken.value && !isTokenExpired(accessToken.value)) {
     await authStore.fetchProfile()
-  } else {
-    accessToken.value = null
-    try {
-      await refreshAndHydrate(config, accessToken, authStore)
-    } catch {
-      // Refresh token is also gone — user must log in again
-    }
+    return
+  }
+
+  accessToken.value = null
+
+  // No evidence this visitor was ever authenticated — there is no refresh
+  // token to redeem, so skip the API call instead of hitting it on every
+  // anonymous page load.
+  if (!hasSession.value) return
+
+  try {
+    await refreshAndHydrate(config, accessToken, hasSession, authStore)
+  } catch {
+    // Refresh token is also gone — user must log in again
+    hasSession.value = null
   }
 }
 
