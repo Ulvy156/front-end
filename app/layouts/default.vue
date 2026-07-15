@@ -19,7 +19,6 @@ import footerApp from '~/components/footer/footer-app.vue'
 import FeedbackDialog from '~/features/feedback/components/feedback-dialog.vue'
 const route = useRoute()
 const authStore = useAuthStore()
-const accessToken = useAccessToken()
 
 const overlay = computed(() => {
   if(route.meta.headerOverlay === true) {
@@ -39,10 +38,6 @@ onMounted(() => {
   const saved = localStorage.getItem('lang')
   if (saved === 'en' || saved === 'km') {
     setLocale(saved)
-  }
-
-  if (accessToken.value && !authStore.user) {
-    authStore.fetchProfile()
   }
 })
 </script>

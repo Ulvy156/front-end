@@ -16,27 +16,14 @@ withDefaults(
 
 const emit = defineEmits<{ (e: 'update:modelValue', value: string): void }>()
 
-function onPick(val: Date | null) {
-  if (!val) {
-    emit('update:modelValue', '')
-    return
-  }
-  const y = val.getFullYear()
-  const m = String(val.getMonth() + 1).padStart(2, '0')
-  const d = String(val.getDate()).padStart(2, '0')
-  emit('update:modelValue', `${y}-${m}-${d}`)
-}
-
-function toDate(date: string): Date | undefined {
-  if (!date) return undefined
-  const d = new Date(date)
-  return isNaN(d.getTime()) ? undefined : d
+function onPick(val: string | null) {
+  emit('update:modelValue', val ?? '')
 }
 </script>
 
 <template>
   <el-date-picker
-    :model-value="toDate(modelValue)"
+    :model-value="modelValue"
     :placeholder
     :clearable
     :disabled

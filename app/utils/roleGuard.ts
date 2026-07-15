@@ -34,7 +34,7 @@ async function refreshAndHydrate(
   }
 }
 
-async function hydrateAuth() {
+export async function hydrateAuth() {
   const authStore = useAuthStore()
   if (authStore.user) return
 
@@ -57,6 +57,9 @@ export function createRoleGuard(required: GuardRequirement) {
   return defineNuxtRouteMiddleware(async () => {
     const authStore = useAuthStore()
 
+    // The global `session.global.ts` middleware already hydrates auth state
+    // before any named page middleware runs; this is just a safety net in
+    // case ordering ever changes.
     await hydrateAuth()
 
     if (!authStore.isAuthenticated) {

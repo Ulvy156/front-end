@@ -72,7 +72,7 @@ const engagementSubStats = computed(() => {
 
   <template v-else>
     <!-- Row 1: Stat cards -->
-    <div class="grid grid-cols-5 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
       <DashboardStatCard
         icon="users"
         icon-bg="bg-blue-50 text-blue-600"
@@ -116,7 +116,7 @@ const engagementSubStats = computed(() => {
     </div>
 
     <!-- Row 2: Recent Registrations + Recent Feedback -->
-    <div class="grid grid-cols-2 gap-4 mb-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
       <DashboardRecentRegistrations
         :items="data?.recentRegistrations ?? []"
         :loading="pending"
@@ -128,7 +128,7 @@ const engagementSubStats = computed(() => {
     </div>
 
     <!-- Row 3: Latest Listings + Top by Views -->
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
       <DashboardLatestListings
         :items="data?.latestProperties ?? []"
         :loading="pending"
