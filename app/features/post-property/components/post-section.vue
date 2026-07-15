@@ -51,6 +51,7 @@ import { useRouter } from 'vue-router';
 const { t } = useI18n();
 const api = useApi();
 const router = useRouter();
+const authStore = useAuthStore();
 
 const form = inject<any>("postPropertyForm");
 const formErrors = inject<any>("formErrors");
@@ -247,7 +248,6 @@ const saveDraft = () => {
 };
 
 const publish = async () => {
-  console.log("Publish clicked");
 
   if (!form) {
     publishError.value = "Form data is missing.";
@@ -392,7 +392,7 @@ const publish = async () => {
    : [];
 
      const payload = {
-        userId: "ce679427-05af-4592-a934-4059ed7b38ca",
+        userId: authStore.user?.id ?? "",
 
         districtId,
         address: form.streetAddress || "",
@@ -433,7 +433,6 @@ const publish = async () => {
         closeTime: form.closeTime || undefined,
       };
 
-      console.log("FINAL PAYLOAD:", JSON.stringify(payload, null, 2));
 
        const result = await createProperty(api, payload, form.photoFiles || []);
 

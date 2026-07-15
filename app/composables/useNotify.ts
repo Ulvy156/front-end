@@ -22,16 +22,16 @@ export function useNotify() {
   }
 
   const success = (message: string, title?: string) =>
-    notify(title ?? t('common.success'), message, 'success')
+    notify(title ?? t('success'), message, 'success')
 
   const warning = (message: string, title?: string) =>
-    notify(title ?? t('common.warning'), message, 'warning')
+    notify(title ?? t('warning'), message, 'warning')
 
   const error = (message: string, title?: string) =>
-    notify(title ?? t('common.error'), message, 'error')
+    notify(title ?? t('error'), message, 'error')
 
   const info = (message: string, title?: string) =>
-    notify(title ?? t('common.info'), message, 'info')
+    notify(title ?? t('info'), message, 'info')
 
   return { notify, success, warning, error, info }
 }

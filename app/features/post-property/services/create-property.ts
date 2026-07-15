@@ -56,6 +56,15 @@ export async function createProperty(
       return
     }
 
+    // Send amenityKeys/ruleKeys as a JSON string of numbers — multipart form
+    // fields don't support `key[]` array notation the way `qs` query strings
+    // do, and an empty array must still be sent (the backend requires the
+    // field, even when no amenities/rules are selected).
+    if ((key === 'amenityKeys' || key === 'ruleKeys') && Array.isArray(value)) {
+      formData.append(key, JSON.stringify(value.map(Number)))
+      return
+    }
+
     // Booleans: send as 1/0
     if (key === 'furnished' || key === 'isPublished') {
       formData.append(key, value ? '1' : '0')
