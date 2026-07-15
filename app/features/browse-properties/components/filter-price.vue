@@ -9,6 +9,7 @@
             <BaseIconClient class="rotate-90" size="40" name="arrow-up-0-1"/>
             <BaseInput type="number" v-model.number="filter.max" icon="dollar-sign"/>
         </div>
+        <p v-if="errorKey" class="text-red-500 text-xs mt-2">{{ $t(errorKey) }}</p>
     </div>
 </template>
 
@@ -24,10 +25,30 @@ const filter = ref({
     max: 0
 })
 
+const errorKey = ref('')
+
 watch(filter.value, () => {
-    if(filter.value.min < filter.value.max && filter.value.max >= 30) {
-        filterStore.minPrice = filter.value.min;
-        filterStore.maxPrice = filter.value.max;
+    const { min, max } = filter.value
+
+    if (min === 0 && max === 0) {
+        errorKey.value = ''
+        filterStore.minPrice = 0
+        filterStore.maxPrice = 0
+        return
     }
+
+    if (min >= max) {
+        errorKey.value = 'filter.priceRangeInvalid'
+        return
+    }
+
+    if (max < 30) {
+        errorKey.value = 'filter.priceRangeTooLow'
+        return
+    }
+
+    errorKey.value = ''
+    filterStore.minPrice = min
+    filterStore.maxPrice = max
 })
 </script>

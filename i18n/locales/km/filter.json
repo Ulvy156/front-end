@@ -3,6 +3,8 @@
     "location": "Locations",
     "priceRange": "Price Range",
     "roomType": "Room Type",
-    "furnished": "Rooms & Furnishing"
+    "furnished": "Rooms & Furnishing",
+    "priceRangeInvalid": "តម្លៃអប្បបរមាត្រូវតែទាបជាងតម្លៃអតិបរមា",
+    "priceRangeTooLow": "តម្លៃអតិបរមាត្រូវតែយ៉ាងហោចណាស់ $30"
   }
 }
