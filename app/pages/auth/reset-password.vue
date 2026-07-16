@@ -20,6 +20,7 @@
                     <BaseInput id="mail" size="large" :placeholder="t('auth.emailPlaceholder')" v-model="email">
                         <template #prefix><BaseIcon name="mail" /></template>
                     </BaseInput>
+                    <p v-if="emailError" class="text-xs text-red-500">{{ emailError }}</p>
                 </div>
 
                 <button type="button" @click="requestOtp" :disabled="isLoading || !email.trim()"
@@ -154,6 +155,7 @@ const { extract } = useErrorMsg()
 
 const step = ref<1 | 2 | 3>(1)
 const email = ref('')
+const emailError = ref('')
 const newPassword = ref('')
 const passwordError = ref('')
 const isLoading = ref(false)
@@ -179,6 +181,8 @@ const startCooldown = () => {
 }
 
 onUnmounted(() => { if (cooldownTimer) clearInterval(cooldownTimer) })
+
+watch(email, () => { emailError.value = '' })
 
 const handleInput = (index: number, event: InputEvent) => {
     const val = (event.target as HTMLInputElement).value.replace(/\D/g, '').slice(-1)
@@ -207,6 +211,11 @@ const resetOtpBox = () => {
 
 const requestOtp = async () => {
     if (!email.value.trim()) return
+    if (!isValidEmail(email.value.trim())) {
+        emailError.value = t('auth.emailInvalid')
+        return
+    }
+    emailError.value = ''
     isLoading.value = true
     try {
         await api.post('/auth/forgot-password', { email: email.value.trim(), channel: 'email' })
