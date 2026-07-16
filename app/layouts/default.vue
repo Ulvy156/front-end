@@ -15,8 +15,10 @@
 
 <script setup lang="ts">
 import AppNavbar from '~/components/navbar/AppNavbar.vue'
-import footerApp from '~/components/footer/footer-app.vue'
 import FeedbackDialog from '~/features/feedback/components/feedback-dialog.vue'
+
+// Footer is always below the fold: defer hydration until it scrolls into view
+const footerApp = defineLazyHydrationComponent('visible', () => import('~/components/footer/footer-app.vue'))
 const route = useRoute()
 const authStore = useAuthStore()
 

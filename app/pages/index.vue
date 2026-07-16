@@ -21,12 +21,14 @@
 <script lang="ts" setup>
 import featureProduct from '~/features/home/featured-listings/feature-properties.vue';
 import appBg from '~/features/home/components/app-bg.vue';
-import locationsSection from '~/features/home/popular-locations/locations-section.vue';
 import latestProduct from '~/features/home/latest-listings/latest-product.vue';
 import { useHomePageData } from '~/features/home/composable/useHomePageData';
-import whyChoseUs from '~/features/home/components/why-chose-us.vue';
-import howItWork from '~/features/home/components/how-it-work.vue';
 // import lanlordSection from '~/features/home/components/lanlord-section.vue';
+
+// Below-the-fold sections: defer hydration until they scroll into view
+const locationsSection = defineLazyHydrationComponent('visible', () => import('~/features/home/popular-locations/locations-section.vue'));
+const whyChoseUs = defineLazyHydrationComponent('visible', () => import('~/features/home/components/why-chose-us.vue'));
+const howItWork = defineLazyHydrationComponent('visible', () => import('~/features/home/components/how-it-work.vue'));
 
 definePageMeta({
   headerOverlay: true,
