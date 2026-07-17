@@ -200,7 +200,10 @@ const submit = handleSubmit(async () => {
         emit('registered', form.email, payload)
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
-        if (status === 400) {
+        if (status === 409) {
+            notify.info(extract(err))
+            await navigateTo('/auth/login')
+        } else if (status === 400) {
             setFieldError('email', extract(err))
         } else {
             notify.error(extract(err))

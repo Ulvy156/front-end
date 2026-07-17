@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
 import { resolvePostLoginRoute } from '~/utils/roleGuard'
+import { useErrorMsg } from '~/composables/useErrorMsg'
 
 useHead({
   link: [
@@ -24,6 +25,9 @@ const { $axios } = useNuxtApp()
 const accessToken = useAccessToken()
 const hasSession = useHasSession()
 const authStore = useAuthStore()
+const notify = useNotify()
+const { extract } = useErrorMsg()
+const { t } = useI18n()
 
 onMounted(() => {
   const onMessage = (e: MessageEvent) => {
@@ -39,25 +43,33 @@ onMounted(() => {
   onUnmounted(() => window.removeEventListener('message', onMessage))
 
   ;(window as any).onTelegramAuth = async (user: any) => {
-    const { data } = await $axios.post<{ accessToken?: string; access_token?: string; user_id: string; is_new_user: boolean }>(
-      '/auth/telegram-login',
-      user,
-    )
-    const token = data.accessToken ?? data.access_token
-    if (!token) return
-    accessToken.value = token
-    hasSession.value = true
-    if (data.is_new_user) {
-      await navigateTo('/auth/role-select', { replace: true })
-    } else {
-      await authStore.fetchProfile(token)
-      if (authStore.isAuthenticated) {
-        await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
-      } else {
-        accessToken.value = null
-        hasSession.value = null
-        await navigateTo('/auth/login', { replace: true })
+    try {
+      const { data } = await $axios.post<{ accessToken?: string; access_token?: string; user_id: string; is_new_user: boolean }>(
+        '/auth/telegram-login',
+        user,
+      )
+      const token = data.accessToken ?? data.access_token
+      if (!token) {
+        notify.error(t('common.somethingWentWrong'))
+        return
       }
+      accessToken.value = token
+      hasSession.value = true
+      if (data.is_new_user) {
+        await navigateTo('/auth/role-select', { replace: true })
+      } else {
+        await authStore.fetchProfile(token)
+        if (authStore.isAuthenticated) {
+          await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
+        } else {
+          accessToken.value = null
+          hasSession.value = null
+          notify.error(t('common.somethingWentWrong'))
+          await navigateTo('/auth/login', { replace: true })
+        }
+      }
+    } catch (err) {
+      notify.error(extract(err))
     }
   }
 
