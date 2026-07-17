@@ -139,6 +139,7 @@ import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import { uploadPropertyImage, deletePropertyImage, setCoverImage } from '../services/property-image'
 import { useQueryClient } from '@tanstack/vue-query'
+import { exceedsFileSize, formatFileSize } from '~/utils/fileSize'
 
 const props = defineProps<{
   propertyId: string
@@ -177,7 +178,7 @@ function handleDrop(event: DragEvent) {
 
 function addFiles(files: File[]) {
   for (const file of files) {
-    if (file.size > 1 * 1024 * 1024) continue
+    if (exceedsFileSize(file, 1)) continue
     pendingFiles.value.push(file)
     const reader = new FileReader()
     reader.onload = (e) => {
@@ -241,9 +242,4 @@ function invalidateAndRefresh() {
   emit('refresh')
 }
 
-function formatFileSize(bytes: number) {
-  if (bytes < 1024) return `${bytes} B`
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
-}
 </script>

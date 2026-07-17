@@ -61,6 +61,8 @@
       "searchPlaceholder": "Search title or owner...",
       "landlordPlaceholder": "Filter by landlord (name or email)...",
       "viewingSingle": "Showing 1 filtered property",
+      "viewingPending": "Showing properties pending approval",
+      "viewingFeatured": "Showing featured properties",
       "viewAllProperties": "View all properties",
       "featuredCount": "Featured: {n} / {max}",
       "featuredMaxReached": "Featured limit reached (3 max)",

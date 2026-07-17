@@ -9,6 +9,10 @@ import { useAdminLandlords, type UserFilters } from '~/features/admin/composable
 import type { AdminProperty, AdminPropertiesFilter } from '~/features/admin/types/property'
 import PropertyDetailsDrawer from './PropertyDetailsDrawer.vue'
 
+const props = defineProps<{
+  presetFilter?: 'pending' | 'featured'
+}>()
+
 const { t } = useI18n()
 const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
@@ -18,7 +22,9 @@ const router = useRouter()
 
 // ── Server-side filter + pagination ─────────────────────────
 const searchInput = ref('')
-const statusFilter = ref<'all' | 'published' | 'unpublished'>('all')
+const statusFilter = ref<'all' | 'published' | 'unpublished'>(
+  props.presetFilter === 'pending' ? 'unpublished' : 'all',
+)
 const PAGE_SIZE = 20
 const FEATURED_MAX = 3
 
@@ -26,10 +32,17 @@ const filters = ref<AdminPropertiesFilter>({
   page: 1,
   limit: PAGE_SIZE,
   propertyId: (route.query.propertyId as string) || undefined,
+  isPublished: props.presetFilter === 'pending' ? false : undefined,
+  isFeatured: props.presetFilter === 'featured' ? true : undefined,
 })
 
 // ── Deep-link to a single property (e.g. from a report) ────────
 const isPinnedToProperty = computed(() => !!filters.value.propertyId)
+const isPresetView = computed(() => !!props.presetFilter && !isPinnedToProperty.value)
+
+function clearPresetFilter() {
+  router.push('/admin/properties')
+}
 
 watch(() => route.query.propertyId, (val) => {
   filters.value = { ...filters.value, propertyId: (val as string) || undefined, page: 1 }
@@ -176,6 +189,20 @@ async function handleDelete(prop: AdminProperty) {
         {{ $t('admin.properties.viewingSingle') }}
       </p>
       <el-button text size="small" @click="clearPropertyFilter">
+        {{ $t('admin.properties.viewAllProperties') }}
+      </el-button>
+    </div>
+
+    <!-- Pinned to a preset filter (Pending Approval / Featured nav items) -->
+    <div
+      v-else-if="isPresetView"
+      class="flex items-center justify-between mb-4 px-4 py-2.5 rounded-lg bg-blue-50 border border-blue-100"
+    >
+      <p class="flex items-center gap-2 text-sm text-blue-700">
+        <BaseIcon name="filter" :size="14" />
+        {{ props.presetFilter === 'pending' ? $t('admin.properties.viewingPending') : $t('admin.properties.viewingFeatured') }}
+      </p>
+      <el-button text size="small" @click="clearPresetFilter">
         {{ $t('admin.properties.viewAllProperties') }}
       </el-button>
     </div>

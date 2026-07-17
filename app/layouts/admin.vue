@@ -112,14 +112,16 @@
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseSidebarNavItem from '~/components/ui/BaseSidebarNavItem.vue'
 import { initials } from '~/utils/initials'
+import { useAdminDashboard } from '~/features/admin/composables/useAdminDashboard'
 
 const route = useRoute()
 const authStore = useAuthStore()
 const { logout } = useLogout()
 const { t } = useI18n()
+const { data: dashboardData } = useAdminDashboard()
 
-const pendingCount = ref(0)
-const feedbackCount = ref(0)
+const pendingCount = computed(() => dashboardData.value?.stats.properties.unpublished ?? 0)
+const feedbackCount = computed(() => dashboardData.value?.stats.feedback.total ?? 0)
 
 const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 

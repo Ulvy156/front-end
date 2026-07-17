@@ -61,6 +61,8 @@
       "searchPlaceholder": "ស្វែងរកចំណងជើង ឬម្ចាស់...",
       "landlordPlaceholder": "ត្រងតាមម្ចាស់ផ្ទះ (ឈ្មោះ ឬអ៊ីមែល)...",
       "viewingSingle": "កំពុងបង្ហាញអចលនទ្រព្យដែលបានត្រង ១",
+      "viewingPending": "កំពុងបង្ហាញអចលនទ្រព្យដែលកំពុងរង់ចាំការអនុម័ត",
+      "viewingFeatured": "កំពុងបង្ហាញអចលនទ្រព្យពិសេស",
       "viewAllProperties": "មើលអចលនទ្រព្យទាំងអស់",
       "featuredCount": "ពិសេស: {n} / {max}",
       "featuredMaxReached": "ដល់កម្រិតអតិបរមាពិសេសហើយ (អតិបរមា ៣)",

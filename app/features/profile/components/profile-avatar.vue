@@ -4,6 +4,7 @@ import { ElMessageBox } from 'element-plus'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import { initials as getInitials } from '~/utils/initials'
+import { exceedsFileSize } from '~/utils/fileSize'
 
 const props = defineProps<{
   imgUrl: string | null
@@ -31,7 +32,7 @@ async function onFileChange(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0]
   if (!file) return
 
-  if (file.size > 1024 * 1024) {
+  if (exceedsFileSize(file, 1)) {
     notifyError(t('profile.avatar.tooLarge'))
     return
   }

@@ -46,6 +46,7 @@
         "errors": {
             "required": "Required",
             "photos_min": "At least 3 photos required",
+            "photos_max": "You can upload up to 20 photos only",
             "amenities_required": "Please select at least one amenity",
             "form_missing": "Form data is missing.",
             "district_required": "Please select a district.",
