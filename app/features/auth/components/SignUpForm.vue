@@ -33,9 +33,7 @@
                 <span>{{ t('auth.google') }}</span>
             </button>
 
-            <div class="flex justify-center">
-                <telegramLogin />
-            </div>
+            <TelegramAuthButton :label="t('auth.telegramSignUp')" />
         </div>
 
         <!-- Divider -->
@@ -155,7 +153,7 @@
 </template>
 
 <script setup lang="ts">
-import telegramLogin from '~/components/auth/telegram-login.client.vue'
+import TelegramAuthButton from '~/components/auth/TelegramAuthButton.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
 import { useAuthFormRules } from '~/features/auth/composable/useAuthFormRules'
 
