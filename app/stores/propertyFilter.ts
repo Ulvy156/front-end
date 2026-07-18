@@ -22,9 +22,12 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
   }),
 
   getters: {
-    queryParams: (state) => ({
-      ...state,
-    }),
+    // `result` is derived UI state (the fetched item count), not a filter —
+    // it must be excluded so writing it back doesn't retrigger a refetch.
+    queryParams: (state) => {
+      const { result, ...params } = state
+      return params
+    },
   },
   persist: true,
   actions: {
