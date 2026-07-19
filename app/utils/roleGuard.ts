@@ -15,7 +15,6 @@ function isTokenExpired(token: string): boolean {
 async function refreshAndHydrate(
   config: ReturnType<typeof useRuntimeConfig>,
   accessToken: ReturnType<typeof useAccessToken>,
-  hasSession: ReturnType<typeof useHasSession>,
   authStore: ReturnType<typeof useAuthStore>,
 ) {
   const headers: Record<string, string> = {}
@@ -23,15 +22,18 @@ async function refreshAndHydrate(
     const cookie = useRequestHeaders(['cookie']).cookie
     if (cookie) headers.cookie = cookie
   }
+  // Client requests go through the same-origin /api proxy (see routeRules in
+  // nuxt.config.ts) so the browser treats refresh_token as a first-party
+  // cookie. SSR requests skip the proxy and hit the backend directly.
+  const apiBaseUrl = import.meta.client ? '/api' : config.public.apiBaseUrl
   const { data } = await axios.post(
-    `${config.public.apiBaseUrl}/auth/refresh-token`,
+    `${apiBaseUrl}/auth/refresh-token`,
     {},
     { withCredentials: true, headers },
   )
   const token = data?.accessToken ?? null
   if (token) {
     accessToken.value = token
-    hasSession.value = true
     await authStore.fetchProfile(token)
   }
 }
@@ -41,7 +43,6 @@ export async function hydrateAuth() {
   if (authStore.user) return
 
   const accessToken = useAccessToken()
-  const hasSession = useHasSession()
   const config = useRuntimeConfig()
 
   if (accessToken.value && !isTokenExpired(accessToken.value)) {
@@ -51,16 +52,10 @@ export async function hydrateAuth() {
 
   accessToken.value = null
 
-  // No evidence this visitor was ever authenticated — there is no refresh
-  // token to redeem, so skip the API call instead of hitting it on every
-  // anonymous page load.
-  if (!hasSession.value) return
-
   try {
-    await refreshAndHydrate(config, accessToken, hasSession, authStore)
+    await refreshAndHydrate(config, accessToken, authStore)
   } catch {
     // Refresh token is also gone — user must log in again
-    hasSession.value = null
   }
 }
 

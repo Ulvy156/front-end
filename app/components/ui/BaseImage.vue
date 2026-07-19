@@ -1,5 +1,14 @@
 <script setup lang="ts">
+// NuxtImg (component) and the fallback <div> (plain element) as v-if/v-else
+// root siblings make Vue's automatic $attrs fallthrough ambiguous, so the
+// SSR and client renderers resolved it differently — the fallback div's
+// class attr (e.g. layout classes passed by parent cards) matched on the
+// server but not on client hydration. Bind $attrs explicitly on both roots
+// instead of relying on implicit fallthrough.
+defineOptions({ inheritAttrs: false })
+
 const config = useRuntimeConfig();
+const attrs = useAttrs()
 
 const props = withDefaults(
   defineProps<{
@@ -23,6 +32,7 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
 <template>
   <NuxtImg
     v-if="src && !hasError"
+    v-bind="attrs"
     :style="{ objectFit: props.fit }"
     :src="imgSrc"
     :alt="alt || 'image'"
@@ -36,6 +46,7 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
   <!-- fallback -->
   <div
     v-else
+    v-bind="attrs"
     class="flex items-center justify-center bg-gray-200 text-sm text-gray-500"
     :style="{
       width: width ? width + 'px' : '100%',

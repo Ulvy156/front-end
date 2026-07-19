@@ -23,7 +23,6 @@ const telegramBtn = ref<HTMLDivElement | null>(null)
 const isWidgetReady = ref(false)
 const { $axios } = useNuxtApp()
 const accessToken = useAccessToken()
-const hasSession = useHasSession()
 const authStore = useAuthStore()
 const notify = useNotify()
 const { extract } = useErrorMsg()
@@ -54,7 +53,6 @@ onMounted(() => {
         return
       }
       accessToken.value = token
-      hasSession.value = true
       if (data.is_new_user) {
         await navigateTo('/auth/role-select', { replace: true })
       } else {
@@ -63,7 +61,6 @@ onMounted(() => {
           await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
         } else {
           accessToken.value = null
-          hasSession.value = null
           notify.error(t('common.somethingWentWrong'))
           await navigateTo('/auth/login', { replace: true })
         }

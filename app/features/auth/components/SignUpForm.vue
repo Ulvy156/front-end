@@ -172,7 +172,6 @@ const emit = defineEmits<{ registered: [email: string, payload: RegisterPayload]
 const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
-const config = useRuntimeConfig()
 const { extract } = useErrorMsg()
 
 const { registerRules } = useAuthFormRules()
@@ -184,7 +183,9 @@ const { formRef, form, rules, isSubmitting, handleSubmit, setFieldError } = useF
 const role = ref<'USER' | 'LANDLORD'>('USER')
 
 const loginWithGoogle = () => {
-    window.location.href = `${config.public.apiBaseUrl}/auth/google`
+    // Routed through the /api proxy (see routeRules in nuxt.config.ts) so the
+    // OAuth callback's Set-Cookie lands on this same origin, not onrender.com.
+    window.location.href = '/api/auth/google'
 }
 
 const submit = handleSubmit(async () => {

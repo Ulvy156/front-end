@@ -12,6 +12,16 @@ export default defineNuxtConfig({
   nitro: {
     compressPublicAssets: true
   },
+  // Proxies same-origin /api/** to the backend so the browser sees the
+  // refresh_token cookie as first-party (rentify-kh.vercel.app vs
+  // back-end-room.onrender.com are different registrable domains, and
+  // Safari/Brave/Chrome all block or are blocking third-party cookies —
+  // that broke refresh-token persistence when calling the backend directly).
+  routeRules: {
+    '/api/**': {
+      proxy: `${process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080'}/**`,
+    },
+  },
   modules: [
     '@nuxt/fonts',
     '@nuxt/hints',
@@ -22,6 +32,12 @@ export default defineNuxtConfig({
     '@vueuse/motion/nuxt',
     '@pinia/nuxt'
   ],
+  // Nuxt Icon's local icon server defaults to /api/_nuxt_icon/**, which the
+  // /api/** proxy rule above swallows and forwards to the backend (404,
+  // "failed to load icon" warnings for every icon). Move it off /api/**.
+  icon: {
+    localApiEndpoint: '/_nuxt_icon',
+  },
   runtimeConfig: {
     public: {
       imageBaseUrl: process.env.NUXT_PUBLIC_IMAGE_BASE_URL,
@@ -31,10 +47,6 @@ export default defineNuxtConfig({
       BASE_URL: 'http://localhost:3000',
       // Must match the backend JWT access-token expiry (in seconds)
       accessTokenMaxAge: Number(process.env.NUXT_PUBLIC_ACCESS_TOKEN_MAX_AGE) || 900,
-      // Should roughly match the backend refresh-token expiry (in seconds).
-      // Used only for the client-side "has_session" marker cookie, not the
-      // (httpOnly, backend-owned) refresh token itself.
-      refreshTokenMaxAge: Number(process.env.NUXT_PUBLIC_REFRESH_TOKEN_MAX_AGE) || 60 * 60 * 24 * 7,
     }
   },
   image: {

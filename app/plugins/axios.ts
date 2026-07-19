@@ -12,11 +12,15 @@ export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
   const router = useRouter()
   const accessToken = useAccessToken()
-  const hasSession = useHasSession()
   const authStore = useAuthStore()
 
+  // Client requests go through the same-origin /api proxy (see routeRules in
+  // nuxt.config.ts) so the browser treats refresh_token as a first-party
+  // cookie. SSR requests skip the proxy and hit the backend directly.
+  const apiBaseUrl = import.meta.client ? '/api' : config.public.apiBaseUrl
+
   const api = axios.create({
-    baseURL: config.public.apiBaseUrl,
+    baseURL: apiBaseUrl,
     withCredentials: true,
   })
 
@@ -35,20 +39,18 @@ export default defineNuxtPlugin((nuxtApp) => {
   // to avoid conflicting with in-flight middleware navigation.
   const clearSession = () => {
     accessToken.value = null
-    hasSession.value = null
     authStore.clear()
   }
 
   const refreshAccessToken = async () => {
     try {
       const { data } = await axios.post(
-        `${config.public.apiBaseUrl}/auth/refresh-token`,
+        `${apiBaseUrl}/auth/refresh-token`,
         {},
         { withCredentials: true },
       )
       const nextToken = data?.accessToken ?? null
       accessToken.value = nextToken
-      hasSession.value = true
       return nextToken
     } catch {
       // Refresh token is expired or missing — full session is dead
