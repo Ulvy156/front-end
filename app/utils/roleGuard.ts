@@ -26,12 +26,24 @@ async function refreshAndHydrate(
   // nuxt.config.ts) so the browser treats refresh_token as a first-party
   // cookie. SSR requests skip the proxy and hit the backend directly.
   const apiBaseUrl = import.meta.client ? '/api' : config.public.apiBaseUrl
-  const { data } = await axios.post(
+  const response = await axios.post(
     `${apiBaseUrl}/auth/refresh-token`,
     {},
     { withCredentials: true, headers },
   )
-  const token = data?.accessToken ?? null
+
+  // On SSR this axios call is server-to-server — the browser never sees it,
+  // so any Set-Cookie in the backend's response (the rotated refresh_token)
+  // must be manually relayed onto the actual outgoing response, or the
+  // browser keeps sending the old, now-rotated-away refresh_token forever.
+  if (import.meta.server) {
+    const setCookie = response.headers['set-cookie']
+    if (setCookie) {
+      useResponseHeader('set-cookie').value = setCookie
+    }
+  }
+
+  const token = response.data?.accessToken ?? null
   if (token) {
     accessToken.value = token
     await authStore.fetchProfile(token)
