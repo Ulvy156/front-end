@@ -10,11 +10,27 @@
     "bathroom":"Bathroom",
     "bedroom":"Bedroom",
     "furnishing":"Furnishing",
+    "any":"Any",
+    "furnishedOption":"Furnished",
+    "unfurnishedOption":"Unfurnished",
     "amenity":"Amenities",
     "rules":"House Rules",
     "clear":"Clear Filters",
     "order_by":"Order By",
     "priceRangeInvalid":"Minimum price must be lower than maximum price",
-    "priceRangeTooLow":"Maximum price must be at least $30"
+    "priceRangeTooLow":"Maximum price must be at least $30",
+    "locationBlocked":"Location access is blocked. Please enable it in your browser settings.",
+    "locationDenied":"We can’t show nearest properties because location access was denied.",
+    "sort": {
+      "newest":"Newest First",
+      "priceLowToHigh":"Price: Low to High",
+      "priceHighToLow":"Price: High to Low",
+      "mostPopular":"Most Popular",
+      "nearest":"Nearest Location"
+    },
+    "chip": {
+      "priceRange":"Price: ${min} - ${max}",
+      "nearest":"Nearest"
+    }
   }
 }

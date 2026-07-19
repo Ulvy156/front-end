@@ -12,10 +12,12 @@
 </template>
 
 <script lang="ts" setup>
+import { useI18n } from "vue-i18n";
 import BaseBadge from "~/components/ui/BaseBadge.vue";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 
 const filterStore = usePropertyFilterStore();
+const { t } = useI18n();
 
 const activeFilters = computed(() => {
   const chips: { key: string; label: string }[] = [];
@@ -24,29 +26,29 @@ const activeFilters = computed(() => {
   if(filterStore.orderType) {
     chips.push({
       key: "Order by",
-      label: `Order By`,
+      label: t('filter.order_by'),
     });
   }
   // amenities
   if(filterStore.amenities.length > 0) {
     chips.push({
       key: "amenities",
-      label: `Amenities`,
+      label: t('filter.amenity'),
     });
   }
   // house rules
   if(filterStore.houseRules.length > 0) {
     chips.push({
       key: "houseRules",
-      label: `House Rules`,
+      label: t('filter.rules'),
     });
   }
-  
+
   // Price
   if (filterStore.maxPrice > 0) {
     chips.push({
       key: "price",
-      label: `Price: $${filterStore.minPrice || 0} - $${filterStore.maxPrice}`,
+      label: t('filter.chip.priceRange', { min: filterStore.minPrice || 0, max: filterStore.maxPrice }),
     });
   }
 
@@ -62,7 +64,7 @@ const activeFilters = computed(() => {
   if (filterStore.roomType > 0) {
     chips.push({
       key: "roomType",
-      label: `Room Type`,
+      label: t('filter.roomType'),
     });
   }
 
@@ -70,7 +72,7 @@ const activeFilters = computed(() => {
   if (filterStore.bedroom > 0) {
     chips.push({
       key: "bedroom",
-      label: `${filterStore.bedroom} Bedroom`,
+      label: `${filterStore.bedroom} ${t('filter.bedroom')}`,
     });
   }
 
@@ -78,7 +80,7 @@ const activeFilters = computed(() => {
   if (filterStore.bathroom > 0) {
     chips.push({
       key: "bathroom",
-      label: `${filterStore.bathroom} Bathroom`,
+      label: `${filterStore.bathroom} ${t('filter.bathroom')}`,
     });
   }
 
@@ -86,7 +88,7 @@ const activeFilters = computed(() => {
   if (filterStore.orderType === 3) {
     chips.push({
       key: "nearest",
-      label: `Nearest`,
+      label: t('filter.chip.nearest'),
     });
   }
 

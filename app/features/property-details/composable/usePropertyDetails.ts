@@ -11,12 +11,17 @@ import type { PropertyDetail } from '../interface/properties-details'
 /**
  * Get property details by id and filter by location.
  *
+ * Deliberately not awaited: a top-level await here would make the page's
+ * async setup block Suspense, leaving the previous route's page on screen
+ * (URL already changed) until the fetch resolves. Callers must guard on
+ * `pending`/`property` instead.
+ *
  * @returns {object} property details
  *
  * @example
- * const { property } = await usePropertyDetails()
+ * const { property, pending } = usePropertyDetails()
  */
-export async function usePropertyDetails() {
+export function usePropertyDetails() {
   const api = useApi()
   const route = useRoute()
   const config = useRuntimeConfig()
@@ -33,7 +38,7 @@ export async function usePropertyDetails() {
     await incrementView(api, viewedProperties, id.value)
   })
 
-  const { data: property } = await useAsyncData<PropertyDetail>(
+  const { data: property, pending } = useAsyncData<PropertyDetail>(
     () =>
       fetchPropertyDetails({
         api,
@@ -64,5 +69,6 @@ export async function usePropertyDetails() {
 
   return {
     property,
+    pending,
   }
 }

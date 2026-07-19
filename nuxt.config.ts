@@ -89,6 +89,7 @@ export default defineNuxtConfig({
     langDir: 'locales',
     strategy: 'no_prefix', // no /km
     defaultLocale: 'en',
+    fallbackLocale: 'en',
     locales: [
       {
         code: 'en',

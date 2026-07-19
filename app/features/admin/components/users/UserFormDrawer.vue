@@ -41,7 +41,13 @@ const createRules: FormRules = {
   ],
   password: [
     { required: true, message: t('admin.users.form.passwordRequired'), trigger: 'blur' },
-    { min: 8, message: t('admin.users.form.passwordMin'), trigger: 'blur' },
+    {
+      validator: (_rule, value: string, callback) => {
+        if (!isStrongPassword(value)) callback(new Error(t('auth.passwordWeak')))
+        else callback()
+      },
+      trigger: 'blur',
+    },
   ],
   role: [{ required: true, message: t('admin.users.form.roleRequired'), trigger: 'change' }],
 }
@@ -95,7 +101,10 @@ const submitCreate = handleCreateSubmit(async () => {
     success(t('admin.users.form.createSuccess'))
     isOpen.value = false
   } catch (err) {
-    setCreateError('email', extract(err))
+    const message = extract(err)
+    if (/password/i.test(message)) setCreateError('password', message)
+    else if (/email/i.test(message)) setCreateError('email', message)
+    else notifyError(message)
   }
 })
 
@@ -106,7 +115,9 @@ const submitEdit = handleEditSubmit(async () => {
     success(t('admin.users.form.updateSuccess'))
     isOpen.value = false
   } catch (err) {
-    setEditError('name', extract(err))
+    const message = extract(err)
+    if (/name/i.test(message)) setEditError('name', message)
+    else notifyError(message)
   }
 })
 </script>

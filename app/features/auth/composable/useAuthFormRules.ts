@@ -41,7 +41,7 @@ export const useAuthFormRules = () => {
     phone: [
       {
         validator: (_rule, value: string, callback) => {
-          if (!value || /^0\d{7,9}$/.test(value)) callback()
+          if (!value || isValidPhone(value)) callback()
           else callback(new Error(t('auth.phoneInvalid')))
         },
         trigger: 'blur',

@@ -1,5 +1,7 @@
 <template>
-  <section>
+  <SkeletonPropertyDetails v-if="!property" />
+
+  <section v-else>
     <!-- Breadcrumb -->
     <div class="flex items-center gap-2 text-[13px] text-gray-400 mb-5">
       <NuxtLink to="/properties" class="text-(--nav-active-item) hover:underline">
@@ -126,9 +128,10 @@ import propertyHouseRule from "./property-house-rule.vue";
 import propertyParking from "./property-parking.vue";
 import relatedProperties from './related-properties.vue';
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import SkeletonPropertyDetails from "~/components/animation/skeleton-property-details.vue";
 import { usePropertyDetails } from "../composable/usePropertyDetails";
 
-const { property } = await usePropertyDetails()
+const { property } = usePropertyDetails()
 const langKey = useLangKey()
 
 const phoneNumber = computed(

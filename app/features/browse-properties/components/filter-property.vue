@@ -17,7 +17,7 @@
         @click="selectedId = value.id"
         :class="activeClass(value.id)"
       >
-        {{ value.nameEn }}
+        {{ value[langKey] }}
       </span>
     </div>
   </div>
@@ -30,6 +30,7 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 
 const { data: properties } = usePropertyTypeOptions();
 const filterStore = usePropertyFilterStore()
+const langKey = useLangKey();
 
 
 function activeClass(subId: number) {

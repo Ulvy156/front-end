@@ -1,4 +1,5 @@
-import { watch } from 'vue'
+import { computed, watch } from 'vue'
+import { useI18n } from 'vue-i18n'
 
 import { checkLocationPermission, getCurrentLocation } from '~/utils/getCurrentLocation'
 import { useNotify } from '~/composables/useNotify'
@@ -9,32 +10,18 @@ export interface SortOption {
   label: string
 }
 
-export const sortOptions: SortOption[] = [
-  {
-    id: 0,
-    label: 'Newest First',
-  },
-  {
-    id: 1,
-    label: 'Price: Low to High',
-  },
-  {
-    id: 2,
-    label: 'Price: High to Low',
-  },
-  {
-    id: 3,
-    label: 'Most Popular',
-  },
-  {
-    id: 4,
-    label: 'Nearest Location',
-  },
-]
-
 export function usePropertySort() {
   const filterStore = usePropertyFilterStore()
   const { warning } = useNotify()
+  const { t } = useI18n()
+
+  const sortOptions = computed<SortOption[]>(() => [
+    { id: 0, label: t('filter.sort.newest') },
+    { id: 1, label: t('filter.sort.priceLowToHigh') },
+    { id: 2, label: t('filter.sort.priceHighToLow') },
+    { id: 3, label: t('filter.sort.mostPopular') },
+    { id: 4, label: t('filter.sort.nearest') },
+  ])
 
   watch(
     () => filterStore.orderType,
@@ -48,9 +35,7 @@ export function usePropertySort() {
       try {
         const status = await checkLocationPermission()
         if (status === 'denied') {
-          warning(
-            'Location access is blocked. Please enable it in your browser settings.',
-          )
+          warning(t('filter.locationBlocked'))
           filterStore.orderType = null
           return
         }
@@ -60,9 +45,7 @@ export function usePropertySort() {
         filterStore.lng = location.longitude
       } catch {
         filterStore.orderType = null
-        warning(
-          'We can’t show nearest properties because location access was denied.',
-        )
+        warning(t('filter.locationDenied'))
       }
     },
   )

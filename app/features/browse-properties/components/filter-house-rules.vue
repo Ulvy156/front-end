@@ -17,7 +17,7 @@
         :class="activeClass(value.id)"
       >
         <BaseIconClient :name="value.icon" />
-        {{ value.nameEn }}
+        {{ value[langKey] }}
       </span>
     </div>
   </div>
@@ -30,6 +30,7 @@ import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
 const { data: rules } = usePropertyRuleOptions();
 const filterStore = usePropertyFilterStore();
+const langKey = useLangKey();
 
 
 function activeClass(subId: number) {

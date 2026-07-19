@@ -48,8 +48,14 @@ export function useBrowseProperties() {
   const { data, refresh } = useAsyncData<BrowsePropertiesResponse>(
     'browse-properties',
     fetchProperties,
-    { immediate: false, getCachedData: () => undefined },
+    { immediate: false },
   )
+
+  // Data from a previous visit this session is already sitting in Nuxt's
+  // payload cache — show it immediately instead of blanking to a skeleton.
+  if (data.value) {
+    isFetching.value = false
+  }
 
   const items = computed<PropertyCardItem[]>(() => data.value?.items ?? [])
   const meta = computed<Meta>(() => data.value?.meta ?? emptyMeta)
@@ -81,7 +87,13 @@ export function useBrowseProperties() {
   )
 
   onMounted(async () => {
-    await refreshProperties()
+    // Cached data is already on screen — revalidate quietly in the background
+    // rather than flashing the skeleton back on for a page we've just shown.
+    if (data.value) {
+      await refresh()
+    } else {
+      await refreshProperties()
+    }
   })
 
   onScopeDispose(() => {

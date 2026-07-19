@@ -43,7 +43,7 @@ useSeoMeta({
   ogUrl: 'https://yourdomain.com',
 })
 
-const { data, pending } = await useHomePageData();
+const { data, pending } = useHomePageData();
 
 const totalListings = computed(() =>
   (data.value?.featuredListings?.length ?? 0) + (data.value?.latestListings?.length ?? 0)

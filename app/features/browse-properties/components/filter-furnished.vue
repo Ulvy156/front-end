@@ -69,14 +69,17 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from "vue";
+import { useI18n } from "vue-i18n";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyFilterStore } from "~/stores/propertyFilter";
 
+const { t } = useI18n();
 const filterStore = usePropertyFilterStore();
-const bedrooms = readonly([
+const bedrooms = computed(() => [
   {
     id: "bd1",
-    label: "Any",
+    label: t("filter.any"),
     value: 0,
   },
   {
@@ -95,10 +98,10 @@ const bedrooms = readonly([
     value: 3,
   },
 ]);
-const bathrooms = readonly([
+const bathrooms = computed(() => [
   {
     id: "bh1",
-    label: "Any",
+    label: t("filter.any"),
     value: 0,
   },
   {
@@ -117,20 +120,20 @@ const bathrooms = readonly([
     value: 3,
   },
 ]);
-const furnishing = readonly([
+const furnishing = computed(() => [
   {
     id: "fn1",
-    label: "Any",
+    label: t("filter.any"),
     value: 0,
   },
   {
     id: "fn2",
-    label: "Furnished",
+    label: t("filter.furnishedOption"),
     value: 1,
   },
   {
     id: "fn3",
-    label: "Unfurnished",
+    label: t("filter.unfurnishedOption"),
     value: 2,
   },
 ]);

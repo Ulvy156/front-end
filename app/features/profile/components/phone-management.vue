@@ -32,7 +32,13 @@ const deletingId = ref<number | null>(null)
 const phoneRules: FormRules = {
   phoneNumber: [
     { required: true, message: () => t('profile.phones.required'), trigger: 'blur' },
-    { pattern: /^0\d{7,9}$/, message: () => t('profile.phones.invalidFormat'), trigger: 'blur' },
+    {
+      validator: (_rule, value: string, callback) => {
+        if (isValidPhone(value)) callback()
+        else callback(new Error(t('profile.phones.invalidFormat')))
+      },
+      trigger: 'blur',
+    },
   ],
 }
 
