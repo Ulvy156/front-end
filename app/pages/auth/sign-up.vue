@@ -40,7 +40,7 @@ useSeoMeta({
     robots: 'noindex, nofollow',
 })
 
-definePageMeta({ layout: 'auth' })
+definePageMeta({ layout: 'auth', middleware: 'guest' })
 
 const step = ref<1 | 2>(1)
 const registeredEmail = ref('')

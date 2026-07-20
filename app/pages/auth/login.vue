@@ -143,7 +143,7 @@ useSeoMeta({
     robots: 'noindex, nofollow',
 })
 
-definePageMeta({ layout: 'auth' })
+definePageMeta({ layout: 'auth', middleware: 'guest' })
 
 const { loginRules } = useAuthFormRules()
 const { formRef, form, rules, isSubmitting, handleSubmit } = useForm(

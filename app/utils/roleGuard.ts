@@ -115,6 +115,22 @@ function resolveRedirect(userRole: Role): string {
   return '/' // USER or unknown
 }
 
+/**
+ * Redirects an already-authenticated user away from guest-only pages
+ * (login, sign-up) to their role's landing route.
+ */
+export function createGuestGuard() {
+  return defineNuxtRouteMiddleware(async () => {
+    const authStore = useAuthStore()
+
+    await hydrateAuth()
+
+    if (authStore.isAuthenticated) {
+      return navigateTo(resolvePostLoginRoute(authStore.user?.role as Role | undefined))
+    }
+  })
+}
+
 export function resolvePostLoginRoute(role?: Role): string {
   if (role === Role.ADMIN) return '/admin'
   if (role === Role.LANDLORD) return '/landlord'
