@@ -152,9 +152,8 @@ const { formRef, form, rules, isSubmitting, handleSubmit } = useForm(
 )
 
 const loginWithGoogle = () => {
-    // Routed through the /api proxy (see routeRules in nuxt.config.ts) so the
-    // OAuth callback's Set-Cookie lands on this same origin, not onrender.com.
-    window.location.href = '/api/auth/google'
+    const config = useRuntimeConfig()
+    window.location.href = config.public.googleRedirectUrl
 }
 
 const submit = handleSubmit(async () => {
