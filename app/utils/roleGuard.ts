@@ -62,12 +62,18 @@ export async function hydrateAuth() {
     return
   }
 
+  // Already confirmed this session has no valid refresh token (e.g. a guest
+  // who's never logged in) — don't re-hit the API on every navigation.
+  if (authStore.sessionChecked) return
+
   accessToken.value = null
 
   try {
     await refreshAndHydrate(config, accessToken, authStore)
   } catch {
     // Refresh token is also gone — user must log in again
+  } finally {
+    authStore.sessionChecked = true
   }
 }
 

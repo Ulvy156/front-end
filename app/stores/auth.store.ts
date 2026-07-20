@@ -16,6 +16,10 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     user: null as AuthUser | null,
     isFetching: false,
+    // Set once a refresh-token attempt has resolved (success or failure) in
+    // this app session, so hydrateAuth() doesn't re-hit /auth/refresh-token
+    // on every subsequent navigation for a guest who has no session.
+    sessionChecked: false,
   }),
 
   getters: {
