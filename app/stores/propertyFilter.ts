@@ -24,10 +24,29 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
   getters: {
     // `result` is derived UI state (the fetched item count), not a filter —
     // it must be excluded so writing it back doesn't retrigger a refetch.
-    queryParams: (state) => {
-      const { result, ...params } = state
-      return params
-    },
+    // Listed explicitly (rather than destructuring `state`) because in dev
+    // mode Pinia's getter `state` argument carries the whole store instance
+    // ($id, actions, other getters, HMR internals) alongside the real state
+    // fields — a blind `...rest` spread leaks all of that into the request
+    // body, including a self-reference to this very getter.
+    queryParams: (state) => ({
+      minPrice: state.minPrice,
+      maxPrice: state.maxPrice,
+      locationName: state.locationName,
+      orderType: state.orderType,
+      location: state.location,
+      locationType: state.locationType,
+      roomType: state.roomType,
+      bedroom: state.bedroom,
+      bathroom: state.bathroom,
+      furnishing: state.furnishing,
+      amenities: state.amenities,
+      houseRules: state.houseRules,
+      page: state.page,
+      limit: state.limit,
+      lng: state.lng,
+      lat: state.lat,
+    }),
   },
   persist: true,
   actions: {

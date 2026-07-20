@@ -29,14 +29,6 @@
       />
     </div>
 
-    <!-- <div class="mt-4">
-      <p v-if="publishResult" class="text-success">
-        {{ publishResult }}
-      </p>
-      <p v-if="publishError" class="text-danger">
-        {{ publishError }}
-      </p>
-    </div> -->
   </section>
 </template>
 
@@ -52,6 +44,8 @@ const { t } = useI18n();
 const api = useApi();
 const router = useRouter();
 const authStore = useAuthStore();
+const notify = useNotify();
+const { extract } = useErrorMsg();
 
 const form = inject<any>("postPropertyForm");
 const formErrors = inject<any>("formErrors");
@@ -261,6 +255,7 @@ const publish = async () => {
 
   if (!form) {
     publishError.value = t('post_property.errors.form_missing');
+    notify.error(publishError.value);
     return;
   }
 
@@ -333,18 +328,21 @@ const publish = async () => {
      const districtId = Number(form.districtId);
      if (!districtId) {
        publishError.value = t('post_property.errors.district_required');
+       notify.error(publishError.value);
        return;
      }
 
      // Validate address
      if (!form.streetAddress) {
        publishError.value = t('post_property.errors.address_required');
+       notify.error(publishError.value);
        return;
      }
 
      // Validate property type
      if (!typeMap[form.propertyType]) {
        publishError.value = t('post_property.errors.property_type_invalid');
+       notify.error(publishError.value);
        return;
      }
 
@@ -364,6 +362,7 @@ const publish = async () => {
      // Validate minimum stay
      if (!minStayMap[form.minStay]) {
        publishError.value = t('post_property.errors.min_stay_invalid');
+       notify.error(publishError.value);
        return;
      }
    
@@ -449,16 +448,12 @@ const publish = async () => {
        const result = await createProperty(api, payload, form.photoFiles || []);
 
       publishResult.value = t('post_property.published_success', { id: result.id });
+      notify.success(publishResult.value);
       // Redirect
       router.push('/properties');
     } catch (error: any) {
-     console.error('Full error:', error);
-     publishError.value =
-       error?.response?.data?.message ||
-       error?.message ||
-       t('post_property.errors.publish_failed');
-
-     console.error("Publish failed:", error);
+     publishError.value = extract(error);
+     notify.error(publishError.value);
    } finally {
      loading.value = false;
    }

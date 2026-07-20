@@ -86,14 +86,8 @@ export async function createProperty(
     formData.append('files', file)
   })
 
-  try {
-    const res = await api.post<CreatePropertyResponse>('/property', formData, {
-      headers: { 'Content-Type': 'multipart/form-data' },
-    })
-    return res.data
-  } catch (error: any) {
-    console.error('Backend error response:', error.response?.data)
-    console.error('Error status:', error.response?.status)
-    throw error
-  }
+  const res = await api.post<CreatePropertyResponse>('/property', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  return res.data
 }
