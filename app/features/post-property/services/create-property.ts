@@ -56,12 +56,13 @@ export async function createProperty(
       return
     }
 
-    // Send amenityKeys/ruleKeys as a JSON string of numbers — multipart form
-    // fields don't support `key[]` array notation the way `qs` query strings
-    // do, and an empty array must still be sent (the backend requires the
-    // field, even when no amenities/rules are selected).
+    // Send amenityKeys/ruleKeys as repeated fields with the same key name.
+    // The backend's DTO transform (`Array.isArray(value) ? value.map(Number)
+    // : [Number(value)]`) expects multer to collect same-named multipart
+    // fields into a real array — a JSON-stringified single field arrives as
+    // a plain string and fails validation.
     if ((key === 'amenityKeys' || key === 'ruleKeys') && Array.isArray(value)) {
-      formData.append(key, JSON.stringify(value.map(Number)))
+      value.forEach((item) => formData.append(key, String(Number(item))))
       return
     }
 
