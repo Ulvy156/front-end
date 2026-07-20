@@ -1,9 +1,9 @@
 <template>
   <section class="mb-8">
     <!-- Gallery grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-[1.6fr_1fr] gap-2.5 h-[250px] sm:h-[420px]">
+    <div class="grid grid-cols-1 sm:grid-cols-[1.6fr_1fr] gap-2.5 h-[250px] sm:h-[420px] overflow-hidden">
       <!-- Cover image -->
-      <div class="relative cursor-pointer overflow-hidden rounded-[14px]" @click="openGallery(0)">
+      <div class="relative cursor-pointer overflow-hidden rounded-[14px] h-full min-h-0" @click="openGallery(0)">
         <BaseImage
           v-if="property?.images.length"
           :src="property.images[0].imageKey"
@@ -14,11 +14,11 @@
       </div>
 
       <!-- Side images 2x2 grid -->
-      <div v-if="sideImages.length" class="hidden sm:grid grid-cols-2 grid-rows-2 gap-2.5">
+      <div v-if="sideImages.length" class="hidden sm:grid grid-cols-2 grid-rows-2 gap-2.5 h-full min-h-0">
         <div
           v-for="(img, i) in sideImages"
           :key="img.imageKey"
-          class="relative cursor-pointer overflow-hidden rounded-[14px]"
+          class="relative cursor-pointer overflow-hidden rounded-[14px] h-full min-h-0"
           @click="openGallery(i + 1)"
         >
           <BaseImage

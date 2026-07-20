@@ -21,11 +21,21 @@ import BaseInput from '~/components/ui/BaseInput.vue';
 const filterStore = usePropertyFilterStore()
 
 const filter = ref({
-    min: 0,
-    max: 0
+    min: filterStore.minPrice,
+    max: filterStore.maxPrice
 })
 
 const errorKey = ref('')
+
+// Keep the local staging values in sync when the store changes from outside
+// this component (restored from the persisted cookie, or "Clear filters").
+watch(
+    () => [filterStore.minPrice, filterStore.maxPrice],
+    ([min, max]) => {
+        filter.value.min = min
+        filter.value.max = max
+    },
+)
 
 watch(filter.value, () => {
     const { min, max } = filter.value
