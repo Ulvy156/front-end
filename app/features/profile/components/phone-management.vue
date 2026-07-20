@@ -65,7 +65,7 @@ function cancelAdding() {
 
 const submitPhone = handleSubmit(async () => {
   try {
-    await props.addMutation.mutateAsync(form.phoneNumber)
+    await props.addMutation.mutateAsync(normalizePhoneNumber(form.phoneNumber))
     success(t('profile.phones.addSuccess'))
     isAdding.value = false
     reset()

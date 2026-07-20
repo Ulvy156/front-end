@@ -195,7 +195,7 @@ const submit = handleSubmit(async () => {
             email: form.email,
             password: form.password,
             role: role.value,
-            ...(form.phone.trim() ? { phone: form.phone.trim() } : {}),
+            ...(form.phone.trim() ? { phone: normalizePhoneNumber(form.phone) } : {}),
         }
         await api.post('/auth/register', payload)
         emit('registered', form.email, payload)
