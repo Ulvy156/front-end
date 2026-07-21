@@ -10,7 +10,8 @@
         "type": "ប្រភេទ",
         "type_placeholder": "ផ្ទះ / ខុនដូ",
         "budget": "ថវិកា",
-        "budget_placeholder": "រហូតដល់ $១,៥០០"
+        "budget_placeholder": "រហូតដល់ $១,៥០០",
+        "button": "ស្វែងរក"
       }
     },
     "featured": {

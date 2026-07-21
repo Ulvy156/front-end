@@ -6,7 +6,7 @@
         </div>
         <div class="flex flex-col sm:flex-row justify-between gap-y-2 sm:gap-x-5 font-semibold">
             <BaseInput type="number" size="small" v-model.number="filter.min" icon="dollar-sign"/>
-            <BaseIconClient class="rotate-90" size="40" name="arrow-up-0-1"/>
+            <BaseIconClient class="rotate-90 w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10" name="arrow-up-0-1"/>
             <BaseInput type="number" v-model.number="filter.max" icon="dollar-sign"/>
         </div>
         <p v-if="errorKey" class="text-red-500 text-xs mt-2">{{ $t(errorKey) }}</p>

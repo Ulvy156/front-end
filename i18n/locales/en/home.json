@@ -18,7 +18,8 @@
         "type": "Type",
         "type_placeholder": "House / Condo",
         "budget": "Budget",
-        "budget_placeholder": "Up to $1,500"
+        "budget_placeholder": "Up to $1,500",
+        "button": "Search"
       }
     },
     "featured": {
