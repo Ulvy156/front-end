@@ -7,12 +7,12 @@
   >
     <animationGroup
         key="property.compare.comparasion"
-      class="flex justify-end w-full gap-x-5"
+      class="flex flex-wrap justify-center md:justify-end w-full gap-3 md:gap-x-5 overflow-x-auto"
     >
       <div
         v-for="value in compareStore.getImage"
         :key="value.id"
-        class="relative overflow-x-auto w-40 h-32 md:w-65 md:h-50 rounded-xl overflow-hidden border border-(--nav-active-item)"
+        class="relative shrink-0 w-32 h-24 sm:w-40 sm:h-32 md:w-65 md:h-50 rounded-xl overflow-hidden border border-(--nav-active-item)"
       >
         <!-- Image -->
         <BaseImage

@@ -1,61 +1,60 @@
 <template>
-  <section class="lg:h-[60dvh] md:h-[40dvh] h-[50dvh] bg-black relative">
-    <div class="bg-image">
-      <!-- Dark overlay for readability -->
-      <div class="absolute inset-0 bg-black/45"></div>
+  <section class="lg:min-h-[60dvh] md:min-h-[40dvh] min-h-[50dvh] bg-black relative">
+    <div class="bg-image"></div>
+    <!-- Dark overlay for readability -->
+    <div class="absolute inset-0 bg-black/45"></div>
 
-      <!-- Content -->
-      <div class="relative z-10 flex flex-col items-center justify-center h-full px-6 text-white text-center">
-        <!-- Badge -->
-        <div class="inline-flex items-center gap-2 bg-white/18 px-3.5 py-1.5 rounded-full text-[13px] font-bold mb-5">
-          <span class="w-[7px] h-[7px] rounded-full bg-green-200"></span>
-          {{ totalListings }} {{ t('home.hero.badge') }}
+    <!-- Content -->
+    <div class="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-white text-center">
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 bg-white/18 px-3.5 py-1.5 rounded-full text-[13px] font-bold mb-5">
+        <span class="w-[7px] h-[7px] rounded-full bg-green-200"></span>
+        {{ totalListings }} {{ t('home.hero.badge') }}
+      </div>
+
+      <!-- Headline -->
+      <h1 class="text-[clamp(2.25rem,5vw,50px)] leading-[1.06] font-extrabold tracking-[-0.03em] mb-4 max-w-[620px]">
+        {{ t('home.hero.title') }}
+      </h1>
+      <p class="text-[17px] leading-relaxed opacity-90 max-w-[460px]">
+        {{ t('home.hero.content') }}
+      </p>
+
+      <!-- Search bar -->
+      <div class="search-bar">
+        <div class="search-segment flex-[1.4]">
+          <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
+            {{ t('home.hero.search.location') }}
+          </div>
+          <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
+            {{ t('home.hero.search.location_placeholder') }}
+          </div>
         </div>
-
-        <!-- Headline -->
-        <h1 class="text-[clamp(2.25rem,5vw,50px)] leading-[1.06] font-extrabold tracking-[-0.03em] mb-4 max-w-[620px]">
-          {{ t('home.hero.title') }}
-        </h1>
-        <p class="text-[17px] leading-relaxed opacity-90 max-w-[460px]">
-          {{ t('home.hero.content') }}
-        </p>
-
-        <!-- Search bar -->
-        <div class="search-bar">
-          <div class="search-segment flex-[1.4]">
-            <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
-              {{ t('home.hero.search.location') }}
-            </div>
-            <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
-              {{ t('home.hero.search.location_placeholder') }}
-            </div>
+        <div class="search-divider"></div>
+        <div class="search-segment flex-1">
+          <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
+            {{ t('home.hero.search.type') }}
           </div>
-          <div class="search-divider"></div>
-          <div class="search-segment flex-1">
-            <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
-              {{ t('home.hero.search.type') }}
-            </div>
-            <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
-              {{ t('home.hero.search.type_placeholder') }}
-            </div>
+          <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
+            {{ t('home.hero.search.type_placeholder') }}
           </div>
-          <div class="search-divider"></div>
-          <div class="search-segment flex-1">
-            <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
-              {{ t('home.hero.search.budget') }}
-            </div>
-            <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
-              {{ t('home.hero.search.budget_placeholder') }}
-            </div>
-          </div>
-          <NuxtLink
-            to="/properties"
-            class="w-full h-12 mt-2 md:mt-0 md:w-13 md:h-13 rounded-xl bg-transparent md:bg-(--nav-active-item) text-(--nav-active-item) md:text-white border md:border-0 border-(--nav-active-item) flex items-center justify-center shrink-0 gap-2"
-          >
-            <BaseIconClient name="search" :size="22" />
-            <span class="text-[15px] font-semibold md:hidden">{{ t('home.hero.search.button') }}</span>
-          </NuxtLink>
         </div>
+        <div class="search-divider"></div>
+        <div class="search-segment flex-1">
+          <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
+            {{ t('home.hero.search.budget') }}
+          </div>
+          <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
+            {{ t('home.hero.search.budget_placeholder') }}
+          </div>
+        </div>
+        <NuxtLink
+          to="/properties"
+          class="w-full h-12 mt-2 md:mt-0 md:w-13 md:h-13 rounded-xl bg-transparent md:bg-(--nav-active-item) text-(--nav-active-item) md:text-white border md:border-0 border-(--nav-active-item) flex items-center justify-center shrink-0 gap-2"
+        >
+          <BaseIconClient name="search" :size="22" />
+          <span class="text-[15px] font-semibold md:hidden">{{ t('home.hero.search.button') }}</span>
+        </NuxtLink>
       </div>
     </div>
   </section>
@@ -76,9 +75,8 @@ const { t } = useI18n()
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  height: 100%;
-  width: 100%;
-  position: relative;
+  position: absolute;
+  inset: 0;
 }
 
 .search-bar {

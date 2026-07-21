@@ -18,9 +18,13 @@ const props = withDefaults(
     height?: number
     rounded?: boolean
     fit?: 'cover' | 'contain'
+    /** Set to 'eager' for above-the-fold / LCP images so they aren't deprioritized. */
+    loading?: 'lazy' | 'eager'
+    sizes?: string
   }>(),
   {
     fit: 'cover',
+    loading: 'lazy',
   }
 )
 
@@ -36,8 +40,10 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
     :style="{ objectFit: props.fit }"
     :src="imgSrc"
     :alt="alt || 'image'"
+    :sizes="sizes"
     format="webp"
-    loading="lazy"
+    :loading="loading"
+    :fetchpriority="loading === 'eager' ? 'high' : undefined"
     @error="hasError = true"
     class="image"
     :class="{ 'rounded-lg': rounded }"

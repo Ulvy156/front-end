@@ -9,6 +9,8 @@
           :src="property.images[0].imageKey"
           :alt="property.title"
           fit="cover"
+          loading="eager"
+          sizes="100vw sm:62vw"
           class="hover:scale-[1.03] transition-transform duration-300"
         />
       </div>
@@ -25,6 +27,7 @@
             :src="img.imageKey"
             :alt="property.title"
             fit="cover"
+            sizes="20vw"
             class="hover:scale-[1.03] transition-transform duration-300"
           />
           <!-- "Show all photos" overlay on last visible image -->

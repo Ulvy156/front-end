@@ -43,7 +43,8 @@
     </a>
     <button
       v-else
-      class="w-full bg-(--nav-active-item) text-white border-none rounded-lg py-3.5 text-[15px] font-semibold cursor-pointer"
+      disabled
+      class="w-full bg-gray-300 text-white border-none rounded-lg py-3.5 text-[15px] font-semibold cursor-not-allowed"
     >
       {{ $t('property.contact') }}
     </button>
