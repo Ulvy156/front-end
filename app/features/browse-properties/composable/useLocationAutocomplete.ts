@@ -1,4 +1,4 @@
-import { computed } from 'vue'
+import { ref, watch } from 'vue'
 
 import { useDebounceFn } from '@vueuse/core'
 
@@ -13,12 +13,17 @@ export function useLocationAutocomplete() {
   const api = useApi()
   const filterStore = usePropertyFilterStore()
 
-  const keyword = computed({
-    get: () => filterStore.locationName,
-    set: (value: string) => {
-      filterStore.locationName = value
+  // Local display text, decoupled from the store: typing must not touch
+  // filterStore.locationName (that would retrigger the property fetch on
+  // every keystroke). The store is only written on an actual select/clear.
+  const keyword = ref(filterStore.locationName)
+
+  watch(
+    () => filterStore.locationName,
+    (value) => {
+      keyword.value = value
     },
-  })
+  )
 
   const fetchLocations = useDebounceFn(
     async (query: string, cb: (results: LocationSuggestion[]) => void) => {

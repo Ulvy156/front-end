@@ -48,18 +48,15 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
       lat: state.lat,
     }),
   },
-  persist: true,
   actions: {
     init() {
-      if (!import.meta.client) return
-
       const cookie = useCookie('property_filter', {
         maxAge: 60 * 60 * 24 * 7,
 
-        encode: (value) => JSON.stringify(value),
+        encode: (value) => encodeURIComponent(JSON.stringify(value)),
         decode: (value) => {
           try {
-            return JSON.parse(value)
+            return JSON.parse(decodeURIComponent(value))
           } catch {
             return null
           }
