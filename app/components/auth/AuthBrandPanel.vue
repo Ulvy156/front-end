@@ -1,8 +1,17 @@
 <template>
     <div class="hidden lg:flex lg:w-5/12 xl:w-[45%] relative overflow-hidden
-                flex-col justify-between p-12 text-white bg-emerald-700 bg-cover bg-center"
-        style="background-image: url('/bg.png')">
+                flex-col justify-between p-12 text-white bg-emerald-700">
 
+        <NuxtImg
+            src="/bg.png"
+            alt=""
+            loading="eager"
+            format="webp"
+            sizes="45vw"
+            width="1536"
+            height="1024"
+            class="absolute inset-0 w-full h-full object-cover"
+        />
         <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/85 via-emerald-900/50 to-emerald-900/20" />
 
         <NuxtLink to="/" class="relative z-10 flex items-center gap-2.5 w-fit rounded-full bg-white/10 backdrop-blur-sm

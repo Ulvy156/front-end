@@ -1,6 +1,16 @@
 <template>
   <section class="lg:min-h-[60dvh] md:min-h-[40dvh] min-h-[50dvh] bg-black relative">
-    <div class="bg-image"></div>
+    <NuxtImg
+      src="/bg.png"
+      alt=""
+      loading="eager"
+      fetchpriority="high"
+      format="webp"
+      sizes="100vw"
+      width="1536"
+      height="1024"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
     <!-- Dark overlay for readability -->
     <div class="absolute inset-0 bg-black/45"></div>
 
@@ -70,15 +80,6 @@ const { t } = useI18n()
 </script>
 
 <style scoped>
-.bg-image {
-  background-image: url('/bg.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  position: absolute;
-  inset: 0;
-}
-
 .search-bar {
   margin-top: 32px;
   background: #fff;

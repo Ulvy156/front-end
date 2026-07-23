@@ -40,6 +40,8 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
     :style="{ objectFit: props.fit }"
     :src="imgSrc"
     :alt="alt || 'image'"
+    :width="width"
+    :height="height"
     :sizes="sizes"
     format="webp"
     :loading="loading"

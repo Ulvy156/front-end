@@ -10,6 +10,8 @@
           :alt="property.title"
           fit="cover"
           loading="eager"
+          :width="960"
+          :height="420"
           sizes="100vw sm:62vw"
           class="hover:scale-[1.03] transition-transform duration-300"
         />
@@ -27,6 +29,8 @@
             :src="img.imageKey"
             :alt="property.title"
             fit="cover"
+            :width="480"
+            :height="205"
             sizes="20vw"
             class="hover:scale-[1.03] transition-transform duration-300"
           />
