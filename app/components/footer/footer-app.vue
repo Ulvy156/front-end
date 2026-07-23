@@ -15,13 +15,13 @@
           </p>
 
           <div class="flex gap-3 mt-5">
-            <button class="social-btn">
+            <button class="social-btn" :aria-label="$t('footer.social.facebook')">
               <Icon name="mdi:facebook" :size="18" />
             </button>
-            <button class="social-btn">
+            <button class="social-btn" :aria-label="$t('footer.social.telegram')">
               <Icon name="mdi:telegram" :size="18" />
             </button>
-            <button class="social-btn">
+            <button class="social-btn" :aria-label="$t('footer.social.email')">
               <BaseIcon name="mail-check" :size="18"/>
             </button>
           </div>

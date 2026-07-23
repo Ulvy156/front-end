@@ -46,13 +46,13 @@
         <span>{{ formatView(props.item.totalViews) }}</span>
       </div>
 
-      <BaseImage :src="props.item.imageSrc" :class="props.imageClass" />
+      <BaseImage :src="props.item.imageSrc" :class="props.imageClass" :width="400" :height="225" />
     </div>
 
     <div class="mt-3 flex flex-col gap-y-4">
       <div class="flex items-center justify-between">
         <div class="flex items-center">
-          <h4 class="text-(--nav-active-item)">${{ props.item.monthlyPrice.toLocaleString() }}</h4>
+          <h3 class="text-(--nav-active-item) text-[1.25rem] font-semibold">${{ props.item.monthlyPrice.toLocaleString() }}</h3>
           <p class="ml-1">/{{ $t('month') }}</p>
         </div>
         <span

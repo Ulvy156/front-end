@@ -2,6 +2,8 @@ import { ElNotification } from 'element-plus'
 
 type NotifyType = 'success' | 'warning' | 'info' | 'error'
 
+let activeNotification: ReturnType<typeof ElNotification> | null = null
+
 export function useNotify() {
   const { t } = useI18n()
 
@@ -12,13 +14,19 @@ export function useNotify() {
   ) => {
     if (import.meta.server) return
 
-    ElNotification({
+    activeNotification?.close()
+
+    const instance = ElNotification({
       title,
       message,
       type,
       duration: 3000,
       position: 'top-right',
+      onClose: () => {
+        if (activeNotification === instance) activeNotification = null
+      },
     })
+    activeNotification = instance
   }
 
   const success = (message: string, title?: string) =>

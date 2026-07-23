@@ -60,6 +60,7 @@
         </div>
         <NuxtLink
           to="/properties"
+          :aria-label="t('home.hero.search.button')"
           class="w-full h-12 mt-2 md:mt-0 md:w-13 md:h-13 rounded-xl bg-transparent md:bg-(--nav-active-item) text-(--nav-active-item) md:text-white border md:border-0 border-(--nav-active-item) flex items-center justify-center shrink-0 gap-2"
         >
           <BaseIconClient name="search" :size="22" />

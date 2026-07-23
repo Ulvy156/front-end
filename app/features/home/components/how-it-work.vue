@@ -6,7 +6,7 @@
                 {{ $t('home.howItWork.process') }}
             </div>
             <h2>{{ $t('home.howItWork.title') }}</h2>
-            <h5 class="text-(--gray)">{{ $t('home.howItWork.description') }}</h5>
+            <h3 class="text-(--gray) text-base font-medium">{{ $t('home.howItWork.description') }}</h3>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 my-10 ">
             <article v-motion :initial="{ opacity: 0, y: 20 }"

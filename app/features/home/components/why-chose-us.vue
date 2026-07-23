@@ -6,7 +6,7 @@
                 {{ $t('home.choseUs.choseUs') }}
             </div>
             <h2>{{ $t('home.choseUs.title') }}</h2>
-            <h5 class="text-(--gray)">{{ $t('home.choseUs.description') }}</h5>
+            <h3 class="text-(--gray) text-base font-medium">{{ $t('home.choseUs.description') }}</h3>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
 
