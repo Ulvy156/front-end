@@ -10,8 +10,8 @@
 
                 <!-- Logo (mobile only) -->
                 <NuxtLink to="/" class="lg:hidden mb-2 mx-auto flex items-center gap-2 w-fit">
-                    <NuxtImg src="/rokpteah-logo.webp" alt="Rokpteah" class="h-8" />
-                    <span class="text-lg font-semibold tracking-tight text-slate-900">Rokpteah</span>
+                    <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah" class="h-8" />
+                    <span class="text-lg font-semibold tracking-tight text-slate-900">RokPteah</span>
                 </NuxtLink>
 
                 <!-- Header -->
@@ -132,13 +132,13 @@ const brandFeatures = computed(() => [
 ])
 
 useSeoMeta({
-    title: `${t('auth.welcome')} | Rokpteah`,
+    title: `${t('auth.welcome')} | RokPteah`,
     description: t('auth.subtitle'),
-    ogTitle: `${t('auth.welcome')} | Rokpteah`,
+    ogTitle: `${t('auth.welcome')} | RokPteah`,
     ogDescription: t('auth.subtitle'),
     ogType: 'website',
     twitterCard: 'summary_large_image',
-    twitterTitle: `${t('auth.welcome')} | Rokpteah`,
+    twitterTitle: `${t('auth.welcome')} | RokPteah`,
     twitterDescription: t('auth.subtitle'),
     robots: 'noindex, nofollow',
 })

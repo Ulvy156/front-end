@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  appName: 'Rokpteah KH',
+  appName: 'RokPteah KH',
   defaultLocale: 'en',
   theme: {
     primaryColor: '#ababab',

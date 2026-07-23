@@ -1,7 +1,7 @@
 {
   "landlord": {
     "nav": {
-      "title": "Rokpteah ម្ចាស់ផ្ទះ",
+      "title": "RokPteah ម្ចាស់ផ្ទះ",
       "overview": "ទិដ្ឋភាពទូទៅ",
       "dashboard": "ផ្ទាំងគ្រប់គ្រង",
       "properties": "អចលនទ្រព្យ",
@@ -136,8 +136,8 @@
       "memberSince": "សមាជិកតាំងពី",
       "totalListings": "{n} អចលនទ្រព្យដែលបានផ្សព្វផ្សាយ",
       "properties": "អចលនទ្រព្យ",
-      "seoTitle": "{name} — ប្រវត្តិម្ចាស់ផ្ទះ | Rokpteah KH",
-      "seoDescription": "មើលប្រវត្តិរបស់ {name} និងអចលនទ្រព្យ {count} ដែលបានផ្សព្វផ្សាយនៅលើ Rokpteah KH។"
+      "seoTitle": "{name} — ប្រវត្តិម្ចាស់ផ្ទះ | RokPteah KH",
+      "seoDescription": "មើលប្រវត្តិរបស់ {name} និងអចលនទ្រព្យ {count} ដែលបានផ្សព្វផ្សាយនៅលើ RokPteah KH។"
     }
   }
 }

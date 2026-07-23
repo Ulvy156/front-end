@@ -4,7 +4,7 @@
 
         <!-- Logo (mobile only) -->
         <NuxtLink to="/" class="lg:hidden mb-2 mx-auto w-fit">
-            <NuxtImg src="/rokpteah-logo.webp" alt="Rokpteah" class="h-8" />
+            <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah" class="h-8" />
         </NuxtLink>
 
         <!-- Header -->
