@@ -58,10 +58,17 @@ export function usePropertyDetails() {
         return
       }
 
+      const firstImageKey = value.images[0]?.imageKey
+      const description = value.description ?? ''
+
       seo.setSEO({
         title: value.title ?? '',
-        description: value.description ?? '',
-        image: `${config.public.R2_PUB_URL}/${value.images[0]?.imageKey}`,
+        // Social previews (Telegram, Facebook, ...) truncate long descriptions
+        // poorly, so cut it to a clean summary-length snippet ourselves.
+        description: description.length > 160 ? `${description.slice(0, 157)}...` : description,
+        image: firstImageKey
+          ? `${config.public.R2_PUB_URL}/${firstImageKey}`
+          : `${config.public.BASE_URL}/rokpteah-logo.webp`,
       })
     },
     { immediate: true },

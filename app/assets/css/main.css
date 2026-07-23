@@ -110,3 +110,21 @@ li {
 .border-gray {
   border-color: var(--border-gray);
 }
+
+/* Any form field under 16px triggers iOS/Android auto-zoom on focus, and the
+   browser doesn't reliably zoom back out afterwards (e.g. filter drawer on
+   /properties). Force 16px on mobile only so desktop keeps its compact sizing. */
+@media (max-width: 767px) {
+  .el-input,
+  .el-input--small,
+  .el-input--large,
+  .el-input__inner,
+  .el-textarea,
+  .el-textarea__inner,
+  .el-select__wrapper,
+  .el-select__input,
+  .el-select--small .el-select__wrapper,
+  .el-select--large .el-select__wrapper {
+    font-size: 16px !important;
+  }
+}

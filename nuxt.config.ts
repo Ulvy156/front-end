@@ -19,7 +19,15 @@ export default defineNuxtConfig({
   // that broke refresh-token persistence when calling the backend directly).
   routeRules: {
     '/api/**': {
-      proxy: `${process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080'}/**`,
+      proxy: {
+        to: `${process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080'}/**`,
+        // Without this, the proxy follows the backend's 302 (e.g. the
+        // Google OAuth redirect to accounts.google.com) itself and streams
+        // Google's HTML back under the rokpteah.com origin instead of
+        // letting the browser navigate there — breaks Google's page (CSP
+        // base-uri, relative-URL POSTs, CORS-blocked gstatic scripts).
+        fetchOptions: { redirect: 'manual' },
+      },
     },
   },
   modules: [
@@ -44,7 +52,7 @@ export default defineNuxtConfig({
       apiBaseUrl: process.env.NUXT_PUBLIC_API_URL || 'http://localhost:8080',
       R2_PUB_URL: process.env.NUXT_PUBLIC_R2_PUB_URL,
       maptilerKey: process.env.NUXT_PUBLIC_MAPTILER_KEY || '',
-      BASE_URL: 'http://localhost:3000',
+      BASE_URL: process.env.NUXT_PUBLIC_BASE_URL || 'http://localhost:3000',
       // Must match the backend JWT access-token expiry (in seconds)
       accessTokenMaxAge: Number(process.env.NUXT_PUBLIC_ACCESS_TOKEN_MAX_AGE) || 900,
     }

@@ -34,13 +34,20 @@ definePageMeta({
   headerOverlay: true,
 })
 
+const config = useRuntimeConfig()
+
 useSeoMeta({
-  title: 'Rooms for Rent in Cambodia | RoomRent',
+  title: 'Rooms for Rent in Cambodia | RokPteah',
   description: 'Find rooms and apartments for rent in Cambodia. Filter by price, location, and nearby places.',
   ogTitle: 'Rooms for Rent in Cambodia',
   ogDescription: 'Browse affordable rooms and apartments for rent in Cambodia.',
   ogType: 'website',
-  ogUrl: 'https://yourdomain.com',
+  ogUrl: config.public.BASE_URL,
+  ogImage: `${config.public.BASE_URL}/rokpteah-logo.webp`,
+  twitterCard: 'summary_large_image',
+  twitterTitle: 'Rooms for Rent in Cambodia',
+  twitterDescription: 'Browse affordable rooms and apartments for rent in Cambodia.',
+  twitterImage: `${config.public.BASE_URL}/rokpteah-logo.webp`,
 })
 
 const { data, pending } = useHomePageData();

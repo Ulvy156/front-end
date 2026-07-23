@@ -18,7 +18,7 @@
 
           <animationGroup
             key="property.compare.title"
-            class="flex gap-x-3 md:gap-x-4 items-center overflow-x-auto"
+            class="hidden md:flex gap-x-3 md:gap-x-4 items-center overflow-x-auto"
           >
             <BaseImage
               v-for="value in compareStore.getImage"
