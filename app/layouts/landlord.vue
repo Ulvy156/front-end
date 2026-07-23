@@ -6,7 +6,7 @@
 
       <!-- Logo -->
       <div class="h-16 flex items-center gap-2 px-5 border-b border-gray-200 shrink-0">
-        <NuxtImg src="/rentify-logo.webp" class="h-9" alt="Rentify logo" />
+        <NuxtImg src="/rokpteah-logo.webp" class="h-9" alt="Rokpteah logo" />
         <span class="font-semibold text-gray-900 text-sm leading-tight">
           {{ $t('landlord.nav.title') }}
         </span>

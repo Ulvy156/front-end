@@ -29,13 +29,13 @@ const brandFeatures = computed(() => [
 ])
 
 useSeoMeta({
-    title: `${t('auth.createAccount')} | Rentify`,
+    title: `${t('auth.createAccount')} | Rokpteah`,
     description: t('auth.createAccountDesc'),
-    ogTitle: `${t('auth.createAccount')} | Rentify`,
+    ogTitle: `${t('auth.createAccount')} | Rokpteah`,
     ogDescription: t('auth.createAccountDesc'),
     ogType: 'website',
     twitterCard: 'summary_large_image',
-    twitterTitle: `${t('auth.createAccount')} | Rentify`,
+    twitterTitle: `${t('auth.createAccount')} | Rokpteah`,
     twitterDescription: t('auth.createAccountDesc'),
     robots: 'noindex, nofollow',
 })

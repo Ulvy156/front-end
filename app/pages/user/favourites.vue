@@ -53,7 +53,7 @@ const { t } = useI18n()
 const { items, isFetched } = useFavourites()
 
 useSeoMeta({
-  title: `${t('favourites.title')} | Rentify`,
+  title: `${t('favourites.title')} | Rokpteah`,
   robots: 'noindex',
 })
 </script>

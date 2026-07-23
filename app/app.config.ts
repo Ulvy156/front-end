@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  appName: 'Rentify KH',
+  appName: 'Rokpteah KH',
   defaultLocale: 'en',
   theme: {
     primaryColor: '#ababab',

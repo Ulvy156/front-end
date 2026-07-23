@@ -17,6 +17,6 @@ const { data, pending, error } = await useAsyncData('legal-terms-of-service', ()
 const errorMessage = computed(() => (error.value ? extract(error.value) : undefined))
 
 useSeoMeta({
-  title: () => `${t('footer.terms')} | Rentify`,
+  title: () => `${t('footer.terms')} | Rokpteah`,
 })
 </script>

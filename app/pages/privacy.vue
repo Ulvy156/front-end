@@ -17,6 +17,6 @@ const { data, pending, error } = await useAsyncData('legal-privacy-policy', () =
 const errorMessage = computed(() => (error.value ? extract(error.value) : undefined))
 
 useSeoMeta({
-  title: () => `${t('footer.privacy')} | Rentify`,
+  title: () => `${t('footer.privacy')} | Rokpteah`,
 })
 </script>

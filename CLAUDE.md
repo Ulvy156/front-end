@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Rentify KH** — a room rental platform for Cambodia built with Nuxt 4 + Vue 3. Supports English and Khmer (i18n), with property browsing, filtering, listing submission, user authentication, and role-based access control.
+**Rokpteah KH** — a room rental platform for Cambodia built with Nuxt 4 + Vue 3. Supports English and Khmer (i18n), with property browsing, filtering, listing submission, user authentication, and role-based access control.
 
 ## Commands
 

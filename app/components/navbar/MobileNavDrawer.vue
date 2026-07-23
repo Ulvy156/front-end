@@ -6,7 +6,7 @@
              bg-white/80 px-4 py-2 shadow-sm backdrop-blur"
     >
       <NuxtLink to="/" class="flex items-center gap-2 font-semibold">
-        <NuxtImg src="/rentify-logo.webp" class="h-10" alt="app logo" />
+        <NuxtImg src="/rokpteah-logo.webp" class="h-10" alt="app logo" />
         <span class="text-lg">{{ $t('nav.title') }}</span>
       </NuxtLink>
 

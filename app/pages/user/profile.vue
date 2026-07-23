@@ -20,7 +20,7 @@ const { t } = useI18n()
 const { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone } = useProfile()
 
 useSeoMeta({
-  title: `${t('profile.title')} | Rentify`,
+  title: `${t('profile.title')} | Rokpteah`,
   robots: 'noindex',
 })
 </script>

@@ -1,7 +1,7 @@
 {
   "landlord": {
     "nav": {
-      "title": "Rentify Landlord",
+      "title": "Rokpteah Landlord",
       "overview": "Overview",
       "dashboard": "Dashboard",
       "properties": "Properties",
@@ -136,8 +136,8 @@
       "memberSince": "Member since",
       "totalListings": "{n} published listings",
       "properties": "Properties",
-      "seoTitle": "{name} — Landlord Profile | Rentify KH",
-      "seoDescription": "View {name}'s profile and {count} published properties on Rentify KH."
+      "seoTitle": "{name} — Landlord Profile | Rokpteah KH",
+      "seoDescription": "View {name}'s profile and {count} published properties on Rokpteah KH."
     }
   }
 }

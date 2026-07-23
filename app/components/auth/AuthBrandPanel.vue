@@ -8,8 +8,8 @@
         <NuxtLink to="/" class="relative z-10 flex items-center gap-2.5 w-fit rounded-full bg-white/10 backdrop-blur-sm
                    pl-3 pr-5 py-2 border border-white/20 shadow-lg
                    hover:bg-white/20 hover:border-white/30 transition-colors">
-            <NuxtImg src="/rentify-logo.webp" alt="Rentify" class="h-9" />
-            <span class="text-2xl font-bold tracking-tight text-white">Rentify</span>
+            <NuxtImg src="/rokpteah-logo.webp" alt="Rokpteah" class="h-9" />
+            <span class="text-2xl font-bold tracking-tight text-white">Rokpteah</span>
         </NuxtLink>
 
         <div class="relative z-10 space-y-8">
