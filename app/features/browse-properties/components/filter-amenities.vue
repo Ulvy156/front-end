@@ -24,11 +24,11 @@
 </template>
 
 <script lang="ts" setup>
-import { usePropertyAmenityOptions } from "../composable/usePropertyAmenityOptions";
+import type { PropertyAmenityOption } from "../services/browse-properties";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
-const { data: amenities } = usePropertyAmenityOptions();
+defineProps<{ amenities: PropertyAmenityOption[] }>();
 const filterStore = usePropertyFilterStore();
 const langKey = useLangKey();
 

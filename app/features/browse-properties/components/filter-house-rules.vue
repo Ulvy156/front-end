@@ -25,10 +25,10 @@
 
 <script lang="ts" setup>
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
-import { usePropertyRuleOptions } from "../composable/usePropertyRuleOptions";
+import type { PropertyRuleOption } from "../services/browse-properties";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
 
-const { data: rules } = usePropertyRuleOptions();
+defineProps<{ rules: PropertyRuleOption[] }>();
 const filterStore = usePropertyFilterStore();
 const langKey = useLangKey();
 

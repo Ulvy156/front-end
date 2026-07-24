@@ -36,16 +36,16 @@
       <filterLocation />
 
       <!-- property type -->
-      <filterProperty />
+      <filterProperty :properties="propertyTypes" />
 
       <!-- property furnished -->
       <filterFurnished />
 
       <!-- property amenities -->
-      <filterAmenities />
+      <filterAmenities :amenities="amenities" />
 
       <!-- property rules -->
-      <filterHouseRules />
+      <filterHouseRules :rules="rules" />
     </div>
   </section>
 </template>
@@ -59,11 +59,13 @@ import filterFurnished from "./filter-furnished.vue";
 import filterAmenities from "./filter-amenities.vue";
 import filterHouseRules from "./filter-house-rules.vue";
 import { usePropertyFilterStore } from '~/stores/propertyFilter';
+import { useFilterOptions } from "../composable/useFilterOptions";
 import searchBar from "./search-bar.vue";
 
 withDefaults(defineProps<{ isDrawer?: boolean }>(), { isDrawer: false })
 
 const filterStore = usePropertyFilterStore();
+const { propertyTypes, amenities, rules } = useFilterOptions();
 </script>
 
 <style scoped>
