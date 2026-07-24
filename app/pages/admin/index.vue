@@ -12,6 +12,7 @@ definePageMeta({
 })
 
 const { t } = useI18n()
+const { extract } = useErrorMsg()
 const { data, pending, error, refresh } = useAdminDashboard()
 
 const userSubStats = computed(() => {
@@ -66,7 +67,7 @@ const engagementSubStats = computed(() => {
 <template>
   <!-- Error state -->
   <div v-if="error" class="flex flex-col items-center justify-center py-20 gap-3">
-    <p class="text-sm text-gray-500">{{ $t('common.somethingWentWrong') }}</p>
+    <p class="text-sm text-gray-500">{{ extract(error) }}</p>
     <el-button @click="refresh">{{ $t('admin.dashboard.retry') }}</el-button>
   </div>
 

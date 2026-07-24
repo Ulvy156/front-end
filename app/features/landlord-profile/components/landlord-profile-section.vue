@@ -1,7 +1,7 @@
 <template>
   <!-- Error state -->
   <div v-if="error" class="flex flex-col items-center justify-center py-20 gap-3">
-    <p class="text-sm text-gray-500">{{ $t('common.somethingWentWrong') }}</p>
+    <p class="text-sm text-gray-500">{{ extract(error) }}</p>
     <el-button @click="refresh">{{ $t('landlord.dashboard.retry') }}</el-button>
   </div>
 
@@ -49,6 +49,7 @@ import SkeletonProperty from '~/components/animation/skeleton-property.vue'
 
 const route = useRoute()
 const { t } = useI18n()
+const { extract } = useErrorMsg()
 
 const id = route.params.id as string
 

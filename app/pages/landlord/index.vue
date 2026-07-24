@@ -7,6 +7,7 @@ import { useLandlordDashboard } from '~/features/landlord/composables/useLandlor
 definePageMeta({ middleware: 'landlord', layout: 'landlord' })
 
 const { t } = useI18n()
+const { extract } = useErrorMsg()
 const { data, pending, error, refresh } = useLandlordDashboard()
 
 const propertySubStats = computed(() => {
@@ -37,7 +38,7 @@ const favouriteSubStats = computed(() => [] as { label: string; value: string | 
 <template>
   <!-- Error state -->
   <div v-if="error" class="flex flex-col items-center justify-center py-20 gap-3">
-    <p class="text-sm text-gray-500">{{ $t('common.somethingWentWrong') }}</p>
+    <p class="text-sm text-gray-500">{{ extract(error) }}</p>
     <el-button @click="refresh">{{ $t('landlord.dashboard.retry') }}</el-button>
   </div>
 

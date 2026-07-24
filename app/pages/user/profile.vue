@@ -17,7 +17,8 @@ definePageMeta({
 })
 
 const { t } = useI18n()
-const { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone } = useProfile()
+const { extract } = useErrorMsg()
+const { profile, isPending, isError, error, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone } = useProfile()
 
 useSeoMeta({
   title: `${t('profile.title')} | RokPteah`,
@@ -37,7 +38,7 @@ useSeoMeta({
 
     <!-- Error -->
     <div v-else-if="isError || !profile" class="text-center py-16">
-      <p class="text-gray-500">{{ $t('common.somethingWentWrong') }}</p>
+      <p class="text-gray-500">{{ extract(error) }}</p>
     </div>
 
     <!-- Content -->

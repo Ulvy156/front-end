@@ -8,7 +8,7 @@ export function useProfile() {
   const queryClient = useQueryClient()
   const authStore = useAuthStore()
 
-  const { data: profile, isPending, isError } = useQuery({
+  const { data: profile, isPending, isError, error } = useQuery({
     queryKey: PROFILE_KEY,
     queryFn: async () => {
       const { data } = await $axios.get<UserProfile>('/user/me')
@@ -110,5 +110,5 @@ export function useProfile() {
     },
   })
 
-  return { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone }
+  return { profile, isPending, isError, error, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone }
 }
