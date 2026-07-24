@@ -10,7 +10,6 @@ interface RetriableRequestConfig extends InternalAxiosRequestConfig {
 
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
-  const router = useRouter()
   const accessToken = useAccessToken()
   const authStore = useAuthStore()
 
@@ -72,23 +71,15 @@ export default defineNuxtPlugin((nuxtApp) => {
       const status = error.response?.status
 
       // MaintenanceGuard 503s every non-admin request during maintenance.
-      // Redirect straight to /maintenance instead of relying on the
-      // client-only overlay — this also avoids a page's SSR fetch failing
-      // uncaught into Nitro's generic 500 page. /settings bypasses the
-      // guard, so this can't loop.
+      // Just update the store here — session.global.ts already redirects to
+      // /maintenance declaratively on the next navigation. Calling
+      // navigateTo() from here too raced against that (every 503'd request
+      // fired its own redirect) and caused a loop.
       if (status === 503) {
         const appSettingsStore = useAppSettingsStore()
         const body = error.response?.data as { message?: string } | undefined
         if (body?.message) appSettingsStore.setMaintenanceMessage(body.message)
         void appSettingsStore.refetchSettings()
-
-        const currentPath = router.currentRoute.value.path
-        const exempt = currentPath === '/maintenance' || currentPath === '/auth/login'
-        if (!authStore.isAdmin && !exempt) {
-          // runWithContext restores Nuxt's async context so navigateTo()
-          // works from inside this interceptor, including during SSR.
-          void nuxtApp.runWithContext(() => navigateTo('/maintenance', { replace: true }))
-        }
       }
 
       // Only act on 401 responses from authenticated requests
