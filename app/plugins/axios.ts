@@ -71,15 +71,24 @@ export default defineNuxtPlugin((nuxtApp) => {
       const originalRequest = error.config as RetriableRequestConfig | undefined
       const status = error.response?.status
 
-      // MaintenanceGuard blocks every non-admin request with a 503 the moment
-      // maintenance mode turns on — refetch /settings right away so the
-      // maintenance overlay shows immediately instead of waiting for its
-      // poll interval. /settings itself bypasses the guard, so this can't loop.
+      // MaintenanceGuard 503s every non-admin request during maintenance.
+      // Redirect straight to /maintenance instead of relying on the
+      // client-only overlay — this also avoids a page's SSR fetch failing
+      // uncaught into Nitro's generic 500 page. /settings bypasses the
+      // guard, so this can't loop.
       if (status === 503) {
         const appSettingsStore = useAppSettingsStore()
         const body = error.response?.data as { message?: string } | undefined
         if (body?.message) appSettingsStore.setMaintenanceMessage(body.message)
         void appSettingsStore.refetchSettings()
+
+        const currentPath = router.currentRoute.value.path
+        const exempt = currentPath === '/maintenance' || currentPath === '/auth/login'
+        if (!authStore.isAdmin && !exempt) {
+          // runWithContext restores Nuxt's async context so navigateTo()
+          // works from inside this interceptor, including during SSR.
+          void nuxtApp.runWithContext(() => navigateTo('/maintenance', { replace: true }))
+        }
       }
 
       // Only act on 401 responses from authenticated requests
