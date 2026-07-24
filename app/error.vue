@@ -120,6 +120,7 @@ import type { NuxtError } from '#app'
 const props = defineProps<{ error: NuxtError }>()
 
 const { t } = useI18n()
+const { extract } = useErrorMsg()
 
 const statusCode = computed(() => props.error?.statusCode ?? 404)
 const isNotFound = computed(() => statusCode.value === 404)
@@ -127,9 +128,13 @@ const isNotFound = computed(() => statusCode.value === 404)
 const title = computed(() =>
   isNotFound.value ? t('errorPage.title') : t('errorPage.titleGeneric')
 )
-const description = computed(() =>
-  isNotFound.value ? t('errorPage.description') : t('errorPage.descriptionGeneric')
-)
+// Show the backend's actual message (from the failed request that crashed
+// this page) instead of made-up copy — only fall back to generic wording
+// when there's genuinely nothing usable to show.
+const description = computed(() => {
+  if (isNotFound.value) return t('errorPage.description')
+  return extract(props.error, props.error?.message || t('errorPage.descriptionGeneric'))
+})
 
 useSeoMeta({
   title,
