@@ -39,13 +39,31 @@ import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
+import { useAppSettingsStore } from "~/stores/appSettings";
 
 const { t } = useI18n();
 const api = useApi();
 const router = useRouter();
 const authStore = useAuthStore();
+const appSettingsStore = useAppSettingsStore();
 const notify = useNotify();
 const { extract } = useErrorMsg();
+
+function validateRentBounds(): boolean {
+  const rent = Number(form.rent);
+  const min = appSettingsStore.minPropertyPrice;
+  const max = appSettingsStore.maxPropertyPrice;
+
+  if (min !== null && rent < min) {
+    formErrors.rent = t('post_property.errors.rent_too_low', { min });
+    return false;
+  }
+  if (max !== null && rent > max) {
+    formErrors.rent = t('post_property.errors.rent_too_high', { max });
+    return false;
+  }
+  return true;
+}
 
 const form = inject<any>("postPropertyForm");
 const formErrors = inject<any>("formErrors");
@@ -96,6 +114,8 @@ function validateForm(): boolean {
   //  Pricing
   if (!form.rent || Number(form.rent) <= 0) {
     formErrors.rent = t('post_property.errors.required');
+    isValid = false;
+  } else if (!validateRentBounds()) {
     isValid = false;
   }
   if (!form.minStay) {
@@ -211,6 +231,8 @@ function validateStep(stepIndex: number): boolean {
     case 3: // Price step
       if (!form.rent || Number(form.rent) <= 0) {
         formErrors.rent = t('post_property.errors.required');
+        isValid = false;
+      } else if (!validateRentBounds()) {
         isValid = false;
       }
       if (!form.minStay) {

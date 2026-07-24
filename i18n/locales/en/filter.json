@@ -18,7 +18,8 @@
     "clear":"Clear Filters",
     "order_by":"Order By",
     "priceRangeInvalid":"Minimum price must be lower than maximum price",
-    "priceRangeTooLow":"Maximum price must be at least $30",
+    "priceRangeTooLow":"Maximum price must be at least ${min}",
+    "priceRangeTooHigh":"Minimum price must be at most ${max}",
     "locationBlocked":"Location access is blocked. Please enable it in your browser settings.",
     "locationDenied":"We can’t show nearest properties because location access was denied.",
     "sort": {

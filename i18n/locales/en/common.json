@@ -40,5 +40,12 @@
       "rooms": "Rooms",
       "condos": "Condos"
     }
+  },
+  "maintenance": {
+    "badge": "MAINTENANCE",
+    "title": "We'll be right back",
+    "description": "RokPteah is currently undergoing scheduled maintenance. Please check back shortly.",
+    "adminNotice": "Maintenance mode is on — only admins can browse the live site right now.",
+    "signIn": "Admin sign in"
   }
 }

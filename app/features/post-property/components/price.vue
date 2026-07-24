@@ -29,6 +29,7 @@
           placeholder="0"
           @update:model-value="(val: string) => { form.rent = val; formErrors.rent = '' }"
         />
+        <p v-if="rentBoundsHint" class="text-xs text-gray-400 mt-1">{{ rentBoundsHint }}</p>
       </div>
 
       <!-- Security Deposit -->
@@ -162,14 +163,25 @@ import BaseDatePicker from "~/components/ui/BaseDatePicker.vue"
 import BaseTimePicker from "~/components/ui/BaseTimePicker.vue"
 import BaseToggle from "~/components/ui/BaseToggle.vue"
 import BaseInput from "~/components/ui/BaseInput.vue"
+import { useAppSettingsStore } from "~/stores/appSettings"
 
 const { t } = useI18n()
+const appSettingsStore = useAppSettingsStore()
 
 const form       = inject<any>("postPropertyForm", {})
 const formErrors = inject<any>("formErrors", {})
 
 const moveInTotal = computed(() => {
   return (Number(form.rent) || 0) + (Number(form.deposit) || 0)
+})
+
+const rentBoundsHint = computed(() => {
+  const min = appSettingsStore.minPropertyPrice
+  const max = appSettingsStore.maxPropertyPrice
+  if (min !== null && max !== null) return t('post_property.pricing.rent_range_hint', { min, max })
+  if (min !== null) return t('post_property.pricing.rent_min_hint', { min })
+  if (max !== null) return t('post_property.pricing.rent_max_hint', { max })
+  return ''
 })
 
 const stayOptions = [

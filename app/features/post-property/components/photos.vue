@@ -55,7 +55,7 @@
         {{ t('post_property.photos.guidelines_title') }}
       </p>
       <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
-        <li>{{ t('post_property.photos.guideline_1') }}</li>
+        <li>{{ t('post_property.photos.guideline_1', { max: maxPhotos }) }}</li>
         <li>{{ t('post_property.photos.guideline_2') }}</li>
         <li>{{ t('post_property.photos.guideline_3') }}</li>
         <li>{{ t('post_property.photos.guideline_4') }}</li>
@@ -127,16 +127,22 @@
 </template>
 
 <script setup lang="ts">
-import { inject, ref } from 'vue'
+import { inject, ref, computed } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import { exceedsFileSize } from '~/utils/fileSize'
+import { useAppSettingsStore } from '~/stores/appSettings'
 
 const { t } = useI18n()
+const appSettingsStore = useAppSettingsStore()
 
 const form       = inject<any>('postPropertyForm', {})
 const formErrors = inject<any>('formErrors', {})
+
+// Fallback of 20 only covers the brief window before /settings resolves —
+// the backend enforces the real maxImagesPerProperty regardless.
+const maxPhotos = computed(() => appSettingsStore.maxImagesPerProperty ?? 20)
 
 const fileInput  = ref<HTMLInputElement | null>(null)
 const coverIndex = ref(0)
@@ -161,8 +167,8 @@ function loadFiles(files: File[]) {
   if (!form.photos) form.photos = []
   if (!form.photoFiles) form.photoFiles = []
   for (const file of files) {
-    if (form.photos.length >= 20) {
-      formErrors.photos = t('post_property.errors.photos_max')
+    if (form.photos.length >= maxPhotos.value) {
+      formErrors.photos = t('post_property.errors.photos_max', { max: maxPhotos.value })
       break
     }
     if (exceedsFileSize(file, 10)) {
@@ -190,7 +196,7 @@ function removePhoto(index: number) {
   form.photoFiles?.splice(index, 1)
   photoNames.value.splice(index, 1)
   if (coverIndex.value >= form.photos.length) coverIndex.value = 0
-  if (form.photos.length < 20) formErrors.photos = ''
+  if (form.photos.length < maxPhotos.value) formErrors.photos = ''
   console.log('Photo removed at index:', index, 'Total photos:', form.photos.length)
 }
 

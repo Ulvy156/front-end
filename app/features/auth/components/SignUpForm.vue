@@ -1,5 +1,26 @@
 <template>
-    <el-form ref="formRef" :model="form" :rules="rules" @submit.prevent="submit"
+    <div v-if="!appSettingsStore.registrationEnabled" class="w-full max-w-[360px] space-y-5 text-center">
+        <NuxtLink to="/"
+            class="animate-home-link hover:scale-105 active:scale-95 lg:hidden mb-2 mx-auto flex items-center justify-center w-fit transition-transform duration-150">
+            <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah"
+                class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200" />
+        </NuxtLink>
+
+        <div class="rounded-xl border border-amber-200 bg-amber-50 p-5 space-y-1.5">
+            <h2 class="text-lg font-bold text-amber-800">{{ t('auth.registrationClosedTitle') }}</h2>
+            <p class="text-sm text-amber-700">{{ t('auth.registrationClosedDesc') }}</p>
+        </div>
+
+        <p class="text-center text-sm text-slate-500">
+            {{ t('auth.haveAccount') }}
+            <NuxtLink to="/auth/login"
+                class="ml-1 font-semibold text-emerald-600 hover:text-emerald-700 transition-colors">
+                {{ t('auth.signIn') }}
+            </NuxtLink>
+        </p>
+    </div>
+
+    <el-form v-else ref="formRef" :model="form" :rules="rules" @submit.prevent="submit"
         class="w-full max-w-[360px] space-y-5">
 
         <!-- Logo (mobile only) -->
@@ -158,6 +179,7 @@
 import telegramLogin from '~/components/auth/telegram-login.client.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
 import { useAuthFormRules } from '~/features/auth/composable/useAuthFormRules'
+import { useAppSettingsStore } from '~/stores/appSettings'
 
 export interface RegisterPayload {
     name: string
@@ -173,6 +195,7 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const { extract } = useErrorMsg()
+const appSettingsStore = useAppSettingsStore()
 
 const { registerRules } = useAuthFormRules()
 const { formRef, form, rules, isSubmitting, handleSubmit, setFieldError } = useForm(
