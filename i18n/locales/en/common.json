@@ -24,5 +24,21 @@
   "error": "Error",
   "success": "Success",
   "warning": "Warning",
-  "info": "Info"
+  "info": "Info",
+  "errorPage": {
+    "badge": "{code} ERROR",
+    "title": "Oops! Property Not Found",
+    "titleGeneric": "Something Went Wrong",
+    "description": "Looks like this page has moved, doesn't exist, or the listing has been removed.",
+    "descriptionGeneric": "An unexpected error occurred. Please try again or head back home.",
+    "goHome": "Go Home",
+    "browseProperties": "Browse Properties",
+    "searchPlaceholder": "Search for apartments, houses, condos...",
+    "popular": {
+      "apartments": "Apartments",
+      "houses": "Houses",
+      "rooms": "Rooms",
+      "condos": "Condos"
+    }
+  }
 }
