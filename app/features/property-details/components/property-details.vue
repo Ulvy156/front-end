@@ -81,7 +81,6 @@
         <propertyHouseRule :property="property!" />
         <propertyAmenities :property="property!" />
         <propertyLocation :property="property!" />
-        <relatedProperties />
       </div>
 
       <!-- Right sidebar -->
@@ -114,6 +113,20 @@
       </div>
     </div>
   </section>
+
+  <!--
+    Deliberately outside the v-if/v-else above: useRelatedProperties() only
+    needs the route id, not `property`. Nesting it inside `v-else` used to
+    stop it mounting (and therefore fetching) until the property-details
+    fetch had already resolved, serializing two SSR round-trips. Mounting it
+    unconditionally lets both fetches fire in parallel. related-properties.vue
+    renders nothing until its data arrives, so this is a no-op visually
+    while `property` is still loading. Grid mirrors the layout above so it
+    still aligns to the left column's width instead of spanning full width.
+  -->
+  <div class="grid grid-cols-1 lg:grid-cols-[1fr_30%] gap-x-10">
+    <relatedProperties />
+  </div>
 </template>
 
 <script setup lang="ts">
