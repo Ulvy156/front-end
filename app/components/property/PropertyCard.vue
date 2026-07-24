@@ -46,7 +46,14 @@
         <span>{{ formatView(props.item.totalViews) }}</span>
       </div>
 
-      <BaseImage :src="props.item.imageSrc" :class="props.imageClass" :width="400" :height="225" />
+      <BaseImage
+        :src="props.item.imageSrc"
+        :class="props.imageClass"
+        :width="400"
+        :height="props.imageHeight"
+        :sizes="props.imageSizes"
+        :loading="props.imageLoading"
+      />
     </div>
 
     <div class="mt-3 flex flex-col gap-y-4">
@@ -147,12 +154,20 @@ const props = withDefaults(
     item: PropertyCardViewModel
     hideCompareIcon?: boolean
     imageClass?: string
+    /** Intrinsic height hint for the thumbnail; keep in sync with imageClass's aspect ratio. */
+    imageHeight?: number
+    /** Forwarded to BaseImage/NuxtImg so the CDN serves a width matching the actual rendered card size. */
+    imageSizes?: string
+    /** Set to 'eager' for the first above-the-fold card so it's not deprioritized as the LCP element. */
+    imageLoading?: 'lazy' | 'eager'
     isFavourited?: boolean
     isFavouritePending?: boolean
   }>(),
   {
     hideCompareIcon: false,
     imageClass: '',
+    imageHeight: 225,
+    imageLoading: 'lazy',
     isFavourited: false,
     isFavouritePending: false,
   },

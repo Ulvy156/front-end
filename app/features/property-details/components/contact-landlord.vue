@@ -6,9 +6,9 @@
     <!-- Price -->
     <div class="flex items-baseline gap-1.5 mb-1">
       <span class="text-[38px] font-extrabold text-gray-800 leading-none">${{ property.monthly_price }}</span>
-      <span class="text-[15px] text-gray-400">/ {{ $t('month') }}</span>
+      <span class="text-[15px] text-gray-600">/ {{ $t('month') }}</span>
     </div>
-    <div class="text-[13px] text-gray-400 mb-4 pb-4 border-b border-gray-200">
+    <div class="text-[13px] text-gray-600 mb-4 pb-4 border-b border-gray-200">
       {{ formatDuration(property.minimumStayLength) }} {{ $t('property.price.lease').toLowerCase() }} · ${{ property.deposit }} {{ $t('property.price.deposit').toLowerCase() }}
     </div>
 
@@ -29,7 +29,7 @@
             :title="$t('property.verified')"
           />
         </div>
-        <div class="text-xs text-gray-400">{{ property.user.role }}</div>
+        <div class="text-xs text-gray-600">{{ property.user.role }}</div>
       </div>
     </div>
 
@@ -66,7 +66,7 @@
         class="flex items-center gap-2.5 bg-[#f4f5f7] rounded-lg px-3.5 py-2.5"
       >
         <BaseIconClient name="mail" :size="16" color="var(--nav-active-item)" />
-        <span class="flex-1 text-[13px] text-gray-500 truncate">{{ property.user.email }}</span>
+        <span class="flex-1 text-[13px] text-gray-600 truncate">{{ property.user.email }}</span>
         <BaseIconClient name="copy" :size="15" class="text-gray-400 cursor-pointer shrink-0" @click="copy(property.user.email!)" />
       </div>
       <div
@@ -75,7 +75,7 @@
         class="flex items-center gap-2.5 bg-[#f4f5f7] rounded-lg px-3.5 py-2.5"
       >
         <BaseIconClient name="phone" :size="16" color="var(--nav-active-item)" />
-        <span class="flex-1 text-[13px] text-gray-500">{{ phone.phoneNumber }}</span>
+        <span class="flex-1 text-[13px] text-gray-600">{{ phone.phoneNumber }}</span>
         <BaseIconClient name="copy" :size="15" class="text-gray-400 cursor-pointer shrink-0" @click="copy(phone.phoneNumber)" />
       </div>
     </div>
@@ -94,10 +94,11 @@
     <!-- Share -->
     <div class="border-t border-gray-200 mt-4 pt-4">
       <div class="flex items-center gap-3 mb-3.5">
-        <span class="text-[13px] font-semibold text-gray-400">{{ $t('property.share') }}</span>
+        <span class="text-[13px] font-semibold text-gray-600">{{ $t('property.share') }}</span>
         <div class="flex gap-2">
           <button
             class="share-btn"
+            :aria-label="$t('property.share_facebook')"
             @click="openShare('FB', shareUrl, property.title)"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
@@ -107,12 +108,14 @@
           </button>
           <button
             class="share-btn"
+            :aria-label="$t('property.share_telegram')"
             @click="openShare('TG', shareUrl, property.title)"
           >
             <BaseIconClient name="message-square-text" :size="18" />
           </button>
           <button
             class="share-btn"
+            :aria-label="$t('property.copy_link')"
             @click="copy(useFullUrl().getFullUrl())"
           >
             <BaseIconClient name="link" :size="17" />
@@ -123,7 +126,7 @@
 
     <!-- Report -->
     <button
-      class="w-full flex items-center justify-center gap-2 bg-transparent text-red-500 border border-red-200 rounded-lg py-3 text-sm font-semibold cursor-pointer"
+      class="w-full flex items-center justify-center gap-2 bg-transparent text-red-600 border border-red-200 rounded-lg py-3 text-sm font-semibold cursor-pointer"
       @click="handleReport"
     >
       <BaseIconClient name="flag" :size="15" />

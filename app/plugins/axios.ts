@@ -21,6 +21,11 @@ export default defineNuxtPlugin((nuxtApp) => {
   const api = axios.create({
     baseURL: apiBaseUrl,
     withCredentials: true,
+    // Bound SSR requests so a slow/cold backend fails fast instead of
+    // hanging the whole page render (Lighthouse flagged a 3.6s+ TTFB caused
+    // by this). Client requests are left unbounded — file uploads etc. can
+    // legitimately take longer and have their own loading UI.
+    timeout: import.meta.server ? 8000 : 0,
   })
 
   let refreshPromise: Promise<string | null> | null = null

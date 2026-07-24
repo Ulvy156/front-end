@@ -10,7 +10,7 @@
         >
           <BaseIconClient name="funnel" />
         </span>
-        <h4>{{ $t("filter.title") }}</h4>
+        <h3 class="text-[1.25rem] font-semibold">{{ $t("filter.title") }}</h3>
       </div>
       <div
         @click="filterStore.reset"

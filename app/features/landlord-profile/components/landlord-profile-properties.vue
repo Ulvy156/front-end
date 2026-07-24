@@ -18,7 +18,7 @@
         :transition="{ duration: 0.5, easing: 'ease-out' }"
         src="/not-found.png"
         width="500"
-        height="500"
+        height="333"
       />
 
       <PropertyCardView
@@ -29,6 +29,7 @@
         :is-favourited="isFavourited(item.id)"
         :is-favourite-pending="isToggling(item.id)"
         hide-compare-icon
+        image-sizes="100vw sm:50vw lg:33vw"
         @favourite="toggle(item.id)"
       />
     </div>

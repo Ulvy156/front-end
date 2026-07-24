@@ -2,8 +2,8 @@
   <div class="grid grid-cols-2 md:grid-cols-4 gap-3.5">
     <div v-for="fact in facts" :key="fact.label" class="key-fact">
       <div class="flex items-center gap-1.5 mb-2">
-        <BaseIconClient :name="fact.icon" :size="15" class="text-gray-400" />
-        <span class="text-[11px] uppercase tracking-wider text-gray-400 font-semibold">
+        <BaseIconClient :name="fact.icon" :size="15" class="text-gray-500" />
+        <span class="text-[11px] uppercase tracking-wider text-gray-600 font-semibold">
           {{ fact.label }}
         </span>
       </div>

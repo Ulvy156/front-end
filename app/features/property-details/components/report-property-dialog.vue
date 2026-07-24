@@ -109,7 +109,7 @@ defineExpose({ open })
         />
       </el-form-item>
 
-      <p class="text-xs text-gray-400 mt-1">{{ t('property.reportDialog.rateLimit') }}</p>
+      <p class="text-xs text-gray-600 mt-1">{{ t('property.reportDialog.rateLimit') }}</p>
 
       <div class="flex gap-2 pt-3">
         <el-button type="danger" :loading="isSubmitting" native-type="submit" class="flex-1">

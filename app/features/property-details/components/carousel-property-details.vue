@@ -10,9 +10,9 @@
           :alt="property.title"
           fit="cover"
           loading="eager"
-          :width="960"
+          :width="640"
           :height="420"
-          sizes="480:100vw sm:62vw"
+          sizes="480:92vw sm:38vw"
           densities="1"
           class="hover:scale-[1.03] transition-transform duration-300"
         />
@@ -30,9 +30,9 @@
             :src="img.imageKey"
             :alt="property.title"
             fit="cover"
-            :width="480"
+            :width="200"
             :height="205"
-            sizes="sm:20vw"
+            sizes="sm:12vw"
             densities="1"
             class="hover:scale-[1.03] transition-transform duration-300"
           />

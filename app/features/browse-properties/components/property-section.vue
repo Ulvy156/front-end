@@ -9,14 +9,15 @@
       :transition="{ duration: 0.5, easing: 'ease-out' }"
       src="/not-found.png"
       width="500"
-      height="500"
+      height="333"
     />
 
     <propertyCard
       v-show="items.length > 0 && !isFetching"
-      v-for="value in items"
+      v-for="(value, index) in items"
       :key="value.id"
       :item="value"
+      :image-loading="index === 0 ? 'eager' : 'lazy'"
       @compare="drawerVisible = $event"
     />
     <BasePagination

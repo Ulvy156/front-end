@@ -4,6 +4,7 @@
     :hide-compare-icon="hideCompareIcon"
     :is-favourited="isFavourited(props.id)"
     :is-favourite-pending="isToggling(props.id)"
+    image-sizes="100vw md:50vw lg:33vw"
     @favourite="toggle(props.id)"
   />
 </template>

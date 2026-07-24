@@ -5,9 +5,9 @@
             <p>{{ $t("filter.priceRange") }}</p>
         </div>
         <div class="flex flex-col sm:flex-row justify-between gap-y-2 sm:gap-x-5 font-semibold">
-            <BaseInput type="number" size="small" v-model.number="filter.min" icon="dollar-sign"/>
+            <BaseInput type="number" size="small" v-model.number="filter.min" icon="dollar-sign" :placeholder="$t('filter.priceMin')" :aria-label="$t('filter.priceMin')"/>
             <BaseIconClient class="rotate-90 w-5 h-5 sm:w-8 sm:h-8 md:w-10 md:h-10" name="arrow-up-0-1"/>
-            <BaseInput type="number" v-model.number="filter.max" icon="dollar-sign"/>
+            <BaseInput type="number" v-model.number="filter.max" icon="dollar-sign" :placeholder="$t('filter.priceMax')" :aria-label="$t('filter.priceMax')"/>
         </div>
         <p v-if="error" class="text-red-500 text-xs mt-2">{{ $t(error.key, error.params ?? {}) }}</p>
     </div>

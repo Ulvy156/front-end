@@ -14,14 +14,14 @@
           <div class="text-[15px] font-semibold text-gray-800">
             {{ PARKING_UI[value.type].label[currentLang] }}
           </div>
-          <div class="text-[13px] text-gray-400 mt-0.5">
+          <div class="text-[13px] text-gray-600 mt-0.5">
             {{ value.slots }} {{ currentLang === 'en' ? 'slots' : 'កន្លែង' }}
             · {{ value.isFree ? (currentLang === 'en' ? 'Free' : 'ឥតគិតថ្លៃ') : `$${value.price}/${$t('month')}` }}
           </div>
         </div>
       </div>
     </div>
-    <div v-else class="text-sm text-gray-400">
+    <div v-else class="text-sm text-gray-600">
       {{ $t("property.parking_desc") }}
     </div>
   </section>

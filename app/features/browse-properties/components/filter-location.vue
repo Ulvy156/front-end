@@ -12,6 +12,7 @@
       placeholder="Search location"
       value-key="label"
       style="width: 100%"
+      :aria-label="$t('filter.location')"
       @select="selectLocation"
     />
   </div>

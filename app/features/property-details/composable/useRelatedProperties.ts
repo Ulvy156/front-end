@@ -6,12 +6,18 @@ import { useApi } from '~/composables/useApi'
 import type { PropertyCardItem } from '~/features/browse-properties/interface/property-card-item'
 import { fetchRelatedProperties } from '../services/property-details'
 
-export async function useRelatedProperties() {
+/**
+ * Deliberately not awaited internally, same reasoning as usePropertyDetails:
+ * an awaited useAsyncData here forces callers into a top-level await, which
+ * blocks page-wide Suspense (and therefore the whole page's SSR flush)
+ * instead of fetching in parallel with the rest of the page.
+ */
+export function useRelatedProperties() {
   const api = useApi()
   const route = useRoute()
   const id = computed(() => route.params.id as string)
 
-  const { data, status } = await useAsyncData<PropertyCardItem[]>(
+  const { data, status } = useAsyncData<PropertyCardItem[]>(
     `related-properties-${id.value}`,
     () => fetchRelatedProperties(api, id.value),
     {

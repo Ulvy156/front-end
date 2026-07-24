@@ -39,6 +39,9 @@
                 :src="previewList[currentIndex]!"
                 fit="contain"
                 loading="eager"
+                :width="1600"
+                :height="1200"
+                sizes="100vw"
                 class="lightbox-image"
               />
             </Transition>
@@ -64,7 +67,7 @@
               :class="{ 'lightbox-thumb--active': i === currentIndex }"
               @click="goTo(i)"
             >
-              <BaseImage :src="img" fit="cover" loading="lazy" class="lightbox-thumb-img" />
+              <BaseImage :src="img" fit="cover" loading="lazy" :width="64" :height="48" class="lightbox-thumb-img" />
             </button>
           </div>
         </div>

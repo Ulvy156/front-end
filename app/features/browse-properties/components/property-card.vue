@@ -5,6 +5,9 @@
     :is-favourited="isFavourited(props.item.id)"
     :is-favourite-pending="isToggling(props.item.id)"
     image-class="w-full object-cover aspect-16/5"
+    :image-height="125"
+    image-sizes="100vw sm:37vw lg:25vw"
+    :image-loading="imageLoading"
     @compare="handleCompare"
     @favourite="toggle(props.item.id)"
   />
@@ -25,9 +28,11 @@ const props = withDefaults(
   defineProps<{
     item: PropertyCardItem
     hideCompareIcon?: boolean
+    imageLoading?: 'lazy' | 'eager'
   }>(),
   {
     hideCompareIcon: false,
+    imageLoading: 'lazy',
   },
 )
 

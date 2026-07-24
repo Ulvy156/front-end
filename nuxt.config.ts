@@ -29,6 +29,16 @@ export default defineNuxtConfig({
         fetchOptions: { redirect: 'manual' },
       },
     },
+    // Flagged by Lighthouse best-practices audit (no CSP is handled
+    // separately — it needs an allowlist for Google OAuth, Telegram Login,
+    // MapTiler, and the R2 image bucket, so it isn't set here yet).
+    '/**': {
+      headers: {
+        'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
+        'X-Frame-Options': 'DENY',
+        'Cross-Origin-Opener-Policy': 'same-origin',
+      },
+    },
   },
   modules: [
     '@nuxt/fonts',

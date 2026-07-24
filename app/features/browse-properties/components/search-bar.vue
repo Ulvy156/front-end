@@ -26,6 +26,7 @@
       placeholder="Select"
       size="large"
       style="width: 100%"
+      :aria-label="$t('filter.order_by')"
     >
       <el-option
         v-for="item in selectOption"

@@ -3,6 +3,8 @@
     "title":"Filter",
     "location": "Locations",
     "priceRange": "Price Range",
+    "priceMin": "Minimum price",
+    "priceMax": "Maximum price",
     "roomType": "Room Type",
     "available":"Available Rooms",
     "description":"Find your perfect space in the city",

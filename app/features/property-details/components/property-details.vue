@@ -3,7 +3,7 @@
 
   <section v-else>
     <!-- Breadcrumb -->
-    <div class="flex items-center gap-2 text-[13px] text-gray-400 mb-5">
+    <div class="flex items-center gap-2 text-[13px] text-gray-600 mb-5">
       <NuxtLink to="/properties" class="text-(--nav-active-item) hover:underline">
         {{ property!.district.province[langKey] }}
       </NuxtLink>
@@ -50,7 +50,7 @@
         </div>
 
         <!-- Views + Posted date -->
-        <div class="flex items-center gap-2 text-[13px] text-gray-400 mt-1.5">
+        <div class="flex items-center gap-2 text-[13px] text-gray-600 mt-1.5">
           <BaseIconClient name="eye" :size="14" />
           <span>{{ formatView(property!.totalViews) }} {{ $t('property.view') }}</span>
           <span class="opacity-60">·</span>
@@ -63,9 +63,9 @@
       <div class="flex items-start gap-3">
         <div class="text-right">
           <div class="text-[30px] font-bold text-gray-800 leading-none">
-            ${{ property!.monthly_price }}<span class="text-[15px] font-medium text-gray-400">/{{ $t('month') }}</span>
+            ${{ property!.monthly_price }}<span class="text-[15px] font-medium text-gray-600">/{{ $t('month') }}</span>
           </div>
-          <div class="text-[13px] text-gray-400 mt-1.5">${{ property!.deposit }} {{ $t('property.price.deposit') }}</div>
+          <div class="text-[13px] text-gray-600 mt-1.5">${{ property!.deposit }} {{ $t('property.price.deposit') }}</div>
         </div>
       </div>
     </div>
@@ -95,7 +95,7 @@
     <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-5 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex items-center justify-between lg:hidden">
       <div class="leading-tight">
         <span class="text-[22px] font-bold text-gray-800">${{ property!.monthly_price }}</span>
-        <span class="text-[13px] text-gray-400">/{{ $t('month') }}</span>
+        <span class="text-[13px] text-gray-600">/{{ $t('month') }}</span>
       </div>
       <div class="flex items-center gap-2.5">
         <a
