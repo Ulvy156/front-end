@@ -111,6 +111,21 @@ li {
   border-color: var(--border-gray);
 }
 
+/* Draws the eye to the mobile "back to home" logo link on auth pages. */
+@keyframes home-link-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+.animate-home-link {
+  animation: home-link-bounce 2.2s ease-in-out infinite;
+}
+
 /* Any form field under 16px triggers iOS/Android auto-zoom on focus, and the
    browser doesn't reliably zoom back out afterwards (e.g. filter drawer on
    /properties). Force 16px on mobile only so desktop keeps its compact sizing. */

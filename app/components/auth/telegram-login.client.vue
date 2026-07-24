@@ -1,10 +1,26 @@
 <template>
-  <div class="relative inline-block h-10 w-[238px]">
+  <div class="group relative inline-block h-10 w-[238px]">
+    <!-- Custom label. The real Telegram widget below doesn't support
+         custom button text, so this is a visual skin only: the actual
+         (invisible) widget iframe sits on top and receives the click. -->
+    <button
+      type="button"
+      tabindex="-1"
+      class="absolute inset-0 flex items-center justify-center gap-x-2
+             rounded-xl border border-slate-200 bg-white
+             font-medium text-slate-700 text-sm
+             group-hover:border-slate-300 group-hover:shadow-sm
+             group-active:scale-[0.99] transition-all duration-150"
+    >
+      <Icon name="mdi:telegram" :size="18" class="text-[#26A5E4]" />
+      <span>{{ t('auth.telegram') }}</span>
+    </button>
+
     <div
       v-if="!isWidgetReady"
-      class="absolute inset-0 rounded-md bg-gray-100 animate-pulse"
+      class="absolute inset-0 rounded-xl bg-gray-100 animate-pulse"
     />
-    <div ref="telegramBtn" class="absolute inset-0" />
+    <div ref="telegramBtn" class="absolute inset-0 opacity-0 overflow-hidden" />
   </div>
 </template>
 

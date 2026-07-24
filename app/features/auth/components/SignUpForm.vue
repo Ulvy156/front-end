@@ -3,8 +3,9 @@
         class="w-full max-w-[360px] space-y-5">
 
         <!-- Logo (mobile only) -->
-        <NuxtLink to="/" class="lg:hidden mb-2 mx-auto w-fit">
-            <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah" class="h-8" />
+        <NuxtLink to="/"
+            class="animate-home-link hover:scale-105 active:scale-95 lg:hidden mb-2 mx-auto w-fit transition-transform duration-150">
+            <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah" class="h-11" />
         </NuxtLink>
 
         <!-- Header -->

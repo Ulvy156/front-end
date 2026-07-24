@@ -9,9 +9,10 @@
                 class="w-full max-w-[360px] space-y-5">
 
                 <!-- Logo (mobile only) -->
-                <NuxtLink to="/" class="lg:hidden mb-2 mx-auto flex items-center gap-2 w-fit">
-                    <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah" class="h-8" />
-                    <span class="text-lg font-semibold tracking-tight text-slate-900">RokPteah</span>
+                <NuxtLink to="/"
+                    class="animate-home-link hover:scale-105 active:scale-95 lg:hidden mb-2 mx-auto flex items-center gap-2 w-fit transition-transform duration-150">
+                    <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah" class="h-11" />
+                    <span class="text-xl font-semibold tracking-tight text-slate-900">RokPteah</span>
                 </NuxtLink>
 
                 <!-- Header -->
