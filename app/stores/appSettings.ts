@@ -12,6 +12,9 @@ export const useAppSettingsStore = defineStore('appSettings', {
     // overlay (MaintenanceOverlay.client.vue) can detect maintenance mode
     // turning on or off without the user navigating anywhere.
     pollTimer: null as ReturnType<typeof setInterval> | null,
+    // The exact `message` from the backend's 503 body (see MaintenanceGuard),
+    // captured by the axios interceptor — shown as-is instead of copy we made up.
+    maintenanceMessage: null as string | null,
   }),
 
   getters: {
@@ -45,12 +48,17 @@ export const useAppSettingsStore = defineStore('appSettings', {
       try {
         const { data } = await api.get<PlatformSettings>('/settings')
         this.settings = data
+        if (!data.maintenanceMode) this.maintenanceMessage = null
       } catch {
         // Keep the last known settings (or defaults) — the backend still
         // enforces everything server-side regardless of this fetch failing.
       } finally {
         this.isFetching = false
       }
+    },
+
+    setMaintenanceMessage(message: string | null) {
+      this.maintenanceMessage = message
     },
 
     startPolling(intervalMs = 20000) {

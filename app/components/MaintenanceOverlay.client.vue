@@ -15,7 +15,7 @@
       <h1 class="text-gray-900 mt-3 text-2xl font-bold">{{ t('maintenance.title') }}</h1>
 
       <p class="text-[17px] leading-relaxed text-gray-500 mt-4">
-        {{ t('maintenance.description') }}
+        {{ appSettingsStore.maintenanceMessage ?? t('maintenance.description') }}
       </p>
 
       <p class="text-sm text-gray-400 mt-6 flex items-center gap-2">

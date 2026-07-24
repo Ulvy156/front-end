@@ -76,7 +76,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       // maintenance overlay shows immediately instead of waiting for its
       // poll interval. /settings itself bypasses the guard, so this can't loop.
       if (status === 503) {
-        void useAppSettingsStore().refetchSettings()
+        const appSettingsStore = useAppSettingsStore()
+        const body = error.response?.data as { message?: string } | undefined
+        if (body?.message) appSettingsStore.setMaintenanceMessage(body.message)
+        void appSettingsStore.refetchSettings()
       }
 
       // Only act on 401 responses from authenticated requests

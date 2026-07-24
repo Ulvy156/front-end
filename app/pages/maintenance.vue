@@ -16,7 +16,7 @@
       <h1 class="text-gray-900 mt-3">{{ t('maintenance.title') }}</h1>
 
       <p class="text-[17px] leading-relaxed text-gray-500 mt-4 max-w-md">
-        {{ t('maintenance.description') }}
+        {{ appSettingsStore.maintenanceMessage ?? t('maintenance.description') }}
       </p>
 
       <NuxtLink
@@ -32,10 +32,12 @@
 <script lang="ts" setup>
 import { useI18n } from 'vue-i18n'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
+import { useAppSettingsStore } from '~/stores/appSettings'
 
 definePageMeta({ layout: false })
 
 const { t } = useI18n()
+const appSettingsStore = useAppSettingsStore()
 
 useSeoMeta({
   title: t('maintenance.title'),
