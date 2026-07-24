@@ -1,12 +1,12 @@
 <template>
-  <div class="group relative inline-block h-10 w-[238px]">
+  <div ref="wrapperEl" class="group relative w-full h-10">
     <!-- Custom label. The real Telegram widget below doesn't support
          custom button text, so this is a visual skin only: the actual
          (invisible) widget iframe sits on top and receives the click. -->
     <button
       type="button"
       tabindex="-1"
-      class="absolute inset-0 flex items-center justify-center gap-x-2
+      class="absolute inset-0 w-full flex items-center justify-center gap-x-2
              rounded-xl border border-slate-200 bg-white
              font-medium text-slate-700 text-sm
              group-hover:border-slate-300 group-hover:shadow-sm
@@ -20,7 +20,18 @@
       v-if="!isWidgetReady"
       class="absolute inset-0 rounded-xl bg-gray-100 animate-pulse"
     />
-    <div ref="telegramBtn" class="absolute inset-0 opacity-0 overflow-hidden" />
+
+    <!-- Telegram only ever renders its iframe at a fixed 238x40 ("large")
+         size. To make the actual clickable area line up with the
+         full-width custom button above, it's scaled via CSS transform
+         (which stretches hit-testing, not just paint) rather than resized
+         with layout properties, which the iframe's internal fixed-width
+         content wouldn't reflow to fill anyway. -->
+    <div
+      ref="telegramBtn"
+      class="absolute left-0 top-0 h-10 w-[238px] origin-left opacity-0 overflow-hidden"
+      :style="{ transform: `scaleX(${scaleX})` }"
+    />
   </div>
 </template>
 
@@ -36,7 +47,10 @@ useHead({
 })
 
 const telegramBtn = ref<HTMLDivElement | null>(null)
+const wrapperEl = ref<HTMLDivElement | null>(null)
 const isWidgetReady = ref(false)
+const scaleX = ref(1)
+const TELEGRAM_WIDGET_WIDTH = 238
 const { $axios } = useNuxtApp()
 const accessToken = useAccessToken()
 const authStore = useAuthStore()
@@ -44,7 +58,17 @@ const notify = useNotify()
 const { extract } = useErrorMsg()
 const { t } = useI18n()
 
+let resizeObserver: ResizeObserver | undefined
+
 onMounted(() => {
+  if (wrapperEl.value) {
+    resizeObserver = new ResizeObserver(([entry]) => {
+      if (entry) scaleX.value = entry.contentRect.width / TELEGRAM_WIDGET_WIDTH
+    })
+    resizeObserver.observe(wrapperEl.value)
+  }
+  onUnmounted(() => resizeObserver?.disconnect())
+
   const onMessage = (e: MessageEvent) => {
     if (e.origin !== 'https://oauth.telegram.org') return
     try {

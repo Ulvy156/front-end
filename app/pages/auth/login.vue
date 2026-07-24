@@ -11,7 +11,8 @@
                 <!-- Logo (mobile only) -->
                 <NuxtLink to="/"
                     class="animate-home-link hover:scale-105 active:scale-95 lg:hidden mb-2 mx-auto flex items-center gap-2 w-fit transition-transform duration-150">
-                    <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah" class="h-11" />
+                    <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah"
+                        class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200" />
                     <span class="text-xl font-semibold tracking-tight text-slate-900">RokPteah</span>
                 </NuxtLink>
 
@@ -37,9 +38,7 @@
                         <span>{{ t('auth.google') }}</span>
                     </button>
 
-                    <div class="flex justify-center">
-                        <telegramLogin />
-                    </div>
+                    <telegramLogin />
                 </div>
 
                 <!-- Divider -->
