@@ -1,4 +1,4 @@
-import { computed, onMounted, onScopeDispose, ref, watch } from 'vue'
+import { computed, onScopeDispose, ref, watch } from 'vue'
 import { debounce } from 'lodash-unified'
 import { useAsyncData } from '#imports'
 
@@ -45,14 +45,17 @@ export function useBrowseProperties() {
       })
   }
 
+  // `immediate: true` (the default) lets this fetch run during SSR so the
+  // listing — including the LCP image — is already in the initial HTML
+  // instead of waiting for hydration to kick off a second round-trip.
   const { data, refresh } = useAsyncData<BrowsePropertiesResponse>(
     'browse-properties',
     fetchProperties,
-    { immediate: false },
   )
 
-  // Data from a previous visit this session is already sitting in Nuxt's
-  // payload cache — show it immediately instead of blanking to a skeleton.
+  // On the client, hydration reuses the SSR-fetched payload without
+  // re-running fetchProperties, so its `.finally()` never fires — clear the
+  // skeleton flag here instead of leaving it stuck on `true`.
   if (data.value) {
     isFetching.value = false
   }
@@ -85,16 +88,6 @@ export function useBrowseProperties() {
     },
     { immediate: true },
   )
-
-  onMounted(async () => {
-    // Cached data is already on screen — revalidate quietly in the background
-    // rather than flashing the skeleton back on for a page we've just shown.
-    if (data.value) {
-      await refresh()
-    } else {
-      await refreshProperties()
-    }
-  })
 
   onScopeDispose(() => {
     debouncedRefresh.cancel()
