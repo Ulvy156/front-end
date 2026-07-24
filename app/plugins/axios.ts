@@ -77,6 +77,7 @@ export default defineNuxtPlugin((nuxtApp) => {
       // fired its own redirect) and caused a loop.
       if (status === 503) {
         const appSettingsStore = useAppSettingsStore()
+        
         const body = error.response?.data as { message?: string } | undefined
         if (body?.message) appSettingsStore.setMaintenanceMessage(body.message)
         void appSettingsStore.refetchSettings()

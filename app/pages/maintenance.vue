@@ -18,13 +18,6 @@
       <p class="text-[17px] leading-relaxed text-gray-500 mt-4 max-w-md">
         {{ appSettingsStore.maintenanceMessage ?? t('maintenance.description') }}
       </p>
-
-      <NuxtLink
-        to="/auth/login"
-        class="inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-600 hover:-translate-y-0.5 text-white font-semibold text-base px-7 py-3.5 rounded-2xl shadow-[0_8px_20px_rgba(16,185,129,0.28)] transition-all mt-8"
-      >
-        {{ t('maintenance.signIn') }}
-      </NuxtLink>
     </div>
   </div>
 </template>
