@@ -48,5 +48,12 @@
     "adminNotice": "Maintenance mode is on — only admins can browse the live site right now.",
     "signIn": "Admin sign in",
     "checking": "This page will unlock automatically once we're back."
+  },
+  "rateLimit": {
+    "badge": "RATE LIMITED",
+    "title": "Slow down a little",
+    "withCountdown": "Too many attempts. Please try again in {time}.",
+    "generic": "Too many requests, please wait a moment and try again.",
+    "tryAgain": "Try again"
   }
 }

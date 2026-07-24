@@ -222,7 +222,8 @@ const requestOtp = async () => {
         startCooldown()
         step.value = 2
     } catch (err) {
-        notify.error(extract(err))
+        const status = (err as { response?: { status?: number } })?.response?.status
+        if (status !== 429) notify.error(extract(err))
     } finally {
         isLoading.value = false
     }
@@ -244,7 +245,8 @@ const resendOtp = async () => {
         startCooldown()
         resetOtpBox()
     } catch (err) {
-        notify.error(extract(err))
+        const status = (err as { response?: { status?: number } })?.response?.status
+        if (status !== 429) notify.error(extract(err))
     } finally {
         isResending.value = false
     }
@@ -271,7 +273,7 @@ const resetPassword = async () => {
             otpError.value = extract(err)
             resetOtpBox()
             step.value = 2
-        } else {
+        } else if (status !== 429) {
             notify.error(extract(err))
         }
     } finally {

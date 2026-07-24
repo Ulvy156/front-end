@@ -6,7 +6,6 @@
       loading="eager"
       fetchpriority="high"
       format="webp"
-      sizes="100vw"
       width="1536"
       height="1024"
       class="absolute inset-0 w-full h-full object-cover"

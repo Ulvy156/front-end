@@ -174,8 +174,7 @@ const resend = async () => {
         resetOtp()
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
-        notify.error(extract(err))
-        if (status === 429) startCooldown()
+        if (status !== 429) notify.error(extract(err))
     } finally {
         isResending.value = false
     }
@@ -197,10 +196,10 @@ const submit = async () => {
         await navigateTo(resolvePostLoginRoute(authStore.user?.role))
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
-        if (status === 400 || status === 429) {
+        if (status === 400) {
             error.value = extract(err)
             resetOtp()
-        } else {
+        } else if (status !== 429) {
             notify.error(extract(err))
         }
     } finally {

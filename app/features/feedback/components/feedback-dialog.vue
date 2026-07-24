@@ -46,7 +46,8 @@ const submit = handleSubmit(async () => {
     success(t('feedback.submitSuccess'))
     isOpen.value = false
   } catch (err) {
-    setFieldError('description', extract(err))
+    const status = (err as { response?: { status?: number } })?.response?.status
+    if (status !== 429) setFieldError('description', extract(err))
   }
 })
 </script>

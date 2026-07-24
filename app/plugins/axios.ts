@@ -82,10 +82,20 @@ export default defineNuxtPlugin((nuxtApp) => {
       // fired its own redirect) and caused a loop.
       if (status === 503) {
         const appSettingsStore = useAppSettingsStore()
-        
+
         const body = error.response?.data as { message?: string } | undefined
         if (body?.message) appSettingsStore.setMaintenanceMessage(body.message)
         void appSettingsStore.refetchSettings()
+      }
+
+      // Rate-limited — redirect to a page showing a countdown from Retry-After.
+      if (status === 429 && import.meta.client) {
+        const rateLimitStore = useRateLimitStore()
+        const header = error.response?.headers?.['retry-after']
+        const seconds = header ? parseInt(header, 10) : NaN
+        const retrySeconds = Number.isFinite(seconds) && seconds > 0 ? seconds : null
+        rateLimitStore.trigger(retrySeconds, window.location.pathname + window.location.search)
+        await nuxtApp.runWithContext(() => navigateTo('/rate-limited'))
       }
 
       // Only act on 401 responses from authenticated requests
