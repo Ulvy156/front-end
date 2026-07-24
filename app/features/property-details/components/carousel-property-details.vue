@@ -13,7 +13,7 @@
           :width="960"
           :height="420"
           sizes="480:100vw sm:62vw"
-          :densities="1"
+          densities="1"
           class="hover:scale-[1.03] transition-transform duration-300"
         />
       </div>
@@ -33,7 +33,7 @@
             :width="480"
             :height="205"
             sizes="sm:20vw"
-            :densities="1"
+            densities="1"
             class="hover:scale-[1.03] transition-transform duration-300"
           />
           <!-- "Show all photos" overlay on last visible image -->
