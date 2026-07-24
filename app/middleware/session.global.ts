@@ -2,11 +2,13 @@ import { hydrateAuth } from '~/utils/roleGuard'
 import { useAppSettingsStore } from '~/stores/appSettings'
 
 export default defineNuxtRouteMiddleware(async (to) => {
-  await hydrateAuth()
-
   const authStore = useAuthStore()
   const appSettingsStore = useAppSettingsStore()
-  await appSettingsStore.fetchSettings()
+
+  // Independent backend calls — run in parallel instead of stacking their
+  // latency sequentially on every SSR navigation (was adding ~1 extra
+  // backend round trip to TTFB on every request).
+  await Promise.all([hydrateAuth(), appSettingsStore.fetchSettings()])
 
   // Backend already blocks non-admin requests with a 503 while maintenance
   // mode is on; this just gets them off the site's pages and onto a page
