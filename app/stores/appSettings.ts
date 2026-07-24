@@ -8,6 +8,10 @@ export const useAppSettingsStore = defineStore('appSettings', {
     // Fetched once per app session (see session.global.ts) — avoids
     // re-hitting /settings on every navigation.
     fetched: false,
+    // Client-only interval that re-checks /settings so the maintenance
+    // overlay (MaintenanceOverlay.client.vue) can detect maintenance mode
+    // turning on or off without the user navigating anywhere.
+    pollTimer: null as ReturnType<typeof setInterval> | null,
   }),
 
   getters: {
@@ -29,18 +33,35 @@ export const useAppSettingsStore = defineStore('appSettings', {
   actions: {
     async fetchSettings() {
       if (this.fetched) return
+      await this.refetchSettings()
+      this.fetched = true
+    },
+
+    // Unlike fetchSettings(), always hits the API — used for polling so
+    // maintenance mode changes are picked up without a page navigation.
+    async refetchSettings() {
       const api = useApi()
       this.isFetching = true
       try {
         const { data } = await api.get<PlatformSettings>('/settings')
         this.settings = data
       } catch {
-        // Keep defaults (no bounds enforced client-side) — the backend still
+        // Keep the last known settings (or defaults) — the backend still
         // enforces everything server-side regardless of this fetch failing.
       } finally {
         this.isFetching = false
-        this.fetched = true
       }
+    },
+
+    startPolling(intervalMs = 20000) {
+      if (this.pollTimer || !import.meta.client) return
+      this.pollTimer = setInterval(() => this.refetchSettings(), intervalMs)
+    },
+
+    stopPolling() {
+      if (!this.pollTimer) return
+      clearInterval(this.pollTimer)
+      this.pollTimer = null
     },
   },
 })

@@ -71,6 +71,14 @@ export default defineNuxtPlugin((nuxtApp) => {
       const originalRequest = error.config as RetriableRequestConfig | undefined
       const status = error.response?.status
 
+      // MaintenanceGuard blocks every non-admin request with a 503 the moment
+      // maintenance mode turns on — refetch /settings right away so the
+      // maintenance overlay shows immediately instead of waiting for its
+      // poll interval. /settings itself bypasses the guard, so this can't loop.
+      if (status === 503) {
+        void useAppSettingsStore().refetchSettings()
+      }
+
       // Only act on 401 responses from authenticated requests
       if (status !== 401 || !originalRequest) {
         return Promise.reject(error)
