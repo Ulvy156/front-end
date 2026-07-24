@@ -2,6 +2,11 @@
 @import "./bg.css";
 
 :root {
+  /* App is light-only — without this, browsers apply dark UA styling
+     (form controls, scrollbars, native selects) on devices with OS/browser
+     dark mode on, even though nothing here is designed for it. */
+  color-scheme: light;
+
   /* Base */
   --text-base: 16px;
 

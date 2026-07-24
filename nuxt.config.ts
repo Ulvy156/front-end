@@ -62,6 +62,17 @@ export default defineNuxtConfig({
     format: ['avif', 'webp']
   },
   css: ['./app/assets/css/main.css'],
+  app: {
+    head: {
+      // Reinforces the CSS `color-scheme: light` in main.css — tells the
+      // browser chrome (and anything reading <head> before CSS loads) this
+      // site is light-only, so OS/browser dark mode doesn't flip native
+      // form controls, scrollbars, or the mobile address bar tint.
+      meta: [
+        { name: 'color-scheme', content: 'light' },
+      ],
+    },
+  },
   vite: {
     plugins: [
       tailwindcss(),
