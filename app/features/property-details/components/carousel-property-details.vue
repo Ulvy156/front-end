@@ -12,7 +12,8 @@
           loading="eager"
           :width="960"
           :height="420"
-          sizes="100vw sm:62vw"
+          sizes="480:100vw sm:62vw"
+          :densities="1"
           class="hover:scale-[1.03] transition-transform duration-300"
         />
       </div>
@@ -31,7 +32,8 @@
             fit="cover"
             :width="480"
             :height="205"
-            sizes="20vw"
+            sizes="sm:20vw"
+            :densities="1"
             class="hover:scale-[1.03] transition-transform duration-300"
           />
           <!-- "Show all photos" overlay on last visible image -->
