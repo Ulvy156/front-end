@@ -42,7 +42,7 @@
         </div>
       </NuxtLink>
 
-      <skeletonProperty :number-of-items="2" :is-hide="latestListings.length > 0" />
+      <skeletonProperty :number-of-items="2" variant="horizontal" :is-hide="latestListings.length > 0" />
     </section>
   </section>
 </template>

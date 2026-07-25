@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, watch, onMounted, onUnmounted } from 'vue'
+import { computed, watch } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import { useAppSettingsStore } from '~/stores/appSettings'
@@ -51,13 +51,4 @@ const visible = computed(() =>
 watch(visible, (isVisible) => {
   document.documentElement.classList.toggle('overflow-hidden', isVisible)
 }, { immediate: true })
-
-onMounted(() => {
-  appSettingsStore.startPolling()
-})
-
-onUnmounted(() => {
-  appSettingsStore.stopPolling()
-  document.documentElement.classList.remove('overflow-hidden')
-})
 </script>

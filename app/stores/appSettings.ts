@@ -8,10 +8,6 @@ export const useAppSettingsStore = defineStore('appSettings', {
     // Fetched once per app session (see session.global.ts) — avoids
     // re-hitting /settings on every navigation.
     fetched: false,
-    // Client-only interval that re-checks /settings so the maintenance
-    // overlay (MaintenanceOverlay.client.vue) can detect maintenance mode
-    // turning on or off without the user navigating anywhere.
-    pollTimer: null as ReturnType<typeof setInterval> | null,
     // The exact `message` from the backend's 503 body (see MaintenanceGuard),
     // captured by the axios interceptor — shown as-is instead of copy we made up.
     maintenanceMessage: null as string | null,
@@ -40,8 +36,6 @@ export const useAppSettingsStore = defineStore('appSettings', {
       this.fetched = true
     },
 
-    // Unlike fetchSettings(), always hits the API — used for polling so
-    // maintenance mode changes are picked up without a page navigation.
     async refetchSettings() {
       const api = useApi()
       this.isFetching = true
@@ -61,15 +55,16 @@ export const useAppSettingsStore = defineStore('appSettings', {
       this.maintenanceMessage = message
     },
 
-    startPolling(intervalMs = 20000) {
-      if (this.pollTimer || !import.meta.client) return
-      this.pollTimer = setInterval(() => this.refetchSettings(), intervalMs)
-    },
-
-    stopPolling() {
-      if (!this.pollTimer) return
-      clearInterval(this.pollTimer)
-      this.pollTimer = null
+    // No dedicated polling — maintenance mode is flipped on/off purely from
+    // the outcome of whatever API calls the app is already making (see the
+    // axios interceptor), so it costs zero extra requests.
+    setMaintenanceMode(active: boolean) {
+      if (this.settings) {
+        this.settings.maintenanceMode = active
+      } else {
+        this.settings = { maintenanceMode: active } as PlatformSettings
+      }
+      if (!active) this.maintenanceMessage = null
     },
   },
 })

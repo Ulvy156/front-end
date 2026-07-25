@@ -70,7 +70,13 @@ export default defineNuxtPlugin((nuxtApp) => {
   })
 
   api.interceptors.response.use(
-    (response) => response,
+    (response) => {
+      // Any successful call proves maintenance mode is off — cheaper than a
+      // dedicated polling timer, and reacts immediately to real traffic.
+      const appSettingsStore = useAppSettingsStore()
+      if (appSettingsStore.maintenanceMode) appSettingsStore.setMaintenanceMode(false)
+      return response
+    },
     async (error: AxiosError) => {
       const originalRequest = error.config as RetriableRequestConfig | undefined
       const status = error.response?.status
@@ -84,8 +90,8 @@ export default defineNuxtPlugin((nuxtApp) => {
         const appSettingsStore = useAppSettingsStore()
 
         const body = error.response?.data as { message?: string } | undefined
+        appSettingsStore.setMaintenanceMode(true)
         if (body?.message) appSettingsStore.setMaintenanceMessage(body.message)
-        void appSettingsStore.refetchSettings()
       }
 
       // Rate-limited — redirect to a page showing a countdown from Retry-After.

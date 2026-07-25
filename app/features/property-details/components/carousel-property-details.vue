@@ -16,6 +16,14 @@
           densities="1"
           class="hover:scale-[1.03] transition-transform duration-300"
         />
+        <!-- Photo-count badge for mobile, where the side-thumbnail overlay is hidden -->
+        <span
+          v-if="property.images.length > 1"
+          class="sm:hidden absolute bottom-2.5 right-2.5 bg-black/75 backdrop-blur-sm text-white text-[13px] font-semibold px-4 py-2.5 rounded-[10px] flex items-center gap-2"
+        >
+          <BaseIconClient name="images" :size="15" />
+          {{ property.images.length }}
+        </span>
       </div>
 
       <!-- Side images 2x2 grid -->
