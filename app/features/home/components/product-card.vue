@@ -4,6 +4,7 @@
     :hide-compare-icon="hideCompareIcon"
     :is-favourited="isFavourited(props.id)"
     :is-favourite-pending="isToggling(props.id)"
+    image-class="w-full object-cover aspect-16/9"
     image-sizes="100vw md:50vw lg:33vw"
     @favourite="toggle(props.id)"
   />

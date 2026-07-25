@@ -18,6 +18,7 @@
       :key="value.id"
       :item="value"
       :image-loading="index === 0 ? 'eager' : 'lazy'"
+      image-sizes="100vw sm:50vw md:37vw lg:25vw"
       @compare="drawerVisible = $event"
     />
     <BasePagination

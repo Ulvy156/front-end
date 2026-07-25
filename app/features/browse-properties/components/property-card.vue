@@ -4,9 +4,9 @@
     :hide-compare-icon="hideCompareIcon"
     :is-favourited="isFavourited(props.item.id)"
     :is-favourite-pending="isToggling(props.item.id)"
-    image-class="w-full object-cover aspect-16/5"
-    :image-height="125"
-    image-sizes="100vw sm:37vw lg:25vw"
+    image-class="w-full object-cover aspect-16/9"
+    :image-height="225"
+    :image-sizes="imageSizes"
     :image-loading="imageLoading"
     @compare="handleCompare"
     @favourite="toggle(props.item.id)"
@@ -29,10 +29,13 @@ const props = withDefaults(
     item: PropertyCardItem
     hideCompareIcon?: boolean
     imageLoading?: 'lazy' | 'eager'
+    /** Forwarded to BaseImage/NuxtImg; override when the parent grid's column width differs (e.g. a sidebar layout). */
+    imageSizes?: string
   }>(),
   {
     hideCompareIcon: false,
     imageLoading: 'lazy',
+    imageSizes: '100vw sm:50vw lg:33vw',
   },
 )
 
