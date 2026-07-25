@@ -212,10 +212,6 @@ const showDistance = computed(
   color: var(--nav-active-item) !important;
 }
 
-img {
-  aspect-ratio: 16/9;
-}
-
 .floating-actions-top {
   color: var(--hover-text-color);
   position: absolute;

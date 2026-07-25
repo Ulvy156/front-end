@@ -66,6 +66,19 @@ export async function hydrateAuth() {
   // who's never logged in) — don't re-hit the API on every navigation.
   if (authStore.sessionChecked) return
 
+  // Pinia state doesn't survive across SSR requests, so `sessionChecked` is
+  // always false on a fresh server render — every anonymous visit (crawlers,
+  // Lighthouse, first-time visitors) was paying for a doomed POST
+  // /auth/refresh-token round trip on the critical TTFB path. If the
+  // request has no refresh_token cookie at all, it can't succeed, so skip it.
+  if (import.meta.server) {
+    const cookie = useRequestHeaders(['cookie']).cookie ?? ''
+    if (!cookie.includes('refresh_token')) {
+      authStore.sessionChecked = true
+      return
+    }
+  }
+
   accessToken.value = null
 
   try {

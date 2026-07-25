@@ -6,26 +6,31 @@
              bg-white/80 px-4 py-2 shadow-sm backdrop-blur"
     >
       <NuxtLink to="/" class="flex items-center gap-2 font-semibold">
-        <NuxtImg src="/rokpteah-logo.webp" class="h-10" alt="app logo" />
+        <NuxtImg src="/rokpteah-logo.webp" class="h-10" alt="app logo" width="40" height="40" />
         <span class="text-lg">{{ $t('nav.title') }}</span>
       </NuxtLink>
 
       <button
         class="flex h-10 w-10 items-center justify-center rounded-full border
                hover:bg-gray-100 transition cursor-pointer"
-        @click="drawer = true"
+        :aria-label="$t('nav.openMenu')"
+        @click="openDrawer"
       >
         <BaseIcon name="menu" :size="20" />
       </button>
     </div>
   </header>
 
-  <!-- Drawer -->
-  <BaseDrawer
-    v-model="drawer"
-    direction="ltr"
-    size="80%"
-  >
+  <!-- Drawer — mounted lazily on first open so its el-drawer/el-overlay CSS
+       chunk (~3-4 KiB, render-blocking per Lighthouse) never loads on a
+       fresh page visit that never opens the mobile menu. -->
+  <ClientOnly>
+    <BaseDrawer
+      v-if="drawerMounted"
+      v-model="drawer"
+      direction="ltr"
+      size="80%"
+    >
     <div class="flex flex-col h-full gap-6">
       <!-- Navigation -->
       <nav class="flex flex-col gap-1">
@@ -95,15 +100,18 @@
         </template>
       </div>
     </div>
-  </BaseDrawer>
+    </BaseDrawer>
+  </ClientOnly>
 </template>
 
 <script lang="ts" setup>
+import { defineAsyncComponent } from 'vue'
 import switchLngClient from './switch-lng.client.vue'
-import BaseDrawer from '~/components/ui/BaseDrawer.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import { useActiveRoute } from '~/composables/useActiveRoute'
 import { initials } from '~/utils/initials'
+
+const BaseDrawer = defineAsyncComponent(() => import('~/components/ui/BaseDrawer.vue'))
 
 const { t } = useI18n()
 const { isActive, startsWith } = useActiveRoute()
@@ -111,6 +119,15 @@ const authStore = useAuthStore()
 const { logout } = useLogout()
 const { isLandlord, isAdmin } = useRole()
 const drawer = ref(false)
+// Keeps BaseDrawer unmounted (so its CSS chunk is never fetched) until the
+// user actually opens the menu; stays mounted afterward so the close
+// transition/animation still plays normally on subsequent opens/closes.
+const drawerMounted = ref(false)
+
+function openDrawer() {
+  drawerMounted.value = true
+  drawer.value = true
+}
 
 const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 

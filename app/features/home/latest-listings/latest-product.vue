@@ -17,6 +17,9 @@
           <BaseImage
             :src="item.images[0]?.imageKey ?? ''"
             class="w-full h-full object-cover"
+            :width="148"
+            :height="160"
+            sizes="148px"
           />
           <span class="absolute top-2.5 left-2.5 bg-white text-(--nav-active-item) text-[11px] font-bold px-2.5 py-1 rounded-full">
             {{ t('home.featured.justListed').toUpperCase() }}
@@ -42,17 +45,23 @@
         </div>
       </NuxtLink>
 
-      <skeletonProperty :number-of-items="2" variant="horizontal" :is-hide="latestListings.length > 0" />
+      <skeletonProperty v-if="latestListings.length === 0" :number-of-items="2" variant="horizontal" />
     </section>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import type { FeaturedProperty } from '../featured-listings/feature.listings'
-import skeletonProperty from '~/components/animation/skeleton-property.vue'
+
+// Data is already resolved server-side by the time this renders, so the
+// skeleton (and its el-skeleton CSS chunk, render-blocking per Lighthouse)
+// is only ever needed on a rare empty-state — load it on demand instead of
+// bundling it into every homepage visit.
+const skeletonProperty = defineAsyncComponent(() => import('~/components/animation/skeleton-property.vue'))
 
 const { t } = useI18n()
 const langKey = useLangKey()

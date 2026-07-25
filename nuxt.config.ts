@@ -69,7 +69,11 @@ export default defineNuxtConfig({
   },
   image: {
     domains: ['localhost', process.env.NUXT_PUBLIC_R2_PUB_URL ?? ''],
-    format: ['avif', 'webp']
+    format: ['avif', 'webp'],
+    // No provider-level default was set, so the Vercel image provider fell
+    // back to q=100 on every request (Lighthouse: ~227 KiB of avoidable
+    // image weight). 80 is visually lossless for photos at these display sizes.
+    quality: 80,
   },
   css: ['./app/assets/css/main.css'],
   app: {

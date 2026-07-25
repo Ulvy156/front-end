@@ -31,16 +31,22 @@
         :hide-compare-icon="true"
         :is-available="value.isAvailable"
       />
-      <skeletonProperty :is-hide="featuredListings.length > 0" />
+      <skeletonProperty v-if="featuredListings.length === 0" />
     </section>
   </section>
 </template>
 
 <script lang="ts" setup>
+import { defineAsyncComponent } from 'vue'
 import { useI18n } from 'vue-i18n'
 import productCard from '../components/product-card.vue'
 import type { FeaturedProperty } from './feature.listings'
-import skeletonProperty from '~/components/animation/skeleton-property.vue'
+
+// Data is already resolved server-side by the time this renders, so the
+// skeleton (and its el-skeleton CSS chunk, render-blocking per Lighthouse)
+// is only ever needed on a rare empty-state — load it on demand instead of
+// bundling it into every homepage visit.
+const skeletonProperty = defineAsyncComponent(() => import('~/components/animation/skeleton-property.vue'))
 
 const { t } = useI18n()
 

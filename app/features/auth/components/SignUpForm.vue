@@ -3,7 +3,8 @@
         <NuxtLink to="/"
             class="animate-home-link hover:scale-105 active:scale-95 lg:hidden mb-2 mx-auto flex items-center justify-center w-fit transition-transform duration-150">
             <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah"
-                class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200" />
+                class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200"
+                width="56" height="56" />
         </NuxtLink>
 
         <div class="rounded-xl border border-amber-200 bg-amber-50 p-5 space-y-1.5">
@@ -27,7 +28,8 @@
         <NuxtLink to="/"
             class="animate-home-link hover:scale-105 active:scale-95 lg:hidden mb-2 mx-auto flex items-center justify-center w-fit transition-transform duration-150">
             <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah"
-                class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200" />
+                class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200"
+                width="56" height="56" />
         </NuxtLink>
 
         <!-- Header -->

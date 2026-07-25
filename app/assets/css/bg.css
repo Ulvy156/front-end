@@ -40,7 +40,10 @@
   --warning: hsl(38 92% 50%); /* #f59e0b - Amber 500 */
   --warning-foreground: hsl(0 0% 100%); /* #ffffff */
   --nav-active: #16a2861a;
-  --nav-active-item: #16a286;
+  /* Darkened from #16a286 (~3.2:1 on white) to clear WCAG AA's 4.5:1 for
+     small/bold text — Lighthouse flagged every text usage of this variable
+     (search-bar labels, card badges, "View All" links) as failing contrast. */
+  --nav-active-item: #047857;
   --gray: #676f7e;
   --bg-gray: #f3f4f680;
   /* Border Radius */
