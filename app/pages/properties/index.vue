@@ -52,6 +52,10 @@ import { usePropertyFilterStore } from "~/stores/propertyFilter";
 import filterChip from "~/features/browse-properties/components/filter-chip.vue";
 import { useSEO } from "#imports";
 
+definePageMeta({
+  keepalive: true,
+})
+
 const showFilterDrawer = ref(false)
 
 const filterStore = usePropertyFilterStore();

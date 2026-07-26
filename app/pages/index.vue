@@ -32,6 +32,7 @@ const howItWork = defineLazyHydrationComponent('visible', () => import('~/featur
 
 definePageMeta({
   headerOverlay: true,
+  keepalive: true,
 })
 
 const config = useRuntimeConfig()
