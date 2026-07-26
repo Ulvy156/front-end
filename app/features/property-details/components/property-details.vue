@@ -4,13 +4,23 @@
   <section v-else>
     <!-- Breadcrumb -->
     <div class="flex items-center gap-2 text-[13px] text-gray-600 mb-5">
-      <NuxtLink to="/properties" class="text-(--nav-active-item) hover:underline">
+      <BaseButton
+        text
+        size="small"
+        class="p-0! h-auto! min-h-0! text-(--nav-active-item) hover:underline"
+        @click="goToProvince"
+      >
         {{ property!.district.province[langKey] }}
-      </NuxtLink>
+      </BaseButton>
       <span class="opacity-60">›</span>
-      <NuxtLink to="/properties" class="text-(--nav-active-item) hover:underline">
+      <BaseButton
+        text
+        size="small"
+        class="p-0! h-auto! min-h-0! text-(--nav-active-item) hover:underline"
+        @click="goToDistrict"
+      >
         {{ property!.district[langKey] }}
-      </NuxtLink>
+      </BaseButton>
       <span class="opacity-60">›</span>
       <span class="text-gray-800">{{ property!.title }}</span>
     </div>
@@ -141,15 +151,40 @@ import propertyHouseRule from "./property-house-rule.vue";
 import propertyParking from "./property-parking.vue";
 import relatedProperties from './related-properties.vue';
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import BaseButton from "~/components/ui/BaseButton.vue";
 import SkeletonPropertyDetails from "~/components/animation/skeleton-property-details.vue";
 import { usePropertyDetails } from "../composable/usePropertyDetails";
 
 const { property } = usePropertyDetails()
 const langKey = useLangKey()
+const filterStore = usePropertyFilterStore()
+const { getProvinceId } = useCambodiaLocations()
 
 const phoneNumber = computed(
   () => property.value?.user?.phones?.filter((item) => item.type === "PHONE") ?? [],
 )
+
+function goToDistrict() {
+  if (!property.value) return
+  const district = property.value.district
+  filterStore.location = property.value.districtId
+  filterStore.locationType = 'district'
+  filterStore.locationName = `${district.nameEn} — ${district.nameKh}`
+  filterStore.page = 1
+  navigateTo('/properties')
+}
+
+async function goToProvince() {
+  if (!property.value) return
+  const province = property.value.district.province
+  const id = await getProvinceId(province.nameEn)
+  if (!id) return navigateTo('/properties')
+  filterStore.location = id
+  filterStore.locationType = 'province'
+  filterStore.locationName = `${province.nameEn} — ${province.nameKh}`
+  filterStore.page = 1
+  navigateTo('/properties')
+}
 </script>
 
 <style scoped>

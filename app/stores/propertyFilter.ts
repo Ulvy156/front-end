@@ -63,8 +63,12 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
         },
       })
 
-      // Restore state
-      if (cookie.value) {
+      // Restore state, but don't clobber a location already set in memory
+      // (e.g. by a breadcrumb or popular-location click right before
+      // navigating here) with a stale cookie snapshot written before that
+      // click — this action re-runs on every mount of /properties.
+      const hasPendingLocation = this.location !== null || this.locationName !== ''
+      if (cookie.value && !hasPendingLocation) {
         Object.assign(this.$state, cookie.value)
       }
 
