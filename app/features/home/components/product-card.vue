@@ -6,6 +6,7 @@
     :is-favourite-pending="isToggling(props.id)"
     image-class="w-full object-cover aspect-16/9"
     image-sizes="100vw md:50vw lg:33vw"
+    :image-loading="imageLoading"
     @favourite="toggle(props.id)"
   />
 </template>
@@ -46,6 +47,8 @@ const props = withDefaults(
     totalView: number
     photoCount: number
     hideCompareIcon?: boolean
+    /** Set to 'eager' for the first above-the-fold card so it's not deprioritized as the LCP element. */
+    imageLoading?: 'lazy' | 'eager'
   }>(),
   {
     price: 0,
@@ -56,6 +59,7 @@ const props = withDefaults(
     totalView: 0,
     photoCount: 0,
     hideCompareIcon: false,
+    imageLoading: 'lazy',
   },
 )
 

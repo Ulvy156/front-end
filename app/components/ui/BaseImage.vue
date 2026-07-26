@@ -46,6 +46,7 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
     format="webp"
     :loading="loading"
     :fetchpriority="loading === 'eager' ? 'high' : undefined"
+    :preload="loading === 'eager' ? true : undefined"
     @error="hasError = true"
     class="image"
     :class="{ 'rounded-lg': rounded }"

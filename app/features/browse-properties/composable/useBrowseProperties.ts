@@ -24,9 +24,9 @@ export function useBrowseProperties() {
   const filterStore = usePropertyFilterStore()
   const isFetching = ref(true)
 
-  // Restore persisted filters before the watcher below subscribes, so the
-  // restore itself doesn't queue a second, competing fetch on mount.
-  filterStore.init()
+  // filterStore.init() is called by the page (see properties/index.vue) before
+  // this composable runs, so restoration happens before any sibling reads the
+  // store and before the fetch below builds its query params.
 
   let requestId = 0
 

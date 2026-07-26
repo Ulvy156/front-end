@@ -59,6 +59,12 @@ definePageMeta({
 const showFilterDrawer = ref(false)
 
 const filterStore = usePropertyFilterStore();
+// Restore persisted filters before any child (e.g. FilterChip) reads the
+// store during render — doing this later, inside a child's own setup,
+// let FilterChip render with pre-restoration state during SSR while the
+// client hydrated against post-restoration state, causing a hydration
+// child-count mismatch.
+filterStore.init();
 const SEO = useSEO();
 
 // seo page 

@@ -54,29 +54,31 @@
           {{ $t('auth.signIn') }}
         </NuxtLink>
 
-        <!-- Authenticated -->
-        <el-dropdown v-else trigger="click" @command="handleCommand">
-          <button class="block rounded-full cursor-pointer">
-            <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center
-                        text-blue-700 text-xs font-bold shrink-0 overflow-hidden
-                        ring-2 ring-blue-200 ring-offset-2 ring-offset-white">
-              <BaseImage v-if="authStore.user?.imgUrl" :src="authStore.user.imgUrl" :alt="authStore.user.name" fit="cover" />
-              <span v-else>{{ userInitials }}</span>
-            </div>
-          </button>
-          <template #dropdown>
-            <el-dropdown-menu>
-              <el-dropdown-item command="profile">
-                <ClientOnly><BaseIcon name="user" :size="14" class="mr-2" /></ClientOnly>
-                {{ $t('nav.profile') }}
-              </el-dropdown-item>
-              <el-dropdown-item command="logout" divided class="text-red-500">
-                <ClientOnly><BaseIcon name="log-out" :size="14" class="mr-2" /></ClientOnly>
-                {{ $t('nav.signOut') }}
-              </el-dropdown-item>
-            </el-dropdown-menu>
-          </template>
-        </el-dropdown>
+        <!-- Authenticated. ClientOnly keeps el-dropdown's useId() calls out of SSR so a server/client auth-state mismatch can't shift every el-* id rendered after it (see FeedbackDialog in layouts/default.vue for the same fix). -->
+        <ClientOnly v-else>
+          <el-dropdown trigger="click" @command="handleCommand">
+            <button class="block rounded-full cursor-pointer">
+              <div class="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center
+                          text-blue-700 text-xs font-bold shrink-0 overflow-hidden
+                          ring-2 ring-blue-200 ring-offset-2 ring-offset-white">
+                <BaseImage v-if="authStore.user?.imgUrl" :src="authStore.user.imgUrl" :alt="authStore.user.name" fit="cover" />
+                <span v-else>{{ userInitials }}</span>
+              </div>
+            </button>
+            <template #dropdown>
+              <el-dropdown-menu>
+                <el-dropdown-item command="profile">
+                  <BaseIcon name="user" :size="14" class="mr-2" />
+                  {{ $t('nav.profile') }}
+                </el-dropdown-item>
+                <el-dropdown-item command="logout" divided class="text-red-500">
+                  <BaseIcon name="log-out" :size="14" class="mr-2" />
+                  {{ $t('nav.signOut') }}
+                </el-dropdown-item>
+              </el-dropdown-menu>
+            </template>
+          </el-dropdown>
+        </ClientOnly>
       </div>
     </nav>
   </header>

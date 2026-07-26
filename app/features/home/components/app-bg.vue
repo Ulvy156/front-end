@@ -5,6 +5,7 @@
       alt=""
       loading="eager"
       fetchpriority="high"
+      preload
       format="webp"
       width="1536"
       height="1024"

@@ -14,7 +14,7 @@
     </div>
     <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <productCard
-        v-for="value in featuredListings"
+        v-for="(value, index) in featuredListings"
         :id="value.id"
         :key="value.id"
         :price="value.monthly_price"
@@ -30,6 +30,7 @@
         :bedroom="value.bedroom"
         :hide-compare-icon="true"
         :is-available="value.isAvailable"
+        :image-loading="index === 0 ? 'eager' : 'lazy'"
       />
       <skeletonProperty v-if="featuredListings.length === 0" />
     </section>
