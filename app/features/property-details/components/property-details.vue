@@ -107,19 +107,21 @@
         <span class="text-[13px] text-gray-600">/{{ $t('month') }}</span>
       </div>
       <div class="flex items-center gap-2.5">
-        <a
+        <BaseButton
           v-if="phoneNumber.length"
+          tag="a"
           :href="`tel:${phoneNumber[0].phoneNumber}`"
-          class="bg-(--nav-active-item) text-white border-none rounded-lg px-6 py-3 text-sm font-semibold"
+          class="bg-(--nav-active-item)! text-white! border-none! rounded-lg! px-6! py-3! h-auto! text-sm! font-semibold!"
         >
           {{ $t('property.call') }}
-        </a>
-        <button
+        </BaseButton>
+        <BaseButton
           v-else
-          class="bg-(--nav-active-item) text-white border-none rounded-lg px-6 py-3 text-sm font-semibold cursor-pointer"
+          disabled
+          class="bg-gray-300! text-white! border-none! rounded-lg! px-6! py-3! h-auto! text-sm! font-semibold! cursor-not-allowed!"
         >
           {{ $t('property.contact') }}
-        </button>
+        </BaseButton>
       </div>
     </div>
   </section>

@@ -34,30 +34,35 @@
     </div>
 
     <!-- Contact button -->
-    <a
+    <BaseButton
       v-if="phoneNumber.length"
-      :href="`tel:${phoneNumber[0].phoneNumber}`"
-      class="w-full bg-(--nav-active-item) text-white rounded-lg py-3.5 text-[15px] font-semibold text-center block"
+      block
+      tag="a"
+      :href="`tel:${phoneNumber[0]!.phoneNumber}`"
+      class="bg-(--nav-active-item)! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold!"
     >
       {{ $t('property.contact') }}
-    </a>
-    <button
+    </BaseButton>
+    <BaseButton
       v-else
+      block
       disabled
-      class="w-full bg-gray-300 text-white border-none rounded-lg py-3.5 text-[15px] font-semibold cursor-not-allowed"
+      class="bg-gray-300! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold! cursor-not-allowed!"
     >
       {{ $t('property.contact') }}
-    </button>
+    </BaseButton>
 
     <!-- Call now -->
-    <a
+    <BaseButton
       v-if="phoneNumber.length"
-      :href="`tel:${phoneNumber[0].phoneNumber}`"
-      class="w-full flex items-center justify-center gap-2 bg-green-500 text-white rounded-lg py-3.5 text-[15px] font-semibold mt-2.5 text-center"
+      block
+      tag="a"
+      :href="`tel:${phoneNumber[0]!.phoneNumber}`"
+      class="flex! items-center justify-center gap-2 bg-green-500! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold! mt-2.5!"
     >
       <BaseIconClient name="phone-call" :size="17" />
       {{ $t('property.call') }}
-    </a>
+    </BaseButton>
 
     <!-- Contact rows -->
     <div class="flex flex-col gap-2 mt-3.5">
@@ -84,7 +89,7 @@
     <a
       v-if="telegram.length"
       target="_blank"
-      :href="getTelegramLink(telegram[0].phoneNumber)!"
+      :href="getTelegramLink(telegram[0]!.phoneNumber)!"
       class="w-full flex items-center justify-center gap-2 bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) rounded-lg py-3 text-[15px] font-semibold mt-2 text-center"
     >
       <BaseIconClient name="message-square-text" :size="17" />
@@ -138,6 +143,7 @@
 
 <script lang="ts" setup>
 import BaseAvatar from "~/components/ui/BaseAvatar.vue"
+import BaseButton from "~/components/ui/BaseButton.vue"
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 import BaseVerifiedBadge from "~/components/ui/BaseVerifiedBadge.vue"
 import reportPropertyDialog from "./report-property-dialog.vue"

@@ -4,6 +4,7 @@ withDefaults(defineProps<{
   label?: string
   type?: 'primary' | 'success' | 'warning' | 'danger' | 'info'
   nativeType?: 'button' | 'submit' | 'reset'
+  tag?: string
   loading?: boolean
   disabled?: boolean
   size?: 'large' | 'default' | 'small'
@@ -13,12 +14,14 @@ withDefaults(defineProps<{
 }>(), {
   type: 'primary',
   nativeType: 'button',
+  tag: 'button',
   size: 'default',
 })
 </script>
 
 <template>
   <el-button
+    :tag="tag"
     :type="type"
     :native-type="nativeType"
     :loading="loading"
