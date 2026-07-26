@@ -110,11 +110,11 @@
             <span>{{ props.item.sizeSqm }} m<sup>2</sup></span>
           </div>
 
-          <div v-if="showDistance" class="amenity-chip">
+          <div class="amenity-chip">
             <BaseTooltip :content="$t('card.distance')">
               <BaseIcon name="land-plot" :size="14" />
             </BaseTooltip>
-            <span>{{ props.item.distanceKm }} KM</span>
+            <span>{{ props.item.distanceKm ?? '~'}} KM</span>
           </div>
         </div>
 
