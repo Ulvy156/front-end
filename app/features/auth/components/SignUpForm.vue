@@ -33,7 +33,7 @@
         </NuxtLink>
 
         <!-- Header -->
-        <div class="space-y-1">
+        <div class="space-y-1 text-center">
             <h2 class="text-2xl font-bold text-slate-900">{{ t('auth.createAccount') }}</h2>
             <p class="text-slate-500 text-sm">{{ t('auth.createAccountDesc') }}</p>
         </div>
@@ -88,7 +88,8 @@
                 </label>
                 <el-form-item prop="email" :style="{ marginBottom: 0 }">
                     <BaseInput icon="mail" id="mail" size="large"
-                        :placeholder="t('auth.emailPlaceholder')" v-model="form.email" />
+                        :placeholder="t('auth.emailPlaceholder')" v-model="form.email"
+                        @blur="checkEmailExists" />
                 </el-form-item>
             </div>
 
@@ -110,7 +111,8 @@
                 </label>
                 <el-form-item prop="phone" :style="{ marginBottom: 0 }">
                     <BaseInput icon="phone" id="phone" size="large"
-                        :placeholder="t('auth.phonePlaceholder')" v-model="form.phone" />
+                        :placeholder="t('auth.phonePlaceholder')" v-model="form.phone"
+                        @blur="checkPhoneExists" />
                 </el-form-item>
             </div>
 
@@ -151,20 +153,8 @@
         </div>
 
         <!-- Submit -->
-        <button type="submit" :disabled="isSubmitting"
-            class="w-full rounded-xl bg-emerald-600 py-3 text-sm font-semibold text-white
-                   hover:bg-emerald-700 active:scale-[0.99] shadow-sm shadow-emerald-200/60
-                   transition-all duration-150 cursor-pointer
-                   disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
-            <span v-if="isSubmitting" class="flex items-center justify-center gap-x-2">
-                <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-                </svg>
-                {{ t('auth.creating') }}
-            </span>
-            <span v-else>{{ t('auth.signUp') }}</span>
-        </button>
+        <BaseButton native-type="submit" block size="large" :loading="isSubmitting"
+            :label="isSubmitting ? t('auth.creating') : t('auth.signUp')" />
 
         <!-- Sign in -->
         <p class="text-center text-sm text-slate-500">
@@ -179,6 +169,7 @@
 
 <script setup lang="ts">
 import telegramLogin from '~/components/auth/telegram-login.client.vue'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
 import { useAuthFormRules } from '~/features/auth/composable/useAuthFormRules'
 import { useAppSettingsStore } from '~/stores/appSettings'
@@ -206,6 +197,41 @@ const { formRef, form, rules, isSubmitting, handleSubmit, setFieldError } = useF
 )
 
 const role = ref<'USER' | 'LANDLORD'>('USER')
+
+// Avoid re-checking the same address on repeated blurs (e.g. tabbing through the form)
+let lastCheckedEmail = ''
+
+const checkEmailExists = async () => {
+    const email = form.email.trim()
+    if (!email || !isValidEmail(email) || email === lastCheckedEmail) return
+
+    try {
+        const { data: exists } = await api.get<boolean>('/user/is-email-exist', { params: { email } })
+        lastCheckedEmail = email
+        if (exists) setFieldError('email', t('auth.emailTaken'))
+    } catch {
+        // Non-blocking: submit-time /auth/register call will surface a duplicate email anyway
+    }
+}
+
+// Phone is optional — only check once it's a non-empty, validly formatted number
+let lastCheckedPhone = ''
+
+const checkPhoneExists = async () => {
+    const phone = form.phone.trim()
+    if (!phone || !isValidPhone(phone)) return
+
+    const phoneNumber = normalizePhoneNumber(phone)
+    if (phoneNumber === lastCheckedPhone) return
+
+    try {
+        const { data: exists } = await api.get<boolean>('/user/is-phone-exist', { params: { phoneNumber } })
+        lastCheckedPhone = phoneNumber
+        if (exists) setFieldError('phone', t('auth.phoneTaken'))
+    } catch {
+        // Non-blocking: submit-time /auth/register call will surface a duplicate phone anyway
+    }
+}
 
 const loginWithGoogle = () => {
     // Routed through the /api proxy (see routeRules in nuxt.config.ts) so the

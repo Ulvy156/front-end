@@ -14,11 +14,11 @@
                     <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah"
                         class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200"
                         width="56" height="56" />
-                    <span class="text-xl font-semibold tracking-tight text-slate-900">RokPteah</span>
+                    <!-- <span class="text-xl font-semibold tracking-tight text-slate-900">RokPteah</span> -->
                 </NuxtLink>
 
                 <!-- Header -->
-                <div class="space-y-1">
+                <div class="space-y-1 text-center">
                     <h2 class="text-2xl font-bold text-slate-900">{{ t('auth.welcome') }}</h2>
                     <p class="text-slate-500 text-sm">{{ t('auth.subtitle') }}</p>
                 </div>
