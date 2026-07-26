@@ -7,6 +7,7 @@ export interface AdminUser {
   imgUrl: string | null
   role: Role
   isVerified: boolean
+  hasVerifiedBadge: boolean
   isLocked: boolean
   createdAt: string
   updatedAt: string

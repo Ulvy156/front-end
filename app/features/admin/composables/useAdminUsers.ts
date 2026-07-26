@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
 import { Role } from '~/types/role'
-import type { UserListResponse, CreateUserPayload, UpdateUserPayload } from '../types/user'
+import type { UserListResponse, CreateUserPayload, UpdateUserPayload, AdminUser } from '../types/user'
 
 export interface UserFilters {
   search: string
@@ -81,13 +81,21 @@ export function useAdminLandlords(filters: Ref<UserFilters>) {
   const { $axios } = useNuxtApp()
   const queryClient = useQueryClient()
 
-  const toggleVerify = useMutation({
+  const grantBadge = useMutation({
     mutationFn: async (id: string) => {
-      const { data } = await $axios.patch<{ id: string; isVerified: boolean }>(`/admin/landlords/${id}/verify`)
+      const { data } = await $axios.patch<AdminUser>(`/user/grant-badge/${id}`)
       return data
     },
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-landlords'] }),
   })
 
-  return { ...base, toggleVerify }
+  const revokeBadge = useMutation({
+    mutationFn: async (id: string) => {
+      const { data } = await $axios.patch<AdminUser>(`/user/revoke-badge/${id}`)
+      return data
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-landlords'] }),
+  })
+
+  return { ...base, grantBadge, revokeBadge }
 }

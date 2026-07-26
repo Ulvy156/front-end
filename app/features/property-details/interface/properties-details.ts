@@ -52,7 +52,7 @@ export interface User {
   phones: Phone[];
   name: string;
   email: string | null;
-  isVerified: boolean
+  hasVerifiedBadge: boolean
 }
 
 export interface Parking {

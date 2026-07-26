@@ -24,7 +24,7 @@
             {{ property.user.name }}
           </NuxtLink>
           <BaseVerifiedBadge
-            v-if="property.user.isVerified"
+            v-if="property.user.hasVerifiedBadge"
             :size="19"
             :title="$t('property.verified')"
           />

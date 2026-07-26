@@ -32,7 +32,7 @@ function onPageChange(page: number) {
 }
 
 // ── Data ─────────────────────────────────────────────────────
-const { data, isPending, createUser, updateUser, lockUser, unlockUser, deleteUser, toggleVerify } = useAdminLandlords(filters)
+const { data, isPending, createUser, updateUser, lockUser, unlockUser, deleteUser, grantBadge, revokeBadge } = useAdminLandlords(filters)
 
 // ── Form drawer ───────────────────────────────────────────────
 const formDrawerOpen = ref(false)
@@ -84,11 +84,16 @@ async function handleLockToggle(user: AdminUser) {
 
 const verifyingUserId = ref<string | null>(null)
 
-async function handleVerifyToggle(user: AdminUser) {
+async function handleBadgeToggle(user: AdminUser) {
   verifyingUserId.value = user.id
   try {
-    await toggleVerify.mutateAsync(user.id)
-    success(t(user.isVerified ? 'admin.landlords.unverifySuccess' : 'admin.landlords.verifySuccess', { name: user.name }))
+    if (user.hasVerifiedBadge) {
+      await revokeBadge.mutateAsync(user.id)
+      success(t('admin.landlords.unverifySuccess', { name: user.name }))
+    } else {
+      await grantBadge.mutateAsync(user.id)
+      success(t('admin.landlords.verifySuccess', { name: user.name }))
+    }
   } catch (err) {
     notifyError(extract(err))
   } finally {
@@ -165,7 +170,7 @@ async function handleDelete(user: AdminUser) {
               <div class="min-w-0">
                 <p class="text-sm font-medium text-gray-900 truncate flex items-center gap-1">
                   <span class="truncate">{{ row.name }}</span>
-                  <BaseVerifiedBadge v-if="row.isVerified" :size="14" />
+                  <BaseVerifiedBadge v-if="row.hasVerifiedBadge" :size="14" />
                 </p>
                 <p class="text-xs text-gray-400 truncate">{{ row.email }}</p>
               </div>
@@ -207,9 +212,9 @@ async function handleDelete(user: AdminUser) {
                   <BaseIcon name="building" :size="15" />
                 </el-button>
               </el-tooltip>
-              <el-tooltip :content="row.isVerified ? $t('admin.landlords.unverify') : $t('admin.landlords.verify')" placement="top">
-                <el-button text size="small" class="text-emerald-600!" :loading="verifyingUserId === row.id" @click="handleVerifyToggle(row)">
-                  <BaseIcon :name="row.isVerified ? 'shield-off' : 'shield-check'" :size="15" />
+              <el-tooltip :content="row.hasVerifiedBadge ? $t('admin.landlords.unverify') : $t('admin.landlords.verify')" placement="top">
+                <el-button text size="small" class="text-emerald-600!" :loading="verifyingUserId === row.id" @click="handleBadgeToggle(row)">
+                  <BaseIcon :name="row.hasVerifiedBadge ? 'shield-off' : 'shield-check'" :size="15" />
                 </el-button>
               </el-tooltip>
               <el-tooltip :content="row.isLocked ? $t('admin.users.unlock') : $t('admin.users.lock')" placement="top">
