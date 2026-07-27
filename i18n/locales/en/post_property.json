@@ -84,7 +84,8 @@
             "confirm_pin_desc": "This will be saved as your property location.",
             "pinned_at": "Pinned at",
             "reset_pin": "Remove pin",
-            "use_my_location": "Use my location"
+            "use_my_location": "Use my location",
+            "out_of_bounds": "That location is outside the selected province. Please pick a point within the province."
         },
         "pricing": {
             "title": "Pricing",

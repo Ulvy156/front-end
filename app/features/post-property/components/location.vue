@@ -74,6 +74,9 @@
         height="300px"
         :zoom="13"
         :searchable="true"
+        :center="selectedProvinceCoords ?? undefined"
+        :bounds-center="selectedProvinceCoords"
+        :bounds-radius-km="selectedProvinceCoords ? MAX_LOCATION_DISTANCE_KM : null"
       />
     </div>
 
@@ -124,10 +127,15 @@ import BaseMapClient from "~/components/ui/BaseMap.client.vue"
 import { useCambodiaLocations } from "@/composables/useCambodiaLocations"
 
 const { t } = useI18n()
-const { fetchProvinces, fetchDistrictsByProvinceId, getProvinceId } = useCambodiaLocations()
+const { fetchProvinces, fetchDistrictsByProvinceId, getProvinceId, fetchProvinceCoordinates } = useCambodiaLocations()
+
+// keep in sync with PropertyService.MAX_LOCATION_DISTANCE_KM on the back-end
+const MAX_LOCATION_DISTANCE_KM = 60
 
 const form = inject<any>("postPropertyForm", {})
 const formErrors = inject<any>("formErrors", {})
+
+const selectedProvinceCoords = ref<{ lat: number; lng: number } | null>(null)
 
 const mapCoords = computed({
   get() {
@@ -172,7 +180,7 @@ const districtOptions = computed(() =>
 onMounted(async () => {
   const data = await fetchProvinces()
   provinces.value = data.map((p) => ({ id: p.id, nameEn: p.nameEn, nameKh: p.nameKh }))
-  
+
   // Cache province IDs and districts from response
   data.forEach((p) => {
     if (p.id) {
@@ -185,7 +193,31 @@ onMounted(async () => {
       )
     }
   })
+
+  if (form.province) {
+    await loadProvinceCoordinates(form.province)
+  }
 })
+
+async function loadProvinceCoordinates(provinceName: string) {
+  if (!provinceName) {
+    selectedProvinceCoords.value = null
+    return
+  }
+
+  const province = provinces.value.find(
+    (p) => p.nameEn.toLowerCase() === provinceName.toLowerCase()
+  )
+  const provinceId = province?.id ?? (await getProvinceId(provinceName))
+
+  if (!provinceId) {
+    selectedProvinceCoords.value = null
+    return
+  }
+
+  const coords = await fetchProvinceCoordinates(provinceId)
+  selectedProvinceCoords.value = coords ? { lat: coords.latitude, lng: coords.longitude } : null
+}
 
 async function loadDistricts(newProvince: string) {
   try {
@@ -226,13 +258,16 @@ async function loadDistricts(newProvince: string) {
   }
 }
 
-function onProvinceChange() {
+async function onProvinceChange() {
   form.district = ''
   form.districtId = 0
   formErrors.province = ''
   formErrors.district = ''
-  console.log('Province selected:', form.province)
+  // reset the pin - a new province auto-pins its own center once coordinates load
+  form.latitude = ''
+  form.longitude = ''
   loadDistricts(form.province)
+  await loadProvinceCoordinates(form.province)
 }
 
 function onDistrictChange() {

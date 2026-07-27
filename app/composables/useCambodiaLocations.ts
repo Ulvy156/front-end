@@ -12,6 +12,12 @@ interface Province {
   nameKh?: string
 }
 
+interface ProvinceCoordinates {
+  id: number
+  latitude: number
+  longitude: number
+}
+
 export const useCambodiaLocations = () => {
   const api = useApi()
   let cachedProvinces: Province[] | null = null
@@ -58,9 +64,25 @@ export const useCambodiaLocations = () => {
     return province?.id || null
   }
 
+  const fetchProvinceCoordinates = async (
+    provinceId: number
+  ): Promise<ProvinceCoordinates | null> => {
+    try {
+      const { data } = await api.get(
+        `location/province/${provinceId}/coordinates`
+      )
+
+      return data?.data ?? data ?? null
+    } catch (error) {
+      console.error('Failed to fetch province coordinates:', error)
+      return null
+    }
+  }
+
   return {
     fetchProvinces,
     fetchDistrictsByProvinceId,
     getProvinceId,
+    fetchProvinceCoordinates,
   }
 }
