@@ -110,14 +110,14 @@ async function handleDuplicate(prop: LandlordProperty) {
     </div>
 
     <!-- Filters -->
-    <div class="flex gap-3 mb-4">
-      <BaseInput v-model="searchInput" :placeholder="t('landlord.properties.searchPlaceholder')" clearable icon="search" class="max-w-72" />
-      <el-select v-model="statusFilter" class="w-44">
+    <div class="flex flex-col sm:flex-row gap-3 mb-4">
+      <BaseInput v-model="searchInput" :placeholder="t('landlord.properties.searchPlaceholder')" clearable icon="search" class="w-full sm:max-w-72" />
+      <el-select v-model="statusFilter" class="w-full sm:w-44">
         <el-option :label="t('landlord.properties.filterAll')" value="all" />
         <el-option :label="t('landlord.properties.filterPublished')" value="published" />
         <el-option :label="t('landlord.properties.filterUnpublished')" value="unpublished" />
       </el-select>
-      <el-select v-model="availabilityFilter" class="w-44">
+      <el-select v-model="availabilityFilter" class="w-full sm:w-44">
         <el-option :label="t('landlord.properties.filterAllAvailability')" value="all" />
         <el-option :label="t('landlord.properties.filterAvailable')" value="available" />
         <el-option :label="t('landlord.properties.filterUnavailable')" value="unavailable" />
@@ -140,7 +140,8 @@ async function handleDuplicate(prop: LandlordProperty) {
       </div>
 
       <template v-else>
-        <el-table :data="items" row-key="id">
+        <div class="overflow-x-auto">
+        <el-table :data="items" row-key="id" class="min-w-[860px]">
           <el-table-column :label="t('landlord.properties.columns.property')" min-width="280">
             <template #default="{ row }">
               <div class="flex items-center gap-3 py-1">
@@ -240,8 +241,9 @@ async function handleDuplicate(prop: LandlordProperty) {
             </template>
           </el-table-column>
         </el-table>
+        </div>
 
-        <div v-if="meta && meta.totalPages > 1" class="flex items-center justify-between px-4 py-3 border-t border-gray-100">
+        <div v-if="meta && meta.totalPages > 1" class="flex flex-col sm:flex-row items-center justify-between gap-2 px-4 py-3 border-t border-gray-100">
           <p class="text-xs text-gray-400">
             {{ t('landlord.properties.showing', {
               from: (meta.page - 1) * meta.limit + 1,

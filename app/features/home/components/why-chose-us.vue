@@ -1,6 +1,6 @@
 <template>
     <section>
-        <div class="flex flex-col text-center items-center m-auto w-[70%] gap-5">
+        <div class="flex flex-col text-center items-center m-auto w-full sm:w-[70%] gap-5">
             <div class="flex items-center gap-2 text-(--nav-active-item) font-bold text-sm uppercase tracking-[0.08em]">
                 <span class="w-6 h-0.75 rounded-full bg-(--nav-active-item)"></span>
                 {{ $t('home.choseUs.choseUs') }}

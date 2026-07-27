@@ -5,7 +5,7 @@
              bg-white/70 backdrop-blur-xl
              border border-white/60
              shadow-[0_25px_50px_-15px_rgba(0,0,0,0.25)]
-             rounded-2xl p-6
+             rounded-2xl p-4 sm:p-6
              flex flex-col items-center gap-y-6">
 
             <!-- Step 1: Email -->
@@ -64,7 +64,7 @@
 
                 <!-- 6-box OTP input -->
                 <div class="w-full space-y-2">
-                    <div class="flex items-center justify-center gap-x-2">
+                    <div class="flex items-center justify-center gap-x-1 sm:gap-x-2">
                         <input
                             v-for="(_, i) in 6" :key="i"
                             :ref="(el) => { if (el) otpInputs[i] = el as HTMLInputElement }"
@@ -74,7 +74,7 @@
                             @keydown="handleKeydown(i, $event as KeyboardEvent)"
                             @paste.prevent="handlePaste($event as ClipboardEvent)"
                             :class="otpError ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-emerald-500'"
-                            class="w-11 h-14 rounded-xl border-2 text-center text-xl font-bold
+                            class="w-8 h-11 sm:w-11 sm:h-14 rounded-xl border-2 text-center text-base sm:text-xl font-bold
                                    text-slate-900 bg-white outline-none transition-colors duration-150" />
                     </div>
                     <p v-if="otpError" class="text-xs text-red-500 text-center">{{ otpError }}</p>

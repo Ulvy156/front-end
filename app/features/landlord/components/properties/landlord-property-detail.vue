@@ -7,6 +7,7 @@ import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useLandlordPropertyDetail } from '~/features/landlord/composables/useLandlordPropertyDetail'
 import { PARKING_UI } from '~/config/parking.config'
 import { initials } from '~/utils/initials'
+import { useMediaQuery } from '@vueuse/core'
 
 const { t } = useI18n()
 const route = useRoute()
@@ -22,6 +23,9 @@ const otherImages = computed(() => property.value?.images.filter(i => i !== cove
 
 const activeIndex = ref(0)
 const carouselRef = ref()
+
+const isDesktop = useMediaQuery('(min-width: 640px)')
+const carouselHeight = computed(() => (isDesktop.value ? '400px' : '260px'))
 
 function goToSlide(index: number) {
   activeIndex.value = index
@@ -64,10 +68,10 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
     <div v-else class="space-y-6">
 
       <!-- ── Status badges + title header ── -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
-        <div class="flex items-start justify-between">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
+        <div class="flex flex-wrap items-start justify-between gap-3">
           <div>
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center gap-3">
               <h2 class="text-xl font-semibold text-gray-900">{{ property.title }}</h2>
               <BaseButton
                 size="small"
@@ -103,7 +107,7 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
         </div>
 
         <!-- Stats row -->
-        <div class="flex gap-6 mt-4 text-sm text-gray-500">
+        <div class="flex flex-wrap gap-x-6 gap-y-2 mt-4 text-sm text-gray-500">
           <span class="flex items-center gap-1"><BaseIcon name="eye" :size="14" /> {{ property.totalViews.toLocaleString() }} {{ t('landlord.propertyDetail.views') }}</span>
           <span class="flex items-center gap-1"><BaseIcon name="heart" :size="14" /> {{ property.favouriteCount }} {{ t('landlord.propertyDetail.favourites') }}</span>
           <span v-if="property.reportCount > 0" class="flex items-center gap-1 text-red-500">
@@ -116,23 +120,23 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Images ── -->
-      <div v-if="property.images.length" class="bg-white rounded-xl border border-gray-200 p-6">
+      <div v-if="property.images.length" class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.images') }}</h3>
-        <div class="flex gap-2 items-start">
+        <div class="flex flex-col sm:flex-row gap-2 items-start">
           <el-carousel
             ref="carouselRef"
-            height="400px"
+            :height="carouselHeight"
             indicator-position="outside"
             arrow="always"
             :autoplay="false"
-            class="flex-1 rounded-lg overflow-hidden"
+            class="w-full sm:flex-1 rounded-lg overflow-hidden"
             @change="(c: number) => activeIndex = c"
           >
             <el-carousel-item v-for="img in property.images" :key="img.imageKey">
               <BaseImage :src="img.imageKey" :alt="property.title" :rounded="true" fit="cover" class="w-full h-full" />
             </el-carousel-item>
           </el-carousel>
-          <div v-if="property.images.length > 1" class="flex flex-col gap-2 w-20 max-h-100 overflow-y-auto">
+          <div v-if="property.images.length > 1" class="flex flex-row sm:flex-col gap-2 w-full sm:w-20 max-h-none sm:max-h-100 overflow-x-auto sm:overflow-x-visible sm:overflow-y-auto">
             <BaseImage
               v-for="(img, i) in property.images"
               :key="img.imageKey"
@@ -148,9 +152,9 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Price & Lease ── -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.priceLease') }}</h3>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-emerald-500">
             <p class="text-xs text-gray-400">{{ t('landlord.propertyDetail.monthlyRent') }}</p>
             <p class="text-lg font-semibold text-gray-900">${{ property.monthly_price }}</p>
@@ -171,9 +175,9 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Rooms & Size ── -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.roomsDetails') }}</h3>
-        <div class="grid grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
           <div class="flex items-center gap-3 bg-gray-50 rounded-lg p-4">
             <BaseIcon name="bed" :size="20" class="text-emerald-600" />
             <div>
@@ -211,13 +215,13 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Description ── -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.description') }}</h3>
         <div class="prose prose-sm max-w-none text-gray-600" v-html="property.description" />
       </div>
 
       <!-- ── Location ── -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.location') }}</h3>
         <div class="space-y-2 text-sm text-gray-600">
           <p><span class="text-gray-400">{{ t('landlord.propertyDetail.address') }}:</span> {{ property.address }}</p>
@@ -232,9 +236,9 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Amenities ── -->
-      <div v-if="property.amenities.length" class="bg-white rounded-xl border border-gray-200 p-6">
+      <div v-if="property.amenities.length" class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.amenities') }}</h3>
-        <div class="grid grid-cols-4 gap-3">
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
           <div
             v-for="amenity in property.amenities"
             :key="amenity.icon"
@@ -247,9 +251,9 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── House Rules ── -->
-      <div v-if="property.rules.length" class="bg-white rounded-xl border border-gray-200 p-6">
+      <div v-if="property.rules.length" class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.houseRules') }}</h3>
-        <div class="flex gap-8">
+        <div class="flex flex-col sm:flex-row gap-4 sm:gap-8">
           <div v-if="allowedRules.length" class="flex-1 space-y-2">
             <div
               v-for="rule in allowedRules"
@@ -280,9 +284,9 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Parking ── -->
-      <div v-if="property.parkings.length" class="bg-white rounded-xl border border-gray-200 p-6">
+      <div v-if="property.parkings.length" class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.parking') }}</h3>
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div v-for="p in property.parkings" :key="p.id" class="bg-gray-50 rounded-lg p-4">
             <div class="flex items-center gap-2 mb-2">
               <BaseIcon :name="PARKING_UI[p.type].icon" :size="16" />
@@ -303,7 +307,7 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Reports ── -->
-      <div v-if="property.propertyReport.length" class="bg-white rounded-xl border border-gray-200 p-6">
+      <div v-if="property.propertyReport.length" class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <BaseIcon name="flag" :size="18" class="text-red-500" />
           {{ t('landlord.propertyDetail.reports') }} ({{ property.reportCount }})
@@ -332,9 +336,9 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       </div>
 
       <!-- ── Metadata ── -->
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.metadata') }}</h3>
-        <div class="grid grid-cols-2 gap-4 text-sm">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div>
             <span class="text-gray-400">{{ t('landlord.propertyDetail.propertyType') }}</span>
             <p class="text-gray-900">{{ property.propertyType[langKey] }}</p>

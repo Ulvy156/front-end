@@ -1,7 +1,7 @@
 <template>
-  <section class="w-[80%] mt-10 m-auto">
+  <section class="w-full px-4 mt-6 md:w-[80%] md:px-0 md:mt-10 m-auto">
     <!-- Step Header -->
-    <el-steps :active="active" finish-status="success">
+    <el-steps :active="active" finish-status="success" class="post-property-steps">
       <el-step :title="t('post_property.steps.one')" />
       <el-step :title="t('post_property.steps.two')" />
       <el-step :title="t('post_property.steps.three')" />
@@ -12,7 +12,7 @@
     </el-steps>
 
     <!-- Step Content -->
-    <div class="mt-8">
+    <div class="mt-6 md:mt-8">
       <component :is="currentComponent" @go-to="handleGoTo" />
     </div>
 
@@ -371,8 +371,8 @@ const publish = async () => {
 
      const amenityKeys = Array.isArray(form.amenities)
        ? form.amenities
-           .map((v) => Number(v))
-           .filter((n) => Number.isFinite(n))
+           .map((v: unknown) => Number(v))
+           .filter((n: unknown) => Number.isFinite(n))
        : [];
 
      const ruleKeys = Array.isArray(form.ruleKeys)
@@ -472,7 +472,7 @@ const publish = async () => {
       publishResult.value = t('post_property.published_success', { id: result.id });
       notify.success(publishResult.value);
       // Redirect
-      router.push('/properties');
+      router.push('/landlord/properties');
     } catch (error: any) {
      publishError.value = extract(error);
      notify.error(publishError.value);
@@ -481,3 +481,14 @@ const publish = async () => {
    }
  };
 </script>
+
+<style scoped>
+@media (max-width: 640px) {
+  .post-property-steps :deep(.el-step__title) {
+    display: none;
+  }
+  .post-property-steps :deep(.el-step__description) {
+    display: none;
+  }
+}
+</style>

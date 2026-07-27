@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
     <div class="mb-6">
       <h2 class="text-lg font-medium text-gray-900">
         {{ t("post_property.basic_info.title") }}
@@ -51,7 +51,7 @@
         <h3 class="text-sm font-medium text-gray-800 mb-3">
           {{ t("post_property.basic_info.property_details") }}
         </h3>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div>
             <label class="text-xs text-gray-500 mb-1.5 block">{{ t("post_property.basic_info.bedrooms") }}</label>
             <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">

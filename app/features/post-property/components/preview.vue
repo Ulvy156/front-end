@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
     <!-- Header -->
     <div class="mb-4">
       <h2 class="text-lg font-medium text-gray-900">
@@ -26,7 +26,7 @@
     <div class="border border-gray-200 rounded-xl overflow-hidden mb-5">
       <!-- Photo -->
       <div class="relative">
-        <div class="w-full overflow-hidden rounded-t-xl" style="height:650px">
+        <div class="w-full overflow-hidden rounded-t-xl h-56 sm:h-96 md:h-[650px]">
         
           <img
             v-if="form.photos && form.photos.length"
@@ -264,7 +264,7 @@
     </div>
 
     <!-- Edit Buttons Grid -->
-    <div class="grid grid-cols-3 gap-2">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
       <button
         v-for="btn in editButtons"
         :key="btn.step"

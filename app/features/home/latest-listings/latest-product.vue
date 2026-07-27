@@ -13,7 +13,7 @@
         :to="`/properties/details/${item.id}`"
         class="latest-card"
       >
-        <div class="relative w-[148px] shrink-0 overflow-hidden rounded-l-xl">
+        <div class="relative w-full h-40 sm:w-[148px] sm:h-auto shrink-0 overflow-hidden rounded-t-xl sm:rounded-t-none sm:rounded-l-xl">
           <BaseImage
             :src="item.images[0]?.imageKey ?? ''"
             class="w-full h-full object-cover"
@@ -74,6 +74,7 @@ defineProps<{
 <style scoped>
 .latest-card {
   display: flex;
+  flex-direction: column;
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
@@ -81,6 +82,12 @@ defineProps<{
   text-decoration: none;
   color: inherit;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+@media (min-width: 640px) {
+  .latest-card {
+    flex-direction: row;
+  }
 }
 
 .latest-card:hover {

@@ -1,5 +1,5 @@
 <template>
-  <section class="w-[80%] mt-10 m-auto">
+  <section class="w-full px-4 mt-6 md:w-[80%] md:px-0 md:mt-10 m-auto">
     <!-- Loading -->
     <div v-if="isPending" class="space-y-4">
       <BaseSkeleton :rows="1" leading="square" leading-size="300px" :lines="3" />
@@ -23,7 +23,7 @@
 
     <!-- Edit form -->
     <template v-else>
-      <el-steps :active="active" finish-status="success">
+      <el-steps :active="active" finish-status="success" class="edit-property-steps">
         <el-step :title="t('post_property.steps.one')" />
         <el-step :title="t('post_property.steps.two')" />
         <el-step :title="t('post_property.steps.three')" />
@@ -32,7 +32,7 @@
         <el-step :title="t('landlord.editProperty.photos')" />
       </el-steps>
 
-      <div class="mt-8">
+      <div class="mt-6 md:mt-8">
         <editPropertyType v-if="active === 0" :form="form" />
         <editBasicInfo v-else-if="active === 1" :form="form" :form-errors="formErrors" />
         <editLocation v-else-if="active === 2" :form="form" :form-errors="formErrors" />
@@ -136,3 +136,14 @@ async function handleSave() {
   }
 }
 </script>
+
+<style scoped>
+@media (max-width: 640px) {
+  .edit-property-steps :deep(.el-step__title) {
+    display: none;
+  }
+  .edit-property-steps :deep(.el-step__description) {
+    display: none;
+  }
+}
+</style>

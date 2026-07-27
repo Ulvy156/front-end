@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
     <div class="mb-4">
       <h2 class="text-lg font-medium text-gray-900 mb-0.5">{{ t("post_property.amenities.title") }}</h2>
       <p class="text-sm text-gray-500 mt-4">{{ t("post_property.amenities.subtitle") }}</p>
@@ -7,7 +7,7 @@
 
     <hr class="border-gray-200 mb-5" />
 
-    <div class="grid grid-cols-3 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
       <div v-for="amenity in amenities" :key="amenity.id">
         <div @click="toggleAmenity(amenity.id)" :class="form.amenities?.includes(amenity.id)
             ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
@@ -26,7 +26,7 @@
           {{ showParkingOptions ? "- Hide" : "+ " + t("post_property.amenities.add_parking") }}
         </button>
       </div>
-      <div v-if="showParkingOptions" class="grid grid-cols-3 gap-3">
+      <div v-if="showParkingOptions" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div v-for="parking in parkingOptions" :key="parking.key">
           <div @click="toggleParking(parking.key)" :class="form.parkings?.includes(parking.key)
               ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
@@ -50,7 +50,7 @@
 
     <div class="mb-6">
       <label class="block text-sm font-medium text-gray-800 mb-2">{{ t("post_property.amenities.house_rules") }}</label>
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div v-for="rule in rules" :key="rule.id">
           <div @click="toggleRule(rule.id)" :class="form.ruleKeys?.includes(rule.id)
               ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
@@ -68,7 +68,7 @@
         <div class="flex items-center gap-2 mb-3">
           <span class="text-sm font-medium text-gray-700">{{ t(`post_property.amenities.parking_types.${pk}`) }}</span>
         </div>
-        <div class="grid grid-cols-3 gap-3 mb-3">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
           <div>
             <label class="block text-xs text-gray-500 mb-1">{{ t("post_property.amenities.slots") }}</label>
             <BaseInput
@@ -87,7 +87,7 @@
             </button>
           </div>
         </div>
-        <div v-if="!form.parkingDetails[pk]?.isFree" class="grid grid-cols-2 gap-3">
+        <div v-if="!form.parkingDetails[pk]?.isFree" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div>
             <label class="block text-xs text-gray-500 mb-1">{{ t("post_property.amenities.price_per_month") }} ($)</label>
             <BaseInput

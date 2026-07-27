@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
     <div class="mb-4">
       <h2 class="text-lg font-medium text-gray-900 mb-0.5">{{ t('landlord.editProperty.photos') }}</h2>
       <p class="text-sm text-gray-500">{{ t('landlord.editProperty.photosSubtitle') }}</p>
@@ -12,7 +12,7 @@
       <p class="text-sm font-medium text-gray-700 mb-3">
         {{ t('landlord.editProperty.currentPhotos') }} ({{ existingImages.length }})
       </p>
-      <div class="grid grid-cols-4 gap-3">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
         <div
           v-for="img in existingImages"
           :key="img.id"

@@ -61,7 +61,7 @@ async function saveName() {
   <div v-else class="space-y-4">
 
     <!-- Profile header card -->
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
       <div class="flex items-center gap-6">
         <ProfileAvatar
           :img-url="profile.imgUrl"
@@ -71,7 +71,7 @@ async function saveName() {
         />
       </div>
 
-      <div class="grid grid-cols-3 gap-6 mt-6 pt-6 border-t border-gray-100">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-6 pt-6 border-t border-gray-100">
         <div>
           <p class="text-xs text-gray-400 mb-1">{{ t('profile.info.name') }}</p>
           <div v-if="!isEditingName" class="flex items-center gap-2">
@@ -98,8 +98,8 @@ async function saveName() {
     </div>
 
     <!-- Two-column grid: Phones + Visibility -->
-    <div class="grid grid-cols-2 gap-4">
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <div class="flex items-center gap-2 mb-4">
           <ClientOnly><BaseIconClient name="phone" :size="16" class="text-emerald-600" /></ClientOnly>
           <h3 class="text-sm font-semibold text-gray-900">{{ t('profile.phones.title') }}</h3>
@@ -107,7 +107,7 @@ async function saveName() {
         <PhoneManagement :profile="profile" :add-mutation="addPhone" :delete-mutation="deletePhone" />
       </div>
 
-      <div class="bg-white rounded-xl border border-gray-200 p-6">
+      <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <div class="flex items-center gap-2 mb-4">
           <ClientOnly><BaseIconClient name="eye" :size="16" class="text-emerald-600" /></ClientOnly>
           <h3 class="text-sm font-semibold text-gray-900">{{ t('profile.visibility.title') }}</h3>
@@ -117,7 +117,7 @@ async function saveName() {
     </div>
 
     <!-- Security -->
-    <div class="bg-white rounded-xl border border-gray-200 p-6">
+    <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
       <ChangePassword :mutation="changePassword" />
     </div>
   </div>

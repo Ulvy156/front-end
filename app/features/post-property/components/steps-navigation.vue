@@ -1,6 +1,6 @@
 <template>
   <div
-    class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm px-6 py-5 flex items-center justify-between"
+    class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm px-4 py-4 sm:px-6 sm:py-5 flex flex-wrap items-center justify-between gap-3"
   >
     <!-- Back -->
     <BaseButton type="info" @click="emit('back')">
@@ -9,7 +9,7 @@
     </BaseButton>
 
     <!-- Middle (draft controls) — only in create mode -->
-    <div v-if="showDraftControls" class="flex justify-between items-center gap-6">
+    <div v-if="showDraftControls" class="order-3 sm:order-none w-full sm:w-auto flex justify-between items-center gap-6">
       <BaseButton text type="info" @click="emit('save')">
         <BaseIconClient name="save" :size="18" />
         <span class="font-medium">{{ $t('post_property.draft') }}</span>

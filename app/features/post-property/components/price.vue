@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
     <div class="mb-4">
       <h2 class="text-lg font-medium text-gray-900 mb-0.5">
         {{ t("post_property.pricing.title") }}
@@ -10,7 +10,7 @@
     <hr class="border-gray-200 mb-5" />
 
     <!-- Monthly Rent + Security Deposit -->
-    <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
 
       <!-- Monthly Rent -->
       <div>
@@ -82,7 +82,7 @@
 
       <div
         :class="formErrors.minStay ? 'ring-1 ring-red-300 rounded-lg' : ''"
-        class="grid grid-cols-5 gap-2"
+        class="grid grid-cols-2 sm:grid-cols-5 gap-2"
       >
         <button
           v-for="option in stayOptions"
@@ -123,7 +123,7 @@
     </div>
 
     <!-- Open / Close Time -->
-    <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.pricing.open_time") }}

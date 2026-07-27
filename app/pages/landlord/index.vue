@@ -44,7 +44,7 @@ const favouriteSubStats = computed(() => [] as { label: string; value: string | 
 
   <template v-else>
     <!-- Row 1: Stat cards -->
-    <div class="grid grid-cols-4 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
       <DashboardStatCard
         icon="building"
         icon-bg="bg-blue-50 text-blue-600"
@@ -80,7 +80,7 @@ const favouriteSubStats = computed(() => [] as { label: string; value: string | 
     </div>
 
     <!-- Row 2: Recent Activity + Top Properties -->
-    <div class="grid grid-cols-2 gap-4">
+    <div class="grid grid-cols-1 xl:grid-cols-2 gap-4">
       <LandlordRecentActivity
         :items="data?.recentActivity ?? []"
         :loading="pending"

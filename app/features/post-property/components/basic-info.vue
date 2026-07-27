@@ -57,7 +57,7 @@
           {{ t("post_property.basic_info.property_details") }}
         </h3>
 
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
 
           <!-- Bedrooms -->
           <div>

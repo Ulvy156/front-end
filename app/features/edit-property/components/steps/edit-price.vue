@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
     <div class="mb-4">
       <h2 class="text-lg font-medium text-gray-900 mb-0.5">{{ t("post_property.pricing.title") }}</h2>
       <p class="text-sm text-gray-500 mt-4">{{ t("post_property.pricing.subtitle") }}</p>
@@ -7,7 +7,7 @@
 
     <hr class="border-gray-200 mb-5" />
 
-    <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.pricing.monthly_rent") }}
@@ -55,7 +55,7 @@
         <span class="text-red-500">*</span>
         <span v-if="formErrors.minStay" class="text-red-500 text-xs font-normal ml-1">{{ formErrors.minStay }}</span>
       </label>
-      <div :class="formErrors.minStay ? 'ring-1 ring-red-300 rounded-lg' : ''" class="grid grid-cols-5 gap-2">
+      <div :class="formErrors.minStay ? 'ring-1 ring-red-300 rounded-lg' : ''" class="grid grid-cols-2 sm:grid-cols-5 gap-2">
         <button
           v-for="option in stayOptions"
           :key="option.value"
@@ -89,7 +89,7 @@
     </div>
 
     <!-- Open / Close Time -->
-    <div class="grid grid-cols-2 gap-4 mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.pricing.open_time") }}

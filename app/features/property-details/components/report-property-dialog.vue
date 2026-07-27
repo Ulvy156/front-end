@@ -71,6 +71,7 @@ defineExpose({ open })
     v-model="isOpen"
     :title="t('property.reportDialog.title')"
     width="500px"
+    class="report-property-dialog"
     :close-on-click-modal="false"
     append-to-body
   >
@@ -123,3 +124,11 @@ defineExpose({ open })
     </el-form>
   </el-dialog>
 </template>
+
+<style scoped>
+@media (max-width: 640px) {
+  :deep(.report-property-dialog.el-dialog) {
+    width: 92vw !important;
+  }
+}
+</style>

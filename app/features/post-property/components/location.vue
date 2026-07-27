@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white rounded-2xl border border-gray-200 p-6">
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
     <div class="mb-4">
       <h2 class="text-lg font-medium text-gray-900 mb-0.5">
         {{ t("post_property.location.title") }}
@@ -10,7 +10,7 @@
     <hr class="border-gray-200 mb-5" />
 
     <!-- Province / District -->
-    <div class="grid grid-cols-2 gap-4 mb-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.location.province") }}
@@ -78,7 +78,7 @@
     </div>
 
     <!-- Lat / Lng -->
-    <div class="grid grid-cols-2 gap-4 mb-5">
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.location.latitude") }} ({{ t("post_property.optional") }})

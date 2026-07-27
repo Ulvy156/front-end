@@ -1,8 +1,18 @@
 <template>
   <div class="flex min-h-screen">
 
+    <!-- ── Mobile overlay backdrop ── -->
+    <div
+      v-if="sidebarOpen"
+      class="fixed inset-0 bg-black/40 z-20 md:hidden"
+      @click="sidebarOpen = false"
+    />
+
     <!-- ── Sidebar ── -->
-    <aside class="fixed left-0 top-0 h-screen w-60 bg-white border-r border-gray-200 flex flex-col z-30">
+    <aside
+      class="fixed left-0 top-0 h-screen w-60 bg-white border-r border-gray-200 flex flex-col z-30 transition-transform duration-200 md:translate-x-0"
+      :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
+    >
 
       <!-- Logo -->
       <div class="h-16 flex items-center gap-2 px-5 border-b border-gray-200 shrink-0">
@@ -41,19 +51,28 @@
     </aside>
 
     <!-- ── Main area ── -->
-    <div class="ml-60 flex-1 flex flex-col min-h-screen">
+    <div class="flex-1 flex flex-col min-h-screen min-w-0 md:ml-60">
 
       <!-- Topbar -->
-      <header class="sticky top-0 z-20 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-6 shrink-0">
-        <h1 class="text-base font-semibold text-gray-900">{{ pageTitle }}</h1>
+      <header class="sticky top-0 z-10 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 md:px-6 shrink-0">
+        <div class="flex items-center gap-2 min-w-0">
+          <button
+            class="md:hidden shrink-0 p-1.5 -ml-1.5 rounded-lg text-gray-600 hover:bg-gray-100 cursor-pointer"
+            :aria-label="$t('landlord.nav.title')"
+            @click="sidebarOpen = true"
+          >
+            <BaseIcon name="menu" :size="20" />
+          </button>
+          <h1 class="text-base! font-semibold! text-gray-900 truncate min-w-0">{{ pageTitle }}</h1>
+        </div>
 
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
 
         <!-- Language switcher -->
         <el-dropdown trigger="click" @command="switchLang">
           <button class="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-sm text-slate-600 hover:border-slate-300 transition cursor-pointer">
             <span>{{ locale === 'en' ? '🇬🇧' : '🇰🇭' }}</span>
-            <span class="text-xs font-medium">{{ locale === 'en' ? 'EN' : 'KM' }}</span>
+            <span class="text-xs font-medium hidden sm:inline">{{ locale === 'en' ? 'EN' : 'KM' }}</span>
             <BaseIcon name="chevron-down" :size="12" class="text-slate-400" />
           </button>
           <template #dropdown>
@@ -67,14 +86,14 @@
         <!-- User dropdown -->
         <el-dropdown trigger="click" @command="handleCommand">
           <button
-            class="flex items-center gap-x-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:border-slate-300 hover:shadow-sm transition-all cursor-pointer"
+            class="flex items-center gap-x-2 rounded-xl border border-slate-200 bg-white px-2 sm:px-3 py-2 text-sm font-medium text-slate-700 hover:border-slate-300 hover:shadow-sm transition-all cursor-pointer"
           >
             <div
               class="w-7 h-7 rounded-full bg-emerald-100 flex items-center justify-center text-[var(--nav-active-item)] text-xs font-bold shrink-0"
             >
               {{ userInitials }}
             </div>
-            <span class="max-w-32 truncate">{{ authStore.user?.name }}</span>
+            <span class="hidden sm:inline sm:max-w-32 truncate">{{ authStore.user?.name }}</span>
             <BaseIcon name="chevron-down" :size="14" class="text-slate-400" />
           </button>
           <template #dropdown>
@@ -92,7 +111,7 @@
       </header>
 
       <!-- Page content -->
-      <main class="flex-1 p-6">
+      <main class="flex-1 p-4 md:p-6">
         <slot />
       </main>
 
@@ -109,6 +128,9 @@ const route = useRoute()
 const authStore = useAuthStore()
 const { logout } = useLogout()
 const { t, locale, setLocale } = useI18n()
+
+const sidebarOpen = ref(false)
+watch(() => route.path, () => { sidebarOpen.value = false })
 
 const userInitials = computed(() => initials(authStore.user?.name ?? ''))
 

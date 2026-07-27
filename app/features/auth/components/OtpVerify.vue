@@ -21,7 +21,7 @@
 
         <!-- 6-box OTP input -->
         <div class="space-y-2">
-            <div class="flex items-center justify-center gap-x-2">
+            <div class="flex items-center justify-center gap-x-1.5 sm:gap-x-2">
                 <input
                     v-for="(_, i) in 6" :key="i"
                     :ref="(el) => { if (el) otpInputs[i] = el as HTMLInputElement }"
@@ -31,7 +31,7 @@
                     @keydown="handleKeydown(i, $event as KeyboardEvent)"
                     @paste.prevent="handlePaste($event as ClipboardEvent)"
                     :class="error ? 'border-red-400 focus:border-red-500' : 'border-slate-200 focus:border-emerald-500'"
-                    class="w-11 h-14 rounded-xl border-2 text-center text-xl font-bold
+                    class="w-9 h-12 sm:w-11 sm:h-14 rounded-xl border-2 text-center text-lg sm:text-xl font-bold
                            text-slate-900 bg-white outline-none transition-colors duration-150" />
             </div>
             <p v-if="error" class="text-xs text-red-500 text-center">{{ error }}</p>
