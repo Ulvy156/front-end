@@ -132,6 +132,7 @@ import { useI18n } from 'vue-i18n'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import { exceedsFileSize } from '~/utils/fileSize'
+import { compressImage } from '~/utils/imageCompression'
 import { useAppSettingsStore } from '~/stores/appSettings'
 
 const { t } = useI18n()
@@ -163,7 +164,7 @@ function handleDrop(event: DragEvent) {
   console.log('Files dropped:', files.length)
 }
 
-function loadFiles(files: File[]) {
+async function loadFiles(files: File[]) {
   if (!form.photos) form.photos = []
   if (!form.photoFiles) form.photoFiles = []
   for (const file of files) {
@@ -175,14 +176,21 @@ function loadFiles(files: File[]) {
       continue
     }
     photoNames.value.push(file.name)
-    const reader = new FileReader()
-    reader.onload = (e) => {
-      form.photos.push(e.target?.result as string)
-      form.photoFiles.push(file)
-      if (form.photos.length >= 3) formErrors.photos = ''
-      console.log('Photo loaded:', file.name, 'Total photos:', form.photos.length)
+    try {
+      const { file: compressed, dataUrl } = await compressImage(file)
+      form.photos.push(dataUrl)
+      form.photoFiles.push(compressed)
+    } catch {
+      const reader = new FileReader()
+      reader.onload = (e) => {
+        form.photos.push(e.target?.result as string)
+        form.photoFiles.push(file)
+        if (form.photos.length >= 3) formErrors.photos = ''
+      }
+      reader.readAsDataURL(file)
+      continue
     }
-    reader.readAsDataURL(file)
+    if (form.photos.length >= 3) formErrors.photos = ''
   }
 }
 
