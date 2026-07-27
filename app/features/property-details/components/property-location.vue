@@ -10,7 +10,7 @@
     <div v-if="property.nearby_location" class="text-sm text-gray-600 mb-3.5">
       <BaseIconClient name="map-pin" :size="14" class="inline text-gray-600" />
       {{ property.nearby_location }}
-      <span v-if="property.distanceKm"> · {{ property.distanceKm }} km</span>
+      <span> · {{ property.distanceKm ? `${property.distanceKm} km` : '~' }}</span>
     </div>
 
     <!-- Map -->
