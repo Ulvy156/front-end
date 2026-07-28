@@ -1,5 +1,5 @@
 <template>
-  <section class="lg:min-h-[60dvh] md:min-h-[40dvh] min-h-[50dvh] bg-black relative">
+  <section class="lg:min-h-[60dvh] md:min-h-[40dvh] min-h-[50dvh] bg-black relative flex items-center justify-center">
     <NuxtImg
       src="/bg.png"
       alt=""
@@ -15,18 +15,18 @@
     <div class="absolute inset-0 bg-black/45"></div>
 
     <!-- Content -->
-    <div class="relative z-10 flex flex-col items-center justify-center px-6 py-12 text-white text-center">
+    <div class="relative z-10 flex flex-col items-center px-6 py-8 md:py-16 lg:py-32 text-white text-center">
       <!-- Badge -->
       <div class="inline-flex items-center gap-2 bg-white/18 px-3.5 py-1.5 rounded-full text-[13px] font-bold mb-5">
-        <span class="w-[7px] h-[7px] rounded-full bg-green-200"></span>
+        <span class="w-1.75 h-1.75 rounded-full bg-green-200"></span>
         {{ totalListings }} {{ t('home.hero.badge') }}
       </div>
 
       <!-- Headline -->
-      <h1 class="text-[clamp(2.25rem,5vw,50px)] leading-[1.06] font-extrabold tracking-[-0.03em] mb-4 max-w-[620px]">
+      <h1 class="text-[clamp(2.25rem,5vw,50px)] leading-[1.06] font-extrabold tracking-[-0.03em] mb-4 max-w-155">
         {{ t('home.hero.title') }}
       </h1>
-      <p class="text-[17px] leading-relaxed opacity-90 max-w-[460px]">
+      <p class="text-[17px] leading-relaxed opacity-90 max-w-115">
         {{ t('home.hero.content') }}
       </p>
 
