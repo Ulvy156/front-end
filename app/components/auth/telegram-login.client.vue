@@ -94,7 +94,7 @@ onMounted(() => {
       }
       accessToken.value = token
       if (data.is_new_user) {
-        await navigateTo('/auth/role-select', { replace: true })
+        await navigateTo({ path: '/auth/role-select', query: { is_new_user: 'true' } }, { replace: true })
       } else {
         await authStore.fetchProfile(token)
         if (authStore.isAuthenticated) {

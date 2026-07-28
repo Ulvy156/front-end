@@ -13,6 +13,17 @@
         <p class="text-slate-500 text-sm">{{ t('auth.selectRoleDesc') }}</p>
       </div>
 
+      <!-- Optional password setup (new Telegram/Google sign-ups only) -->
+      <div v-if="showPasswordField" class="space-y-1.5">
+        <label for="password" class="block text-sm font-medium text-slate-700">
+          {{ t('auth.setPassword') }}
+        </label>
+        <BaseInput id="password" icon="lock-keyhole" show-password type="password" size="large"
+          :disabled="isSubmitting" :placeholder="t('auth.setPasswordPlaceholder')" v-model="password" />
+        <p v-if="passwordError" class="text-xs text-red-500">{{ passwordError }}</p>
+        <p class="text-xs text-slate-400">{{ t('auth.setPasswordDesc') }}</p>
+      </div>
+
       <!-- Role cards -->
       <div class="grid grid-cols-2 gap-4">
         <button type="button" :disabled="isSubmitting" @click="selectRole('USER')"
@@ -74,6 +85,7 @@
 </template>
 
 <script setup lang="ts">
+import BaseInput from '~/components/ui/BaseInput.vue'
 import { resolvePostLoginRoute } from '~/utils/roleGuard'
 
 definePageMeta({ layout: 'auth' })
@@ -84,13 +96,31 @@ const notify = useNotify()
 const authStore = useAuthStore()
 const accessToken = useAccessToken()
 const { extract } = useErrorMsg()
+const route = useRoute()
 
+// Only new Telegram/Google sign-ups lack a password; existing accounts already
+// have one and the backend rejects select-role if a password is sent for them.
+const showPasswordField = route.query.is_new_user === 'true'
+
+const password = ref('')
+const passwordError = ref('')
 const isSubmitting = ref(false)
 
+watch(password, () => { passwordError.value = '' })
+
 const selectRole = async (role: 'USER' | 'LANDLORD') => {
+  const trimmedPassword = password.value.trim()
+  if (showPasswordField && trimmedPassword && !isStrongPassword(trimmedPassword)) {
+    passwordError.value = t('auth.passwordWeak')
+    return
+  }
+
   isSubmitting.value = true
   try {
-    await api.patch('/auth/select-role', { role })
+    await api.patch('/auth/select-role', {
+      role,
+      ...(showPasswordField && trimmedPassword ? { password: trimmedPassword } : {}),
+    })
     const { data } = await api.post<{ accessToken: string }>('/auth/refresh-token')
     accessToken.value = data.accessToken
     await authStore.fetchProfile()
