@@ -4,7 +4,7 @@
      :initial="{ opacity: 0, y: 20 }"
      :visible-once="{ opacity: 1, y: 0 }"
      :hovered="{ y: -5 }"
-     class="card"
+     class="card @container"
      @click="props.item.id && $router.push(`/properties/details/${props.item.id}`)"
    >
     <div class="relative overflow-hidden rounded-md">
@@ -88,7 +88,7 @@
       </div>
 
       <div class="flex flex-col gap-y-3">
-        <div class="flex items-center gap-x-3">
+        <div class="flex flex-wrap items-center gap-x-2 gap-y-2 @sm:gap-x-3">
           <div class="amenity-chip">
             <BaseTooltip :content="$t('card.bathroom')">
               <BaseIcon name="bath" :size="14" />
@@ -281,11 +281,20 @@ const showDistance = computed(
 .amenity-chip {
   display: flex;
   align-items: center;
-  column-gap: 5px;
-  padding: 4px 8px;
+  column-gap: 7px;
+  padding: 3px 6px;
   border-radius: 8px;
   background: #f3f4f6;
-  font-size: 13px;
+  font-size: 12px;
   color: #4b5563;
+  flex-shrink: 0;
+}
+
+@container (min-width: 24rem) {
+  .amenity-chip {
+    column-gap: 5px;
+    padding: 4px 8px;
+    font-size: 13px;
+  }
 }
 </style>

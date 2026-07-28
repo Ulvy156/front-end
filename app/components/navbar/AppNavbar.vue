@@ -1,5 +1,5 @@
 <template>
-  <header :class="overlay" class=" top-2 z-40 hidden md:block ">
+  <header :class="overlay" class=" top-2 z-40 hidden lg:block ">
     <nav
       class="m-auto flex justify-between w-11/12 items-center gap-4 rounded-2xl border border-gray-50 bg-white/60 px-6 py-3 shadow-sm bg-clip-padding  backdrop-filter backdrop-blur-sm">
       <!-- Logo -->
@@ -10,7 +10,7 @@
       </NuxtLink>
 
       <!-- Center Search -->
-      <div class="mx-auto flex items-center gap-1 rounded-full border border-(--nav-active-item) bg-white px-2 py-1.5 text-sm text-gray-600">
+      <div class="mx-auto flex items-center gap-1 rounded-full border border-(--nav-active-item) bg-white px-2 py-1.5 text-sm text-gray-600 whitespace-nowrap">
         <NuxtLink to="/"
         :class="{'menu-item-active': isActive('/')}"
         class="menu-items">
@@ -50,7 +50,7 @@
         <!-- Unauthenticated -->
         <NuxtLink v-if="!authStore.isAuthenticated" to="/auth/login"
           class="rounded-full bg-blue-600 px-5 py-2 text-sm font-semibold text-white
-                 hover:bg-blue-700 transition-colors">
+                 hover:bg-blue-700 transition-colors whitespace-nowrap">
           {{ $t('auth.signIn') }}
         </NuxtLink>
 

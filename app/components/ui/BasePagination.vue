@@ -1,6 +1,7 @@
 <template>
   <el-pagination
     background
+    hide-on-single-page
     layout="prev, pager, next"
     :total="total"
     :page-size="pageSize"

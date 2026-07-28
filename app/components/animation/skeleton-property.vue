@@ -50,7 +50,7 @@
 const props = withDefaults(
   defineProps<{
     numberOfItems?: number;
-    isHide: boolean;
+    isHide?: boolean;
     variant?: 'vertical' | 'horizontal';
   }>(),
   {

@@ -98,6 +98,13 @@ onMounted(async () => {
       : {}),
   })
 
+  // the STREETS sprite doesn't cover every POI icon id referenced by the vector tiles
+  // (e.g. "pet", "office"); MapTiler's own error message asks consumers to fill the gap
+  map.on('styleimagemissing', (e: { id: string }) => {
+    if (map.hasImage(e.id)) return
+    map.addImage(e.id, { width: 1, height: 1, data: new Uint8Array(4) })
+  })
+
   map.on('load', () => {
     map.resize()
 

@@ -1,6 +1,6 @@
 <template>
   <!-- Mobile Header -->
-  <header class="sticky top-2 z-40 md:hidden px-4 w-full">
+  <header class="sticky top-2 z-40 lg:hidden px-4 w-full">
     <div
       class="flex items-center justify-between rounded-2xl border border-gray-200 w-full
              bg-white/80 px-4 py-2 shadow-sm backdrop-blur"
