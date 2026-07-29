@@ -75,7 +75,7 @@ export default defineNuxtConfig({
     // image weight). 80 is visually lossless for photos at these display sizes.
     quality: 80,
   },
-  css: ['./app/assets/css/main.css'],
+  css: ['~/assets/css/main.css'],
   app: {
     head: {
       // Reinforces the CSS `color-scheme: light` in main.css — tells the
@@ -111,6 +111,16 @@ export default defineNuxtConfig({
         'pinia-plugin-persistedstate',
         '@maptiler/sdk',
       ],
+    },
+    ssr: {
+      // Rolldown (Vite's bundler as of Nuxt 4.5/Vite 8) mis-transforms
+      // tslib's CJS helper exports (__extends, __assign, ...) when inlining
+      // them into the SSR entry — "Cannot destructure property '__extends'
+      // of '__toESM(...).default'" at runtime. tslib is pulled in via
+      // @vueuse/motion's popmotion/framesync chain; keeping it external
+      // makes Node require() it directly instead, sidestepping the bug.
+      // https://github.com/vitejs/rolldown-vite/issues/599
+      external: ['tslib'],
     },
   },
   fonts: {
