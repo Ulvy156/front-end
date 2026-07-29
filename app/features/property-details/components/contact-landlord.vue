@@ -53,7 +53,7 @@
     </BaseButton>
 
     <!-- Call now -->
-    <BaseButton
+    <!-- <BaseButton
       v-if="phoneNumber.length"
       block
       tag="a"
@@ -62,7 +62,7 @@
     >
       <BaseIconClient name="phone-call" :size="17" />
       {{ $t('property.call') }}
-    </BaseButton>
+    </BaseButton> -->
 
     <!-- Contact rows -->
     <div class="flex flex-col gap-2 mt-3.5">
