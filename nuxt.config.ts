@@ -36,7 +36,13 @@ export default defineNuxtConfig({
       headers: {
         'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
         'X-Frame-Options': 'DENY',
-        'Cross-Origin-Opener-Policy': 'same-origin',
+        // Telegram Login's widget opens an oauth.telegram.org popup and
+        // reports back via window.opener.postMessage. Plain 'same-origin'
+        // severs window.opener for that cross-origin popup, so the widget's
+        // onTelegramAuth callback never fires after the user approves in the
+        // Telegram app — 'same-origin-allow-popups' keeps the isolation but
+        // preserves the opener link for popups this page itself opens.
+        'Cross-Origin-Opener-Policy': 'same-origin-allow-popups',
       },
     },
   },
