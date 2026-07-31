@@ -1,13 +1,13 @@
 {
   "card": {
-    "size": "size",
-    "bedroom": "bedroom",
-    "bathroom": "bathroom",
+    "size": "ទំហំ",
+    "bedroom": "បន្ទប់គេង",
+    "bathroom": "បន្ទប់ទឹក",
     "available": "ទំនេរ",
     "unavailable": "មិនទំនេរ",
     "favourite": "បន្ថែមទៅចំណូលចិត្ត",
     "compare": "បន្ថែមទៅការប្រៀបធៀប",
-    "views": "ចំនួនមើល",
-    "photos": "រូបភាព"
+    "views": "ចំនួនអ្នកមើល",
+    "photos": "រូបថត"
   }
 }

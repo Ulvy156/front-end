@@ -34,7 +34,7 @@
       "add": "Add Phone Number",
       "placeholder": "0xx xxx xxxx",
       "required": "Phone number is required.",
-      "invalidFormat": "Must start with 0 and be 8–10 digits (e.g. 012345678).",
+      "invalidFormat": "Must start with 0 and be 8–11 digits (e.g. 012345678).",
       "addSuccess": "Phone number added.",
       "deleteSuccess": "Phone number removed.",
       "limitReached": "Maximum of {max} phone numbers reached.",
