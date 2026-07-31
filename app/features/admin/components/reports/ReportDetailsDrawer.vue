@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseDrawer from '~/components/ui/BaseDrawer.vue'
@@ -93,7 +94,7 @@ function viewProperty() {
         </p>
         <div class="flex items-center gap-3">
           <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 overflow-hidden">
-            <img v-if="data.user.imgUrl" :src="data.user.imgUrl" class="w-full h-full object-cover" :alt="data.user.name" />
+            <BaseImage v-if="data.user.imgUrl" :src="data.user.imgUrl" fit="cover" class="w-full h-full" :alt="data.user.name" />
             <span v-else>{{ initials(data.user.name) }}</span>
           </div>
           <div class="min-w-0">
@@ -138,10 +139,10 @@ function viewProperty() {
           />
         </div>
 
-        <el-button class="w-full!" @click="viewProperty">
+        <BaseButton class="w-full!" @click="viewProperty">
           <BaseIcon name="external-link" :size="14" class="mr-1.5" />
           {{ t('admin.reports.detailsDrawer.viewProperty') }}
-        </el-button>
+        </BaseButton>
       </div>
     </template>
   </BaseDrawer>

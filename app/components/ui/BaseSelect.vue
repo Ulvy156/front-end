@@ -1,7 +1,7 @@
 <!-- components/ui/BaseSelect.vue -->
 <script setup lang="ts">
 defineProps<{
-  modelValue: string | number
+  modelValue: string | number | null
   options: { label: string; value: any }[]
   placeholder?: string
   disabled?: boolean

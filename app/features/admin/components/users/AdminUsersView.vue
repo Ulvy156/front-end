@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
+import BaseImage from '~/components/ui/BaseImage.vue'
 import AdminRoleBadge from '~/features/admin/components/shared/AdminRoleBadge.vue'
 import UserFormDrawer from '~/features/admin/components/users/UserFormDrawer.vue'
 import { useAdminUsers } from '~/features/admin/composables/useAdminUsers'
@@ -95,26 +98,23 @@ async function handleDelete(user: AdminUser) {
       <p class="text-sm text-gray-400">
         {{ $t('admin.users.totalCount', { n: data?.meta.total ?? 0 }) }}
       </p>
-      <el-button type="primary" @click="openCreate">
+      <BaseButton type="primary" @click="openCreate">
         <BaseIcon name="user-plus" :size="14" class="mr-1.5" />
         {{ $t('admin.users.create') }}
-      </el-button>
+      </BaseButton>
     </div>
 
     <!-- Search -->
     <div class="mb-4">
-      <el-input
+      <BaseInput
         v-model="searchInput"
         :placeholder="$t('admin.users.searchPlaceholder')"
         clearable
+        icon="search"
         class="max-w-72"
         @input="onSearchInput"
         @clear="onSearchInput('')"
-      >
-        <template #prefix>
-          <BaseIcon name="search" :size="14" class="text-gray-400" />
-        </template>
-      </el-input>
+      />
     </div>
 
     <!-- Table -->
@@ -129,7 +129,7 @@ async function handleDelete(user: AdminUser) {
           <template #default="{ row }">
             <div class="flex items-center gap-3 py-1">
               <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shrink-0 overflow-hidden">
-                <img v-if="row.imgUrl" :src="row.imgUrl" class="w-full h-full object-cover" :alt="row.name" />
+                <BaseImage v-if="row.imgUrl" :src="row.imgUrl" fit="cover" class="w-full h-full" :alt="row.name" />
                 <span v-else>{{ initials(row.name) }}</span>
               </div>
               <div class="min-w-0">
@@ -170,19 +170,19 @@ async function handleDelete(user: AdminUser) {
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5">
               <el-tooltip :content="row.isLocked ? $t('admin.users.unlock') : $t('admin.users.lock')" placement="top">
-                <el-button text size="small" :loading="lockingUserId === row.id" @click="handleLockToggle(row)">
+                <BaseButton text size="small" :loading="lockingUserId === row.id" @click="handleLockToggle(row)">
                   <BaseIcon :name="row.isLocked ? 'lock-open' : 'lock'" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
               <el-tooltip :content="$t('admin.users.editAction')" placement="top">
-                <el-button text size="small" @click="openEdit(row)">
+                <BaseButton text size="small" @click="openEdit(row)">
                   <BaseIcon name="pencil" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
               <el-tooltip :content="$t('admin.users.deleteAction')" placement="top">
-                <el-button text size="small" class="text-red-500!" :loading="deletingUserId === row.id" @click="handleDelete(row)">
+                <BaseButton text size="small" class="text-red-500!" :loading="deletingUserId === row.id" @click="handleDelete(row)">
                   <BaseIcon name="trash-2" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
             </div>
           </template>

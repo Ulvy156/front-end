@@ -21,28 +21,26 @@
       <BaseIconClient name="list-ordered" color="var(--nav-active-item)"/>
       <p>{{ $t("filter.order_by") }}</p>
     </div>
-    <el-select
+    <BaseSelect
       v-model="filterStore.orderType"
+      :options="orderTypeOptions"
       placeholder="Select"
       size="large"
       style="width: 100%"
       :aria-label="$t('filter.order_by')"
-    >
-      <el-option
-        v-for="item in selectOption"
-        :key="item.id"
-        :label="item.label"
-        :value="item.id"
-      />
-    </el-select>
+    />
   </section>
 </template>
 
 <script lang="ts" setup>
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
+import BaseSelect from "~/components/ui/BaseSelect.vue";
 import { usePropertySort } from "../composable/usePropertySort";
 
 const { filterStore, sortOptions: selectOption } = usePropertySort()
+const orderTypeOptions = computed(() =>
+  selectOption.value.map((item) => ({ label: item.label, value: item.id }))
+)
 const directionOptions = [
   { label: "Horizontal", value: 2, icon: "grid-2x2" },
   { label: "Vertical", value: 3, icon: "grid-3x2" },

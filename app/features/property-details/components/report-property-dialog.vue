@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { FormRules } from 'element-plus'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import { usePropertyReport, type ReportType } from '../composable/usePropertyReport'
 
 const props = defineProps<{ propertyId: string }>()
@@ -101,7 +103,7 @@ defineExpose({ open })
       </el-form-item>
 
       <el-form-item :label="t('property.reportDialog.descriptionLabel')" prop="description">
-        <el-input
+        <BaseInput
           v-model="form.description"
           type="textarea"
           :rows="4"
@@ -114,12 +116,12 @@ defineExpose({ open })
       <p class="text-xs text-gray-600 mt-1">{{ t('property.reportDialog.rateLimit') }}</p>
 
       <div class="flex gap-2 pt-3">
-        <el-button type="danger" :loading="isSubmitting" native-type="submit" class="flex-1">
+        <BaseButton type="danger" :loading="isSubmitting" native-type="submit" class="flex-1">
           {{ t('property.reportDialog.submit') }}
-        </el-button>
-        <el-button class="flex-1" @click="isOpen = false">
+        </BaseButton>
+        <BaseButton class="flex-1" @click="isOpen = false">
           {{ t('property.reportDialog.cancel') }}
-        </el-button>
+        </BaseButton>
       </div>
     </el-form>
   </el-dialog>

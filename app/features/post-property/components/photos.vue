@@ -80,9 +80,9 @@
           : 'border-gray-200 bg-white'"
         class="flex items-center gap-3 border rounded-xl px-3 py-2.5 transition"
         draggable="true"
-        @dragstart="dragStart(index)"
+        @dragstart="dragStart(index as number)"
         @dragover.prevent
-        @drop.prevent="dragDrop(index)"
+        @drop.prevent="dragDrop(index as number)"
       >
         <svg class="w-4 h-4 text-gray-300 shrink-0 cursor-grab" viewBox="0 0 24 24" fill="currentColor">
           <circle cx="9" cy="5" r="1.5"/><circle cx="15" cy="5" r="1.5"/>
@@ -102,9 +102,9 @@
 
         <div class="flex-1 min-w-0">
           <p class="text-sm font-medium text-gray-700 truncate">
-            {{ t('post_property.photos.photo_label') }} {{ index + 1 }}
+            {{ t('post_property.photos.photo_label') }} {{ index as number + 1 }}
           </p>
-          <p class="text-xs text-gray-400 truncate">{{ photoNames[index] || '' }}</p>
+          <p class="text-xs text-gray-400 truncate">{{ photoNames[index as number] || '' }}</p>
         </div>
 
         <BaseButton
@@ -112,12 +112,12 @@
           circle
           size="small"
           :type="index === coverIndex ? 'warning' : 'info'"
-          @click="setCover(index)"
+          @click="setCover(index as number)"
         >
           <BaseIconClient name="star" :size="16" />
         </BaseButton>
 
-        <BaseButton text circle size="small" type="info" @click="removePhoto(index)">
+        <BaseButton text circle size="small" type="info" @click="removePhoto(index as number)">
           <BaseIconClient name="x" :size="14" />
         </BaseButton>
       </div>
@@ -219,7 +219,7 @@ function dragDrop(toIndex: number) {
   const [movedPhoto] = photos.splice(dragIndex.value, 1)
   const [movedName]  = names.splice(dragIndex.value, 1)
   photos.splice(toIndex, 0, movedPhoto)
-  names.splice(toIndex, 0, movedName)
+  names.splice(toIndex, 0, movedName as string)
   if (coverIndex.value === dragIndex.value) {
     coverIndex.value = toIndex
   } else if (dragIndex.value < coverIndex.value && toIndex >= coverIndex.value) {

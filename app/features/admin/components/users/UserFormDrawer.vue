@@ -3,7 +3,10 @@ import { Role } from '~/types/role'
 import type { FormRules } from 'element-plus'
 import type { AdminUser, CreateUserPayload, UpdateUserPayload } from '../../types/user'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseDrawer from '~/components/ui/BaseDrawer.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
+import BaseSelect from '~/components/ui/BaseSelect.vue'
 
 const props = defineProps<{
   modelValue: boolean
@@ -141,15 +144,15 @@ const submitEdit = handleEditSubmit(async () => {
       @submit.prevent="submitCreate"
     >
       <el-form-item :label="$t('admin.users.form.name')" prop="name">
-        <el-input v-model="createForm.name" :placeholder="$t('admin.users.form.namePlaceholder')" />
+        <BaseInput v-model="createForm.name" :placeholder="$t('admin.users.form.namePlaceholder')" />
       </el-form-item>
 
       <el-form-item :label="$t('admin.users.form.email')" prop="email">
-        <el-input v-model="createForm.email" :placeholder="$t('admin.users.form.emailPlaceholder')" />
+        <BaseInput v-model="createForm.email" :placeholder="$t('admin.users.form.emailPlaceholder')" />
       </el-form-item>
 
       <el-form-item :label="$t('admin.users.form.password')" prop="password">
-        <el-input
+        <BaseInput
           v-model="createForm.password"
           type="password"
           show-password
@@ -158,18 +161,16 @@ const submitEdit = handleEditSubmit(async () => {
       </el-form-item>
 
       <el-form-item :label="$t('admin.users.form.role')" prop="role">
-        <el-select v-model="createForm.role" class="w-full">
-          <el-option v-for="opt in roleOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
-        </el-select>
+        <BaseSelect v-model="createForm.role" :options="roleOptions" class="w-full" />
       </el-form-item>
 
       <div class="flex gap-2 pt-4">
-        <el-button type="primary" :loading="isCreating" native-type="submit" class="flex-1">
+        <BaseButton type="primary" :loading="isCreating" native-type="submit" class="flex-1">
           {{ $t('admin.users.form.create') }}
-        </el-button>
-        <el-button class="flex-1" @click="isOpen = false">
+        </BaseButton>
+        <BaseButton class="flex-1" @click="isOpen = false">
           {{ $t('admin.users.form.cancel') }}
-        </el-button>
+        </BaseButton>
       </div>
     </el-form>
 
@@ -184,22 +185,20 @@ const submitEdit = handleEditSubmit(async () => {
       @submit.prevent="submitEdit"
     >
       <el-form-item :label="$t('admin.users.form.name')" prop="name">
-        <el-input v-model="editForm.name" :placeholder="$t('admin.users.form.namePlaceholder')" />
+        <BaseInput v-model="editForm.name" :placeholder="$t('admin.users.form.namePlaceholder')" />
       </el-form-item>
 
       <el-form-item :label="$t('admin.users.form.role')" prop="role">
-        <el-select v-model="editForm.role" class="w-full">
-          <el-option v-for="opt in roleOptions" :key="opt.value" :label="opt.label" :value="opt.value" />
-        </el-select>
+        <BaseSelect v-model="editForm.role" :options="roleOptions" class="w-full" />
       </el-form-item>
 
       <div class="flex gap-2 pt-4">
-        <el-button type="primary" :loading="isUpdating" native-type="submit" class="flex-1">
+        <BaseButton type="primary" :loading="isUpdating" native-type="submit" class="flex-1">
           {{ $t('admin.users.form.save') }}
-        </el-button>
-        <el-button class="flex-1" @click="isOpen = false">
+        </BaseButton>
+        <BaseButton class="flex-1" @click="isOpen = false">
           {{ $t('admin.users.form.cancel') }}
-        </el-button>
+        </BaseButton>
       </div>
     </el-form>
   </BaseDrawer>

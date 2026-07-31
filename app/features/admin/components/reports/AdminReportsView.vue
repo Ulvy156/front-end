@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminReports } from '../../composables/useAdminReports'
 import type { AdminReport, AdminReportsFilter } from '../../types/report'
@@ -88,16 +90,13 @@ function viewProperty(propertyId: string) {
     </p>
 
     <!-- Property ID filter -->
-    <el-input
+    <BaseInput
       v-model="propertyIdInput"
       :placeholder="t('admin.reports.filterByPropertyId')"
       clearable
+      icon="search"
       class="max-w-72 mb-4"
-    >
-      <template #prefix>
-        <BaseIcon name="search" :size="14" class="text-gray-400" />
-      </template>
-    </el-input>
+    />
 
     <!-- Type filter cards -->
     <div v-if="reportTypes?.length" class="flex flex-wrap gap-3 mb-4">
@@ -180,14 +179,14 @@ function viewProperty(propertyId: string) {
           <!-- Actions -->
           <div class="flex items-center gap-2 shrink-0" @click.stop>
             <el-tooltip :content="t('admin.reports.viewDetails')" placement="top">
-              <el-button
+              <BaseButton
                 size="small"
                 :icon="''"
                 circle
                 @click="viewDetails(item)"
               >
                 <BaseIcon name="eye" :size="14" />
-              </el-button>
+              </BaseButton>
             </el-tooltip>
 
             <el-popconfirm
@@ -197,7 +196,7 @@ function viewProperty(propertyId: string) {
               @confirm="handleDelete(item)"
             >
               <template #reference>
-                <el-button
+                <BaseButton
                   type="danger"
                   size="small"
                   :icon="''"
@@ -205,7 +204,7 @@ function viewProperty(propertyId: string) {
                   circle
                 >
                   <BaseIcon name="trash-2" :size="14" />
-                </el-button>
+                </BaseButton>
               </template>
             </el-popconfirm>
           </div>

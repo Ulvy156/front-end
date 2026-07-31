@@ -44,7 +44,7 @@ defineProps<{
 
         <!-- Thumbnail -->
         <div class="w-10 h-10 rounded-lg overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
-          <BaseImage v-if="prop.images.length" :src="prop.images[0].imageKey" :alt="prop.title" />
+          <BaseImage v-if="prop.images.length" :src="prop.images[0]!.imageKey" :alt="prop.title" />
           <BaseIcon v-else name="building" :size="18" class="text-gray-300" />
         </div>
 

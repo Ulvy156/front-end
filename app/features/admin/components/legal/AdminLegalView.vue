@@ -2,6 +2,7 @@
 import dayjs from 'dayjs'
 import { marked } from 'marked'
 import TurndownService from 'turndown'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseRichEditor from '~/components/ui/BaseRichEditor.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminLegal } from '~/features/admin/composables/useAdminLegal'
@@ -85,7 +86,7 @@ const save = async () => {
         <p v-if="data?.updatedAt" class="text-xs text-gray-400">
           {{ t('admin.legal.lastUpdated', { date: dayjs(data.updatedAt).format('MMM D, YYYY h:mm A') }) }}
         </p>
-        <el-button
+        <BaseButton
           type="primary"
           :loading="isSubmitting"
           :disabled="!canSave"
@@ -93,7 +94,7 @@ const save = async () => {
           @click="save"
         >
           {{ t('admin.legal.save') }}
-        </el-button>
+        </BaseButton>
       </div>
     </div>
   </div>

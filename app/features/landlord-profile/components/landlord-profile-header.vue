@@ -46,7 +46,7 @@
       <a
         v-if="telegram.length > 0"
         target="_blank"
-        :href="getTelegramLink(telegram[0].phoneNumber)!"
+        :href="getTelegramLink(telegram[0]!.phoneNumber)!"
         class="flex items-center justify-center gap-x-3 bg-(--bg-gray) p-3 rounded-(--radius) hover:bg-(--nav-active) transition-all"
       >
         <BaseIconClient name="message-square-text" :size="18" />

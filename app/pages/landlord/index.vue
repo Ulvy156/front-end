@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import BaseButton from '~/components/ui/BaseButton.vue'
 import DashboardStatCard from '~/components/dashboard/DashboardStatCard.vue'
 import LandlordRecentActivity from '~/features/landlord/components/dashboard/landlord-recent-activity.vue'
 import LandlordTopProperties from '~/features/landlord/components/dashboard/landlord-top-properties.vue'
@@ -39,7 +40,7 @@ const favouriteSubStats = computed(() => [] as { label: string; value: string | 
   <!-- Error state -->
   <div v-if="error" class="flex flex-col items-center justify-center py-20 gap-3">
     <p class="text-sm text-gray-500">{{ extract(error) }}</p>
-    <el-button @click="refresh">{{ $t('landlord.dashboard.retry') }}</el-button>
+    <BaseButton @click="refresh">{{ $t('landlord.dashboard.retry') }}</BaseButton>
   </div>
 
   <template v-else>

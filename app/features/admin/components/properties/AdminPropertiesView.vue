@@ -1,8 +1,11 @@
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
+import BaseSelect from '~/components/ui/BaseSelect.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminProperties } from '~/features/admin/composables/useAdminProperties'
 import { useAdminLandlords, type UserFilters } from '~/features/admin/composables/useAdminUsers'
@@ -25,6 +28,11 @@ const searchInput = ref('')
 const statusFilter = ref<'all' | 'published' | 'unpublished'>(
   props.presetFilter === 'pending' ? 'unpublished' : 'all',
 )
+const statusOptions = computed(() => [
+  { label: t('admin.properties.filterAll'), value: 'all' },
+  { label: t('admin.properties.filterPublished'), value: 'published' },
+  { label: t('admin.properties.filterUnpublished'), value: 'unpublished' },
+])
 const PAGE_SIZE = 20
 const FEATURED_MAX = 3
 
@@ -188,9 +196,9 @@ async function handleDelete(prop: AdminProperty) {
         <BaseIcon name="filter" :size="14" />
         {{ $t('admin.properties.viewingSingle') }}
       </p>
-      <el-button text size="small" @click="clearPropertyFilter">
+      <BaseButton text size="small" @click="clearPropertyFilter">
         {{ $t('admin.properties.viewAllProperties') }}
-      </el-button>
+      </BaseButton>
     </div>
 
     <!-- Pinned to a preset filter (Pending Approval / Featured nav items) -->
@@ -202,23 +210,15 @@ async function handleDelete(prop: AdminProperty) {
         <BaseIcon name="filter" :size="14" />
         {{ props.presetFilter === 'pending' ? $t('admin.properties.viewingPending') : $t('admin.properties.viewingFeatured') }}
       </p>
-      <el-button text size="small" @click="clearPresetFilter">
+      <BaseButton text size="small" @click="clearPresetFilter">
         {{ $t('admin.properties.viewAllProperties') }}
-      </el-button>
+      </BaseButton>
     </div>
 
     <!-- Filters -->
     <div v-else class="flex gap-3 mb-4">
-      <el-input v-model="searchInput" :placeholder="$t('admin.properties.searchPlaceholder')" clearable class="max-w-72">
-        <template #prefix>
-          <BaseIcon name="search" :size="14" class="text-gray-400" />
-        </template>
-      </el-input>
-      <el-select v-model="statusFilter" class="w-44">
-        <el-option :label="$t('admin.properties.filterAll')"         value="all" />
-        <el-option :label="$t('admin.properties.filterPublished')"   value="published" />
-        <el-option :label="$t('admin.properties.filterUnpublished')" value="unpublished" />
-      </el-select>
+      <BaseInput v-model="searchInput" :placeholder="$t('admin.properties.searchPlaceholder')" clearable icon="search" class="max-w-72" />
+      <BaseSelect v-model="statusFilter" :options="statusOptions" class="w-44" />
       <el-select
         v-model="selectedLandlordId"
         filterable
@@ -309,39 +309,39 @@ async function handleDelete(prop: AdminProperty) {
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5" @click.stop>
               <el-tooltip :content="$t('admin.properties.viewDetails')" placement="top">
-                <el-button text size="small" class="text-gray-400!" @click="viewDetails(row)">
+                <BaseButton text size="small" class="text-gray-400!" @click="viewDetails(row)">
                   <BaseIcon name="info" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
               <el-tooltip
                 :content="row.isFeatured ? $t('admin.properties.unfeature') : featuredCount >= FEATURED_MAX ? $t('admin.properties.featuredMaxReached') : $t('admin.properties.feature')"
                 placement="top"
               >
-                <el-button text size="small" :loading="featuringId === row.id"
+                <BaseButton text size="small" :loading="featuringId === row.id"
                   :disabled="!row.isFeatured && featuredCount >= FEATURED_MAX"
                   :class="row.isFeatured ? 'text-amber-500!' : 'text-gray-400!'"
                   @click="handleSetFeatured(row)">
                   <BaseIcon name="star" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
               <el-tooltip :content="row.isPublished ? $t('admin.properties.unpublish') : $t('admin.properties.publish')" placement="top">
-                <el-button text size="small" :loading="publishingId === row.id"
+                <BaseButton text size="small" :loading="publishingId === row.id"
                   :class="row.isPublished ? 'text-emerald-600!' : 'text-gray-400!'"
                   @click="handleTogglePublish(row)">
                   <BaseIcon :name="row.isPublished ? 'eye' : 'eye-off'" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
               <el-tooltip :content="row.isAvailable ? $t('admin.properties.markUnavailable') : $t('admin.properties.markAvailable')" placement="top">
-                <el-button text size="small" :loading="availabilityId === row.id"
+                <BaseButton text size="small" :loading="availabilityId === row.id"
                   :class="row.isAvailable ? 'text-blue-500!' : 'text-gray-400!'"
                   @click="handleToggleAvailability(row)">
                   <BaseIcon :name="row.isAvailable ? 'door-open' : 'door-closed'" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
               <el-tooltip :content="$t('admin.users.deleteAction')" placement="top">
-                <el-button text size="small" class="text-red-500!" :loading="deletingId === row.id" @click="handleDelete(row)">
+                <BaseButton text size="small" class="text-red-500!" :loading="deletingId === row.id" @click="handleDelete(row)">
                   <BaseIcon name="trash-2" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
             </div>
           </template>

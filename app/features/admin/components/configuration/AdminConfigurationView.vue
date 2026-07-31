@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import ConfigFormDrawer from './ConfigFormDrawer.vue'
@@ -62,10 +63,10 @@ async function handleDelete(item: ConfigItemBase) {
       <p class="text-sm text-gray-400">
         {{ t('admin.config.totalCount', { n: items?.length ?? 0 }) }}
       </p>
-      <el-button type="primary" @click="openCreate">
+      <BaseButton type="primary" @click="openCreate">
         <BaseIcon name="plus" :size="15" class="mr-1" />
         {{ $t('admin.config.create') }}
-      </el-button>
+      </BaseButton>
     </div>
 
     <!-- Skeleton -->
@@ -107,14 +108,14 @@ async function handleDelete(item: ConfigItemBase) {
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5">
               <el-tooltip :content="$t('admin.config.edit')" placement="top">
-                <el-button text size="small" class="text-gray-500!" @click="openEdit(row)">
+                <BaseButton text size="small" class="text-gray-500!" @click="openEdit(row)">
                   <BaseIcon name="pencil" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
               <el-tooltip :content="$t('admin.config.delete')" placement="top">
-                <el-button text size="small" class="text-red-500!" :loading="deletingId === row.id" @click="handleDelete(row)">
+                <BaseButton text size="small" class="text-red-500!" :loading="deletingId === row.id" @click="handleDelete(row)">
                   <BaseIcon name="trash-2" :size="15" />
-                </el-button>
+                </BaseButton>
               </el-tooltip>
             </div>
           </template>

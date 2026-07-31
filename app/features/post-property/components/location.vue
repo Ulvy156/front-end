@@ -118,7 +118,7 @@
 </template>
   
 <script setup lang="ts">
-import { inject, watch, ref, computed, onMounted } from "vue"
+import { inject, ref, computed, onMounted } from "vue"
 import { useI18n } from "vue-i18n"
 import BaseToggle from "@/components/ui/BaseToggle.vue"
 import BaseSelect from "@/components/ui/BaseSelect.vue"
@@ -160,8 +160,6 @@ interface LocationOption {
 
 const provinces = ref<LocationOption[]>([])
 const currentDistricts = ref<LocationOption[]>([])
-const provinceIdToName = ref<Map<number, string>>(new Map())
-const provinceDistrictsMap = ref<Map<number, LocationOption[]>>(new Map())
 
 const provinceOptions = computed(() =>
   provinces.value.map((p) => ({
@@ -180,19 +178,6 @@ const districtOptions = computed(() =>
 onMounted(async () => {
   const data = await fetchProvinces()
   provinces.value = data.map((p) => ({ id: p.id, nameEn: p.nameEn, nameKh: p.nameKh }))
-
-  // Cache province IDs and districts from response
-  data.forEach((p) => {
-    if (p.id) {
-      provinceIdToName.value.set(p.id, p.nameEn)
-    }
-    if (p.districts && p.districts.length > 0 && p.id) {
-      provinceDistrictsMap.value.set(
-        p.id,
-        p.districts.map((d) => ({ id: d.id, nameEn: d.nameEn, nameKh: d.nameKh }))
-      )
-    }
-  })
 
   if (form.province) {
     await loadProvinceCoordinates(form.province)
@@ -235,23 +220,13 @@ async function loadDistricts(newProvince: string) {
       provinceId = await getProvinceId(newProvince)
     }
 
-    console.log('Province selected:', newProvince)
-    console.log('Resolved province ID:', provinceId)
-
     if (!provinceId) {
       currentDistricts.value = []
       return
     }
 
-    if (provinceDistrictsMap.value.has(provinceId)) {
-      currentDistricts.value = provinceDistrictsMap.value.get(provinceId) || []
-      console.log('Districts from cache:', currentDistricts.value)
-      return
-    }
-
     const districts = await fetchDistrictsByProvinceId(provinceId)
     currentDistricts.value = districts
-    console.log('Districts fetched:', districts)
   } catch (error) {
     console.error('Failed to load districts:', error)
     currentDistricts.value = []

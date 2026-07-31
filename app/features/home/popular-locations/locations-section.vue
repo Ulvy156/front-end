@@ -23,7 +23,7 @@
           <div :title="loc.nameKh" class="kh text-[13px] text-(--gray) mt-px truncate">{{ loc.nameKh }}</div>
         </div>
         <div class="text-right shrink-0">
-          {{ t('home.location.homes', loc.totalListings, { n: loc.totalListings }) }}
+          {{ t('home.location.homes', { n: loc.totalListings }, loc.totalListings) }}
         </div>
       </button>
 

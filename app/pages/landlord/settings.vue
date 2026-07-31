@@ -1,5 +1,4 @@
 <script lang="ts" setup>
-import dayjs from 'dayjs'
 import ProfileAvatar from '~/features/profile/components/profile-avatar.vue'
 import ChangePassword from '~/features/profile/components/change-password.vue'
 import ContactVisibility from '~/features/profile/components/contact-visibility.vue'
@@ -7,6 +6,8 @@ import PhoneManagement from '~/features/profile/components/phone-management.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import BaseEmpty from '~/components/ui/BaseEmpty.vue'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
+import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import AdminRoleBadge from '~/features/admin/components/shared/AdminRoleBadge.vue'
 import { useProfile } from '~/features/profile/composables/useProfile'
 
@@ -76,14 +77,14 @@ async function saveName() {
           <p class="text-xs text-gray-400 mb-1">{{ t('profile.info.name') }}</p>
           <div v-if="!isEditingName" class="flex items-center gap-2">
             <p class="text-sm font-medium text-gray-900">{{ profile.name }}</p>
-            <el-button text size="small" @click="startEditName">
+            <BaseButton text size="small" @click="startEditName">
               <BaseIconClient name="pencil" :size="12" class="text-gray-400" />
-            </el-button>
+            </BaseButton>
           </div>
           <div v-else class="flex items-center gap-2">
-            <el-input v-model="editName" size="small" class="w-48" @keyup.enter="saveName" />
-            <el-button type="primary" size="small" :loading="updateName.isPending.value" @click="saveName">{{ t('profile.save') }}</el-button>
-            <el-button size="small" @click="cancelEditName">{{ t('profile.cancel') }}</el-button>
+            <BaseInput v-model="editName" size="small" class="w-48" @keyup.enter="saveName" />
+            <BaseButton type="primary" size="small" :loading="updateName.isPending.value" @click="saveName">{{ t('profile.save') }}</BaseButton>
+            <BaseButton size="small" @click="cancelEditName">{{ t('profile.cancel') }}</BaseButton>
           </div>
         </div>
         <div>

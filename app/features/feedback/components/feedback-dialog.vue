@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FormRules } from 'element-plus'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import { useFeedback } from '../composables/useFeedback'
 
 const { t } = useI18n()
@@ -98,7 +100,7 @@ const submit = handleSubmit(async () => {
 
       <!-- Description -->
       <el-form-item :label="$t('feedback.descriptionLabel')" prop="description">
-        <el-input
+        <BaseInput
           v-model="form.description"
           type="textarea"
           :rows="4"
@@ -111,12 +113,12 @@ const submit = handleSubmit(async () => {
       <p class="text-xs text-gray-400 mt-1">{{ $t('feedback.rateLimit') }}</p>
 
       <div class="flex gap-2 pt-3">
-        <el-button type="primary" :loading="isSubmitting" native-type="submit" class="flex-1">
+        <BaseButton type="primary" :loading="isSubmitting" native-type="submit" class="flex-1">
           {{ $t('feedback.submit') }}
-        </el-button>
-        <el-button class="flex-1" @click="isOpen = false">
+        </BaseButton>
+        <BaseButton class="flex-1" @click="isOpen = false">
           {{ $t('feedback.cancel') }}
-        </el-button>
+        </BaseButton>
       </div>
     </el-form>
   </el-dialog>

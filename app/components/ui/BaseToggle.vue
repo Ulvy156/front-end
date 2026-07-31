@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const modelValue = defineModel<boolean>()
+const modelValue = defineModel<boolean>({ required: true })
 
 defineProps<{
   label?: string

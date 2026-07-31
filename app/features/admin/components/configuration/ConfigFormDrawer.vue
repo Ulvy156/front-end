@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { FormRules } from 'element-plus'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseDrawer from '~/components/ui/BaseDrawer.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import type { ConfigFieldDef } from '../../types/configuration'
 
 const props = defineProps<{
@@ -95,16 +97,16 @@ const submit = handleSubmit(async () => {
       @submit.prevent="submit"
     >
       <el-form-item v-for="field in fields" :key="field.prop" :label="field.label" :prop="field.prop">
-        <el-input v-model="form[field.prop]" :placeholder="field.placeholder ?? field.label" />
+        <BaseInput v-model="form[field.prop]" :placeholder="field.placeholder ?? field.label" />
       </el-form-item>
 
       <div class="flex gap-2 pt-4">
-        <el-button type="primary" :loading="isSubmitting" native-type="submit" class="flex-1">
+        <BaseButton type="primary" :loading="isSubmitting" native-type="submit" class="flex-1">
           {{ isEditMode ? $t('admin.config.save') : $t('admin.config.create') }}
-        </el-button>
-        <el-button class="flex-1" @click="isOpen = false">
+        </BaseButton>
+        <BaseButton class="flex-1" @click="isOpen = false">
           {{ $t('admin.config.cancel') }}
-        </el-button>
+        </BaseButton>
       </div>
     </el-form>
   </BaseDrawer>

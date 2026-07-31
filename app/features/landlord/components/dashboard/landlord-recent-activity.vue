@@ -60,7 +60,7 @@ defineProps<{
         <div class="w-8 h-8 rounded-md overflow-hidden bg-gray-100 shrink-0 flex items-center justify-center">
           <BaseImage
             v-if="activity.property.images.length"
-            :src="activity.property.images[0].imageKey"
+            :src="activity.property.images[0]!.imageKey"
             :alt="activity.property.title"
             class="w-full h-full object-cover"
           />

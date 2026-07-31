@@ -2,7 +2,7 @@
   <!-- Error state -->
   <div v-if="error" class="flex flex-col items-center justify-center py-20 gap-3">
     <p class="text-sm text-gray-500">{{ extract(error) }}</p>
-    <el-button @click="refresh">{{ $t('landlord.dashboard.retry') }}</el-button>
+    <BaseButton @click="refresh">{{ $t('landlord.dashboard.retry') }}</BaseButton>
   </div>
 
   <!-- Loading skeleton for header -->
@@ -46,6 +46,7 @@ import { useLandlordProfile } from '../composables/useLandlordProfile'
 import LandlordProfileHeader from './landlord-profile-header.vue'
 import LandlordProfileProperties from './landlord-profile-properties.vue'
 import SkeletonProperty from '~/components/animation/skeleton-property.vue'
+import BaseButton from '~/components/ui/BaseButton.vue'
 
 const route = useRoute()
 const { t } = useI18n()

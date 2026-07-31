@@ -2,6 +2,7 @@
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminFeedback } from '../../composables/useAdminFeedback'
 import type { FeedbackItem, FeedbackType } from '../../types/feedback'
@@ -75,11 +76,7 @@ function toggleExpand(id: string) {
 
     <!-- Search -->
     <div class="mb-4">
-      <el-input v-model="searchQuery" :placeholder="$t('admin.feedback.searchPlaceholder')" clearable class="max-w-72">
-        <template #prefix>
-          <BaseIcon name="search" :size="14" class="text-gray-400" />
-        </template>
-      </el-input>
+      <BaseInput v-model="searchQuery" :placeholder="$t('admin.feedback.searchPlaceholder')" clearable icon="search" class="max-w-72" />
     </div>
 
     <!-- Skeleton -->

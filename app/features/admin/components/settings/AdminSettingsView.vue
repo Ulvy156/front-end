@@ -1,15 +1,16 @@
 <script setup lang="ts">
-import dayjs from 'dayjs'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useAdminSettings } from '~/features/admin/composables/useAdminSettings'
-import type { UpdatePlatformSettingsPayload } from '~/features/admin/types/settings'
+import { KNOWN_SETTING_KEYS, type SettingValue, type UpdatePlatformSettingsPayload } from '~/features/admin/types/settings'
+import SettingFormDrawer from './SettingFormDrawer.vue'
 
 const { t } = useI18n()
 const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
 
-const { data, isPending, updateSettings } = useAdminSettings()
+const { data, isPending, updateSettings, createSetting, updateCustomSetting } = useAdminSettings()
 
 const { formRef, form, isSubmitting, handleSubmit } = useForm({
   maintenanceMode: false,
@@ -18,7 +19,6 @@ const { formRef, form, isSubmitting, handleSubmit } = useForm({
   maxImagesPerProperty: 0,
   minPropertyPrice: null as number | null,
   maxPropertyPrice: null as number | null,
-  commissionRate: 0,
 })
 
 watch(data, (settings) => {
@@ -27,9 +27,8 @@ watch(data, (settings) => {
   form.registrationEnabled = settings.registrationEnabled
   form.maxPropertiesPerLandlord = settings.maxPropertiesPerLandlord
   form.maxImagesPerProperty = settings.maxImagesPerProperty
-  form.minPropertyPrice = settings.minPropertyPrice === null ? null : Number(settings.minPropertyPrice)
-  form.maxPropertyPrice = settings.maxPropertyPrice === null ? null : Number(settings.maxPropertyPrice)
-  form.commissionRate = Number(settings.commissionRate)
+  form.minPropertyPrice = settings.minPropertyPrice
+  form.maxPropertyPrice = settings.maxPropertyPrice
 }, { immediate: true })
 
 const submit = handleSubmit(async () => {
@@ -40,7 +39,6 @@ const submit = handleSubmit(async () => {
     maxImagesPerProperty: form.maxImagesPerProperty,
     minPropertyPrice: form.minPropertyPrice,
     maxPropertyPrice: form.maxPropertyPrice,
-    commissionRate: form.commissionRate,
   }
   try {
     await updateSettings.mutateAsync(payload)
@@ -49,6 +47,26 @@ const submit = handleSubmit(async () => {
     notifyError(extract(err))
   }
 })
+
+const customSettings = computed(() => {
+  if (!data.value) return []
+  return Object.entries(data.value)
+    .filter(([key]) => !KNOWN_SETTING_KEYS.includes(key))
+    .map(([key, value]) => ({ key, value }))
+})
+
+const settingDrawerOpen = ref(false)
+const editingSetting = ref<{ key: string, value: SettingValue } | null>(null)
+
+function openCreateSetting() {
+  editingSetting.value = null
+  settingDrawerOpen.value = true
+}
+
+function openEditSetting(row: { key: string, value: SettingValue }) {
+  editingSetting.value = row
+  settingDrawerOpen.value = true
+}
 </script>
 
 <template>
@@ -132,25 +150,48 @@ const submit = handleSubmit(async () => {
         </div>
       </div>
 
-      <!-- Billing -->
-      <div class="bg-white rounded-xl border border-gray-200 p-5">
-        <h2 class="text-sm font-semibold text-gray-900 mb-4">{{ t('admin.settings.billing.title') }}</h2>
-
-        <label class="block text-xs font-medium text-gray-500 mb-1.5">
-          {{ t('admin.settings.billing.commissionRate') }}
-        </label>
-        <el-input-number v-model="form.commissionRate" :min="0" :max="100" :step="0.5" :precision="2" controls-position="right" />
-        <p class="text-xs text-gray-400 mt-1.5">{{ t('admin.settings.billing.commissionRateHint') }}</p>
-      </div>
-
-      <div class="flex items-center justify-between">
-        <p v-if="data?.updatedAt" class="text-xs text-gray-400">
-          {{ t('admin.settings.lastUpdated', { date: dayjs(data.updatedAt).format('MMM D, YYYY h:mm A') }) }}
-        </p>
-        <el-button type="primary" native-type="submit" :loading="isSubmitting" class="ml-auto">
+      <div class="flex items-center justify-end">
+        <BaseButton type="primary" native-type="submit" :loading="isSubmitting">
           {{ t('admin.settings.save') }}
-        </el-button>
+        </BaseButton>
       </div>
     </el-form>
+
+    <!-- Custom Settings -->
+    <div v-if="!isPending" class="bg-white rounded-xl border border-gray-200 p-5 mt-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-sm font-semibold text-gray-900">{{ t('admin.settings.custom.title') }}</h2>
+        <BaseButton size="small" @click="openCreateSetting">
+          {{ t('admin.settings.custom.addButton') }}
+        </BaseButton>
+      </div>
+
+      <p v-if="!customSettings.length" class="text-sm text-gray-400">{{ t('admin.settings.custom.empty') }}</p>
+      <el-table v-else :data="customSettings" row-key="key">
+        <el-table-column :label="t('admin.settings.custom.columns.key')" prop="key" min-width="140" />
+        <el-table-column :label="t('admin.settings.custom.columns.value')" min-width="200">
+          <template #default="{ row }">{{ JSON.stringify(row.value) }}</template>
+        </el-table-column>
+        <el-table-column :label="t('admin.settings.custom.columns.type')" width="100">
+          <template #default="{ row }">{{ row.value === null ? 'null' : Array.isArray(row.value) ? 'array' : typeof row.value }}</template>
+        </el-table-column>
+        <el-table-column :label="t('admin.settings.custom.columns.actions')" width="70" align="right">
+          <template #default="{ row }">
+            <el-tooltip :content="t('admin.settings.custom.editAction')" placement="top">
+              <BaseButton text size="small" @click="openEditSetting(row)">
+                <BaseIcon name="pencil" :size="15" />
+              </BaseButton>
+            </el-tooltip>
+          </template>
+        </el-table-column>
+      </el-table>
+    </div>
+
+    <SettingFormDrawer
+      v-model="settingDrawerOpen"
+      :edit-item="editingSetting"
+      :create-mutation="createSetting"
+      :update-mutation="updateCustomSetting"
+    />
   </div>
 </template>

@@ -50,7 +50,7 @@ function locationLabel(property: typeof data.value.properties[0]) {
       <!-- Landlord profile header -->
       <div class="flex items-center gap-3 mb-6 pb-6 border-b border-gray-100">
         <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-sm font-bold text-gray-500 shrink-0 overflow-hidden">
-          <img v-if="data.landlord.imgUrl" :src="data.landlord.imgUrl" class="w-full h-full object-cover" :alt="data.landlord.name" />
+          <BaseImage v-if="data.landlord.imgUrl" :src="data.landlord.imgUrl" fit="cover" class="w-full h-full" :alt="data.landlord.name" />
           <span v-else>{{ initials(data.landlord.name) }}</span>
         </div>
         <div class="min-w-0">

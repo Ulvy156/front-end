@@ -64,7 +64,7 @@
       <div v-else-if="form.parkings?.length" class="flex flex-wrap gap-2">
         <span v-for="pk in form.parkings" :key="pk"
           class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-sm">
-          <BaseIconClient :name="parkingOptions.find((p) => p.key === pk)?.icon" />
+          <BaseIconClient :name="parkingOptions.find((p) => p.key === pk)?.icon || 'car'" />
           {{ t(`post_property.amenities.parking_types.${pk}`) }}
         </span>
       </div>
@@ -205,8 +205,6 @@ const parkingOptions = [
 
 const showParkingOptions = ref(false);
 
-// const selectedAmenities = computed(() => form.amenities || []);
-
 function toggleAmenity(id: number) {
   if (!form.amenities) form.amenities = [];
   const idx = form.amenities.indexOf(id);
@@ -222,7 +220,7 @@ function toggleRule(id: number) {
   else form.ruleKeys.push(id);
 }
 
-function toggleParking(key) {
+function toggleParking(key: string) {
   if (!form.parkings) form.parkings = [];
   if (!form.parkingDetails) form.parkingDetails = {};
   const idx = form.parkings.indexOf(key);
@@ -232,6 +230,5 @@ function toggleParking(key) {
     form.parkings.push(key);
     form.parkingDetails[key] = { slots: 1, isFree: true };
   }
-  console.log('Parking toggled:', key, 'Current parkings:', form.parkings);
 }
 </script>

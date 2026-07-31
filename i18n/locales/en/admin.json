@@ -245,7 +245,6 @@
     "settings": {
       "save": "Save Changes",
       "saveSuccess": "Settings updated.",
-      "lastUpdated": "Last updated {date}",
       "maintenanceBannerActive": "Maintenance mode is ON — non-admin requests are currently blocked.",
       "access": {
         "title": "Platform Access",
@@ -262,10 +261,39 @@
         "maxPropertyPrice": "Maximum monthly price",
         "noBound": "No bound"
       },
-      "billing": {
-        "title": "Billing",
-        "commissionRate": "Commission rate (%)",
-        "commissionRateHint": "Stored for future billing/reporting — not yet enforced."
+      "custom": {
+        "title": "Custom Settings",
+        "empty": "No custom settings yet.",
+        "addButton": "Add Setting",
+        "columns": {
+          "key": "Key",
+          "value": "Value",
+          "type": "Type",
+          "actions": "Actions"
+        },
+        "editAction": "Edit setting",
+        "drawer": {
+          "title": "Add Custom Setting",
+          "editTitle": "Edit Custom Setting"
+        },
+        "form": {
+          "key": "Key",
+          "group": "Group",
+          "valueType": "Value type",
+          "value": "Value",
+          "keyRequired": "Key is required",
+          "groupRequired": "Group is required",
+          "valueTypeString": "String",
+          "valueTypeNumber": "Number",
+          "valueTypeBoolean": "Boolean",
+          "valueTypeJson": "JSON",
+          "create": "Add",
+          "save": "Save",
+          "cancel": "Cancel"
+        },
+        "invalidJson": "Enter valid JSON.",
+        "createSuccess": "Setting created.",
+        "updateSuccess": "Setting updated."
       }
     },
     "legal": {

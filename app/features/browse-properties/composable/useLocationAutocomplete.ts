@@ -50,10 +50,11 @@ export function useLocationAutocomplete() {
     filterStore.locationName = ''
   }
 
-  const selectLocation = (item: LocationSuggestion) => {
-    filterStore.location = item.id
-    filterStore.locationType = item.type
-    filterStore.locationName = item.label
+  const selectLocation = (item: Record<string, any>) => {
+    const { id, type, label } = item as LocationSuggestion
+    filterStore.location = id
+    filterStore.locationType = type
+    filterStore.locationName = label
   }
 
   return {

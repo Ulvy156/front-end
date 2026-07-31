@@ -1,5 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { PlatformSettings, UpdatePlatformSettingsPayload } from '../types/settings'
+import type {
+  CreateSettingPayload,
+  PlatformSettings,
+  UpdateCustomSettingPayload,
+  UpdatePlatformSettingsPayload,
+} from '../types/settings'
 
 export function useAdminSettings() {
   const { $axios } = useNuxtApp()
@@ -23,5 +28,25 @@ export function useAdminSettings() {
     },
   })
 
-  return { data, isPending, isError, updateSettings }
+  const createSetting = useMutation({
+    mutationFn: async (payload: CreateSettingPayload) => {
+      const { data } = await $axios.post<PlatformSettings>('/admin/settings', payload)
+      return data
+    },
+    onSuccess: (updated) => {
+      queryClient.setQueryData(['admin-settings'], updated)
+    },
+  })
+
+  const updateCustomSetting = useMutation({
+    mutationFn: async (payload: UpdateCustomSettingPayload) => {
+      const { data } = await $axios.patch<PlatformSettings>('/admin/settings', payload)
+      return data
+    },
+    onSuccess: (updated) => {
+      queryClient.setQueryData(['admin-settings'], updated)
+    },
+  })
+
+  return { data, isPending, isError, updateSettings, createSetting, updateCustomSetting }
 }

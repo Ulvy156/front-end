@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
+import BaseSelect from '~/components/ui/BaseSelect.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import { useLandlordProperties } from '~/features/landlord/composables/useLandlordProperties'
 import type { LandlordProperty, LandlordPropertiesFilter } from '~/features/landlord/types/property'
@@ -16,6 +18,16 @@ const langKey = useLangKey()
 const searchInput = ref('')
 const statusFilter = ref<'all' | 'published' | 'unpublished'>('all')
 const availabilityFilter = ref<'all' | 'available' | 'unavailable'>('all')
+const statusOptions = computed(() => [
+  { label: t('landlord.properties.filterAll'), value: 'all' },
+  { label: t('landlord.properties.filterPublished'), value: 'published' },
+  { label: t('landlord.properties.filterUnpublished'), value: 'unpublished' },
+])
+const availabilityOptions = computed(() => [
+  { label: t('landlord.properties.filterAllAvailability'), value: 'all' },
+  { label: t('landlord.properties.filterAvailable'), value: 'available' },
+  { label: t('landlord.properties.filterUnavailable'), value: 'unavailable' },
+])
 const PAGE_SIZE = 20
 
 const filters = ref<LandlordPropertiesFilter>({
@@ -112,16 +124,8 @@ async function handleDuplicate(prop: LandlordProperty) {
     <!-- Filters -->
     <div class="flex flex-col sm:flex-row gap-3 mb-4">
       <BaseInput v-model="searchInput" :placeholder="t('landlord.properties.searchPlaceholder')" clearable icon="search" class="w-full sm:max-w-72" />
-      <el-select v-model="statusFilter" class="w-full sm:w-44">
-        <el-option :label="t('landlord.properties.filterAll')" value="all" />
-        <el-option :label="t('landlord.properties.filterPublished')" value="published" />
-        <el-option :label="t('landlord.properties.filterUnpublished')" value="unpublished" />
-      </el-select>
-      <el-select v-model="availabilityFilter" class="w-full sm:w-44">
-        <el-option :label="t('landlord.properties.filterAllAvailability')" value="all" />
-        <el-option :label="t('landlord.properties.filterAvailable')" value="available" />
-        <el-option :label="t('landlord.properties.filterUnavailable')" value="unavailable" />
-      </el-select>
+      <BaseSelect v-model="statusFilter" :options="statusOptions" class="w-full sm:w-44" />
+      <BaseSelect v-model="availabilityFilter" :options="availabilityOptions" class="w-full sm:w-44" />
     </div>
 
     <!-- Skeleton -->
@@ -141,7 +145,7 @@ async function handleDuplicate(prop: LandlordProperty) {
 
       <template v-else>
         <div class="overflow-x-auto">
-        <el-table :data="items" row-key="id" class="min-w-[860px]">
+        <el-table :data="items" row-key="id" class="min-w-215">
           <el-table-column :label="t('landlord.properties.columns.property')" min-width="280">
             <template #default="{ row }">
               <div class="flex items-center gap-3 py-1">
@@ -153,7 +157,7 @@ async function handleDuplicate(prop: LandlordProperty) {
                   <NuxtLink :to="`/landlord/properties/${row.id}`" class="text-sm font-medium text-gray-900 truncate hover:text-emerald-600 block">
                     {{ row.title }}
                   </NuxtLink>
-                  <p class="text-xs text-gray-400 truncate">{{ locationLabel(row) }}</p>
+                  <p class="text-xs text-gray-400 truncate">{{ locationLabel(row as LandlordProperty) }}</p>
                   <p class="text-xs text-gray-400">{{ row.propertyType[langKey] }}</p>
                 </div>
               </div>
@@ -210,9 +214,9 @@ async function handleDuplicate(prop: LandlordProperty) {
           <el-table-column :label="t('landlord.properties.columns.actions')" width="100" align="right">
             <template #default="{ row }">
               <el-dropdown trigger="click" :disabled="busyId === row.id">
-                <el-button text size="small" class="text-gray-400!" :loading="busyId === row.id">
+                <BaseButton text size="small" class="text-gray-400!" :loading="busyId === row.id">
                   <BaseIcon name="ellipsis-vertical" :size="16" />
-                </el-button>
+                </BaseButton>
                 <template #dropdown>
                   <el-dropdown-menu>
                     <el-dropdown-item @click="router.push(`/landlord/properties/${row.id}`)">
@@ -223,15 +227,15 @@ async function handleDuplicate(prop: LandlordProperty) {
                       <BaseIcon name="pencil" :size="14" class="mr-2" />
                       {{ t('landlord.editProperty.title') }}
                     </el-dropdown-item>
-                    <el-dropdown-item divided @click="handleTogglePublish(row)">
+                    <el-dropdown-item divided @click="handleTogglePublish(row as LandlordProperty)">
                       <BaseIcon :name="row.isPublished ? 'eye-off' : 'eye'" :size="14" class="mr-2" />
                       {{ row.isPublished ? t('landlord.properties.unpublish') : t('landlord.properties.publish') }}
                     </el-dropdown-item>
-                    <el-dropdown-item :disabled="!row.isPublished" @click="handleToggleAvailability(row)">
+                    <el-dropdown-item :disabled="!row.isPublished" @click="handleToggleAvailability(row as LandlordProperty)">
                       <BaseIcon :name="row.isAvailable ? 'house-off' : 'house'" :size="14" class="mr-2" />
                       {{ row.isAvailable ? t('landlord.properties.markRented') : t('landlord.properties.markAvailable') }}
                     </el-dropdown-item>
-                    <el-dropdown-item divided @click="handleDuplicate(row)">
+                    <el-dropdown-item divided @click="handleDuplicate(row as LandlordProperty)">
                       <BaseIcon name="copy" :size="14" class="mr-2" />
                       {{ t('landlord.properties.duplicate') }}
                     </el-dropdown-item>

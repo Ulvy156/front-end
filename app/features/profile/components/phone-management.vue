@@ -2,6 +2,8 @@
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import type { FormRules } from 'element-plus'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
+import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import type { NewPhone, UserProfile } from '../types/profile'
 
 const MAX_PHONES = 3
@@ -107,14 +109,14 @@ async function removePhone(id: number) {
             <BaseIconClient name="phone" :size="16" class="text-gray-500" />
             <span class="text-sm text-gray-900">{{ phone.phoneNumber }}</span>
           </div>
-          <el-button
+          <BaseButton
             text
             size="small"
             :loading="deletingId === phone.id"
             @click="removePhone(phone.id)"
           >
             <BaseIconClient v-if="deletingId !== phone.id" name="trash-2" :size="16" class="text-red-500" />
-          </el-button>
+          </BaseButton>
         </div>
       </div>
     </div>
@@ -129,23 +131,23 @@ async function removePhone(id: number) {
     >
       <el-form-item prop="phoneNumber" class="mb-0!">
         <div class="flex items-center gap-2 w-full">
-          <el-input
+          <BaseInput
             v-model="form.phoneNumber"
             :placeholder="$t('profile.phones.placeholder')"
             size="default"
             class="max-w-xs"
           />
-          <el-button type="primary" size="small" :loading="isSubmitting" native-type="submit">
+          <BaseButton type="primary" size="small" :loading="isSubmitting" native-type="submit">
             {{ $t('profile.save') }}
-          </el-button>
-          <el-button size="small" @click="cancelAdding">
+          </BaseButton>
+          <BaseButton size="small" @click="cancelAdding">
             {{ $t('profile.cancel') }}
-          </el-button>
+          </BaseButton>
         </div>
       </el-form-item>
     </el-form>
 
-    <el-button
+    <BaseButton
       v-if="!isAdding"
       size="small"
       :disabled="isLimitReached"
@@ -153,7 +155,7 @@ async function removePhone(id: number) {
     >
       <BaseIconClient name="plus" :size="14" class="mr-1" />
       {{ $t('profile.phones.add') }}
-    </el-button>
+    </BaseButton>
     <p v-if="isLimitReached && !isAdding" class="text-xs text-gray-400">
       {{ $t('profile.phones.limitReached', { max: MAX_PHONES }) }}
     </p>

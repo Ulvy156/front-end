@@ -34,8 +34,8 @@ const error = ref<{ key: string, params?: Record<string, number> } | null>(null)
 watch(
     () => [filterStore.minPrice, filterStore.maxPrice],
     ([min, max]) => {
-        filter.value.min = min
-        filter.value.max = max
+        filter.value.min = min as number
+        filter.value.max = max as number
     },
 )
 

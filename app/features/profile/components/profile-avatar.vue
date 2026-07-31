@@ -1,6 +1,7 @@
 <script lang="ts" setup>
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import { ElMessageBox } from 'element-plus'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import { initials as getInitials } from '~/utils/initials'
@@ -83,14 +84,14 @@ async function handleDelete() {
     </div>
 
     <div class="flex flex-col gap-2">
-      <el-button size="small" @click="triggerUpload" :disabled="isUploading">
+      <BaseButton size="small" @click="triggerUpload" :disabled="isUploading">
         <BaseIcon name="upload" :size="14" class="mr-1.5" />
         {{ $t('profile.avatar.upload') }}
-      </el-button>
-      <el-button v-if="imgUrl" size="small" type="danger" plain @click="handleDelete" :disabled="isDeleting">
+      </BaseButton>
+      <BaseButton v-if="imgUrl" size="small" type="danger" plain @click="handleDelete" :disabled="isDeleting">
         <BaseIcon name="trash-2" :size="14" class="mr-1.5" />
         {{ $t('profile.avatar.remove') }}
-      </el-button>
+      </BaseButton>
       <p class="text-xs text-gray-400">{{ $t('profile.avatar.hint') }}</p>
     </div>
 

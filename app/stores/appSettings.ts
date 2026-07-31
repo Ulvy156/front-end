@@ -18,15 +18,8 @@ export const useAppSettingsStore = defineStore('appSettings', {
     registrationEnabled: (state) => state.settings?.registrationEnabled ?? true,
     maxPropertiesPerLandlord: (state) => state.settings?.maxPropertiesPerLandlord ?? null,
     maxImagesPerProperty: (state) => state.settings?.maxImagesPerProperty ?? null,
-    minPropertyPrice: (state) => {
-      const value = state.settings?.minPropertyPrice
-      return value === null || value === undefined ? null : Number(value)
-    },
-    maxPropertyPrice: (state) => {
-      const value = state.settings?.maxPropertyPrice
-      return value === null || value === undefined ? null : Number(value)
-    },
-    commissionRate: (state) => Number(state.settings?.commissionRate ?? 0),
+    minPropertyPrice: (state) => state.settings?.minPropertyPrice ?? null,
+    maxPropertyPrice: (state) => state.settings?.maxPropertyPrice ?? null,
   },
 
   actions: {

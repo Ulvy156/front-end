@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { FormRules } from 'element-plus'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
+import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 
 const props = defineProps<{
   mutation: UseMutationReturnType<unknown, unknown, { currentPassword: string; newPassword: string }, unknown>
@@ -65,9 +67,9 @@ const submitPassword = handleSubmit(async () => {
         <h3 class="text-sm font-semibold text-gray-900">{{ $t('profile.password.title') }}</h3>
         <p class="text-xs text-gray-400 mt-0.5">{{ $t('profile.password.subtitle') }}</p>
       </div>
-      <el-button size="small" @click="toggle">
+      <BaseButton size="small" @click="toggle">
         {{ isOpen ? $t('profile.cancel') : $t('profile.password.change') }}
-      </el-button>
+      </BaseButton>
     </div>
 
     <el-form
@@ -80,18 +82,18 @@ const submitPassword = handleSubmit(async () => {
       @submit.prevent="submitPassword"
     >
       <el-form-item :label="$t('profile.password.current')" prop="currentPassword">
-        <el-input v-model="form.currentPassword" type="password" show-password />
+        <BaseInput v-model="form.currentPassword" type="password" show-password />
       </el-form-item>
 
       <el-form-item :label="$t('profile.password.new')" prop="newPassword">
-        <el-input v-model="form.newPassword" type="password" show-password />
+        <BaseInput v-model="form.newPassword" type="password" show-password />
       </el-form-item>
 
       <p class="text-xs text-gray-400 pb-2">{{ $t('profile.password.requirements') }}</p>
 
-      <el-button type="primary" :loading="isSubmitting" native-type="submit">
+      <BaseButton type="primary" :loading="isSubmitting" native-type="submit">
         {{ $t('profile.password.submit') }}
-      </el-button>
+      </BaseButton>
     </el-form>
   </div>
 </template>

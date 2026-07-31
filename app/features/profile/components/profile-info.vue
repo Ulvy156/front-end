@@ -2,6 +2,8 @@
 import type { FormRules } from 'element-plus'
 import type { UseMutationReturnType } from '@tanstack/vue-query'
 import dayjs from 'dayjs'
+import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseInput from '~/components/ui/BaseInput.vue'
 import AdminRoleBadge from '~/features/admin/components/shared/AdminRoleBadge.vue'
 import type { UserProfile } from '../types/profile'
 
@@ -67,20 +69,20 @@ const submitName = handleSubmit(async () => {
       <label class="text-xs font-medium text-gray-500 uppercase tracking-wide">{{ $t('profile.info.name') }}</label>
       <div v-if="!isEditing" class="mt-1 flex items-center gap-2">
         <p class="text-sm text-gray-900">{{ profile.name }}</p>
-        <el-button text size="small" @click="startEdit">
+        <BaseButton text size="small" @click="startEdit">
           <span class="text-xs text-blue-600">{{ $t('profile.info.edit') }}</span>
-        </el-button>
+        </BaseButton>
       </div>
       <el-form v-else ref="formRef" :model="form" :rules="rules" class="mt-1" @submit.prevent="submitName">
         <el-form-item prop="name" class="mb-0!">
           <div class="flex items-center gap-2 w-full">
-            <el-input v-model="form.name" size="default" class="max-w-xs" />
-            <el-button type="primary" size="small" :loading="isSubmitting" native-type="submit">
+            <BaseInput v-model="form.name" size="default" class="max-w-xs" />
+            <BaseButton type="primary" size="small" :loading="isSubmitting" native-type="submit">
               {{ $t('profile.save') }}
-            </el-button>
-            <el-button size="small" @click="cancelEdit">
+            </BaseButton>
+            <BaseButton size="small" @click="cancelEdit">
               {{ $t('profile.cancel') }}
-            </el-button>
+            </BaseButton>
           </div>
         </el-form-item>
       </el-form>
