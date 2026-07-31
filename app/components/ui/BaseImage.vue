@@ -67,7 +67,10 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
 </template>
 
 <style scoped>
-.image {
+/* :where() keeps this at zero specificity so sizing classes passed via the
+   `class` prop (e.g. h-14 w-14) always win instead of losing to this default
+   because of the scoped-style attribute selector bump. */
+:where(.image) {
   width: 100%;
   height: 100%;
   display: block;

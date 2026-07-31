@@ -1,7 +1,7 @@
 {
   "nav": {
     "title": "RokPteah",
-    "rooms": "Rooms",
+    "properties": "Properties",
     "apartments": "Apartments",
     "houses": "Houses",
     "map": "Map",
@@ -10,17 +10,17 @@
     "parking": "Parking",
     "rent": "Moto & Car",
     "home": "Home",
-    "borwse_room": "Browse Room",
+    "borwse_room": "Browse Property",
     "post_room": "Post Properties",
     "favourites": "Favourites"
   },
   "home": {
     "bg": {
-      "title": "Find Your Perfect Room",
-      "content": "Discover comfortable and affordable rooms across Cambodia"
+      "title": "Find Your Perfect Property",
+      "content": "Discover comfortable and affordable properties across Cambodia"
     },
     "feature_list": "Featured Listings",
-    "feature_des":"Hand-picked rooms with exceptional quality and value",
+    "feature_des":"Hand-picked properties with exceptional quality and value",
     "featured":"FEATURED",
     "new_list":"បញ្ជីថ្មីៗដែលទើបបន្ថែមចូល",
     "just_list":"ទើបដាក់ផ្សាយថ្មី",
@@ -29,7 +29,7 @@
     "month": "month"
   },
   "footer": {
-    "description": "Cambodia’s trusted rental platform. Find rooms, houses, and apartments that fit your lifestyle.",
+    "description": "Cambodia’s trusted rental platform. Find properties, houses, and apartments that fit your lifestyle.",
     "quickLinks": "Quick Links",
     "about": "About Us",
     "contact": "Contact",
@@ -45,7 +45,7 @@
   "auth": {
     "welcome": "Welcome back",
     "createAcc": "Create your account",
-    "createAccDec": "Find and list rooms, apartments, and houses easily",
+    "createAccDec": "Find and list properties, apartments, and houses easily",
     "subtitle": "Log in to manage your listings and favorites",
     "google": "Continue with Google",
     "telegram": "Continue with Telegram",
@@ -73,6 +73,6 @@
   "filter": {
     "location":"Locations",
     "price_range":"Price Range",
-    "room_type":"Room Type"
+    "room_type":"Property Type"
   }
 }

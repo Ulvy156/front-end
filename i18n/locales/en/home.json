@@ -4,14 +4,14 @@
       "title": "Popular Locations",
       "description": "Discover rooms in Cambodia's most sought-after neighborhoods",
       "subtitle": "Districts renters are searching most this week.",
-      "homes": "{n} home | {n} homes",
+      "homes": "{n} property | {n} properties",
       "empty": "No popular locations yet."
     },
     "latestListings": "Latest Listings",
     "hero": {
       "title": "Find Your Perfect Living Life Style",
       "content": "Discover comfortable and affordable rooms across Cambodia",
-      "badge": "homes ready across Cambodia",
+      "badge": "properties ready across Cambodia",
       "search": {
         "location": "Location",
         "location_placeholder": "Phnom Penh, Kandal…",
@@ -32,7 +32,7 @@
     },
     "choseUs": {
       "choseUs": "Why Choose Us",
-      "title": "Everything you need to find home",
+      "title": "Everything you need to find property",
       "description": "We've built the most comprehensive platform for room rentals in Cambodia with features designed to make your search effortless",
       "card": {
         "contact": {
@@ -45,7 +45,7 @@
         },
         "free": {
           "title": "Free Support",
-          "description": "It's completely free, and we're here to help you find your home"
+          "description": "It's completely free, and we're here to help you find your property"
         }
       }
     },
@@ -68,7 +68,7 @@
         },
         "move_in": {
           "title": "Move In",
-          "description": "Sign the lease and enjoy your new home"
+          "description": "Sign the lease and enjoy your new property"
         }
       }
     },
