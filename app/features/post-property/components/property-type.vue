@@ -2,6 +2,7 @@
 import { ref, inject, onMounted } from "vue";
 import { useI18n } from "vue-i18n";
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
+import { propertyTypes } from '~/config/property-types';
 
 const { t } = useI18n();
 const form = inject<any>('postPropertyForm', {});
@@ -9,18 +10,9 @@ const form = inject<any>('postPropertyForm', {});
 
 const selected = ref<string>('house');
 
-const propertyTypes = [
-  { value: 'room', label: 'Room', sub: 'បន្ទប់', icon: 'bed' },
-  { value: 'studio', label: 'Studio', sub: 'ស្ទូឌីយោ', icon: 'building-2' },
-  { value: 'apartment', label: 'Apartment', sub: 'អាផាតមិន', icon: 'building' },
-  { value: 'house', label: 'House', sub: 'ផ្ទះ', icon: 'home' },
-  { value: 'single_room', label: 'Single Room', sub: 'បន្ទប់សម្រាប់ម្នាក់', icon: 'bed-single' },
-]
-
 function selectType(type: string) {
   selected.value = type;
   form.propertyType = type;
-  console.log('Property type selected:', type);
 }
 
 onMounted(() => {

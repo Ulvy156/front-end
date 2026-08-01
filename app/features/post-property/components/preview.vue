@@ -53,40 +53,41 @@
           </div>
         </div>
 
-        <!-- Badges -->
-        <div class="absolute top-3 left-3 flex gap-1.5">
-          <span
-            v-if="form.propertyType"
-            class="text-xs font-medium px-2.5 py-1 rounded-full bg-white/90 text-gray-700 shadow-sm"
-          >
-            {{ form.propertyType }}
-          </span>
-          <span
-            v-if="form.fullyFurnished"
-            class="text-xs font-medium px-2.5 py-1 rounded-full bg-white/90 text-gray-700 shadow-sm"
-          >
-            {{ t("post_property.preview.furnished") }}
-          </span>
-        </div>
+        <!-- Badges + Edit photos -->
+        <div class="absolute top-3 inset-x-3 flex items-start justify-between gap-2">
+          <div class="flex flex-wrap gap-1.5 min-w-0">
+            <span
+              v-if="form.propertyType"
+              class="text-xs font-medium px-2.5 py-1 rounded-full bg-white/90 text-gray-700 shadow-sm truncate max-w-40"
+            >
+              {{ propertyTypeLabel }}
+            </span>
+            <span
+              v-if="form.fullyFurnished"
+              class="text-xs font-medium px-2.5 py-1 rounded-full bg-white/90 text-gray-700 shadow-sm"
+            >
+              {{ t("post_property.preview.furnished") }}
+            </span>
+          </div>
 
-        <!-- Edit photos -->
-        <button
-          type="button"
-          @click="$emit('go-to', 5); console.log('Edit photos clicked')"
-          class="absolute top-3 right-3 flex items-center gap-1.5 bg-white/90 text-gray-700 text-xs font-medium px-2.5 py-1.5 rounded-lg shadow-sm hover:bg-white transition cursor-pointer border-none"
-        >
-          <svg
-            class="w-3.5 h-3.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
+          <button
+            type="button"
+            @click="$emit('go-to', 5)"
+            class="flex items-center gap-1.5 shrink-0 bg-white/90 text-gray-700 text-xs font-medium px-2.5 py-1.5 rounded-lg shadow-sm hover:bg-white transition cursor-pointer border-none"
           >
-            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
-            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
-          </svg>
-          {{ t("post_property.preview.edit_photos") }}
-        </button>
+            <svg
+              class="w-3.5 h-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7" />
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z" />
+            </svg>
+            {{ t("post_property.preview.edit_photos") }}
+          </button>
+        </div>
 
         <!-- Photo counter -->
         <div
@@ -269,7 +270,7 @@
         v-for="btn in editButtons"
         :key="btn.step"
         type="button"
-        @click="$emit('go-to', btn.step); console.log('Edit button clicked:', btn.key, 'step:', btn.step)"
+        @click="$emit('go-to', btn.step)"
         class="flex items-center justify-center gap-1.5 px-3 py-2.5 text-xs font-medium text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 hover:border-gray-300 transition cursor-pointer bg-white"
       >
         <svg
@@ -294,6 +295,7 @@ import { useI18n } from "vue-i18n";
 import BaseImage from "~/components/ui/BaseImage.vue";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions";
+import { propertyTypes } from "~/config/property-types";
 
 const { t } = useI18n();
 const langKey = useLangKey();
@@ -333,6 +335,12 @@ const stayMap: Record<string, string> = {
 };
 
 const minStayLabel = computed(() => stayMap[form.minStay] || "—");
+
+const propertyTypeLabel = computed(() => {
+  const match = propertyTypes.find((item) => item.value === form.propertyType);
+  if (!match) return form.propertyType;
+  return langKey.value === "nameEn" ? match.label : match.sub;
+});
 
 const { data: ruleOptions } = usePropertyRuleOptions();
 

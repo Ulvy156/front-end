@@ -69,6 +69,7 @@ const submit = handleSubmit(async () => {
     v-model="isOpen"
     :title="$t('feedback.title')"
     width="460px"
+    class="feedback-dialog"
     :close-on-click-modal="false"
   >
     <el-form
@@ -123,3 +124,11 @@ const submit = handleSubmit(async () => {
     </el-form>
   </el-dialog>
 </template>
+
+<style scoped>
+@media (max-width: 640px) {
+  :deep(.feedback-dialog.el-dialog) {
+    width: 92vw !important;
+  }
+}
+</style>

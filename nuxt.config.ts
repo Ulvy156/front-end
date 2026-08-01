@@ -107,6 +107,18 @@ export default defineNuxtConfig({
       // ngrok's free-tier domain changes on every restart, so allow any host for local testing
       allowedHosts: true,
     },
+    resolve: {
+      alias: [
+        // dayjs's default entry (dayjs.min.js) is CJS-only with no "exports"
+        // map, and Rolldown's CJS interop intermittently fails to wrap it
+        // with a default export — "does not provide an export named
+        // 'default'" when a page that imports it loads. dayjs ships a real
+        // ESM build under esm/, so alias straight to that and skip the
+        // interop step entirely. https://github.com/vitejs/rolldown-vite/issues/599
+        { find: /^dayjs(\.js)?$/, replacement: 'dayjs/esm/index.js' },
+        { find: /^dayjs\/plugin\/([^/]+?)(\.js)?$/, replacement: 'dayjs/esm/plugin/$1/index.js' },
+      ],
+    },
     optimizeDeps: {
       include: [
         '@tanstack/vue-query',

@@ -34,6 +34,7 @@
 
 <script setup lang="ts">
 import { defineAsyncComponent, computed, inject, ref } from "vue";
+import { useQueryClient } from "@tanstack/vue-query";
 import stepsNavigation from "./steps-navigation.vue";
 import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
@@ -48,6 +49,7 @@ const authStore = useAuthStore();
 const appSettingsStore = useAppSettingsStore();
 const notify = useNotify();
 const { extract } = useErrorMsg();
+const queryClient = useQueryClient();
 
 function validateRentBounds(): boolean {
   const rent = Number(form.rent);
@@ -471,6 +473,11 @@ const publish = async () => {
 
       publishResult.value = t('post_property.published_success', { id: result.id });
       notify.success(publishResult.value);
+
+      // Refresh landlord properties/dashboard caches so the new listing shows up immediately
+      await queryClient.invalidateQueries({ queryKey: ['landlord-properties'] });
+      await queryClient.invalidateQueries({ queryKey: ['landlord-dashboard'] });
+
       // Redirect
       router.push('/landlord/properties');
     } catch (error: any) {
