@@ -34,8 +34,11 @@ export function usePropertyDetails() {
 
   const id = computed(() => route.params.id as string)
 
-
-  const { data: property, pending, refresh } = useAsyncData<PropertyDetail>(
+  // Key must be reactive to `id` (not a static string) — otherwise every
+  // property id shares one cache slot, and Nuxt's payload cache can hand
+  // back a previous property's frozen data instead of refetching.
+  const { data: property, pending } = useAsyncData<PropertyDetail>(
+    () => `property-details-${id.value}`,
     () =>
       fetchPropertyDetails({
         api,
@@ -44,7 +47,7 @@ export function usePropertyDetails() {
         lng: propertyFilter.lng,
       }),
     {
-      watch: [id, () => propertyFilter.lat, () => propertyFilter.lng],
+      watch: [() => propertyFilter.lat, () => propertyFilter.lng],
     },
   )
 
@@ -73,11 +76,8 @@ export function usePropertyDetails() {
 
   watch(
     id,
-    async (value) => {
-      await Promise.all([
-        refresh(),
-        incrementView(api, viewedProperties, value)
-      ])
+    (value) => {
+      incrementView(api, viewedProperties, value)
     },
     { immediate: true },
   )

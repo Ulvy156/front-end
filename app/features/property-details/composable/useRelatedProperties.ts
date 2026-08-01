@@ -18,10 +18,9 @@ export function useRelatedProperties() {
   const id = computed(() => route.params.id as string)
 
   const { data, status } = useAsyncData<PropertyCardItem[]>(
-    `related-properties-${id.value}`,
+    () => `related-properties-${id.value}`,
     () => fetchRelatedProperties(api, id.value),
     {
-      watch: [id],
       default: () => [],
     },
   )
