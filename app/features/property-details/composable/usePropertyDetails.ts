@@ -1,4 +1,4 @@
-import { computed, onMounted, watch } from 'vue'
+import { computed, watch } from 'vue'
 import { useAsyncData, useCookie, useRoute, useRuntimeConfig } from '#imports'
 
 import { useApi } from '~/composables/useApi'
@@ -34,11 +34,8 @@ export function usePropertyDetails() {
 
   const id = computed(() => route.params.id as string)
 
-  onMounted(async () => {
-    await incrementView(api, viewedProperties, id.value)
-  })
 
-  const { data: property, pending } = useAsyncData<PropertyDetail>(
+  const { data: property, pending, refresh } = useAsyncData<PropertyDetail>(
     () =>
       fetchPropertyDetails({
         api,
@@ -70,6 +67,17 @@ export function usePropertyDetails() {
           ? `${config.public.R2_PUB_URL}/${firstImageKey}`
           : `${config.public.BASE_URL}/rokpteah-logo.webp`,
       })
+    },
+    { immediate: true },
+  )
+
+  watch(
+    id,
+    async (value) => {
+      await Promise.all([
+        refresh(),
+        incrementView(api, viewedProperties, value)
+      ])
     },
     { immediate: true },
   )

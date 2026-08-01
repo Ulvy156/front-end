@@ -1,12 +1,12 @@
 <template>
   <section class="mb-8">
     <!-- Gallery grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-[1.6fr_1fr] gap-2.5 h-[250px] sm:h-[420px] overflow-hidden">
+    <div class="grid grid-cols-1 sm:grid-cols-[1.6fr_1fr] gap-2.5 h-62.5 sm:h-105 overflow-hidden">
       <!-- Cover image -->
       <div class="relative cursor-pointer overflow-hidden rounded-[14px] h-full min-h-0" @click="openGallery(0)">
         <BaseImage
           v-if="property?.images.length"
-          :src="property.images[0].imageKey"
+          :src="property.images[0]!.imageKey"
           :alt="property.title"
           fit="cover"
           loading="eager"

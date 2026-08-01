@@ -27,7 +27,7 @@
 
     <!-- Title + Badges + Price row -->
     <div class="flex justify-between items-start gap-6 flex-wrap mb-6">
-      <div class="flex-1 min-w-[260px]">
+      <div class="flex-1 min-w-65">
         <!-- Badges -->
         <div class="flex items-center gap-2 mb-3">
           <span v-if="property!.isFeatured"
@@ -110,7 +110,7 @@
         <BaseButton
           v-if="phoneNumber.length"
           tag="a"
-          :href="`tel:${phoneNumber[0].phoneNumber}`"
+          :href="`tel:${phoneNumber[0]!.phoneNumber}`"
           class="bg-(--nav-active-item)! text-white! border-none! rounded-lg! px-6! py-3! h-auto! text-sm! font-semibold!"
         >
           {{ $t('property.call') }}
@@ -161,7 +161,6 @@ const { property } = usePropertyDetails()
 const langKey = useLangKey()
 const filterStore = usePropertyFilterStore()
 const { getProvinceId } = useCambodiaLocations()
-
 const phoneNumber = computed(
   () => property.value?.user?.phones?.filter((item) => item.type === "PHONE") ?? [],
 )

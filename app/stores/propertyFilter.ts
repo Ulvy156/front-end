@@ -82,12 +82,17 @@ export const usePropertyFilterStore = defineStore('propertyFilter', {
     },
 
     reset() {
+      // Distance display relies on lat/lng regardless of orderType (see
+      // usePropertySort's watcher) — a full filter reset should still
+      // clear every other criterion, but keep the user's location so
+      // distance keeps showing on cards. $subscribe (registered in init())
+      // re-persists the cookie with these restored values automatically.
+      const { lat, lng } = this.$state
+
       this.$reset()
 
-      if (import.meta.client) {
-        const cookie = useCookie('property_filter')
-        cookie.value = null
-      }
+      this.lat = lat
+      this.lng = lng
     },
   },
 })

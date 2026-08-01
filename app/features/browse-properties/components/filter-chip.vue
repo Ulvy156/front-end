@@ -22,8 +22,8 @@ const { t } = useI18n();
 const activeFilters = computed(() => {
   const chips: { key: string; label: string }[] = [];
 
-  // order by type
-  if(filterStore.orderType) {
+  // order by type (nearest has its own dedicated chip below)
+  if(filterStore.orderType && filterStore.orderType !== 4) {
     chips.push({
       key: "Order by",
       label: t('filter.order_by'),
@@ -85,7 +85,7 @@ const activeFilters = computed(() => {
   }
 
   // Nearest
-  if (filterStore.orderType === 3) {
+  if (filterStore.orderType === 4) {
     chips.push({
       key: "nearest",
       label: t('filter.chip.nearest'),

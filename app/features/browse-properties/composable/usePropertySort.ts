@@ -26,9 +26,13 @@ export function usePropertySort() {
   watch(
     () => filterStore.orderType,
     async (newVal) => {
+      // Switching away from "Nearest" only changes the sort mode. Keep
+      // lat/lng in the store: the backend returns distanceKm on every item
+      // whenever lat/lng are present, regardless of orderType, so leaving
+      // them set keeps distance visible on cards after the sort changes.
+      // They're only cleared by an explicit "remove nearest" action or a
+      // full filter reset.
       if (newVal !== 4) {
-        filterStore.lat = null
-        filterStore.lng = null
         return
       }
 
