@@ -96,7 +96,6 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
-const accessToken = useAccessToken()
 const { extract } = useErrorMsg()
 
 const otpDigits = reactive(['', '', '', '', '', ''])
@@ -187,12 +186,11 @@ const submit = async () => {
     }
     isLoading.value = true
     try {
-        const { data } = await api.post<{ accessToken: string; user_id: string }>('/auth/verify-account', {
+        await api.post('/auth/verify-account', {
             email: props.email,
             otp: otp.value,
         })
-        accessToken.value = data.accessToken
-        await authStore.fetchProfile(data.accessToken)
+        await authStore.fetchProfile()
         await navigateTo(resolvePostLoginRoute(authStore.user?.role))
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status

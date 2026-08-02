@@ -217,7 +217,7 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
       <!-- ── Description ── -->
       <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
         <h3 class="text-base font-semibold text-gray-900 mb-4">{{ t('landlord.propertyDetail.description') }}</h3>
-        <div class="prose prose-sm max-w-none text-gray-600" v-html="property.description" />
+        <p class="whitespace-pre-line text-sm text-gray-600">{{ property.description }}</p>
       </div>
 
       <!-- ── Location ── -->

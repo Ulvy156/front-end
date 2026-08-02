@@ -14,9 +14,14 @@ function isTokenExpired(token: string): boolean {
 
 async function refreshAndHydrate(
   config: ReturnType<typeof useRuntimeConfig>,
-  accessToken: ReturnType<typeof useAccessToken>,
   authStore: ReturnType<typeof useAuthStore>,
 ) {
+  // Composables can't be called after crossing an `await` without this —
+  // Nuxt's async context (needed by useResponseHeader/useState/useNuxtApp)
+  // doesn't reliably survive the raw axios.post() below, so every composable
+  // used after it must be wrapped in the context captured here up front.
+  const nuxtApp = useNuxtApp()
+
   const headers: Record<string, string> = {}
   if (import.meta.server) {
     const cookie = useRequestHeaders(['cookie']).cookie
@@ -32,22 +37,28 @@ async function refreshAndHydrate(
     { withCredentials: true, headers },
   )
 
-  // On SSR this axios call is server-to-server — the browser never sees it,
-  // so any Set-Cookie in the backend's response (the rotated refresh_token)
-  // must be manually relayed onto the actual outgoing response, or the
-  // browser keeps sending the old, now-rotated-away refresh_token forever.
-  if (import.meta.server) {
-    const setCookie = response.headers['set-cookie']
-    if (setCookie) {
-      useResponseHeader('set-cookie').value = setCookie
+  await nuxtApp.runWithContext(async () => {
+    // On SSR this axios call is server-to-server — the browser never sees it,
+    // so any Set-Cookie in the backend's response (the rotated refresh_token +
+    // access_token, both HttpOnly) must be manually relayed onto the actual
+    // outgoing response, or the browser keeps sending the old, now-rotated
+    // tokens forever.
+    if (import.meta.server) {
+      const setCookie = response.headers['set-cookie']
+      if (setCookie) {
+        useResponseHeader('set-cookie').value = setCookie
+      }
     }
-  }
 
-  const token = response.data?.accessToken ?? null
-  if (token) {
-    accessToken.value = token
-    await authStore.fetchProfile(token)
-  }
+    const token = response.data?.accessToken ?? null
+    if (token) {
+      // The rotated cookie above only reaches the browser on its *next*
+      // request — this carries the fresh token to the rest of *this* request's
+      // own API calls without touching the cookie itself (see useAccessToken.ts).
+      useFreshAccessToken().value = token
+      await authStore.fetchProfile(token)
+    }
+  })
 }
 
 export async function hydrateAuth() {
@@ -79,10 +90,8 @@ export async function hydrateAuth() {
     }
   }
 
-  accessToken.value = null
-
   try {
-    await refreshAndHydrate(config, accessToken, authStore)
+    await refreshAndHydrate(config, authStore)
   } catch {
     // Refresh token is also gone — user must log in again
   } finally {

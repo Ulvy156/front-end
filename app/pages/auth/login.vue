@@ -123,7 +123,6 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
-const accessToken = useAccessToken()
 const { extract } = useErrorMsg()
 
 const brandFeatures = computed(() => [
@@ -160,20 +159,13 @@ const loginWithGoogle = () => {
 
 const submit = handleSubmit(async () => {
     try {
-        const { data } = await api.post<{ accessToken: string }>('/auth/login', {
+        await api.post('/auth/login', {
             identifier: form.identifier,
             password: form.password,
         })
-        const token = data.accessToken
-        if (!token) {
-            notify.error(t('common.somethingWentWrong'))
-            return
-        }
-        accessToken.value = token
-        await authStore.fetchProfile(token)
+        await authStore.fetchProfile()
         if (!authStore.isAuthenticated) {
-            // fetchProfile failed silently (token rejected or backend issue)
-            accessToken.value = null
+            // fetchProfile failed silently (cookie rejected or backend issue)
             notify.error(t('common.somethingWentWrong'))
             return
         }

@@ -94,7 +94,6 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
-const accessToken = useAccessToken()
 const { extract } = useErrorMsg()
 const route = useRoute()
 
@@ -121,8 +120,9 @@ const selectRole = async (role: 'USER' | 'LANDLORD') => {
       role,
       ...(showPasswordField && trimmedPassword ? { password: trimmedPassword } : {}),
     })
-    const { data } = await api.post<{ accessToken: string }>('/auth/refresh-token')
-    accessToken.value = data.accessToken
+    // select-role changes the role baked into the JWT, so a fresh access
+    // token (fresh cookie) is needed to reflect it going forward.
+    await api.post('/auth/refresh-token')
     await authStore.fetchProfile()
     await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
   } catch (err) {

@@ -1,6 +1,32 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 import tailwindcss from "@tailwindcss/vite";
 
+// Report-Only for now — shipped without live testing against every provider
+// (Google's consent screen, Telegram's popup widget, MapTiler's tiles/workers).
+// It logs violations to the browser console instead of blocking anything, so
+// nothing breaks. Watch the console across a login (Google + Telegram), a
+// property-details map, and an image-heavy page for a few days, then rename
+// the header below to `Content-Security-Policy` once it's clean.
+const contentSecurityPolicy = [
+  `default-src 'self'`,
+  // Telegram's widget script; everything else (Nuxt/Element Plus/MapTiler) is bundled and self-hosted
+  `script-src 'self' https://telegram.org`,
+  // Element Plus, MapLibre GL, and Tailwind arbitrary values all inject inline styles at runtime
+  `style-src 'self' 'unsafe-inline'`,
+  `img-src 'self' data: blob: ${process.env.NUXT_PUBLIC_R2_PUB_URL || ''} https://*.maptiler.com`,
+  `font-src 'self' data:`,
+  `connect-src 'self' https://*.maptiler.com`,
+  // MapLibre GL (via @maptiler/sdk) parses vector tiles off the main thread using blob-URL workers
+  `worker-src 'self' blob:`,
+  // The Telegram Login button itself renders as an iframe from oauth.telegram.org
+  `frame-src https://oauth.telegram.org`,
+  `object-src 'none'`,
+  `base-uri 'self'`,
+  `form-action 'self'`,
+  `frame-ancestors 'none'`,
+  `upgrade-insecure-requests`,
+].join('; ')
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -29,13 +55,12 @@ export default defineNuxtConfig({
         fetchOptions: { redirect: 'manual' },
       },
     },
-    // Flagged by Lighthouse best-practices audit (no CSP is handled
-    // separately — it needs an allowlist for Google OAuth, Telegram Login,
-    // MapTiler, and the R2 image bucket, so it isn't set here yet).
+    // Flagged by Lighthouse best-practices audit.
     '/**': {
       headers: {
         'Strict-Transport-Security': 'max-age=63072000; includeSubDomains; preload',
         'X-Frame-Options': 'DENY',
+        'Content-Security-Policy-Report-Only': contentSecurityPolicy,
         // Telegram Login's widget opens an oauth.telegram.org popup and
         // reports back via window.opener.postMessage. Plain 'same-origin'
         // severs window.opener for that cross-origin popup, so the widget's

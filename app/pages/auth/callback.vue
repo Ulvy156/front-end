@@ -15,26 +15,23 @@ import { resolvePostLoginRoute } from '~/utils/roleGuard'
 
 definePageMeta({ layout: 'auth' })
 
-const accessToken = useAccessToken()
 const authStore = useAuthStore()
 const route = useRoute()
 
+// The backend sets the access_token/refresh_token cookies directly on this
+// redirect (see google/callback in auth.controller.ts) — no token in the URL
+// to leak via browser history or access logs, so there's nothing to read
+// from route.query beyond is_new_user.
 onMounted(async () => {
-  const token = (route.query.token as string | undefined)?.trim()
   const isNewUser = route.query.is_new_user === 'true'
-  if (token) {
-    accessToken.value = token
-    if (isNewUser) {
-      await navigateTo({ path: '/auth/role-select', query: { is_new_user: 'true' } }, { replace: true })
-    } else {
-      await authStore.fetchProfile(token)
-      if (authStore.isAuthenticated) {
-        await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
-      } else {
-        accessToken.value = null
-        await navigateTo('/auth/login', { replace: true })
-      }
-    }
+  if (isNewUser) {
+    await navigateTo({ path: '/auth/role-select', query: { is_new_user: 'true' } }, { replace: true })
+    return
+  }
+
+  await authStore.fetchProfile()
+  if (authStore.isAuthenticated) {
+    await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
   } else {
     await navigateTo('/auth/login', { replace: true })
   }

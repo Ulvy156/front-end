@@ -52,7 +52,6 @@ const isWidgetReady = ref(false)
 const scaleX = ref(1)
 const TELEGRAM_WIDGET_WIDTH = 238
 const { $axios } = useNuxtApp()
-const accessToken = useAccessToken()
 const authStore = useAuthStore()
 const notify = useNotify()
 const { extract } = useErrorMsg()
@@ -83,27 +82,20 @@ onMounted(() => {
 
   ;(window as any).onTelegramAuth = async (user: any) => {
     try {
-      const { data } = await $axios.post<{ accessToken?: string; access_token?: string; user_id: string; is_new_user: boolean }>(
+      const { data } = await $axios.post<{ user_id: string; is_new_user: boolean }>(
         '/auth/telegram-login',
         user,
       )
-      const token = data.accessToken ?? data.access_token
-      if (!token) {
-        notify.error(t('common.somethingWentWrong'))
-        return
-      }
-      accessToken.value = token
       if (data.is_new_user) {
         await navigateTo({ path: '/auth/role-select', query: { is_new_user: 'true' } }, { replace: true })
+        return
+      }
+      await authStore.fetchProfile()
+      if (authStore.isAuthenticated) {
+        await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
       } else {
-        await authStore.fetchProfile(token)
-        if (authStore.isAuthenticated) {
-          await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
-        } else {
-          accessToken.value = null
-          notify.error(t('common.somethingWentWrong'))
-          await navigateTo('/auth/login', { replace: true })
-        }
+        notify.error(t('common.somethingWentWrong'))
+        await navigateTo('/auth/login', { replace: true })
       }
     } catch (err) {
       notify.error(extract(err))

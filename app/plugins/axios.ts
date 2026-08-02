@@ -11,11 +11,12 @@ interface RetriableRequestConfig extends InternalAxiosRequestConfig {
 export default defineNuxtPlugin((nuxtApp) => {
   const config = useRuntimeConfig()
   const accessToken = useAccessToken()
+  const freshAccessToken = useFreshAccessToken()
   const authStore = useAuthStore()
 
   // Client requests go through the same-origin /api proxy (see routeRules in
-  // nuxt.config.ts) so the browser treats refresh_token as a first-party
-  // cookie. SSR requests skip the proxy and hit the backend directly.
+  // nuxt.config.ts) so the browser treats refresh_token/access_token as
+  // first-party cookies. SSR requests skip the proxy and hit the backend directly.
   const apiBaseUrl = import.meta.client ? '/api' : config.public.apiBaseUrl
 
   const api = axios.create({
@@ -28,9 +29,15 @@ export default defineNuxtPlugin((nuxtApp) => {
     timeout: import.meta.server ? 8000 : 0,
   })
 
-  let refreshPromise: Promise<string | null> | null = null
+  let refreshPromise: Promise<boolean> | null = null
 
-  const applyAccessToken = (request: InternalAxiosRequestConfig, token?: string | null) => {
+  // Only needed for SSR: it's a direct server-to-server call to the backend,
+  // so the browser's cookie jar never enters the picture — the token has to
+  // be attached explicitly. Client requests rely on the browser attaching the
+  // HttpOnly access_token cookie automatically via the same-origin proxy.
+  const applyAccessToken = (request: InternalAxiosRequestConfig) => {
+    if (!import.meta.server) return request
+    const token = freshAccessToken.value ?? accessToken.value
     if (!token) return request
     const headers = AxiosHeaders.from(request.headers)
     headers.set('Authorization', `Bearer ${token}`)
@@ -42,31 +49,43 @@ export default defineNuxtPlugin((nuxtApp) => {
   // Navigation to /auth/login is handled by route middleware, not here,
   // to avoid conflicting with in-flight middleware navigation.
   const clearSession = () => {
-    accessToken.value = null
     authStore.clear()
   }
 
   const refreshAccessToken = async () => {
+    const headers: Record<string, string> = {}
+    if (import.meta.server) {
+      const cookie = useRequestHeaders(['cookie']).cookie
+      if (cookie) headers.cookie = cookie
+    }
     try {
-      const { data } = await axios.post(
+      const response = await axios.post(
         `${apiBaseUrl}/auth/refresh-token`,
         {},
-        { withCredentials: true },
+        { withCredentials: true, headers },
       )
-      const nextToken = data?.accessToken ?? null
-      accessToken.value = nextToken
-      return nextToken
+      // Composables can't be called after crossing this await without
+      // restoring Nuxt's async context explicitly (see roleGuard.ts's
+      // refreshAndHydrate for the same pattern).
+      await nuxtApp.runWithContext(() => {
+        if (import.meta.server) {
+          const setCookie = response.headers['set-cookie']
+          if (setCookie) useResponseHeader('set-cookie').value = setCookie
+        }
+        freshAccessToken.value = response.data?.accessToken ?? null
+      })
+      return true
     } catch {
       // Refresh token is expired or missing — full session is dead
       clearSession()
-      return null
+      return false
     }
   }
 
   api.interceptors.request.use((request) => {
     const locale = (nuxtApp.$i18n as any)?.locale?.value ?? 'en'
     request.headers['accept-language'] = locale
-    return applyAccessToken(request, accessToken.value)
+    return applyAccessToken(request)
   })
 
   api.interceptors.response.use(
@@ -114,13 +133,6 @@ export default defineNuxtPlugin((nuxtApp) => {
         return Promise.reject(error)
       }
 
-      // Skip refresh when the request had no token — the 401 is from a public
-      // endpoint (e.g. wrong login credentials) and there is nothing to refresh
-      const hadToken = !!(originalRequest.headers as Record<string, string>)?.['Authorization']
-      if (!hadToken) {
-        return Promise.reject(error)
-      }
-
       // Still getting 401 after a successful refresh — session is invalid
       if (originalRequest._retry) {
         clearSession()
@@ -133,13 +145,15 @@ export default defineNuxtPlugin((nuxtApp) => {
         refreshPromise = null
       })
 
-      const nextToken = await refreshPromise
+      const refreshed = await refreshPromise
 
-      if (!nextToken) {
+      if (!refreshed) {
         return Promise.reject(error)
       }
 
-      return api.request(applyAccessToken(originalRequest, nextToken))
+      // No token to reattach manually — the retry picks up the freshly
+      // rotated cookie the same way the original request would have.
+      return api.request(applyAccessToken(originalRequest))
     },
   )
 
