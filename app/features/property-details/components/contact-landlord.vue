@@ -63,7 +63,7 @@
         ? 'bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) mt-2'
         : 'bg-(--nav-active-item) text-white border-none'"
     >
-      <BaseIconClient name="message-square-text" :size="17" />
+      <Icon name="mdi:telegram" :size="17" />
       {{ $t('property.contact_telegram') }}
     </a>
 
@@ -123,7 +123,7 @@
             :aria-label="$t('property.share_telegram')"
             @click="openShare('TG', shareUrl, property.title)"
           >
-            <BaseIconClient name="message-square-text" :size="18" />
+            <Icon name="mdi:telegram" :size="18" />
           </button>
           <button
             class="share-btn"
