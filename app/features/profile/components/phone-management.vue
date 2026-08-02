@@ -5,6 +5,7 @@ import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
 import type { NewPhone, UserProfile } from '../types/profile'
+import { PHONE_NUMBER_TYPE } from '~/types/phoneNumber'
 
 const MAX_PHONES = 3
 
@@ -19,11 +20,11 @@ const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
 
 const phones = computed(() =>
-  props.profile.phones.filter(p => p.type === 'PHONE'),
+  props.profile.phones.filter(p => p.type === PHONE_NUMBER_TYPE.PHONE),
 )
 
 const telegramEntries = computed(() =>
-  props.profile.phones.filter(p => p.type === 'TELEGRAM'),
+  props.profile.phones.filter(p => p.type === PHONE_NUMBER_TYPE.TELEGRAM),
 )
 
 const isLimitReached = computed(() => phones.value.length >= MAX_PHONES)

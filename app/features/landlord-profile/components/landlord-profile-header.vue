@@ -64,6 +64,7 @@ import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import { useCopy } from '#imports'
 import { getTelegramLink } from '#imports'
 import type { PublicLandlord } from '../interface/landlord-profile'
+import { PHONE_NUMBER_TYPE } from '~/types/phoneNumber'
 
 const props = defineProps<{
   landlord: PublicLandlord
@@ -72,11 +73,11 @@ const props = defineProps<{
 const { copy } = useCopy()
 
 const phones = computed(() =>
-  props.landlord.phones.filter(p => p.type === 'PHONE'),
+  props.landlord.phones.filter(p => p.type === PHONE_NUMBER_TYPE.PHONE),
 )
 
 const telegram = computed(() =>
-  props.landlord.phones.filter(p => p.type === 'TELEGRAM'),
+  props.landlord.phones.filter(p => p.type === PHONE_NUMBER_TYPE.TELEGRAM),
 )
 
 const formattedDate = computed(() =>

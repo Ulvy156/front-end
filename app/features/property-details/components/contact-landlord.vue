@@ -33,18 +33,19 @@
       </div>
     </div>
 
-    <!-- Contact button -->
+    <!-- Call -->
     <BaseButton
-      v-if="phoneNumber.length"
+      v-if="hasPhone"
       block
       tag="a"
       :href="`tel:${phoneNumber[0]!.phoneNumber}`"
-      class="bg-(--nav-active-item)! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold!"
+      class="flex! items-center justify-center gap-2 bg-(--nav-active-item)! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold!"
     >
-      {{ $t('property.contact') }}
+      <BaseIconClient name="phone-call" :size="17" />
+      {{ $t('property.call') }}
     </BaseButton>
     <BaseButton
-      v-else
+      v-else-if="!hasTelegram"
       block
       disabled
       class="bg-gray-300! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold! cursor-not-allowed!"
@@ -52,17 +53,19 @@
       {{ $t('property.contact') }}
     </BaseButton>
 
-    <!-- Call now -->
-    <!-- <BaseButton
-      v-if="phoneNumber.length"
-      block
-      tag="a"
-      :href="`tel:${phoneNumber[0]!.phoneNumber}`"
-      class="flex! items-center justify-center gap-2 bg-green-500! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold! mt-2.5!"
+    <!-- Telegram -->
+    <a
+      v-if="hasTelegram"
+      target="_blank"
+      :href="getTelegramLink(telegram[0]!.phoneNumber)!"
+      class="w-full flex items-center justify-center gap-2 rounded-lg py-3 text-[15px] font-semibold text-center"
+      :class="hasPhone
+        ? 'bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) mt-2'
+        : 'bg-(--nav-active-item) text-white border-none'"
     >
-      <BaseIconClient name="phone-call" :size="17" />
-      {{ $t('property.call') }}
-    </BaseButton> -->
+      <BaseIconClient name="message-square-text" :size="17" />
+      {{ $t('property.contact_telegram') }}
+    </a>
 
     <!-- Contact rows -->
     <div class="flex flex-col gap-2 mt-3.5">
@@ -72,29 +75,33 @@
       >
         <BaseIconClient name="mail" :size="16" color="var(--nav-active-item)" />
         <span class="flex-1 text-[13px] text-gray-600 truncate">{{ property.user.email }}</span>
-        <BaseIconClient name="copy" :size="15" class="text-gray-400 cursor-pointer shrink-0" @click="copy(property.user.email!)" />
+        <button
+          type="button"
+          class="shrink-0 text-gray-400 cursor-pointer"
+          :aria-label="$t('property.copy_email')"
+          @click="copy(property.user.email!)"
+        >
+          <BaseIconClient name="copy" :size="15" />
+        </button>
       </div>
-      <div
+      <a
         v-for="phone in phoneNumber"
         :key="phone.phoneNumber"
+        :href="`tel:${phone.phoneNumber}`"
         class="flex items-center gap-2.5 bg-[#f4f5f7] rounded-lg px-3.5 py-2.5"
       >
         <BaseIconClient name="phone" :size="16" color="var(--nav-active-item)" />
         <span class="flex-1 text-[13px] text-gray-600">{{ phone.phoneNumber }}</span>
-        <BaseIconClient name="copy" :size="15" class="text-gray-400 cursor-pointer shrink-0" @click="copy(phone.phoneNumber)" />
-      </div>
+        <button
+          type="button"
+          class="shrink-0 text-gray-400 cursor-pointer"
+          :aria-label="$t('property.copy_phone')"
+          @click.prevent.stop="copy(phone.phoneNumber)"
+        >
+          <BaseIconClient name="copy" :size="15" />
+        </button>
+      </a>
     </div>
-
-    <!-- Telegram -->
-    <a
-      v-if="telegram.length"
-      target="_blank"
-      :href="getTelegramLink(telegram[0]!.phoneNumber)!"
-      class="w-full flex items-center justify-center gap-2 bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) rounded-lg py-3 text-[15px] font-semibold mt-2 text-center"
-    >
-      <BaseIconClient name="message-square-text" :size="17" />
-      {{ $t('property.telegram') }}
-    </a>
 
     <!-- Share -->
     <div class="border-t border-gray-200 mt-4 pt-4">
@@ -148,6 +155,7 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 import BaseVerifiedBadge from "~/components/ui/BaseVerifiedBadge.vue"
 import reportPropertyDialog from "./report-property-dialog.vue"
 import type { PropertyDetail } from "../interface/properties-details"
+import { PHONE_NUMBER_TYPE } from "~/types/phoneNumber"
 import { useFullUrl } from "#imports"
 import { useCopy } from "#imports"
 import { getTelegramLink } from "#imports"
@@ -173,11 +181,13 @@ const props = defineProps<{
 const { copy } = useCopy()
 
 const phoneNumber = computed(
-  () => props.property?.user?.phones?.filter((item) => item.type === "PHONE") ?? [],
+  () => props.property?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.PHONE) ?? [],
 )
 const telegram = computed(
-  () => props.property?.user?.phones?.filter((item) => item.type === "TELEGRAM") ?? [],
+  () => props.property?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.TELEGRAM) ?? [],
 )
+const hasPhone = computed(() => phoneNumber.value.length > 0)
+const hasTelegram = computed(() => telegram.value.length > 0)
 </script>
 
 <style scoped>

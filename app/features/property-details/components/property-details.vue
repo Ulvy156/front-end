@@ -156,13 +156,14 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
 import SkeletonPropertyDetails from "~/components/animation/skeleton-property-details.vue";
 import { usePropertyDetails } from "../composable/usePropertyDetails";
+import { PHONE_NUMBER_TYPE } from "~/types/phoneNumber";
 
 const { property } = usePropertyDetails()
 const langKey = useLangKey()
 const filterStore = usePropertyFilterStore()
 const { getProvinceId } = useCambodiaLocations()
 const phoneNumber = computed(
-  () => property.value?.user?.phones?.filter((item) => item.type === "PHONE") ?? [],
+  () => property.value?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.PHONE) ?? [],
 )
 
 function goToDistrict() {
