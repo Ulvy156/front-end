@@ -68,7 +68,7 @@ const submit = handleSubmit(async () => {
   <el-dialog
     v-model="isOpen"
     :title="$t('feedback.title')"
-    width="460px"
+    width="min(460px, 92vw)"
     class="feedback-dialog"
     :close-on-click-modal="false"
   >
@@ -87,7 +87,7 @@ const submit = handleSubmit(async () => {
             v-for="opt in typeOptions"
             :key="opt.value"
             type="button"
-            class="flex-1 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors cursor-pointer"
+            class="flex-1 min-w-0 flex items-center justify-center gap-2 px-3 py-2.5 rounded-lg border text-sm font-medium transition-colors cursor-pointer"
             :class="form.type === opt.value
               ? 'border-[var(--nav-active-item)] bg-emerald-50 text-[var(--nav-active-item)]'
               : 'border-gray-200 text-gray-500 hover:border-gray-300'"
@@ -114,21 +114,13 @@ const submit = handleSubmit(async () => {
       <p class="text-xs text-gray-400 mt-1">{{ $t('feedback.rateLimit') }}</p>
 
       <div class="flex gap-2 pt-3">
-        <BaseButton type="primary" :loading="isSubmitting" native-type="submit" class="flex-1">
+        <BaseButton type="primary" :loading="isSubmitting" native-type="submit" class="flex-1 min-w-0">
           {{ $t('feedback.submit') }}
         </BaseButton>
-        <BaseButton class="flex-1" @click="isOpen = false">
+        <BaseButton class="flex-1 min-w-0" @click="isOpen = false">
           {{ $t('feedback.cancel') }}
         </BaseButton>
       </div>
     </el-form>
   </el-dialog>
 </template>
-
-<style scoped>
-@media (max-width: 640px) {
-  :deep(.feedback-dialog.el-dialog) {
-    width: 92vw !important;
-  }
-}
-</style>
