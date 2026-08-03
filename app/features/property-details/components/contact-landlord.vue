@@ -41,7 +41,7 @@
       :href="`tel:${phoneNumber[0]!.phoneNumber}`"
       class="flex! items-center justify-center gap-2 bg-(--nav-active-item)! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold!"
     >
-      <BaseIconClient name="phone-call" :size="17" />
+      <BaseIconClient name="phone-call" class="mr-3" :size="17" />
       {{ $t('property.call') }}
     </BaseButton>
     <BaseButton
@@ -63,7 +63,7 @@
         ? 'bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) mt-2'
         : 'bg-(--nav-active-item) text-white border-none'"
     >
-      <Icon name="mdi:telegram" :size="17" />
+      <BaseIconClient name="mdi:telegram" :size="17" />
       {{ $t('property.contact_telegram') }}
     </a>
 
