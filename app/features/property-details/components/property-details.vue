@@ -83,7 +83,7 @@
     <!-- Two-column layout: gallery + content | sidebar -->
     <div class="grid grid-cols-1 lg:grid-cols-[1fr_30%] gap-x-10 items-start">
       <!-- Left column -->
-      <div class="flex flex-col gap-y-9">
+      <div class="flex flex-col md:gap-y-9 lg:gap-y-9 gap-y-5">
         <carouselPropertyDetails :property="property!" />
         <propertyRooms :property="property!" />
         <propertyDescription :property="property!" />
