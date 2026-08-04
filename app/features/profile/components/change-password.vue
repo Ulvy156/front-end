@@ -85,11 +85,9 @@ const submitPassword = handleSubmit(async () => {
         <BaseInput v-model="form.currentPassword" type="password" show-password />
       </el-form-item>
 
-      <el-form-item :label="$t('profile.password.new')" prop="newPassword">
+      <el-form-item :label="$t('profile.password.new')" prop="newPassword" class="mb-9!">
         <BaseInput v-model="form.newPassword" type="password" show-password />
       </el-form-item>
-
-      <p class="text-xs text-gray-400 pb-2">{{ $t('profile.password.requirements') }}</p>
 
       <BaseButton type="primary" :loading="isSubmitting" native-type="submit">
         {{ $t('profile.password.submit') }}

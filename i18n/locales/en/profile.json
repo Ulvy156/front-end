@@ -60,7 +60,6 @@
       "new": "New Password",
       "currentRequired": "Current password is required",
       "newRequired": "New password is required",
-      "requirements": "Min 8 characters, 1 uppercase, 1 lowercase, 1 number, 1 symbol.",
       "submit": "Update Password",
       "success": "Password updated successfully."
     }
