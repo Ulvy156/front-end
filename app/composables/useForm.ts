@@ -42,6 +42,7 @@ export function useForm<T extends Record<string, unknown>>(
     const merged: FormRules = {}
     for (const field of Object.keys(initialValues)) {
       const existing = (staticRules?.[field] ?? []) as FormItemRule[]
+      const triggers = [...new Set(existing.flatMap(r => (r.trigger ? [r.trigger].flat() : [])))]
       merged[field] = [
         ...existing,
         {
@@ -50,7 +51,12 @@ export function useForm<T extends Record<string, unknown>>(
             if (serverErr) callback(new Error(serverErr))
             else callback()
           },
-          trigger: 'change',
+          // Match the field's own trigger(s) instead of hardcoding 'change': Element
+          // Plus's el-input fires a 'change'-triggered validate on every keystroke, so
+          // a mismatched trigger here let that lone (always-passing) rule mark the
+          // field "success" on the first keystroke, hiding a blur-set error message
+          // before the real blur rule had re-validated the new value.
+          trigger: triggers.length ? triggers : 'blur',
         },
       ]
     }
