@@ -5,8 +5,9 @@
       v-for="chip in activeFilters"
       :key="chip.key"
       :content="chip.label"
+      @click="removeFilter(chip.key)" 
     >
-      <BaseIconClient name="x" @click="removeFilter(chip.key)" />
+      <BaseIconClient name="x"/>
     </BaseBadge>
   </div>
 </template>
@@ -25,7 +26,7 @@ const activeFilters = computed(() => {
   // order by type (nearest has its own dedicated chip below)
   if(filterStore.orderType && filterStore.orderType !== 4) {
     chips.push({
-      key: "Order by",
+      key: "orderType",
       label: t('filter.order_by'),
     });
   }
@@ -96,6 +97,18 @@ const activeFilters = computed(() => {
 });
 function removeFilter(key: string) {
   switch (key) {
+    case "orderType":
+      filterStore.orderType = null;
+      break;
+
+    case "amenities":
+      filterStore.amenities = [];
+      break;
+
+    case "houseRules":
+      filterStore.houseRules = [];
+      break;
+
     case "price":
       filterStore.minPrice = 0;
       filterStore.maxPrice = 0;

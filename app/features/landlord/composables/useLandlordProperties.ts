@@ -17,6 +17,14 @@ export function useLandlordProperties(filters: Ref<LandlordPropertiesFilter>) {
       if (filters.value.search) params.search = filters.value.search
       if (filters.value.isPublished !== undefined) params.isPublished = filters.value.isPublished
       if (filters.value.isAvailable !== undefined) params.isAvailable = filters.value.isAvailable
+      if (filters.value.isFeatured !== undefined) params.isFeatured = filters.value.isFeatured
+      if (filters.value.propertyTypeId !== undefined) params.propertyTypeId = filters.value.propertyTypeId
+      if (filters.value.provinceId !== undefined) params.provinceId = filters.value.provinceId
+      if (filters.value.districtId !== undefined) params.districtId = filters.value.districtId
+      if (filters.value.minPrice !== undefined) params.minPrice = filters.value.minPrice
+      if (filters.value.maxPrice !== undefined) params.maxPrice = filters.value.maxPrice
+      if (filters.value.sortBy) params.sortBy = filters.value.sortBy
+      if (filters.value.sortOrder) params.sortOrder = filters.value.sortOrder
 
       const { data } = await $axios.get<LandlordPropertiesResponse>('/landlord/properties', { params })
       return data

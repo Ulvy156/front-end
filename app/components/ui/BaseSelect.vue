@@ -5,6 +5,7 @@ defineProps<{
   options: { label: string; value: any }[]
   placeholder?: string
   disabled?: boolean
+  size?: 'large' | 'default' | 'small'
 }>()
 
 defineEmits(['update:modelValue'])
@@ -15,6 +16,7 @@ defineEmits(['update:modelValue'])
     :placeholder="placeholder"
     :model-value="modelValue"
     :disabled="disabled"
+    :size
     @update:model-value="$emit('update:modelValue', $event)"
   >
     <el-option

@@ -20,6 +20,7 @@
     "clear":"Clear Filters",
     "order_by":"Order By",
     "priceRangeInvalid":"Minimum price must be lower than maximum price",
+    "priceMinNegative":"Minimum price cannot be negative",
     "priceRangeTooLow":"Maximum price must be at least ${min}",
     "priceRangeTooHigh":"Minimum price must be at most ${max}",
     "locationBlocked":"Location access is blocked. Please enable it in your browser settings.",

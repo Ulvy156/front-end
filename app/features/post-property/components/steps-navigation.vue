@@ -9,7 +9,7 @@
     </BaseButton>
 
     <!-- Middle (draft controls) — only in create mode -->
-    <div v-if="showDraftControls" class="order-3 sm:order-none w-full sm:w-auto flex justify-between items-center gap-6">
+    <div v-if="showDraftControls" class="order-3 sm:order-0 w-full sm:w-auto flex justify-between items-center gap-6">
       <BaseButton text type="info" @click="emit('save')">
         <BaseIconClient name="save" :size="18" />
         <span class="font-medium">{{ $t('post_property.draft') }}</span>

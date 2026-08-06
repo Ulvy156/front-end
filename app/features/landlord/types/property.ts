@@ -81,10 +81,21 @@ export interface LandlordPropertiesResponse {
   }
 }
 
+export type LandlordPropertiesSortBy = 'createdAt' | 'monthly_price' | 'totalViews'
+export type LandlordPropertiesSortOrder = 'asc' | 'desc'
+
 export interface LandlordPropertiesFilter {
   page: number
   limit: number
   search?: string
   isPublished?: boolean
   isAvailable?: boolean
+  isFeatured?: boolean
+  propertyTypeId?: number
+  provinceId?: number
+  districtId?: number
+  minPrice?: number
+  maxPrice?: number
+  sortBy?: LandlordPropertiesSortBy
+  sortOrder?: LandlordPropertiesSortOrder
 }

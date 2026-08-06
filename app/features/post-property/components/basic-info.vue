@@ -67,13 +67,13 @@
             <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <button
                 type="button"
-                @click="form.bedrooms = Math.max(0, form.bedrooms - 1); console.log('Bedrooms decreased:', form.bedrooms)"
+                @click="form.bedrooms = Math.max(0, form.bedrooms - 1);"
                 class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
               >−</button>
               <span class="flex-1 text-center text-sm">{{ form.bedrooms }}</span>
               <button
                 type="button"
-                @click="form.bedrooms++; console.log('Bedrooms increased:', form.bedrooms)"
+                @click="form.bedrooms++;"
                 class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
               >+</button>
             </div>
@@ -87,13 +87,13 @@
             <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
               <button
                 type="button"
-                @click="form.bathrooms = Math.max(0, form.bathrooms - 1); console.log('Bathrooms decreased:', form.bathrooms)"
+                @click="form.bathrooms = Math.max(0, form.bathrooms - 1); "
                 class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
               >−</button>
               <span class="flex-1 text-center text-sm">{{ form.bathrooms }}</span>
               <button
                 type="button"
-                @click="form.bathrooms++; console.log('Bathrooms increased:', form.bathrooms)"
+                @click="form.bathrooms++;"
                 class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
               >+</button>
             </div>
@@ -109,7 +109,9 @@
               </span>
             </label>
             <BaseInput
+              size="large"
               :model-value="form.size"
+              decimal
               type="number"
               placeholder="e.g., 45"
               @update:model-value="(val: string) => { form.size = val; formErrors.size = '' }"
