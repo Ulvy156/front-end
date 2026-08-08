@@ -1,6 +1,6 @@
 <template>
   <section>
-    <appBg :total-listings="totalListings" />
+    <appBg />
     <section class="w-[91%] m-auto grid grid-cols-1 gap-y-5">
       <!-- feature product -->
       <featureProduct :featuredListings="data?.featuredListings ?? []"/>
@@ -53,9 +53,6 @@ useSeoMeta({
 
 const { data, pending } = useHomePageData();
 
-const totalListings = computed(() =>
-  (data.value?.featuredListings?.length ?? 0) + (data.value?.latestListings?.length ?? 0)
-)
 </script>
 
 <style scoped></style>

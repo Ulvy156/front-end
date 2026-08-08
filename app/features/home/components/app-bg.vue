@@ -17,10 +17,10 @@
     <!-- Content -->
     <div class="relative z-10 flex flex-col items-center px-6 py-8 md:py-16 lg:py-32 text-white text-center">
       <!-- Badge -->
-      <div class="inline-flex items-center gap-2 bg-white/18 px-3.5 py-1.5 rounded-full text-[13px] font-bold mb-5">
+      <!-- <div class="inline-flex items-center gap-2 bg-white/18 px-3.5 py-1.5 rounded-full text-[13px] font-bold mb-5">
         <span class="w-1.75 h-1.75 rounded-full bg-green-200"></span>
         {{ totalListings }} {{ t('home.hero.badge') }}
-      </div>
+      </div> -->
 
       <!-- Headline -->
       <h1 class="text-[clamp(2.25rem,5vw,50px)] leading-[1.06] font-extrabold tracking-[-0.03em] mb-4 max-w-155">
@@ -75,7 +75,7 @@
 import { useI18n } from 'vue-i18n'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 
-defineProps<{ totalListings: number }>()
+// defineProps<{ totalListings: number }>()
 
 const { t } = useI18n()
 </script>
