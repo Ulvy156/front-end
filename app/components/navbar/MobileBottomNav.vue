@@ -1,12 +1,19 @@
 <template>
   <!-- Bottom Tab Bar (Liquid Glass style) -->
-  <nav
-    v-if="!isMounted || !isLgUp"
-    class="fixed w-[70%] inset-x-0 mx-auto bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 lg:hidden
-           flex items-center justify-around gap-1 rounded-[40px] border border-white/60
-           bg-white/70 px-2 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.12)]
-           backdrop-filter backdrop-blur-xl backdrop-saturate-150"
-  >
+<nav
+  v-if="!isMounted || !isLgUp"
+  class="fixed w-[70%] inset-x-0 mx-auto
+         bottom-[calc(0.75rem+env(safe-area-inset-bottom))]
+         z-40 lg:hidden
+         flex items-center justify-around gap-1
+         rounded-[40px]
+         border border-white/30
+         bg-white/15
+         px-2 py-2
+         shadow-[0_8px_32px_rgba(0,0,0,0.25)]
+         backdrop-blur-2xl
+         backdrop-saturate-150"
+>
     <template v-for="item in navItems" :key="item.to">
       <NuxtLink
         v-if="!item.can"
