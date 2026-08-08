@@ -9,7 +9,7 @@
 
   <AppNavbar/>
 
-  <main :class="overlay">
+  <main :class="[overlay, 'pb-(--bottom-nav-clearance) lg:pb-0']">
     <slot></slot>
   </main>
 

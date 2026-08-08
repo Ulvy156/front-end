@@ -33,6 +33,10 @@
   /* font-family */
   --font-en: "Manrope", system-ui, sans-serif;
   --font-km: "Noto Sans Khmer", system-ui, sans-serif;
+
+  /* Mobile/tablet bottom tab bar (MobileBottomNav.vue) */
+  --bottom-nav-h: 4rem;
+  --bottom-nav-clearance: calc(var(--bottom-nav-h) + 1.5rem + env(safe-area-inset-bottom));
 }
 html[lang="en"] {
   font-size: var(--text-base);

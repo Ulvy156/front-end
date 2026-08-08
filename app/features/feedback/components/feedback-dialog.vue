@@ -57,7 +57,7 @@ const submit = handleSubmit(async () => {
 <template>
   <!-- Floating button -->
   <button
-    class="fixed bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--nav-active-item)] text-white shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-105"
+    class="fixed bottom-(--bottom-nav-clearance) lg:bottom-6 right-6 z-40 flex items-center gap-2 px-4 py-2.5 rounded-full bg-[var(--nav-active-item)] text-white shadow-lg hover:shadow-xl transition-all cursor-pointer hover:scale-105"
     @click="isOpen = true"
   >
     <BaseIcon name="message-square-plus" :size="18" />

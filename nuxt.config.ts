@@ -109,6 +109,10 @@ export default defineNuxtConfig({
   css: ['~/assets/css/main.css'],
   app: {
     head: {
+      // viewport-fit=cover lets env(safe-area-inset-*) resolve to the real
+      // iPhone notch/home-indicator insets instead of 0, needed for the
+      // fixed bottom tab bar (MobileBottomNav.vue) to clear the home indicator.
+      viewport: 'width=device-width, initial-scale=1, viewport-fit=cover',
       // Reinforces the CSS `color-scheme: light` in main.css — tells the
       // browser chrome (and anything reading <head> before CSS loads) this
       // site is light-only, so OS/browser dark mode doesn't flip native

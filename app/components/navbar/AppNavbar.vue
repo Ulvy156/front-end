@@ -83,14 +83,14 @@
     </nav>
   </header>
 
-  <MobileNavDrawer />
+  <MobileBottomNav />
 </template>
 
 <script lang="ts" setup>
 import switchLngClient from './switch-lng.client.vue';
 import BaseIcon from '../ui/BaseIcon.client.vue';
 import BaseImage from '../ui/BaseImage.vue';
-import MobileNavDrawer from './MobileNavDrawer.vue';
+import MobileBottomNav from './MobileBottomNav.vue';
 import { useActiveRoute } from '~/composables/useActiveRoute';
 import { initials } from '~/utils/initials'
 

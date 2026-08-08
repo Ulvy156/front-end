@@ -101,7 +101,7 @@
     </div>
 
     <!-- Mobile fixed bottom bar -->
-    <div class="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 px-5 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex items-center justify-between lg:hidden">
+    <div class="fixed bottom-(--bottom-nav-clearance) left-0 right-0 z-50 bg-white border-t border-gray-200 px-5 py-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)] flex items-center justify-between lg:hidden">
       <div class="leading-tight">
         <span class="text-[22px] font-bold text-gray-800">${{ property!.monthly_price }}</span>
         <span class="text-[13px] text-gray-600">/{{ $t('month') }}</span>
@@ -191,7 +191,7 @@ async function goToProvince() {
 
 <style scoped>
 section {
-  padding-bottom: 80px;
+  padding-bottom: calc(80px + var(--bottom-nav-clearance));
 }
 
 @media (min-width: 1024px) {
