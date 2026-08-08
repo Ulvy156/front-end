@@ -101,7 +101,7 @@
     </div>
 
     <!-- Mobile fixed top bar -->
-    <div class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-5 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex items-center justify-between lg:hidden">
+    <div v-if="!isMounted || !isLgUp" class="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-200 px-5 py-3 shadow-[0_4px_20px_rgba(0,0,0,0.06)] flex items-center justify-between lg:hidden">
       <div class="leading-tight">
         <span class="text-[22px] font-bold text-gray-800">${{ property!.monthly_price }}</span>
         <span class="text-[13px] text-gray-600">/{{ $t('month') }}</span>
@@ -162,6 +162,7 @@ const { property } = usePropertyDetails()
 const langKey = useLangKey()
 const filterStore = usePropertyFilterStore()
 const { getProvinceId } = useCambodiaLocations()
+const { isMounted, isLgUp } = useAppBreakpoints()
 const phoneNumber = computed(
   () => property.value?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.PHONE) ?? [],
 )

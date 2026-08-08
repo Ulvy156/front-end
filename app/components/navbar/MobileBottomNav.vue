@@ -1,6 +1,7 @@
 <template>
   <!-- Bottom Tab Bar (Liquid Glass style) -->
   <nav
+    v-if="!isMounted || !isLgUp"
     class="fixed w-[70%] inset-x-0 mx-auto bottom-[calc(0.75rem+env(safe-area-inset-bottom))] z-40 lg:hidden
            flex items-center justify-around gap-1 rounded-[40px] border border-white/60
            bg-white/70 px-2 py-2 shadow-[0_8px_30px_rgba(0,0,0,0.12)]
@@ -120,6 +121,7 @@ const { isActive, startsWith } = useActiveRoute()
 const authStore = useAuthStore()
 const { logout } = useLogout()
 const { isLandlord, isAdmin } = useRole()
+const { isMounted, isLgUp } = useAppBreakpoints()
 
 const sheetOpen = ref(false)
 // Keeps BaseDrawer unmounted until the user actually opens the account

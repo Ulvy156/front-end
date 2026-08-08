@@ -1,5 +1,5 @@
 <template>
-  <header :class="overlay" class=" top-2 z-40 hidden lg:block ">
+  <header v-if="!isMounted || isLgUp" :class="overlay" class=" top-2 z-40 hidden lg:block ">
     <nav
       class="m-auto flex justify-between w-11/12 items-center gap-4 rounded-2xl border border-gray-50 bg-white/60 px-6 py-3 shadow-sm bg-clip-padding  backdrop-filter backdrop-blur-sm">
       <!-- Logo -->
@@ -101,6 +101,7 @@ const router = useRouter()
 const authStore = useAuthStore()
 const { logout } = useLogout()
 const { isLandlord, isAdmin } = useRole()
+const { isMounted, isLgUp } = useAppBreakpoints()
 
 const canSeePostProperty = computed(() => !authStore.isAuthenticated || isLandlord.value)
 

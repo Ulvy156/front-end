@@ -17,6 +17,7 @@
           </div>
 
           <animationGroup
+            v-if="!isMounted || isMdUp"
             key="property.compare.title"
             class="hidden md:flex gap-x-3 md:gap-x-4 items-center overflow-x-auto"
           >
@@ -76,6 +77,7 @@ const emit = defineEmits<{
 // local state
 const localVisible = ref(props.visible);
 const compareStore = useCompareProperty();
+const { isMounted, isMdUp } = useAppBreakpoints()
 
 function close() {
   localVisible.value = false; // close internally
