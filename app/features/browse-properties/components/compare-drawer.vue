@@ -2,7 +2,7 @@
   <transition name="slide-up">
     <section
       v-if="localVisible"
-      class="fixed bottom-(--bottom-nav-clearance) lg:bottom-0 left-0 right-0 z-50 p-4 md:p-5 bg-white shadow-lg border-t border-gray"
+      class="fixed top-0 lg:top-auto lg:bottom-0 left-0 right-0 z-50 p-4 md:p-5 bg-white shadow-lg border-b lg:border-b-0 lg:border-t border-gray"
     >
       <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mx-4 md:mx-20">
         <div class="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-x-10 min-w-0">
@@ -102,6 +102,13 @@ watch(
 
 .slide-up-enter-from,
 .slide-up-leave-to {
-  transform: translateY(100%);
+  transform: translateY(-100%);
+}
+
+@media (min-width: 1024px) {
+  .slide-up-enter-from,
+  .slide-up-leave-to {
+    transform: translateY(100%);
+  }
 }
 </style>
