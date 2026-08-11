@@ -2,6 +2,11 @@
   <SkeletonPropertyDetails v-if="!property" />
 
   <section v-else>
+    <div @click="$router.push('/properties')"
+      class="flex items-center gap-x-3 lg:mb-5 cursor-pointer my-5">
+      <BaseIconClient name="arrow-left"/>
+      <span>{{ $t('property.back') }}</span>
+    </div>
     <!-- Breadcrumb -->
     <div class="flex items-center gap-2 text-[13px] text-gray-600 mb-5">
       <BaseButton

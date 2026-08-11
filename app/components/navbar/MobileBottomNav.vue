@@ -3,71 +3,91 @@
 <nav
   v-if="!isMounted || !isLgUp"
   ref="navEl"
-  class="fixed w-[90%] inset-x-0 mx-auto
+  class="mobile-bottom-nav fixed w-[90%] inset-x-0 mx-auto
          bottom-[calc(0.75rem+env(safe-area-inset-bottom))]
          z-40 lg:hidden
-         flex items-center justify-around gap-1
+         flex items-center justify-center
          rounded-[40px]
          border border-white/30
          bg-white/15
-         px-2 py-2
          shadow-[0_8px_32px_rgba(0,0,0,0.25)]
          backdrop-blur-2xl
          backdrop-saturate-150"
+  :class="{ 'mobile-bottom-nav--collapsed': isScrollCollapsed }"
 >
-    <!-- Sliding active-tab indicator, positioned to match the active tab-item's rect -->
+    <!-- Full tab row — fades out while scrolling, the nav itself shrinks to a small circle -->
     <div
-      class="tab-indicator"
-      :style="{
-        transform: indicatorStyle.transform,
-        width: indicatorStyle.width,
-        height: indicatorStyle.height,
-        opacity: indicatorStyle.opacity,
-      }"
-    />
+      class="nav-items flex items-center justify-around gap-1 w-full px-2 py-2"
+      :class="{ 'nav-items--hidden': isScrollCollapsed }"
+    >
+      <!-- Sliding active-tab indicator, positioned to match the active tab-item's rect -->
+      <div
+        class="tab-indicator"
+        :style="{
+          transform: indicatorStyle.transform,
+          width: indicatorStyle.width,
+          height: indicatorStyle.height,
+          opacity: indicatorStyle.opacity,
+        }"
+      />
 
-    <template v-for="item in navItems" :key="item.to">
-      <NuxtLink
-        v-if="!item.can"
-        :ref="(el) => setItemRef(el, item.to)"
-        :to="item.to"
-        class="tab-item"
-        :class="isActiveRoute(item) ? 'tab-item-active' : 'text-gray-500'"
-      >
-        <BaseIcon :name="item.icon" :size="20" />
-        <!-- <span class="line-clamp-1">{{ item.label }}</span> -->
-      </NuxtLink>
-      <NuxtLink
-        v-else
-        v-can="item.can"
-        :ref="(el) => setItemRef(el, item.to)"
-        :to="item.to"
-        class="tab-item"
-        :class="isActiveRoute(item) ? 'tab-item-active' : 'text-gray-500'"
-      >
-        <BaseIcon :name="item.icon" :size="20" />
-        <span>{{ item.label }}</span>
-      </NuxtLink>
-    </template>
+      <template v-for="item in navItems" :key="item.to">
+        <NuxtLink
+          v-if="!item.can"
+          :ref="(el) => setItemRef(el, item.to)"
+          :to="item.to"
+          class="tab-item"
+          :class="isActiveRoute(item) ? 'tab-item-active' : 'text-gray-500'"
+        >
+          <BaseIcon :name="item.icon" :size="20" />
+          <!-- <span class="line-clamp-1">{{ item.label }}</span> -->
+        </NuxtLink>
+        <NuxtLink
+          v-else
+          v-can="item.can"
+          :ref="(el) => setItemRef(el, item.to)"
+          :to="item.to"
+          class="tab-item"
+          :class="isActiveRoute(item) ? 'tab-item-active' : 'text-gray-500'"
+        >
+          <BaseIcon :name="item.icon" :size="20" />
+          <span>{{ item.label }}</span>
+        </NuxtLink>
+      </template>
 
-    <!-- Profile / account -->
-    <button
-      type="button"
-      :ref="(el) => setItemRef(el, 'profile')"
-      class="tab-item"
-      :class="sheetOpen ? 'tab-item-active' : 'text-gray-500'"
-      @click="openSheet"
+      <!-- Profile / account -->
+      <button
+        type="button"
+        :ref="(el) => setItemRef(el, 'profile')"
+        class="tab-item"
+        :class="sheetOpen ? 'tab-item-active' : 'text-gray-500'"
+        @click="openSheet"
+      >
+        <div
+          v-if="authStore.isAuthenticated"
+          class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-[10px] font-bold shrink-0 overflow-hidden"
+        >
+          <BaseImage v-if="authStore.user?.imgUrl" :src="authStore.user.imgUrl" :alt="authStore.user.name" fit="cover" />
+          <!-- <span v-else>{{ userInitials }}</span> -->
+        </div>
+        <BaseIcon v-else name="user" :size="20" />
+        <!-- <span>{{ authStore.isAuthenticated ? $t('nav.profile') : $t('auth.signIn') }}</span> -->
+      </button>
+    </div>
+
+    <!-- Collapsed state — just the active tab's icon, shown while scrolling -->
+    <div
+      class="nav-collapsed-icon"
+      :class="{ 'nav-collapsed-icon--visible': isScrollCollapsed }"
     >
       <div
-        v-if="authStore.isAuthenticated"
+        v-if="activeKey === 'profile' && authStore.isAuthenticated"
         class="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 text-[10px] font-bold shrink-0 overflow-hidden"
       >
         <BaseImage v-if="authStore.user?.imgUrl" :src="authStore.user.imgUrl" :alt="authStore.user.name" fit="cover" />
-        <!-- <span v-else>{{ userInitials }}</span> -->
       </div>
-      <BaseIcon v-else name="user" :size="20" />
-      <!-- <span>{{ authStore.isAuthenticated ? $t('nav.profile') : $t('auth.signIn') }}</span> -->
-    </button>
+      <BaseIcon v-else :name="collapsedIcon" :size="20" />
+    </div>
   </nav>
 
   <!-- Account bottom sheet — mounted lazily on first open so its el-drawer/el-overlay
@@ -242,6 +262,35 @@ onBeforeUnmount(() => {
   resizeObserver?.disconnect()
 })
 
+// Collapse the whole bar to a small circle while the page is scrolling,
+// expand it back once scroll events go quiet for a moment (Facebook/X-style FAB collapse).
+const SCROLL_COLLAPSE_IDLE_MS = 700
+
+const isScrollCollapsed = ref(false)
+let scrollIdleTimer: ReturnType<typeof setTimeout> | null = null
+
+const collapsedIcon = computed(() => {
+  if (activeKey.value === 'profile') return 'user'
+  return navItems.value.find((item) => item.to === activeKey.value)?.icon ?? 'circle'
+})
+
+function handleScroll() {
+  isScrollCollapsed.value = true
+  if (scrollIdleTimer) clearTimeout(scrollIdleTimer)
+  scrollIdleTimer = setTimeout(() => {
+    isScrollCollapsed.value = false
+  }, SCROLL_COLLAPSE_IDLE_MS)
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll, { passive: true })
+})
+
+onBeforeUnmount(() => {
+  window.removeEventListener('scroll', handleScroll)
+  if (scrollIdleTimer) clearTimeout(scrollIdleTimer)
+})
+
 async function handleLogout() {
   sheetOpen.value = false
   await logout()
@@ -249,6 +298,45 @@ async function handleLogout() {
 </script>
 
 <style scoped>
+.mobile-bottom-nav {
+  height: 68px;
+  overflow: hidden;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mobile-bottom-nav--collapsed {
+  width: 56px;
+  height: 56px;
+}
+
+.nav-items {
+  position: relative;
+  transition: opacity 0.2s ease;
+}
+
+.nav-items--hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.nav-collapsed-icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--nav-active-item);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+.nav-collapsed-icon--visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .tab-indicator {
   position: absolute;
   top: 0;

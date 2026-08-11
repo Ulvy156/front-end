@@ -40,7 +40,6 @@
         <BaseSidebarNavItem to="/admin/property-types" icon="layers" :label="$t('admin.nav.propertyTypes')" />
         <BaseSidebarNavItem to="/admin/amenities" icon="sparkles" :label="$t('admin.nav.amenities')" />
         <BaseSidebarNavItem to="/admin/house-rules" icon="shield-check" :label="$t('admin.nav.houseRules')" />
-        <BaseSidebarNavItem to="/admin/legal" icon="file-text" :label="$t('admin.nav.legal')" />
 
         <!-- REPORTS -->
         <p class="admin-section-label">{{ $t('admin.nav.reports') }}</p>
@@ -137,7 +136,6 @@ const pageTitle = computed(() => {
   if (path.startsWith('/admin/property-types')) return t('admin.nav.propertyTypes')
   if (path.startsWith('/admin/amenities'))      return t('admin.nav.amenities')
   if (path.startsWith('/admin/house-rules'))    return t('admin.nav.houseRules')
-  if (path.startsWith('/admin/legal'))          return t('admin.nav.legal')
   if (path.startsWith('/admin/feedback'))       return t('admin.nav.feedback')
   if (path.startsWith('/admin/reports'))        return t('admin.nav.propertyReports')
   if (path.startsWith('/admin/settings'))       return t('admin.nav.settings')

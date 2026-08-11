@@ -15,7 +15,6 @@
       "propertyTypes": "Property Types",
       "amenities": "Amenities",
       "houseRules": "House Rules",
-      "legal": "Legal Content",
       "reports": "Reports",
       "feedback": "Feedback",
       "propertyReports": "Property Reports",
@@ -295,17 +294,6 @@
         "createSuccess": "Setting created.",
         "updateSuccess": "Setting updated."
       }
-    },
-    "legal": {
-      "privacyPolicy": "Privacy Policy",
-      "termsOfService": "Terms of Service",
-      "english": "English",
-      "khmer": "Khmer",
-      "contentPlaceholder": "Write the document content...",
-      "save": "Save Changes",
-      "saveSuccess": "Legal document updated.",
-      "lastUpdated": "Last updated {date}",
-      "loadError": "Failed to load the document. Please try again."
     }
   }
 }

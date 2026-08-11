@@ -1,7 +1,7 @@
 <template>
   <aside class="border border-gray-200 rounded-lg p-5 shadow-[0_4px_20px_rgba(17,24,39,0.04)] overflow-hidden bg-white">
     <!-- Indigo top accent bar -->
-    <div class="h-[3px] bg-(--nav-active-item) rounded-full -mx-5 -mt-5 mb-4"></div>
+    <div class="h-0.75 bg-(--nav-active-item) rounded-full -mx-5 -mt-5 mb-4"></div>
 
     <!-- Price -->
     <div class="flex items-baseline gap-1.5 mb-1">

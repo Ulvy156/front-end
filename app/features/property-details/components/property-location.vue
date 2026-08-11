@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="mb-5">
     <h2 class="text-xl font-bold text-gray-800 mb-3">{{ $t("property.location.title") }}</h2>
     <div class="text-sm text-gray-600 mb-1">
       {{ property.district[langKey] }}, {{ property.district.province[langKey] }}
@@ -23,7 +23,7 @@
     />
     <div
       v-else
-      class="h-[200px] bg-[#f4f5f7] border border-gray-200 rounded-xl flex items-center justify-center text-gray-600 text-sm font-semibold"
+      class="h-50 bg-[#f4f5f7] border border-gray-200 rounded-xl flex items-center justify-center text-gray-600 text-sm font-semibold"
     >
       <BaseIconClient name="map" :size="20" class="mr-2" />
       {{ $t("property.location.title") }}

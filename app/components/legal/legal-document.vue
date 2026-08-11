@@ -1,47 +1,60 @@
 <template>
-  <article class="w-[91%] max-w-3xl m-auto py-14">
+  <article class="w-[91%] max-w-5xl m-auto py-10 lg:py-14">
     <NuxtLink to="/" class="inline-flex items-center gap-1.5 text-sm text-gray-500 hover:text-primary transition-colors mb-6">
       <BaseIcon name="arrow-left" :size="16" />
       {{ $t('legal.backHome') }}
     </NuxtLink>
 
-    <BaseSkeleton v-if="pending" :rows="8" :lines="1" />
+    <div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-12">
+      <nav v-if="toc.length" class="hidden lg:block" aria-label="Table of contents">
+        <div class="sticky top-20">
+          <p class="mb-3 text-xs font-semibold uppercase tracking-wide text-gray-400">{{ $t('legal.onThisPage') }}</p>
+          <ul class="space-y-1 border-l border-gray-200">
+            <li v-for="item in toc" :key="item.id">
+              <a
+                :href="`#${item.id}`"
+                class="-ml-px block border-l-2 py-1 pl-3 text-sm transition-colors"
+                :class="activeId === item.id
+                  ? 'border-primary text-primary font-medium'
+                  : 'border-transparent text-gray-500 hover:text-gray-900'"
+              >
+                {{ item.text }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </nav>
 
-    <p v-else-if="error" class="text-base text-gray-600">
-      {{ error }}
-    </p>
-
-    <div v-else class="legal-content" v-html="renderedHtml" />
+      <div ref="contentEl" class="legal-content min-w-0">
+        <slot />
+      </div>
+    </div>
   </article>
 </template>
 
 <script lang="ts" setup>
-import DOMPurify from 'dompurify'
-import { marked } from 'marked'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
-import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 
-const props = defineProps<{
-  content: string | undefined
-  pending: boolean
-  error?: string
-}>()
+const contentEl = ref<HTMLElement | null>(null)
+const toc = ref<{ id: string; text: string }[]>([])
+const activeId = ref('')
 
-const LEGAL_ROUTE_BY_FILENAME: Record<string, string> = {
-  'PRIVACY-POLICY.md': '/privacy',
-  'TERMS-OF-SERVICE.md': '/terms',
-}
+onMounted(() => {
+  if (!contentEl.value) return
 
-const renderedHtml = computed(() => {
-  if (!props.content) return ''
+  const headings = Array.from(contentEl.value.querySelectorAll<HTMLElement>('h2[id]'))
+  toc.value = headings.map((heading) => ({ id: heading.id, text: heading.textContent ?? '' }))
 
-  let html = marked.parse(props.content, { async: false }) as string
+  const observer = new IntersectionObserver(
+    (entries) => {
+      const visible = entries.find((entry) => entry.isIntersecting)
+      if (visible) activeId.value = visible.target.id
+    },
+    { rootMargin: '-96px 0px -70% 0px' },
+  )
 
-  for (const [filename, route] of Object.entries(LEGAL_ROUTE_BY_FILENAME)) {
-    html = html.replaceAll(`href="./${filename}"`, `href="${route}"`)
-  }
-
-  return import.meta.client ? DOMPurify.sanitize(html) : html
+  headings.forEach((heading) => observer.observe(heading))
+  onBeforeUnmount(() => observer.disconnect())
 })
 </script>
 
@@ -53,12 +66,38 @@ const renderedHtml = computed(() => {
   margin-bottom: 0.5rem;
 }
 
+.legal-content :deep(.badge) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  border-radius: 9999px;
+  background-color: var(--color-gray-100);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-gray-600);
+}
+
+.legal-content :deep(.intro) {
+  max-width: 42rem;
+  font-size: 1rem;
+  line-height: 1.9;
+  color: var(--color-gray-700);
+  margin-top: 1rem;
+  margin-bottom: 2.5rem;
+}
+
 .legal-content :deep(h2) {
   font-size: 1.25rem;
   font-weight: 600;
   color: var(--color-gray-900);
-  margin-top: 2rem;
+  scroll-margin-top: 5rem;
+  margin-top: 2.5rem;
   margin-bottom: 0.75rem;
+}
+
+.legal-content :deep(h2:first-of-type) {
+  margin-top: 0;
 }
 
 .legal-content :deep(h3) {
@@ -97,10 +136,6 @@ const renderedHtml = computed(() => {
   margin-bottom: 0.5rem;
 }
 
-.legal-content :deep(li > p) {
-  margin-bottom: 0;
-}
-
 .legal-content :deep(a) {
   color: var(--color-primary, #16a34a);
   text-decoration: underline;
@@ -111,38 +146,28 @@ const renderedHtml = computed(() => {
   color: var(--color-gray-900);
 }
 
-.legal-content :deep(blockquote) {
-  border-left: 3px solid var(--color-gray-300);
-  padding-left: 1rem;
-  color: var(--color-gray-500);
-  font-size: 0.95rem;
-  margin: 1.5rem 0;
-}
-
-.legal-content :deep(hr) {
-  border: none;
-  border-top: 1px solid var(--color-gray-200);
-  margin: 2rem 0;
-}
-
 .legal-content :deep(table) {
   width: 100%;
   border-collapse: collapse;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   margin-bottom: 1.5rem;
   display: block;
   overflow-x: auto;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 0.5rem;
 }
 
 .legal-content :deep(th),
 .legal-content :deep(td) {
-  border: 1px solid var(--color-gray-200);
-  padding: 0.5rem 0.75rem;
+  border-bottom: 1px solid var(--color-gray-200);
+  padding: 0.6rem 0.9rem;
   text-align: left;
+  vertical-align: top;
 }
 
 .legal-content :deep(th) {
   background-color: var(--color-gray-50);
   font-weight: 600;
+  color: var(--color-gray-900);
 }
 </style>
