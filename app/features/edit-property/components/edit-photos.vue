@@ -239,6 +239,7 @@ async function handleDeleteImage(imageId: string) {
 function invalidateAndRefresh() {
   queryClient.invalidateQueries({ queryKey: ['edit-property', props.propertyId] })
   queryClient.invalidateQueries({ queryKey: ['landlord-property-detail', props.propertyId] })
+  queryClient.invalidateQueries({ queryKey: ['landlord-properties'] })
   emit('refresh')
 }
 

@@ -2,7 +2,8 @@
   <!-- Bottom Tab Bar (Liquid Glass style) -->
 <nav
   v-if="!isMounted || !isLgUp"
-  class="fixed w-[70%] inset-x-0 mx-auto
+  ref="navEl"
+  class="fixed w-[90%] inset-x-0 mx-auto
          bottom-[calc(0.75rem+env(safe-area-inset-bottom))]
          z-40 lg:hidden
          flex items-center justify-around gap-1
@@ -14,9 +15,21 @@
          backdrop-blur-2xl
          backdrop-saturate-150"
 >
+    <!-- Sliding active-tab indicator, positioned to match the active tab-item's rect -->
+    <div
+      class="tab-indicator"
+      :style="{
+        transform: indicatorStyle.transform,
+        width: indicatorStyle.width,
+        height: indicatorStyle.height,
+        opacity: indicatorStyle.opacity,
+      }"
+    />
+
     <template v-for="item in navItems" :key="item.to">
       <NuxtLink
         v-if="!item.can"
+        :ref="(el) => setItemRef(el, item.to)"
         :to="item.to"
         class="tab-item"
         :class="isActiveRoute(item) ? 'tab-item-active' : 'text-gray-500'"
@@ -27,6 +40,7 @@
       <NuxtLink
         v-else
         v-can="item.can"
+        :ref="(el) => setItemRef(el, item.to)"
         :to="item.to"
         class="tab-item"
         :class="isActiveRoute(item) ? 'tab-item-active' : 'text-gray-500'"
@@ -39,6 +53,7 @@
     <!-- Profile / account -->
     <button
       type="button"
+      :ref="(el) => setItemRef(el, 'profile')"
       class="tab-item"
       :class="sheetOpen ? 'tab-item-active' : 'text-gray-500'"
       @click="openSheet"
@@ -114,7 +129,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineAsyncComponent } from 'vue'
+import { defineAsyncComponent, type ComponentPublicInstance } from 'vue'
 import switchLngClient from './switch-lng.client.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
@@ -160,6 +175,73 @@ function isActiveRoute(item: { to: string; exact: boolean }) {
   return item.exact ? isActive(item.to) : startsWith(item.to)
 }
 
+// Sliding pill indicator — tracks whichever tab-item is currently active
+// (route match, or the profile button while its sheet is open) and glides
+// between them instead of the highlight just popping in/out.
+const navEl = ref<HTMLElement | null>(null)
+const itemEls = new Map<string, HTMLElement>()
+
+function setItemRef(el: Element | ComponentPublicInstance | null, key: string) {
+  const domEl = (el && '$el' in el ? (el as ComponentPublicInstance).$el : el) as HTMLElement | undefined
+  if (domEl instanceof HTMLElement) {
+    itemEls.set(key, domEl)
+  } else {
+    itemEls.delete(key)
+  }
+}
+
+const indicatorStyle = reactive({
+  transform: 'translate(0px, 0px)',
+  width: '0px',
+  height: '0px',
+  opacity: 0,
+})
+
+const activeKey = computed(() => {
+  const match = navItems.value.find((item) => isActiveRoute(item))
+  if (match) return match.to
+  if (sheetOpen.value) return 'profile'
+  return null
+})
+
+const INDICATOR_HEIGHT = 3
+const INDICATOR_WIDTH_RATIO = 0.8
+
+function updateIndicator() {
+  const nav = navEl.value
+  const el = activeKey.value ? itemEls.get(activeKey.value) : null
+
+  if (!nav || !el) {
+    indicatorStyle.opacity = 0
+    return
+  }
+
+  const navRect = nav.getBoundingClientRect()
+  const elRect = el.getBoundingClientRect()
+  const width = elRect.width * INDICATOR_WIDTH_RATIO
+  const x = elRect.left - navRect.left + (elRect.width - width) / 2
+  const y = elRect.top - navRect.top + elRect.height - INDICATOR_HEIGHT
+
+  indicatorStyle.transform = `translate(${x}px, ${y}px)`
+  indicatorStyle.width = `${width}px`
+  indicatorStyle.height = `${INDICATOR_HEIGHT}px`
+  indicatorStyle.opacity = 1
+}
+
+watch(activeKey, () => nextTick(updateIndicator))
+
+let resizeObserver: ResizeObserver | null = null
+
+onMounted(() => {
+  nextTick(updateIndicator)
+  resizeObserver = new ResizeObserver(() => updateIndicator())
+  if (navEl.value) resizeObserver.observe(navEl.value)
+})
+
+onBeforeUnmount(() => {
+  resizeObserver?.disconnect()
+})
+
 async function handleLogout() {
   sheetOpen.value = false
   await logout()
@@ -167,7 +249,22 @@ async function handleLogout() {
 </script>
 
 <style scoped>
+.tab-indicator {
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 999px;
+  background: var(--nav-active-item);
+  z-index: 0;
+  pointer-events: none;
+  transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              width 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.2s ease;
+}
+
 .tab-item {
+  position: relative;
+  z-index: 1;
   display: flex;
   /* flex: 1 1 0; */
   flex-direction: column;
@@ -180,11 +277,10 @@ async function handleLogout() {
   font-size: 11px;
   line-height: 1.1;
   cursor: pointer;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition: color 0.2s ease;
 }
 
 .tab-item-active {
-  background: var(--nav-active);
   color: var(--nav-active-item);
 }
 
