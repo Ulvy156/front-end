@@ -158,9 +158,9 @@ async function handleDelete(user: AdminUser) {
         v-loading="isPending"
         :data="data?.items ?? []"
         row-key="id"
-        :row-class-name="({ row }: { row: AdminUser }) => row.isLocked ? 'opacity-60' : ''"
+        :row-class-name="({ row }) => row.isLocked ? 'opacity-60' : ''"
       >
-        <el-table-column :label="$t('admin.users.columns.name')" min-width="150">
+        <el-table-column :label="$t('admin.users.columns.name')" min-width="350">
           <template #default="{ row }">
             <div class="flex items-center gap-3 py-1">
               <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-xs font-bold text-gray-500 shrink-0 overflow-hidden">
@@ -178,13 +178,13 @@ async function handleDelete(user: AdminUser) {
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.role')" width="110">
+        <el-table-column :label="$t('admin.users.columns.role')" width="200">
           <template #default="{ row }">
             <AdminRoleBadge :role="row.role" />
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.status')" width="120">
+        <el-table-column :label="$t('admin.users.columns.status')" width="200">
           <template #default="{ row }">
             <span v-if="row.isLocked" class="text-xs px-2 py-0.5 rounded-full font-medium bg-red-50 text-red-600">
               {{ $t('admin.users.locked') }}
@@ -198,18 +198,18 @@ async function handleDelete(user: AdminUser) {
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.joined')" width="120">
+        <el-table-column :label="$t('admin.users.columns.joined')" width="200">
           <template #default="{ row }">
             <span class="text-xs text-gray-500">{{ dayjs(row.createdAt).format('MMM D, YYYY') }}</span>
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.actions')" width="200" align="right">
+        <el-table-column :label="$t('admin.users.columns.actions')" width="250" align="left">
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5">
               <el-tooltip :content="$t('admin.landlords.viewProperties')" placement="top">
                 <BaseButton text size="small" class="text-blue-500!" @click="openProperties(row)">
-                  <BaseIcon name="building" :size="15" />
+                  <BaseIcon color="gray" name="scan-search" :size="15" />
                 </BaseButton>
               </el-tooltip>
               <el-tooltip :content="row.hasVerifiedBadge ? $t('admin.landlords.unverify') : $t('admin.landlords.verify')" placement="top">

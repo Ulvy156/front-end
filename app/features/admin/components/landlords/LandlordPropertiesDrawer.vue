@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { ElMessageBox } from 'element-plus'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseDrawer from '~/components/ui/BaseDrawer.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
+import BaseModal from '~/components/ui/BaseModal.vue'
 import { useAdminLandlordProperties } from '../../composables/useAdminLandlordProperties'
 import { initials } from '~/utils/initials'
 import dayjs from 'dayjs'
@@ -36,19 +36,14 @@ function locationLabel(property: typeof data.value.properties[0]) {
 }
 
 const isResettingLimit = ref(false)
+const isResetLimitConfirmOpen = ref(false)
 
-async function handleResetLimit() {
-  try {
-    await ElMessageBox.confirm(
-      t('admin.landlords.propertiesDrawer.resetLimitConfirm'),
-      t('admin.landlords.propertiesDrawer.resetLimitTitle'),
-      {
-        type: 'warning',
-        confirmButtonText: t('admin.landlords.propertiesDrawer.resetLimitConfirmBtn'),
-        cancelButtonText: t('admin.users.form.cancel'),
-      },
-    )
-  } catch { return }
+function handleResetLimit() {
+  isResetLimitConfirmOpen.value = true
+}
+
+async function confirmResetLimit() {
+  isResetLimitConfirmOpen.value = false
 
   isResettingLimit.value = true
   try {
@@ -107,8 +102,8 @@ async function handleResetLimit() {
           }) }}
         </p>
         <BaseButton
-          v-if="data.postingLimit.propertiesRemaining === 0"
-          type="warning"
+          v-if="data.postingLimit.propertiesRemaining !== 0"
+          type="danger"
           size="small"
           :loading="isResettingLimit"
           @click="handleResetLimit"
@@ -176,4 +171,19 @@ async function handleResetLimit() {
       </ul>
     </template>
   </BaseDrawer>
+
+  <BaseModal
+    v-model="isResetLimitConfirmOpen"
+    :title="$t('admin.landlords.propertiesDrawer.resetLimitTitle')"
+  >
+    <p class="text-sm text-gray-500">{{ $t('admin.landlords.propertiesDrawer.resetLimitConfirm') }}</p>
+    <div class="flex justify-end gap-2 mt-6">
+      <BaseButton type="info" @click="isResetLimitConfirmOpen = false">
+        {{ $t('admin.users.form.cancel') }}
+      </BaseButton>
+      <BaseButton type="danger" :loading="isResettingLimit" @click="confirmResetLimit">
+        {{ $t('admin.landlords.propertiesDrawer.resetLimitConfirmBtn') }}
+      </BaseButton>
+    </div>
+  </BaseModal>
 </template>

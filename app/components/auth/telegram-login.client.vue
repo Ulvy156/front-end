@@ -36,9 +36,6 @@
 </template>
 
 <script setup lang="ts">
-import { resolvePostLoginRoute } from '~/utils/roleGuard'
-import { useErrorMsg } from '~/composables/useErrorMsg'
-
 useHead({
   link: [
     { rel: 'preload', href: 'https://telegram.org/js/telegram-widget.js?22', as: 'script', crossorigin: 'anonymous' },
@@ -51,10 +48,6 @@ const wrapperEl = ref<HTMLDivElement | null>(null)
 const isWidgetReady = ref(false)
 const scaleX = ref(1)
 const TELEGRAM_WIDGET_WIDTH = 238
-const { $axios } = useNuxtApp()
-const authStore = useAuthStore()
-const notify = useNotify()
-const { extract } = useErrorMsg()
 const { t } = useI18n()
 
 let resizeObserver: ResizeObserver | undefined
@@ -80,28 +73,6 @@ onMounted(() => {
   window.addEventListener('message', onMessage)
   onUnmounted(() => window.removeEventListener('message', onMessage))
 
-  ;(window as any).onTelegramAuth = async (user: any) => {
-    try {
-      const { data } = await $axios.post<{ user_id: string; is_new_user: boolean }>(
-        '/auth/telegram-login',
-        user,
-      )
-      if (data.is_new_user) {
-        await navigateTo({ path: '/auth/role-select', query: { is_new_user: 'true' } }, { replace: true })
-        return
-      }
-      await authStore.fetchProfile()
-      if (authStore.isAuthenticated) {
-        await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
-      } else {
-        notify.error(t('common.somethingWentWrong'))
-        await navigateTo('/auth/login', { replace: true })
-      }
-    } catch (err) {
-      notify.error(extract(err))
-    }
-  }
-
   const script = document.createElement('script')
   script.src = 'https://telegram.org/js/telegram-widget.js?22'
   script.async = true
@@ -110,7 +81,10 @@ onMounted(() => {
   script.setAttribute('data-size', 'large')
   script.setAttribute('data-userpic', 'true')
   script.setAttribute('data-request-access', 'write')
-  script.setAttribute('data-onauth', 'onTelegramAuth(user)')
+  // data-auth-url (a plain top-level redirect) instead of data-onauth: the
+  // latter makes the widget inject an inline <script> to invoke the page
+  // callback, which violates script-src without 'unsafe-inline'.
+  script.setAttribute('data-auth-url', '/auth/telegram-callback')
 
   telegramBtn.value?.appendChild(script)
 })

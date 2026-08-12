@@ -86,6 +86,13 @@ export default defineNuxtConfig({
   // "failed to load icon" warnings for every icon). Move it off /api/**.
   icon: {
     localApiEndpoint: '/_nuxt_icon',
+    // All icons come from the bundled lucide/mdi collections, which the
+    // local server above serves in full — nothing is missing. Without this,
+    // @iconify/vue "races" a request to the public api.iconify.design CDN
+    // whenever the local route takes >750ms to respond (common on a cold
+    // dev-server hit), which both leaks icon names to a third party and
+    // violates the connect-src CSP.
+    fallbackToApi: false,
   },
   runtimeConfig: {
     public: {
