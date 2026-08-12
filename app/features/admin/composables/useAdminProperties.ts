@@ -18,6 +18,7 @@ export function useAdminProperties(filters: Ref<AdminPropertiesFilter>) {
       if (filters.value.isPublished !== undefined) params.isPublished = filters.value.isPublished
       if (filters.value.isFeatured !== undefined) params.isFeatured = filters.value.isFeatured
       if (filters.value.isAvailable !== undefined) params.isAvailable = filters.value.isAvailable
+      if (filters.value.isLocked !== undefined) params.isLocked = filters.value.isLocked
       if (filters.value.landlordId) params.landlordId = filters.value.landlordId
       if (filters.value.propertyId) params.propertyId = filters.value.propertyId
 
@@ -48,5 +49,15 @@ export function useAdminProperties(filters: Ref<AdminPropertiesFilter>) {
     onSuccess: invalidate,
   })
 
-  return { data, isPending, isError, togglePublish, toggleAvailability, setFeatured, deleteProperty }
+  const lockProperty = useMutation({
+    mutationFn: (id: string) => $axios.patch(`/property/lock/${id}`),
+    onSuccess: invalidate,
+  })
+
+  const unlockProperty = useMutation({
+    mutationFn: (id: string) => $axios.patch(`/property/unlock/${id}`),
+    onSuccess: invalidate,
+  })
+
+  return { data, isPending, isError, togglePublish, toggleAvailability, setFeatured, deleteProperty, lockProperty, unlockProperty }
 }

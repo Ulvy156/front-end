@@ -1,5 +1,8 @@
 <script setup lang="ts">
+import { ElMessageBox } from 'element-plus'
 import dayjs from 'dayjs'
+import { useMutation, useQueryClient } from '@tanstack/vue-query'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseDrawer from '~/components/ui/BaseDrawer.vue'
@@ -25,9 +28,44 @@ const { data, isPending } = useAdminPropertyDetail(propertyIdRef)
 const { t } = useI18n()
 const langKey = useLangKey()
 const { copy } = useCopy()
+const { $axios } = useNuxtApp()
+const queryClient = useQueryClient()
+const { success, error: notifyError } = useNotify()
+const { extract } = useErrorMsg()
 
 function locationLabel(district: NonNullable<typeof data.value>['district']) {
   return `${district[langKey.value]}, ${district.province[langKey.value]}`
+}
+
+const lockingProperty = ref(false)
+const lockMutation = useMutation({ mutationFn: (id: string) => $axios.patch(`/property/lock/${id}`) })
+const unlockMutation = useMutation({ mutationFn: (id: string) => $axios.patch(`/property/unlock/${id}`) })
+
+async function handleToggleLock() {
+  if (!data.value) return
+  if (!data.value.isLocked) {
+    try {
+      await ElMessageBox.confirm(
+        t('admin.properties.lockConfirm', { title: data.value.title }),
+        t('admin.properties.lockTitle'),
+        { type: 'warning', confirmButtonText: t('admin.properties.lockConfirmBtn'), cancelButtonText: t('admin.users.form.cancel') },
+      )
+    } catch { return }
+  }
+
+  lockingProperty.value = true
+  try {
+    if (data.value.isLocked) {
+      await unlockMutation.mutateAsync(data.value.id)
+      success(t('admin.properties.unlockSuccess'))
+    } else {
+      await lockMutation.mutateAsync(data.value.id)
+      success(t('admin.properties.lockSuccess'))
+    }
+    queryClient.invalidateQueries({ queryKey: ['admin-property-detail', props.propertyId] })
+    queryClient.invalidateQueries({ queryKey: ['admin-properties'] })
+  } catch (err) { notifyError(extract(err)) }
+  finally { lockingProperty.value = false }
 }
 </script>
 
@@ -74,16 +112,30 @@ function locationLabel(district: NonNullable<typeof data.value>['district']) {
         <p class="text-xs text-gray-400 mt-1">{{ data.propertyType[langKey] }} · {{ locationLabel(data.district) }}</p>
         <p class="text-xs text-gray-400 mt-0.5">{{ data.address }}</p>
 
-        <div class="flex flex-wrap gap-1 mt-3">
-          <span class="text-xs px-1.5 py-0.5 rounded-full font-medium" :class="data.isPublished ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-100 text-gray-500'">
-            {{ data.isPublished ? t('admin.properties.published') : t('admin.properties.unpublished') }}
-          </span>
-          <span class="text-xs px-1.5 py-0.5 rounded-full font-medium" :class="data.isAvailable ? 'bg-blue-50 text-blue-600' : 'bg-amber-50 text-amber-600'">
-            {{ data.isAvailable ? t('admin.properties.available') : t('admin.properties.unavailable') }}
-          </span>
-          <span v-if="data.isFeatured" class="text-xs px-1.5 py-0.5 rounded-full font-medium bg-amber-50 text-amber-600">
-            {{ t('admin.properties.featured') }}
-          </span>
+        <div class="flex items-center justify-between gap-2 mt-3">
+          <div class="flex flex-wrap gap-1">
+            <span class="text-xs px-1.5 py-0.5 rounded-full font-medium" :class="data.isPublished ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-100 text-gray-500'">
+              {{ data.isPublished ? t('admin.properties.published') : t('admin.properties.unpublished') }}
+            </span>
+            <span class="text-xs px-1.5 py-0.5 rounded-full font-medium" :class="data.isAvailable ? 'bg-blue-50 text-blue-600' : 'bg-amber-50 text-amber-600'">
+              {{ data.isAvailable ? t('admin.properties.available') : t('admin.properties.unavailable') }}
+            </span>
+            <span v-if="data.isFeatured" class="text-xs px-1.5 py-0.5 rounded-full font-medium bg-amber-50 text-amber-600">
+              {{ t('admin.properties.featured') }}
+            </span>
+            <span v-if="data.isLocked" class="text-xs px-1.5 py-0.5 rounded-full font-medium bg-red-50 text-red-600">
+              {{ t('admin.properties.locked') }}
+            </span>
+          </div>
+          <BaseButton
+            text size="small"
+            :loading="lockingProperty"
+            :class="data.isLocked ? 'text-red-500!' : 'text-gray-400!'"
+            @click="handleToggleLock"
+          >
+            <BaseIcon :name="data.isLocked ? 'lock' : 'lock-open'" :size="14" class="mr-1" />
+            {{ data.isLocked ? t('admin.properties.restore') : t('admin.properties.takeDown') }}
+          </BaseButton>
         </div>
       </div>
 

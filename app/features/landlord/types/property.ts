@@ -27,6 +27,7 @@ export interface LandlordPropertyDetail {
   isPublished: boolean
   isAvailable: boolean
   isFeatured: boolean
+  isLocked: boolean
   featuredAt: string | null
   totalViews: number
   minimumStayLength: number
@@ -57,6 +58,7 @@ export interface LandlordProperty {
   isPublished: boolean
   isAvailable: boolean
   isFeatured: boolean
+  isLocked: boolean
   totalViews: number
   favouriteCount: number
   reportCount: number

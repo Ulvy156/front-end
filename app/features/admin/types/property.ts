@@ -5,6 +5,7 @@ export interface AdminProperty {
   isPublished: boolean
   isAvailable: boolean
   isFeatured: boolean
+  isLocked: boolean
   totalViews: number
   favouriteCount: number
   reportCount: number
@@ -37,6 +38,7 @@ export interface AdminPropertiesFilter {
   isPublished?: boolean
   isFeatured?: boolean
   isAvailable?: boolean
+  isLocked?: boolean
   landlordId?: string
   propertyId?: string
 }
@@ -57,6 +59,7 @@ export interface AdminPropertyDetail {
   isPublished: boolean
   isAvailable: boolean
   isFeatured: boolean
+  isLocked: boolean
   featuredAt: string | null
   totalViews: number
   minimumStayLength: number

@@ -64,6 +64,7 @@
       "available": "Available",
       "unavailable": "Unavailable",
       "featured": "Featured",
+      "lockedByAdmin": "Taken down by admin",
       "showing": "Showing {from}–{to} of {total}",
       "publish": "Publish",
       "unpublish": "Unpublish",
@@ -93,7 +94,10 @@
     },
     "propertyDetail": {
       "backToProperties": "Back to properties",
+      "backToProperty": "Back to property",
       "notFound": "Property not found.",
+      "lockedByAdmin": "Taken down by admin",
+      "lockedByAdminHint": "This listing has been taken down by an admin and can't be edited or republished until it's restored.",
       "views": "views",
       "favourites": "favourites",
       "reports": "Reports",

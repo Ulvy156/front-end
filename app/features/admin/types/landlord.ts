@@ -24,7 +24,21 @@ export interface LandlordProperty {
   }
 }
 
+export interface LandlordPostingLimit {
+  monthlyLimit: number
+  propertiesThisMonth: number
+  propertiesRemaining: number
+  resetAt: string | null
+}
+
 export interface LandlordPropertiesResponse {
   landlord: LandlordProfile
+  postingLimit: LandlordPostingLimit
   properties: LandlordProperty[]
+}
+
+export interface ResetLimitResponse {
+  id: string
+  name: string
+  postLimitResetAt: string
 }

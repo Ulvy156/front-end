@@ -33,6 +33,12 @@ const statusOptions = computed(() => [
   { label: t('admin.properties.filterPublished'), value: 'published' },
   { label: t('admin.properties.filterUnpublished'), value: 'unpublished' },
 ])
+const lockFilter = ref<'all' | 'locked' | 'unlocked'>('all')
+const lockOptions = computed(() => [
+  { label: t('admin.properties.lockFilterAll'), value: 'all' },
+  { label: t('admin.properties.lockFilterLocked'), value: 'locked' },
+  { label: t('admin.properties.lockFilterUnlocked'), value: 'unlocked' },
+])
 const PAGE_SIZE = 20
 const FEATURED_MAX = 3
 
@@ -78,6 +84,14 @@ watch(statusFilter, (val) => {
   }
 })
 
+watch(lockFilter, (val) => {
+  filters.value = {
+    ...filters.value,
+    isLocked: val === 'locked' ? true : val === 'unlocked' ? false : undefined,
+    page: 1,
+  }
+})
+
 // ── Landlord filter (remote search by name/email → landlordId) ─
 const selectedLandlordId = ref<string>()
 const landlordSearchFilters = ref<UserFilters>({ search: '', page: 1, limit: 10 })
@@ -95,7 +109,7 @@ watch(selectedLandlordId, (val) => {
   filters.value = { ...filters.value, landlordId: val || undefined, page: 1 }
 })
 
-const { data, isPending, togglePublish, toggleAvailability, setFeatured, deleteProperty } = useAdminProperties(filters)
+const { data, isPending, togglePublish, toggleAvailability, setFeatured, deleteProperty, lockProperty, unlockProperty } = useAdminProperties(filters)
 
 const items = computed(() => data.value?.items ?? [])
 const meta = computed(() => data.value?.meta)
@@ -114,6 +128,7 @@ const publishingId   = ref<string | null>(null)
 const availabilityId = ref<string | null>(null)
 const featuringId    = ref<string | null>(null)
 const deletingId     = ref<string | null>(null)
+const lockingId      = ref<string | null>(null)
 
 // ── Details drawer ─────────────────────────────────────────────
 const detailsDrawerOpen = ref(false)
@@ -149,6 +164,30 @@ async function handleSetFeatured(prop: AdminProperty) {
     success(prop.isFeatured ? t('admin.properties.unfeatureSuccess') : t('admin.properties.featureSuccess'))
   } catch (err) { notifyError(extract(err)) }
   finally { featuringId.value = null }
+}
+
+async function handleToggleLock(prop: AdminProperty) {
+  if (!prop.isLocked) {
+    try {
+      await ElMessageBox.confirm(
+        t('admin.properties.lockConfirm', { title: prop.title }),
+        t('admin.properties.lockTitle'),
+        { type: 'warning', confirmButtonText: t('admin.properties.lockConfirmBtn'), cancelButtonText: t('admin.users.form.cancel') },
+      )
+    } catch { return }
+  }
+
+  lockingId.value = prop.id
+  try {
+    if (prop.isLocked) {
+      await unlockProperty.mutateAsync(prop.id)
+      success(t('admin.properties.unlockSuccess'))
+    } else {
+      await lockProperty.mutateAsync(prop.id)
+      success(t('admin.properties.lockSuccess'))
+    }
+  } catch (err) { notifyError(extract(err)) }
+  finally { lockingId.value = null }
 }
 
 async function handleDelete(prop: AdminProperty) {
@@ -219,6 +258,7 @@ async function handleDelete(prop: AdminProperty) {
     <div v-else class="flex gap-3 mb-4">
       <BaseInput v-model="searchInput" :placeholder="$t('admin.properties.searchPlaceholder')" clearable icon="search" class="max-w-72" />
       <BaseSelect v-model="statusFilter" :options="statusOptions" class="w-44" />
+      <BaseSelect v-model="lockFilter" :options="lockOptions" class="w-40" />
       <el-select
         v-model="selectedLandlordId"
         filterable
@@ -278,6 +318,9 @@ async function handleDelete(prop: AdminProperty) {
               <span v-if="row.isFeatured" class="text-xs px-2 py-0.5 rounded-full font-medium w-fit bg-amber-50 text-amber-600">
                 {{ $t('admin.properties.featured') }}
               </span>
+              <span v-if="row.isLocked" class="text-xs px-2 py-0.5 rounded-full font-medium w-fit bg-red-50 text-red-600">
+                {{ $t('admin.properties.locked') }}
+              </span>
             </div>
           </template>
         </el-table-column>
@@ -305,7 +348,7 @@ async function handleDelete(prop: AdminProperty) {
           </template>
         </el-table-column>
 
-        <el-table-column :label="$t('admin.users.columns.actions')" width="190" align="right">
+        <el-table-column :label="$t('admin.users.columns.actions')" width="300" align="right">
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5" @click.stop>
               <el-tooltip :content="$t('admin.properties.viewDetails')" placement="top">
@@ -336,6 +379,13 @@ async function handleDelete(prop: AdminProperty) {
                   :class="row.isAvailable ? 'text-blue-500!' : 'text-gray-400!'"
                   @click="handleToggleAvailability(row)">
                   <BaseIcon :name="row.isAvailable ? 'door-open' : 'door-closed'" :size="15" />
+                </BaseButton>
+              </el-tooltip>
+              <el-tooltip :content="row.isLocked ? $t('admin.properties.restore') : $t('admin.properties.takeDown')" placement="top">
+                <BaseButton text size="small" :loading="lockingId === row.id"
+                  :class="row.isLocked ? 'text-red-500!' : 'text-gray-400!'"
+                  @click="handleToggleLock(row)">
+                  <BaseIcon :name="row.isLocked ? 'lock' : 'lock-open'" :size="15" />
                 </BaseButton>
               </el-tooltip>
               <el-tooltip :content="$t('admin.users.deleteAction')" placement="top">

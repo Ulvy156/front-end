@@ -73,14 +73,19 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
           <div>
             <div class="flex flex-wrap items-center gap-3">
               <h2 class="text-xl font-semibold text-gray-900">{{ property.title }}</h2>
-              <BaseButton
-                size="small"
-                type="success"
-                @click="router.push(`/landlord/properties/${property.id}/edit`)"
-              >
-                <BaseIcon name="pencil" :size="14" />
-                {{ t('landlord.editProperty.title') }}
-              </BaseButton>
+              <el-tooltip :disabled="!property.isLocked" :content="t('landlord.propertyDetail.lockedByAdminHint')" placement="top">
+                <span>
+                  <BaseButton
+                    size="small"
+                    type="success"
+                    :disabled="property.isLocked"
+                    @click="router.push(`/landlord/properties/${property.id}/edit`)"
+                  >
+                    <BaseIcon name="pencil" :size="14" />
+                    {{ t('landlord.editProperty.title') }}
+                  </BaseButton>
+                </span>
+              </el-tooltip>
             </div>
             <p class="text-sm text-gray-400 mt-1">
               <BaseIcon name="map-pin" :size="14" class="inline" />
@@ -102,6 +107,9 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
             </span>
             <span v-if="property.isFeatured" class="text-xs px-2.5 py-1 rounded-full font-medium bg-amber-50 text-amber-600">
               {{ t('landlord.properties.featured') }}
+            </span>
+            <span v-if="property.isLocked" class="text-xs px-2.5 py-1 rounded-full font-medium bg-red-50 text-red-600">
+              {{ t('landlord.properties.lockedByAdmin') }}
             </span>
           </div>
         </div>

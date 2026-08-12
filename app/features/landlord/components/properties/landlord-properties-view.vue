@@ -446,6 +446,9 @@ async function handleDuplicate(prop: LandlordProperty) {
               <span v-if="row.isFeatured" class="text-xs px-2.5 py-1 rounded-full font-bold w-fit bg-amber-50 text-amber-600">
                 {{ t('landlord.properties.featured') }}
               </span>
+              <span v-if="row.isLocked" class="text-xs px-2.5 py-1 rounded-full font-bold w-fit bg-red-50 text-red-600">
+                {{ t('landlord.properties.lockedByAdmin') }}
+              </span>
             </div>
 
             <!-- Price -->
@@ -478,11 +481,11 @@ async function handleDuplicate(prop: LandlordProperty) {
                       <BaseIcon name="eye" :size="14" class="mr-2" />
                       {{ t('landlord.properties.viewDetails') }}
                     </el-dropdown-item>
-                    <el-dropdown-item @click="router.push(`/landlord/properties/${row.id}/edit`)">
+                    <el-dropdown-item :disabled="row.isLocked" @click="router.push(`/landlord/properties/${row.id}/edit`)">
                       <BaseIcon name="pencil" :size="14" class="mr-2" />
                       {{ t('landlord.editProperty.title') }}
                     </el-dropdown-item>
-                    <el-dropdown-item divided @click="handleTogglePublish(row)">
+                    <el-dropdown-item divided :disabled="row.isLocked" @click="handleTogglePublish(row)">
                       <BaseIcon :name="row.isPublished ? 'eye-off' : 'eye'" :size="14" class="mr-2" />
                       {{ row.isPublished ? t('landlord.properties.unpublish') : t('landlord.properties.publish') }}
                     </el-dropdown-item>

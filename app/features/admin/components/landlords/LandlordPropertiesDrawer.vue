@@ -1,8 +1,10 @@
 <script setup lang="ts">
+import { ElMessageBox } from 'element-plus'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseDrawer from '~/components/ui/BaseDrawer.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
+import BaseButton from '~/components/ui/BaseButton.vue'
 import { useAdminLandlordProperties } from '../../composables/useAdminLandlordProperties'
 import { initials } from '~/utils/initials'
 import dayjs from 'dayjs'
@@ -14,19 +16,49 @@ const props = defineProps<{
 
 const emit = defineEmits<{ 'update:modelValue': [value: boolean] }>()
 
+const { t } = useI18n()
+const { success, error: notifyError } = useNotify()
+const { extract } = useErrorMsg()
+
 const isOpen = computed({
   get: () => props.modelValue,
   set: (v) => emit('update:modelValue', v),
 })
 
 const landlordIdRef = computed(() => props.landlordId)
-const { data, isPending } = useAdminLandlordProperties(landlordIdRef)
+const { data, isPending, resetLimit } = useAdminLandlordProperties(landlordIdRef)
 
 const langKey = useLangKey()
 
 function locationLabel(property: typeof data.value.properties[0]) {
   const d = property.district
   return `${d[langKey.value]}, ${d.province[langKey.value]}`
+}
+
+const isResettingLimit = ref(false)
+
+async function handleResetLimit() {
+  try {
+    await ElMessageBox.confirm(
+      t('admin.landlords.propertiesDrawer.resetLimitConfirm'),
+      t('admin.landlords.propertiesDrawer.resetLimitTitle'),
+      {
+        type: 'warning',
+        confirmButtonText: t('admin.landlords.propertiesDrawer.resetLimitConfirmBtn'),
+        cancelButtonText: t('admin.users.form.cancel'),
+      },
+    )
+  } catch { return }
+
+  isResettingLimit.value = true
+  try {
+    await resetLimit.mutateAsync()
+    success(t('admin.landlords.propertiesDrawer.resetLimitSuccess'))
+  } catch (err) {
+    notifyError(extract(err))
+  } finally {
+    isResettingLimit.value = false
+  }
 }
 </script>
 
@@ -64,6 +96,25 @@ function locationLabel(property: typeof data.value.properties[0]) {
           <p class="text-2xl font-bold text-gray-900">{{ data.properties.length }}</p>
           <p class="text-xs text-gray-400">{{ $t('admin.landlords.propertiesDrawer.listings') }}</p>
         </div>
+      </div>
+
+      <!-- Posting limit -->
+      <div class="flex items-center justify-between gap-3 mb-6 pb-6 border-b border-gray-100">
+        <p class="text-sm text-gray-500">
+          {{ $t('admin.landlords.propertiesDrawer.postingLimit', {
+            used: data.postingLimit.propertiesThisMonth,
+            total: data.postingLimit.monthlyLimit,
+          }) }}
+        </p>
+        <BaseButton
+          v-if="data.postingLimit.propertiesRemaining === 0"
+          type="warning"
+          size="small"
+          :loading="isResettingLimit"
+          @click="handleResetLimit"
+        >
+          {{ $t('admin.landlords.propertiesDrawer.resetLimit') }}
+        </BaseButton>
       </div>
 
       <!-- Empty -->

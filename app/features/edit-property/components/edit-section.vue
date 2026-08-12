@@ -16,6 +16,16 @@
       </div>
     </div>
 
+    <!-- Locked by admin -->
+    <div v-else-if="property.isLocked" class="py-20">
+      <BaseEmpty :description="t('landlord.propertyDetail.lockedByAdminHint')" />
+      <div class="flex justify-center mt-4">
+        <BaseButton @click="router.push(`/landlord/properties/${propertyId}`)">
+          {{ t('landlord.propertyDetail.backToProperty') }}
+        </BaseButton>
+      </div>
+    </div>
+
     <!-- Populating form -->
     <div v-else-if="!initialized" class="space-y-4">
       <BaseSkeleton :rows="1" leading="square" leading-size="300px" :lines="3" />
