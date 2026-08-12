@@ -51,7 +51,7 @@
           :class="isActiveRoute(item) ? 'tab-item-active' : 'text-gray-500'"
         >
           <BaseIcon :name="item.icon" :size="20" />
-          <span>{{ item.label }}</span>
+          <!-- <span class="line-clamp-1">{{ item.label }}</span> -->
         </NuxtLink>
       </template>
 
