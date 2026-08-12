@@ -9,8 +9,11 @@ import tailwindcss from "@tailwindcss/vite";
 // the header below to `Content-Security-Policy` once it's clean.
 const contentSecurityPolicy = [
   `default-src 'self'`,
-  // Telegram's widget script; everything else (Nuxt/Element Plus/MapTiler) is bundled and self-hosted
-  `script-src 'self' https://telegram.org`,
+  // Telegram's widget script, plus a hash for a small inline bootstrap
+  // script telegram-widget.js injects itself (independent of our
+  // data-auth-url vs data-onauth choice below) — everything else
+  // (Nuxt/Element Plus/MapTiler) is bundled and self-hosted
+  `script-src 'self' https://telegram.org 'sha256-mydg9AlvyoxjVj0zWJTf5x3zzK9+duNAKzZ7m+8vkl4='`,
   // Element Plus, MapLibre GL, and Tailwind arbitrary values all inject inline styles at runtime
   `style-src 'self' 'unsafe-inline'`,
   `img-src 'self' data: blob: ${process.env.NUXT_PUBLIC_R2_PUB_URL || ''} https://*.maptiler.com`,
@@ -24,7 +27,10 @@ const contentSecurityPolicy = [
   `base-uri 'self'`,
   `form-action 'self'`,
   `frame-ancestors 'none'`,
-  `upgrade-insecure-requests`,
+  // Omitted while Report-Only: the spec makes this directive a no-op under
+  // Report-Only (nothing to upgrade/block, so nothing to report), and
+  // browsers log a console warning for it. Re-add once promoted to the
+  // enforced `Content-Security-Policy` header.
 ].join('; ')
 
 export default defineNuxtConfig({
