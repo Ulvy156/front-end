@@ -7,14 +7,14 @@ export function useLogout() {
   const queryClient = useQueryClient()
 
   const logout = async () => {
-    try {
-      await $axios.post('/auth/logout')
-    } finally {
-      authStore.clear()
-      queryClient.removeQueries({ queryKey: ['favourites'] })
-      queryClient.removeQueries({ queryKey: ['profile'] })
-      router.replace('/auth/login')
-    }
+    // Local state is what actually gates access, and the HttpOnly auth
+    // cookies get cleared by this response's Set-Cookie header whether or
+    // not we wait for it — so don't block the redirect on the network call.
+    authStore.clear()
+    queryClient.removeQueries({ queryKey: ['favourites'] })
+    queryClient.removeQueries({ queryKey: ['profile'] })
+    router.replace('/auth/login')
+    $axios.post('/auth/logout').catch(() => {})
   }
 
   return { logout }

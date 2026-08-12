@@ -284,17 +284,34 @@ async function handleDuplicate(prop: LandlordProperty) {
     await ElMessageBox.confirm(
       t('landlord.properties.duplicateConfirm', { title: prop.title }),
       t('landlord.properties.duplicateTitle'),
-      { type: 'info', confirmButtonText: t('landlord.properties.duplicateBtn'), cancelButtonText: t('landlord.properties.cancelBtn') },
-    )
-  } catch { return }
+      {
+        type: 'info',
+        confirmButtonText: t('landlord.properties.duplicateBtn'),
+        cancelButtonText: t('landlord.properties.cancelBtn'),
+        beforeClose: async (action, instance, done) => {
+          if (action !== 'confirm') {
+            done()
+            return
+          }
 
-  busyId.value = prop.id
-  try {
-    const newProp = await duplicateProperty.mutateAsync(prop.id)
-    success(t('landlord.properties.duplicateSuccess'))
-    router.push(`/properties/details/${newProp.id}`)
-  } catch (err) { notifyError(extract(err)) }
-  finally { busyId.value = null }
+          instance.confirmButtonLoading = true
+          busyId.value = prop.id
+          try {
+            const newProp = await duplicateProperty.mutateAsync(prop.id)
+            success(t('landlord.properties.duplicateSuccess'))
+            done()
+            router.push(`/landlord/properties/${newProp.id}/edit`)
+          } catch (err) {
+            notifyError(extract(err))
+            done()
+          } finally {
+            instance.confirmButtonLoading = false
+            busyId.value = null
+          }
+        },
+      },
+    )
+  } catch { /* cancelled */ }
 }
 </script>
 
