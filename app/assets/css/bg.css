@@ -46,6 +46,21 @@
   --nav-active-item: #047857;
   --gray: #676f7e;
   --bg-gray: #f3f4f680;
+  /* Element Plus theme override — el-* components (BaseButton, BaseInput, etc.)
+     default to Element Plus's stock blue since these are plain hex values in
+     their base.css, not derived from --el-color-primary via color-mix(), so
+     every shade has to be restated here to match the app's emerald brand.
+     !important is needed because Element Plus's own :root rule loads after
+     this file in the bundle and would otherwise win on source order alone. */
+  --el-color-primary: #059669 !important; /* Emerald 600 */
+  --el-color-primary-rgb: 5, 150, 105 !important;
+  --el-color-primary-light-3: #34d399 !important; /* Emerald 400 */
+  --el-color-primary-light-5: #6ee7b7 !important; /* Emerald 300 */
+  --el-color-primary-light-7: #a7f3d0 !important; /* Emerald 200 */
+  --el-color-primary-light-8: #d1fae5 !important; /* Emerald 100 */
+  --el-color-primary-light-9: #ecfdf5 !important; /* Emerald 50 */
+  --el-color-primary-dark-2: #047857 !important; /* Emerald 700 */
+
   /* Border Radius */
   --radius: 0.75rem;
   /* Background Gradients */

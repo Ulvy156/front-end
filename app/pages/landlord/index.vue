@@ -4,6 +4,7 @@ import DashboardStatCard from '~/components/dashboard/DashboardStatCard.vue'
 import LandlordRecentActivity from '~/features/landlord/components/dashboard/landlord-recent-activity.vue'
 import LandlordTopProperties from '~/features/landlord/components/dashboard/landlord-top-properties.vue'
 import { useLandlordDashboard } from '~/features/landlord/composables/useLandlordDashboard'
+import dayjs from 'dayjs'
 
 definePageMeta({ middleware: 'landlord', layout: 'landlord' })
 
@@ -25,10 +26,18 @@ const propertySubStats = computed(() => {
 const postingLimitSubStats = computed(() => {
   const s = data.value?.stats
   if (!s) return []
-  return [
+  const stats = [
     { label: t('landlord.dashboard.stats.postedThisMonth'), value: s.propertiesThisMonth, color: 'blue'  as const },
     { label: t('landlord.dashboard.stats.remaining'),       value: s.propertiesRemaining,  color: s.propertiesRemaining === 0 ? 'red' as const : 'green' as const },
   ]
+  if (s.resetAt) {
+    stats.push({
+      label: t('landlord.dashboard.stats.resetAt'),
+      value: dayjs(s.resetAt).format('MMM D, YYYY'),
+      color: 'gray' as const,
+    })
+  }
+  return stats
 })
 
 const viewSubStats = computed(() => [] as { label: string; value: string | number; color: 'gray' }[])

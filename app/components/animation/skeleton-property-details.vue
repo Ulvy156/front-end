@@ -1,5 +1,6 @@
 <template>
   <el-skeleton
+    class="mt-10"
     style="width: 100%"
     animated
     :initial="{ opacity: 0, y: 20 }"

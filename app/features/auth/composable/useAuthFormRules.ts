@@ -49,5 +49,22 @@ export const useAuthFormRules = () => {
     ],
   }
 
-  return { loginRules, registerRules }
+  const forgotPasswordRules: FormRules = {
+    email: emailRules,
+  }
+
+  const resetPasswordRules: FormRules = {
+    newPassword: [
+      { required: true, message: () => t('auth.passwordRequired'), trigger: 'blur' },
+      {
+        validator: (_rule, value: string, callback) => {
+          if (!isStrongPassword(value)) callback(new Error(t('auth.passwordWeak')))
+          else callback()
+        },
+        trigger: 'blur',
+      },
+    ],
+  }
+
+  return { loginRules, registerRules, forgotPasswordRules, resetPasswordRules }
 }

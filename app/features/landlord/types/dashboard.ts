@@ -9,6 +9,7 @@ export interface LandlordStats {
   propertiesThisMonth: number
   monthlyLimit: number
   propertiesRemaining: number
+  resetAt: string | null
 }
 
 export interface LandlordRecentActivity {

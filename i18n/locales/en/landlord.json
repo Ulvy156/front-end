@@ -29,7 +29,8 @@
         "unavailable": "Unavailable",
         "monthlyLimit": "Monthly Limit",
         "postedThisMonth": "Posted this month",
-        "remaining": "Remaining"
+        "remaining": "Remaining",
+        "resetAt": "Limit reset at"
       }
     },
     "properties": {

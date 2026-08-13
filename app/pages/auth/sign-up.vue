@@ -1,22 +1,15 @@
 <template>
-    <section class="min-h-dvh flex items-stretch">
-
-        <AuthBrandPanel
-            :title="step === 1 ? t('auth.signupBrandTitle1') : t('auth.signupBrandTitle2')"
-            :description="step === 1 ? t('auth.signupBrandDesc1') : t('auth.signupBrandDesc2')"
-            :features="brandFeatures" />
-
-        <!-- Form Panel -->
-        <div class="flex-1 flex items-center justify-center bg-slate-50 px-6 py-14">
-            <SignUpForm v-if="step === 1" @registered="onRegistered" />
-            <OtpVerify v-else :email="registeredEmail" :resend-data="resendPayload" @back="onBack" />
-        </div>
-
-    </section>
+    <AuthShell
+        :title="step === 1 ? t('auth.signupBrandTitle1') : t('auth.signupBrandTitle2')"
+        :description="step === 1 ? t('auth.signupBrandDesc1') : t('auth.signupBrandDesc2')"
+        :features="brandFeatures">
+        <SignUpForm v-if="step === 1" @registered="onRegistered" />
+        <OtpVerify v-else :email="registeredEmail" :resend-data="resendPayload" @back="onBack" />
+    </AuthShell>
 </template>
 
 <script setup lang="ts">
-import AuthBrandPanel from '~/components/auth/AuthBrandPanel.vue'
+import AuthShell from '~/components/auth/AuthShell.vue'
 import SignUpForm, { type RegisterPayload } from '~/features/auth/components/SignUpForm.vue'
 import OtpVerify from '~/features/auth/components/OtpVerify.vue'
 
