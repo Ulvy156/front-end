@@ -29,7 +29,8 @@
         "unavailable": "មិនទំនេរ",
         "monthlyLimit": "កម្រិតប្រចាំខែ",
         "postedThisMonth": "បានបង្ហោះក្នុងខែនេះ",
-        "remaining": "នៅសល់"
+        "remaining": "នៅសល់",
+        "resetAt": "កំណត់ឡើងវិញនៅថ្ងៃទី​"
       }
     },
     "properties": {
