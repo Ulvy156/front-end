@@ -5,9 +5,6 @@
       <h2 class="text-lg font-medium text-gray-900 mb-0.5">
         {{ t("post_property.amenities.title") }}
         <span class="text-red-500">*</span>
-        <span v-if="formErrors.amenities" class="text-red-500 text-xs font-normal ml-1">
-          {{ formErrors.amenities }}
-        </span>
       </h2>
       <p class="text-sm text-gray-500 mt-4">
         {{ t("post_property.amenities.subtitle") }}
@@ -17,130 +14,139 @@
     <hr class="border-gray-200 mb-5" />
 
     <!-- Amenities -->
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-      <div v-for="amenity in amenities" :key="amenity.id">
-        <div @click="toggleAmenity(amenity.id)" :class="form.amenities?.includes(amenity.id)
-            ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
-          "
-          class="flex items-center justify-start gap-4 px-3 py-3 border rounded-lg transition cursor-pointer text-center">
-          <BaseIconClient :name="amenity.icon" class="text-2xl mb-1" />
-          <span class="text-sm font-medium">{{
+    <el-form-item prop="amenities">
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6 w-full">
+        <div
+          v-for="amenity in amenities"
+          :key="amenity.id"
+          @click="toggleAmenity(amenity.id)"
+          :class="form.amenities?.includes(amenity.id)
+            ? 'border-(--nav-active-item) bg-emerald-50 text-(--nav-active-item)'
+            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'"
+          class="flex flex-col items-start gap-2 px-3.5 py-3.5 border rounded-[14px] transition cursor-pointer"
+        >
+          <BaseIconClient :name="amenity.icon" :size="20" />
+          <span class="text-[13px] font-semibold">{{
             t(`post_property.amenities.list.${amenity.code}`) || amenity.code
           }}</span>
         </div>
       </div>
-    </div>
+    </el-form-item>
 
     <!-- Parking Options -->
-    <div class="mb-6">
-      <div class="flex justify-between items-center mb-2">
-        <label class="text-sm font-medium text-gray-800">{{
-          t("post_property.amenities.parking_options")
-        }}</label>
-        <button type="button" @click="showParkingOptions = !showParkingOptions"
-          class="text-sm text-emerald-600 hover:underline">
-          {{
-            showParkingOptions
-              ? "- Hide"
-              : "+ " + t("post_property.amenities.add_parking")
-          }}
-        </button>
+    <div class="border border-gray-200 rounded-[14px] mb-6 overflow-hidden">
+      <div
+        class="flex items-center justify-between px-4.5 py-4 cursor-pointer"
+        @click="accordionOpen = !accordionOpen"
+      >
+        <div class="flex items-center gap-2.5">
+          <span class="text-[14.5px] font-bold text-gray-900">{{ t("post_property.amenities.parking_options") }}</span>
+          <span class="text-[11.5px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded-full">{{ t("post_property.optional") }}</span>
+        </div>
+        <BaseIconClient
+          name="chevron-down"
+          :size="16"
+          class="text-gray-500 transition-transform"
+          :class="accordionOpen ? 'rotate-180' : ''"
+        />
       </div>
-      <div v-if="showParkingOptions" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-        <div v-for="parking in parkingOptions" :key="parking.key">
-          <div @click="toggleParking(parking.key)" :class="form.parkings?.includes(parking.key)
-              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
-            "
-            class="flex items-center justify-start gap-3 px-3 py-3 border rounded-lg transition cursor-pointer text-center">
-            <BaseIconClient :name="parking.icon" class="text-xl" />
-            <span class="text-sm font-medium">{{
-              t(`post_property.amenities.parking_types.${parking.key}`)
-            }}</span>
+
+      <div v-if="accordionOpen" class="px-4.5 pb-4.5">
+        <div class="flex items-center justify-between py-3 border-t border-gray-100 mb-1.5">
+          <span class="text-[13.5px] text-gray-700">{{ t("post_property.amenities.offer_parking") }}</span>
+          <button
+            type="button"
+            @click="toggleParkingEnabled"
+            :class="parkingEnabled ? 'bg-emerald-500' : 'bg-gray-300'"
+            class="relative w-11 h-6 rounded-full transition-colors duration-200 shrink-0 cursor-pointer border-none outline-none"
+          >
+            <span
+              :class="parkingEnabled ? 'translate-x-5' : 'translate-x-0.5'"
+              class="absolute top-0.5 left-0 w-5 h-5 bg-white rounded-full shadow transition-transform duration-200 block"
+            ></span>
+          </button>
+        </div>
+
+        <div v-if="parkingEnabled" class="flex flex-col gap-2.5 mt-2">
+          <div
+            v-for="parking in parkingOptions"
+            :key="parking.key"
+            class="bg-gray-50 border border-gray-100 rounded-xl p-3.5"
+          >
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+              <div class="flex items-center gap-2 min-w-20">
+                <BaseIconClient :name="parking.icon" :size="17" class="text-gray-500" />
+                <span class="text-[13.5px] font-semibold text-gray-900">{{ t(`post_property.amenities.parking_types.${parking.key}`) }}</span>
+              </div>
+
+              <div class="flex items-center gap-2.5">
+                <button
+                  type="button"
+                  @click="decSlots(parking.key)"
+                  class="w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-100 cursor-pointer"
+                >−</button>
+                <span class="min-w-4 text-center text-sm font-bold text-gray-900">{{ form.parkingDetails[parking.key]?.slots ?? 0 }}</span>
+                <button
+                  type="button"
+                  @click="incSlots(parking.key)"
+                  class="w-7 h-7 rounded-lg border border-gray-200 bg-white text-sm font-semibold text-gray-700 hover:bg-gray-100 cursor-pointer"
+                >+</button>
+                <span class="text-xs text-gray-400 lowercase">{{ t("post_property.amenities.slots") }}</span>
+              </div>
+
+              <div class="flex gap-1.5">
+                <button
+                  type="button"
+                  @click="setParkingFree(parking.key, true)"
+                  :class="form.parkingDetails[parking.key]?.isFree !== false
+                    ? 'border-(--nav-active-item) bg-emerald-50 text-(--nav-active-item)'
+                    : 'border-gray-200 text-gray-400'"
+                  class="px-3 py-1.5 border rounded-lg text-xs font-semibold cursor-pointer"
+                >{{ t("post_property.amenities.free") }}</button>
+                <button
+                  type="button"
+                  @click="setParkingFree(parking.key, false)"
+                  :class="form.parkingDetails[parking.key]?.isFree === false
+                    ? 'border-(--nav-active-item) bg-emerald-50 text-(--nav-active-item)'
+                    : 'border-gray-200 text-gray-400'"
+                  class="px-3 py-1.5 border rounded-lg text-xs font-semibold cursor-pointer"
+                >{{ t("post_property.amenities.priced") }}</button>
+              </div>
+
+              <div v-if="form.parkingDetails[parking.key]?.isFree === false" class="w-28">
+                <BaseInput
+                  :model-value="form.parkingDetails[parking.key].price"
+                  type="number"
+                  icon="dollar-sign"
+                  :placeholder="t('post_property.amenities.price_placeholder')"
+                  @update:model-value="(val: string) => form.parkingDetails[parking.key].price = val"
+                />
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div v-else-if="form.parkings?.length" class="flex flex-wrap gap-2">
-        <span v-for="pk in form.parkings" :key="pk"
-          class="inline-flex items-center gap-1 px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-lg text-sm">
-          <BaseIconClient :name="parkingOptions.find((p) => p.key === pk)?.icon || 'car'" />
-          {{ t(`post_property.amenities.parking_types.${pk}`) }}
-        </span>
-      </div>
-      <div v-else class="border border-gray-200 rounded-lg p-4 text-gray-400 text-sm text-center">
-        {{ t("post_property.amenities.no_parking") }}
       </div>
     </div>
 
     <!-- House Rules -->
     <div class="mb-6">
-      <label class="block text-sm font-medium text-gray-800 mb-2">{{
+      <label class="block text-sm font-medium text-gray-800 mb-3">{{
         t("post_property.amenities.house_rules")
       }}</label>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div v-for="rule in rules" :key="rule.id">
-          <div @click="toggleRule(rule.id)" :class="form.ruleKeys?.includes(rule.id)
-              ? 'border-emerald-500 bg-emerald-50 text-emerald-700'
-              : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'
-            "
-            class="flex items-center justify-start gap-4 px-3 py-3 border rounded-lg transition cursor-pointer text-center">
-            <BaseIconClient :name="rule.icon" class="text-2xl mb-1" />
-            <span class="text-sm font-medium">{{ rule.name }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Parking Details -->
-    <div v-if="form.parkings?.length" class="mb-6">
-      <div v-for="(pk, index) in form.parkings" :key="pk" class="mb-4 p-4 bg-gray-50 rounded-lg">
-        <div class="flex items-center gap-2 mb-3">
-          <span class="text-sm font-medium text-gray-700">{{
-            t(`post_property.amenities.parking_types.${pk}`)
-          }}</span>
-        </div>
-
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
-          <div>
-            <label class="block text-xs text-gray-500 mb-1">{{
-              t("post_property.amenities.slots")
-            }}</label>
-            <BaseInput
-              :model-value="form.parkingDetails[pk].slots"
-              type="number"
-              :placeholder="t('post_property.amenities.slots_placeholder')"
-              @update:model-value="(val: string) => form.parkingDetails[pk].slots = val"
-            />
-          </div>
-
-          <div class="col-span-2 flex items-center justify-end gap-3">
-            <label class="text-sm font-medium text-gray-800">{{
-              t("post_property.amenities.free_parking")
-            }}</label>
-            <button type="button" @click="form.parkingDetails[pk].isFree = !form.parkingDetails[pk].isFree; console.log('Parking free toggled for', pk, ':', form.parkingDetails[pk].isFree)"
-              :class="form.parkingDetails[pk]?.isFree ? 'bg-emerald-500' : 'bg-gray-200'"
-              class="relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out">
-              <span :class="form.parkingDetails[pk]?.isFree ? 'translate-x-5' : 'translate-x-0'
-                "
-                class="pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out" />
-            </button>
-          </div>
-        </div>
-
-        <div v-if="!form.parkingDetails[pk]?.isFree" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          <div>
-            <label class="block text-xs text-gray-500 mb-1">{{ t("post_property.amenities.price_per_month") }}
-              ($)</label>
-            <BaseInput
-              :model-value="form.parkingDetails[pk].price"
-              type="number"
-              icon="dollar-sign"
-              :placeholder="t('post_property.amenities.price_placeholder')"
-              @update:model-value="(val: string) => form.parkingDetails[pk].price = val"
-            />
-          </div>
-        </div>
+      <div class="flex flex-wrap gap-2">
+        <button
+          v-for="rule in rules"
+          :key="rule.id"
+          type="button"
+          @click="toggleRule(rule.id)"
+          :class="form.ruleKeys?.includes(rule.id)
+            ? 'border-(--nav-active-item) bg-emerald-50 text-(--nav-active-item)'
+            : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'"
+          class="flex items-center gap-1.5 px-3.5 py-2.5 border rounded-full text-[13px] font-semibold transition cursor-pointer"
+        >
+          <BaseIconClient v-if="form.ruleKeys?.includes(rule.id)" name="check" :size="13" />
+          {{ rule.name }}
+        </button>
       </div>
     </div>
 
@@ -153,7 +159,7 @@
         :model-value="form.additionalNotes"
         type="textarea"
         :rows="3"
-        placeholder="Any other rules, expectations, or information renters should know..."
+        :placeholder="t('post_property.amenities.additional_notes_placeholder')"
         @update:model-value="(val: string) => form.additionalNotes = val"
       />
     </div>
@@ -172,10 +178,10 @@ const { t } = useI18n();
 const langKey = useLangKey();
 
 const form = inject<any>("postPropertyForm", {});
-const formErrors = inject<any>("formErrors", {});
 
 if (!form.parkingDetails) form.parkingDetails = {};
 if (!form.ruleKeys) form.ruleKeys = [];
+if (!form.parkings) form.parkings = [];
 
 const { data: amenityOptions } = usePropertyAmenityOptions();
 const { data: ruleOptions } = usePropertyRuleOptions();
@@ -197,20 +203,20 @@ const rules = computed(() =>
 );
 
 const parkingOptions = [
-  { key: "BIKE", icon: "bike", label: "bike" },
-  { key: "MOTORBIKE", icon: "motorcycle", label: "motorbike" },
-  { key: "CAR", icon: "car", label: "car" },
-  { key: "TUK_TUK", icon: "car", label: "tuk_tuk" },
+  { key: "BIKE", icon: "bike" },
+  { key: "MOTORBIKE", icon: "motorcycle" },
+  { key: "CAR", icon: "car" },
+  { key: "TUK_TUK", icon: "car" },
 ];
 
-const showParkingOptions = ref(false);
+const accordionOpen = ref(false);
+const parkingEnabled = ref(!!form.parkings.length);
 
 function toggleAmenity(id: number) {
   if (!form.amenities) form.amenities = [];
   const idx = form.amenities.indexOf(id);
   if (idx > -1) form.amenities.splice(idx, 1);
   else form.amenities.push(id);
-  formErrors.amenities = "";
 }
 
 function toggleRule(id: number) {
@@ -220,15 +226,40 @@ function toggleRule(id: number) {
   else form.ruleKeys.push(id);
 }
 
-function toggleParking(key: string) {
-  if (!form.parkings) form.parkings = [];
-  if (!form.parkingDetails) form.parkingDetails = {};
-  const idx = form.parkings.indexOf(key);
-  if (idx > -1) {
-    form.parkings.splice(idx, 1);
+function toggleParkingEnabled() {
+  parkingEnabled.value = !parkingEnabled.value;
+  if (parkingEnabled.value) {
+    for (const p of parkingOptions) {
+      if (!form.parkingDetails[p.key]) {
+        form.parkingDetails[p.key] = { slots: 0, isFree: true, price: 0 };
+      }
+    }
   } else {
-    form.parkings.push(key);
-    form.parkingDetails[key] = { slots: 1, isFree: true };
+    form.parkings = [];
   }
+}
+
+function syncOffered(key: string) {
+  const slots = form.parkingDetails[key]?.slots ?? 0;
+  const idx = form.parkings.indexOf(key);
+  if (slots > 0 && idx === -1) form.parkings.push(key);
+  if (slots <= 0 && idx > -1) form.parkings.splice(idx, 1);
+}
+
+function incSlots(key: string) {
+  if (!form.parkingDetails[key]) form.parkingDetails[key] = { slots: 0, isFree: true, price: 0 };
+  form.parkingDetails[key].slots = (form.parkingDetails[key].slots ?? 0) + 1;
+  syncOffered(key);
+}
+
+function decSlots(key: string) {
+  if (!form.parkingDetails[key]) return;
+  form.parkingDetails[key].slots = Math.max(0, (form.parkingDetails[key].slots ?? 0) - 1);
+  syncOffered(key);
+}
+
+function setParkingFree(key: string, isFree: boolean) {
+  if (!form.parkingDetails[key]) form.parkingDetails[key] = { slots: 0, isFree: true, price: 0 };
+  form.parkingDetails[key].isFree = isFree;
 }
 </script>

@@ -13,11 +13,9 @@ definePageMeta({ middleware: 'landlord', layout: 'landlord' })
 
 import postSection from '~/features/post-property/components/post-section.vue'
 import { provide } from 'vue'
-import { createPropertyForm, createPropertyFormErrors } from '~/utils/propertyFormDefaults'
+import { createPropertyForm } from '~/utils/propertyFormDefaults'
 
 const postPropertyForm = createPropertyForm()
-const formErrors = createPropertyFormErrors()
 
 provide('postPropertyForm', postPropertyForm)
-provide('formErrors', formErrors)
 </script>

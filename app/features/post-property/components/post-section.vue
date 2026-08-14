@@ -1,43 +1,63 @@
 <template>
-  <section class="w-full px-4 mt-6 md:w-[80%] md:px-0 md:mt-10 m-auto">
-    <!-- Step Header -->
-    <el-steps :active="active" finish-status="success" class="post-property-steps">
-      <el-step :title="t('post_property.steps.one')" />
-      <el-step :title="t('post_property.steps.two')" />
-      <el-step :title="t('post_property.steps.three')" />
-      <el-step :title="t('post_property.steps.four')" />
-      <el-step :title="t('post_property.steps.five')" />
-      <el-step :title="t('post_property.steps.six')" />
-      <el-step :title="t('post_property.steps.seven')" />
-    </el-steps>
+  <section class="w-full px-4 mt-6 md:w-[80%] md:px-0 md:mt-10 m-auto flex flex-col gap-6">
+    <stepProgress
+      :step-keys="stepKeys"
+      :current-step="active"
+      :saved-text="savedText"
+      :saved-fresh="savedFresh"
+      @jump="handleGoTo"
+    />
 
-    <!-- Step Content -->
-    <div class="mt-6 md:mt-8">
-      <component :is="currentComponent" @go-to="handleGoTo" />
-    </div>
+    <template v-if="!justPublished">
+      <!-- Step Content -->
+      <el-form ref="formRef" :model="form" :rules="formRules">
+        <component :is="currentComponent" @go-to="handleGoTo" />
+      </el-form>
 
-    <!-- Controls -->
-    <div class="mt-6 flex justify-between">
+      <!-- Controls -->
       <stepsNavigation
         :current-step="active + 1"
         :total-steps="steps.length"
         :loading="loading"
         @back="prev"
         @next="next"
-        @save="saveDraft"
+        @save="saveNow"
         @submit="publish"
       />
-    </div>
+    </template>
 
+    <!-- Post-publish success -->
+    <div v-else class="bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col items-center text-center gap-4 py-16 px-6">
+      <div class="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center">
+        <BaseIconClient name="check" :size="30" color="#047857" />
+      </div>
+      <h2 class="text-xl font-extrabold text-gray-900">{{ t('post_property.success.title') }}</h2>
+      <p class="text-sm text-(--gray) max-w-sm">
+        {{ t('post_property.success.message', { title: form.propertyTitle || t('post_property.preview.untitled') }) }}
+      </p>
+      <div class="flex flex-wrap items-center justify-center gap-3 mt-2">
+        <BaseButton type="info" @click="justPublished = false">
+          {{ t('post_property.success.back_to_preview') }}
+        </BaseButton>
+        <BaseButton @click="goToMyListings">
+          {{ t('post_property.success.view_listing') }}
+        </BaseButton>
+      </div>
+    </div>
   </section>
 </template>
 
 <script setup lang="ts">
 import { defineAsyncComponent, computed, inject, ref } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
+import type { FormInstance, FormRules } from "element-plus";
+import stepProgress from "./step-progress.vue";
 import stepsNavigation from "./steps-navigation.vue";
+import BaseButton from "~/components/ui/BaseButton.vue";
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
+import { useDraftAutosave } from "@/features/post-property/composables/useDraftAutosave";
 import { useI18n } from "vue-i18n";
 import { useRouter } from 'vue-router';
 import { useAppSettingsStore } from "~/stores/appSettings";
@@ -51,99 +71,128 @@ const notify = useNotify();
 const { extract } = useErrorMsg();
 const queryClient = useQueryClient();
 
-function validateRentBounds(): boolean {
-  const rent = Number(form.rent);
-  const min = appSettingsStore.minPropertyPrice;
-  const max = appSettingsStore.maxPropertyPrice;
+const form = inject<any>("postPropertyForm");
+const formRef = ref<FormInstance>();
 
-  if (min !== null && rent < min) {
-    formErrors.rent = t('post_property.errors.rent_too_low', { min });
-    return false;
-  }
-  if (max !== null && rent > max) {
-    formErrors.rent = t('post_property.errors.rent_too_high', { max });
-    return false;
-  }
-  return true;
+const requiredMsg = () => t('post_property.errors.required');
+
+const formRules = computed<FormRules>(() => ({
+  propertyType: [
+    { required: true, message: requiredMsg(), trigger: ['blur', 'change'] },
+  ],
+  propertyTitle: [
+    { required: true, whitespace: true, message: requiredMsg(), trigger: ['blur', 'change'] },
+  ],
+  description: [
+    { required: true, whitespace: true, message: requiredMsg(), trigger: ['blur', 'change'] },
+  ],
+  size: [
+    {
+      validator: (_rule, value, callback) => {
+        if (!value || Number(value) <= 0) callback(new Error(requiredMsg()));
+        else callback();
+      },
+      trigger: ['blur', 'change'],
+    },
+  ],
+  province: [
+    { required: true, message: requiredMsg(), trigger: ['blur', 'change'] },
+  ],
+  districtId: [
+    {
+      validator: (_rule, value, callback) => {
+        if (!value || Number(value) === 0) callback(new Error(requiredMsg()));
+        else callback();
+      },
+      trigger: ['blur', 'change'],
+    },
+  ],
+  streetAddress: [
+    { required: true, whitespace: true, message: requiredMsg(), trigger: ['blur', 'change'] },
+  ],
+  rent: [
+    {
+      validator: (_rule, value, callback) => {
+        const n = Number(value);
+        if (!value || n <= 0) return callback(new Error(requiredMsg()));
+        const min = appSettingsStore.minPropertyPrice;
+        const max = appSettingsStore.maxPropertyPrice;
+        if (min !== null && n < min) return callback(new Error(t('post_property.errors.rent_too_low', { min })));
+        if (max !== null && n > max) return callback(new Error(t('post_property.errors.rent_too_high', { max })));
+        callback();
+      },
+      trigger: ['blur', 'change'],
+    },
+  ],
+  minStay: [
+    { required: true, message: requiredMsg(), trigger: ['blur', 'change'] },
+  ],
+  availableFrom: [
+    { required: true, message: requiredMsg(), trigger: ['blur', 'change'] },
+  ],
+  amenities: [
+    {
+      validator: (_rule, value, callback) => {
+        if (!Array.isArray(value) || value.length === 0) callback(new Error(t('post_property.errors.amenities_required')));
+        else callback();
+      },
+      trigger: ['blur', 'change'],
+    },
+  ],
+  photoFiles: [
+    {
+      validator: (_rule, value, callback) => {
+        if (!Array.isArray(value) || value.length < 3) callback(new Error(t('post_property.errors.photos_min')));
+        else callback();
+      },
+      trigger: ['blur', 'change'],
+    },
+  ],
+}));
+
+const stepFieldMap: Record<number, string[]> = {
+  0: ['propertyType'],
+  1: ['propertyTitle', 'description', 'size'],
+  2: ['province', 'districtId', 'streetAddress'],
+  3: ['rent', 'minStay', 'availableFrom'],
+  4: ['amenities'],
+  5: ['photoFiles'],
+  6: [],
+};
+
+function validateStep(stepIndex: number): Promise<boolean> {
+  const props = stepFieldMap[stepIndex] || [];
+  if (props.length === 0) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    formRef.value?.validateField(props, (isValid: boolean) => resolve(isValid));
+  });
 }
 
-const form = inject<any>("postPropertyForm");
-const formErrors = inject<any>("formErrors");
+function firstInvalidStep(invalidFields: Record<string, unknown>): number {
+  const invalidProps = Object.keys(invalidFields);
+  for (let i = 0; i <= 6; i++) {
+    if ((stepFieldMap[i] || []).some((p) => invalidProps.includes(p))) return i;
+  }
+  return 0;
+}
 
 const active = ref(0);
 const loading = ref(false);
+const justPublished = ref(false);
 const publishResult = ref<string | null>(null);
 const publishError = ref<string | null>(null);
 
-// Form validation
-function validateForm(): boolean {
-  let isValid = true;
+const { savedText, savedFresh, saveNow, clearDraft } = useDraftAutosave(form);
 
-  // Property type
-  if (!form.propertyType) {
-    formErrors.propertyType = t('post_property.errors.required');
-    isValid = false;
-  }
-
-  //  Basic info
-  if (!form.propertyTitle?.trim()) {
-    formErrors.propertyTitle = t('post_property.errors.required');
-    isValid = false;
-  }
-  if (!form.description?.trim()) {
-    formErrors.description = t('post_property.errors.required');
-    isValid = false;
-  }
-  if (!form.size || Number(form.size) <= 0) {
-    formErrors.size = t('post_property.errors.required');
-    isValid = false;
-  }
-
-  // Location
-  if (!form.province) {
-    formErrors.province = t('post_property.errors.required');
-    isValid = false;
-  }
-  if (!form.districtId || Number(form.districtId) === 0) {
-    formErrors.district = t('post_property.errors.required');
-    isValid = false;
-  }
-  if (!form.streetAddress?.trim()) {
-    formErrors.streetAddress = t('post_property.errors.required');
-    isValid = false;
-  }
-
-  //  Pricing
-  if (!form.rent || Number(form.rent) <= 0) {
-    formErrors.rent = t('post_property.errors.required');
-    isValid = false;
-  } else if (!validateRentBounds()) {
-    isValid = false;
-  }
-  if (!form.minStay) {
-    formErrors.minStay = t('post_property.errors.required');
-    isValid = false;
-  }
-  if (!form.availableFrom) {
-    formErrors.availableFrom = t('post_property.errors.required');
-    isValid = false;
-  }
-
-  //  Photos
-  if (!form.photoFiles || form.photoFiles.length < 3) {
-    formErrors.photos = t('post_property.errors.photos_min');
-    isValid = false;
-  }
-
-  //  Amenities
-  if (!form.amenities || form.amenities.length === 0) {
-    formErrors.amenities = t('post_property.errors.amenities_required');
-    isValid = false;
-  }
-
-  return isValid;
-}
-
+const stepKeys = [
+  'post_property.steps.one',
+  'post_property.steps.two',
+  'post_property.steps.three',
+  'post_property.steps.four',
+  'post_property.steps.five',
+  'post_property.steps.six',
+  'post_property.steps.seven',
+];
 
 const steps = [
   defineAsyncComponent(() => import("./property-type.vue")),
@@ -157,122 +206,44 @@ const steps = [
 
 const currentComponent = computed(() => steps[active.value]);
 
-const handleGoTo = (step: number) => {
-  if (step >= 0 && step < steps.length) active.value = step;
+const handleGoTo = async (step: number) => {
+  if (step < 0 || step >= steps.length) return;
+  justPublished.value = false;
+
+  // Jumping backward (e.g. a "Back to preview" link) never needs validation.
+  if (step <= active.value) {
+    active.value = step;
+    return;
+  }
+
+  // Jumping forward — validate every step being skipped, same as Continue does
+  // one at a time. Stop at the first invalid step instead of silently skipping it.
+  for (let i = active.value; i < step; i++) {
+    if (!(await validateStep(i))) {
+      active.value = i;
+      return;
+    }
+  }
+  active.value = step;
 };
 
-const next = () => {
+const next = async () => {
   if (active.value >= steps.length - 1) return;
 
   // Validate current step before allowing navigation to next step
-  if (!validateStep(active.value)) {
+  if (!(await validateStep(active.value))) {
     return; // Stay on current step if validation fails
   }
 
   active.value++;
 };
 
-// Validate only the current step and set errors for that step
-function validateStep(stepIndex: number): boolean {
-  // Define error keys for each step
-  const stepErrorKeysMap: Record<number, string[]> = {
-    0: ['propertyType'],
-    1: ['propertyTitle', 'description', 'size'],
-    2: ['province', 'district', 'streetAddress'],
-    3: ['rent', 'minStay', 'availableFrom'],
-    4: ['amenities'],
-    5: ['photos'],
-    6: []
-  };
-
-  // Get the error keys for the current step, default to empty array if stepIndex out of range
-  const stepErrorKeys = stepErrorKeysMap[stepIndex] || [];
-
-  // Clear existing errors for the current step
-  stepErrorKeys.forEach(key => {
-    formErrors[key] = '';
-  });
-
-  let isValid = true;
-
-  switch (stepIndex) {
-    case 0: // Property type step
-      if (!form.propertyType) {
-        formErrors.propertyType = t('post_property.errors.required');
-        isValid = false;
-      }
-      break;
-    case 1: // Basic info step
-      if (!form.propertyTitle?.trim()) {
-        formErrors.propertyTitle = t('post_property.errors.required');
-        isValid = false;
-      }
-      if (!form.description?.trim()) {
-        formErrors.description = t('post_property.errors.required');
-        isValid = false;
-      }
-      if (!form.size || Number(form.size) <= 0) {
-        formErrors.size = t('post_property.errors.required');
-        isValid = false;
-      }
-      break;
-    case 2: // Location step
-      if (!form.province) {
-        formErrors.province = t('post_property.errors.required');
-        isValid = false;
-      }
-      if (!form.districtId || Number(form.districtId) === 0) {
-        formErrors.district = t('post_property.errors.required');
-        isValid = false;
-      }
-      if (!form.streetAddress?.trim()) {
-        formErrors.streetAddress = t('post_property.errors.required');
-        isValid = false;
-      }
-      break;
-    case 3: // Price step
-      if (!form.rent || Number(form.rent) <= 0) {
-        formErrors.rent = t('post_property.errors.required');
-        isValid = false;
-      } else if (!validateRentBounds()) {
-        isValid = false;
-      }
-      if (!form.minStay) {
-        formErrors.minStay = t('post_property.errors.required');
-        isValid = false;
-      }
-      if (!form.availableFrom) {
-        formErrors.availableFrom = t('post_property.errors.required');
-        isValid = false;
-      }
-      break;
-    case 4: // Amenities step
-      if (!form.amenities || form.amenities.length === 0) {
-        formErrors.amenities = t('post_property.errors.amenities_required');
-        isValid = false;
-      }
-      break;
-    case 5: // Photos step
-      if (!form.photoFiles || form.photoFiles.length < 3) {
-        formErrors.photos = t('post_property.errors.photos_min');
-        isValid = false;
-      }
-      break;
-    case 6: // Preview step - no validation needed
-      break;
-    default:
-      break;
-  }
-
-  return isValid;
-}
-
 const prev = () => {
   if (active.value > 0) active.value--;
 };
 
-const saveDraft = () => {
-  console.log("Save Draft clicked");
+const goToMyListings = () => {
+  router.push('/landlord/properties');
 };
 
 const publish = async () => {
@@ -283,30 +254,14 @@ const publish = async () => {
     return;
   }
 
-  // Clear previous errors
-  Object.keys(formErrors).forEach(k => formErrors[k] = '');
+  // Validate the whole form; jump to the first step with an error if any
+  const { valid, invalidFields } = await new Promise<{ valid: boolean; invalidFields?: Record<string, unknown> }>((resolve) => {
+    formRef.value?.validate((isValid: boolean, fields?: Record<string, unknown>) => resolve({ valid: isValid, invalidFields: fields }));
+  });
 
-  // Validate form
-  if (!validateForm()) {
-    // Jump to first step that has an error
-    if (formErrors.propertyTitle || formErrors.description || formErrors.size || formErrors.propertyType) {
-      active.value = 0; // Property type or basic info (step 0 or 1)
-      // More specifically: propertyType is step0, propertyTitle/description/size are step1
-      if (formErrors.propertyType) {
-        active.value = 0;
-      } else {
-        active.value = 1;
-      }
-    } else if (formErrors.province || formErrors.district || formErrors.streetAddress) {
-      active.value = 2; // Location step
-    } else if (formErrors.rent || formErrors.minStay || formErrors.availableFrom) {
-      active.value = 3; // Price step
-    } else if (formErrors.amenities) {
-      active.value = 4; // Amenities step
-    } else if (formErrors.photos) {
-      active.value = 5; // Photos step (step index 5)
-    }
-    return; // stop here
+  if (!valid) {
+    active.value = firstInvalidStep(invalidFields || {});
+    return;
   }
 
   loading.value = true;
@@ -389,7 +344,7 @@ const publish = async () => {
        notify.error(publishError.value);
        return;
      }
-   
+
      const parkings = Array.isArray(form.parkings)
    ? form.parkings
        .map((pk: string) => {
@@ -412,7 +367,7 @@ const publish = async () => {
            isFree,
          };
 
-     
+
          if (!isFree) {
            if (Number.isFinite(priceNum)) {
              parking.price = priceNum;
@@ -452,7 +407,7 @@ const publish = async () => {
         furnished: !!form.fullyFurnished,
         isPublished: true,
 
-     
+
         availableFrom: form.availableFrom
           ? new Date(form.availableFrom).toISOString()
           : undefined,
@@ -472,14 +427,13 @@ const publish = async () => {
        const result = await createProperty(api, payload, form.photoFiles || []);
 
       publishResult.value = t('post_property.published_success', { id: result.id });
-      notify.success(publishResult.value);
 
       // Refresh landlord properties/dashboard caches so the new listing shows up immediately
       await queryClient.invalidateQueries({ queryKey: ['landlord-properties'] });
       await queryClient.invalidateQueries({ queryKey: ['landlord-dashboard'] });
 
-      // Redirect
-      router.push('/landlord/properties');
+      clearDraft();
+      justPublished.value = true;
     } catch (error: any) {
      publishError.value = extract(error);
      notify.error(publishError.value);
@@ -488,14 +442,3 @@ const publish = async () => {
    }
  };
 </script>
-
-<style scoped>
-@media (max-width: 640px) {
-  .post-property-steps :deep(.el-step__title) {
-    display: none;
-  }
-  .post-property-steps :deep(.el-step__description) {
-    display: none;
-  }
-}
-</style>

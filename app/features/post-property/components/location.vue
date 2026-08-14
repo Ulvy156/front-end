@@ -15,33 +15,31 @@
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.location.province") }}
           <span class="text-red-500">*</span>
-          <span v-if="formErrors.province" class="text-red-500 text-xs font-normal ml-1">
-             {{ formErrors.province }}
-          </span>
         </label>
-        <BaseSelect
-          :model-value="form.province"
-          :options="provinceOptions"
-          :placeholder="t('post_property.location.select_province')"
-          @update:model-value="(val: string) => { form.province = val; onProvinceChange() }"
-        />
+        <el-form-item prop="province">
+          <BaseSelect
+            :model-value="form.province"
+            :options="provinceOptions"
+            :placeholder="t('post_property.location.select_province')"
+            @update:model-value="(val: string) => { form.province = val; onProvinceChange() }"
+          />
+        </el-form-item>
       </div>
 
       <div>
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.location.district") }}
           <span class="text-red-500">*</span>
-          <span v-if="formErrors.district" class="text-red-500 text-xs font-normal ml-1">
-             {{ formErrors.district }}
-          </span>
         </label>
-        <BaseSelect
-          :model-value="form.districtId"
-          :options="districtOptions"
-          :disabled="!form.province"
-          :placeholder="t('post_property.location.select_district')"
-          @update:model-value="(val: string | number) => { form.districtId = Number(val); onDistrictChange() }"
-        />
+        <el-form-item prop="districtId">
+          <BaseSelect
+            :model-value="form.districtId"
+            :options="districtOptions"
+            :disabled="!form.province"
+            :placeholder="t('post_property.location.select_district')"
+            @update:model-value="(val: string | number) => { form.districtId = Number(val); onDistrictChange() }"
+          />
+        </el-form-item>
       </div>
     </div>
 
@@ -50,22 +48,22 @@
       <label class="block text-sm font-medium text-gray-800 mb-1.5">
         {{ t("post_property.location.street_address") }}
         <span class="text-red-500">*</span>
-        <span v-if="formErrors.streetAddress" class="text-red-500 text-xs font-normal ml-1">
-         {{ formErrors.streetAddress }}
-        </span>
       </label>
-      <BaseInput
-        :model-value="form.streetAddress"
-        type="text"
-        icon="map-pin"
-        :placeholder="t('post_property.location.street_placeholder')"
-        @update:model-value="(val: string) => { form.streetAddress = val; formErrors.streetAddress = '' }"
-      />
+      <el-form-item prop="streetAddress">
+        <BaseInput
+          :model-value="form.streetAddress"
+          type="text"
+          icon="map-pin"
+          :placeholder="t('post_property.location.street_placeholder')"
+          @update:model-value="(val: string) => { form.streetAddress = val }"
+        />
+      </el-form-item>
     </div>
 
     <!-- Map Picker -->
     <div class="mb-5">
-      <label class="block text-sm font-medium text-gray-800 mb-1.5">
+      <label class="flex items-center gap-1.5 text-sm font-medium text-gray-800 mb-1.5">
+        <BaseIconClient name="map-pin" :size="15" class="text-(--nav-active-item)" />
         {{ t("post_property.location.map_preview") }}
       </label>
       <p class="text-xs text-gray-400 mb-2">{{ t("post_property.location.map_click_hint") }}</p>
@@ -123,6 +121,7 @@ import { useI18n } from "vue-i18n"
 import BaseToggle from "@/components/ui/BaseToggle.vue"
 import BaseSelect from "@/components/ui/BaseSelect.vue"
 import BaseInput from "@/components/ui/BaseInput.vue"
+import BaseIconClient from "@/components/ui/BaseIcon.client.vue"
 import BaseMapClient from "~/components/ui/BaseMap.client.vue"
 import { useCambodiaLocations } from "@/composables/useCambodiaLocations"
 
@@ -133,7 +132,6 @@ const { fetchProvinces, fetchDistrictsByProvinceId, getProvinceId, fetchProvince
 const MAX_LOCATION_DISTANCE_KM = 60
 
 const form = inject<any>("postPropertyForm", {})
-const formErrors = inject<any>("formErrors", {})
 
 const selectedProvinceCoords = ref<{ lat: number; lng: number } | null>(null)
 
@@ -236,8 +234,6 @@ async function loadDistricts(newProvince: string) {
 async function onProvinceChange() {
   form.district = ''
   form.districtId = 0
-  formErrors.province = ''
-  formErrors.district = ''
   // reset the pin - a new province auto-pins its own center once coordinates load
   form.latitude = ''
   form.longitude = ''
@@ -250,8 +246,6 @@ function onDistrictChange() {
     (d) => d.id === Number(form.districtId),
   )
   form.district = selected?.nameEn || ''
-  formErrors.district = ''
-  console.log('District selected:', form.districtId, form.district)
 }
 
 

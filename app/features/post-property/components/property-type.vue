@@ -26,55 +26,60 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-6 rounded-(--radius) p-5 shadow-md">
-    <div class="col-span-full">
-      <h4>{{ t("post_property.property_type.title") }}</h4>
-      <p>{{ t("post_property.property_type.subtitle") }}</p>
+  <div class="bg-white rounded-2xl border border-gray-200 p-4 sm:p-6">
+    <div class="mb-4">
+      <h2 class="text-lg font-medium text-gray-900 mb-0.5">
+        {{ t("post_property.property_type.title") }}
+      </h2>
+      <p class="text-sm text-gray-500">{{ t("post_property.property_type.subtitle") }}</p>
     </div>
 
-    <span class="w-full col-span-full border-t border-gray"></span>
+    <hr class="border-gray-200 mb-5" />
 
-    <div class="col-span-full">
-      <p>{{ t("post_property.property_type.description") }}</p>
-    </div>
-    <div
-      v-for="item in propertyTypes"
-      :key="item.value"
-      @click="selectType(item.value)"
-      class="relative cursor-pointer rounded-2xl border-2 p-6 flex flex-col items-center justify-center transition-all duration-200"
-      :class="selected === item.value
-        ? 'border-(--nav-active-item) bg-emerald-50'
-        : 'border-gray-200 hover:border-gray-300'"
-    >
-      <!-- Check badge -->
-      <div
-        v-if="selected === item.value"
-        class="absolute top-4 right-4 w-7 h-7 bg-(--nav-active-item) rounded-full flex items-center justify-center"
-      >
-        <BaseIconClient name="check" :size="16" color="white" />
-      </div>
+    <p class="text-sm text-gray-500 mb-4">{{ t("post_property.property_type.description") }}</p>
 
-      <!-- Icon box -->
-      <div
-        class="w-16 h-16 rounded-xl flex items-center justify-center mb-4 transition font-light"
-        :class="selected === item.value
-          ? 'bg-(--nav-active-item) text-white'
-          : 'bg-gray-100 text-(--gray)'"
-      >
-        <BaseIconClient
-          :name="item.icon"
-          :size="28"
-        />
-      </div>
+    <el-form-item prop="propertyType">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
+        <div
+          v-for="item in propertyTypes"
+          :key="item.value"
+          @click="selectType(item.value)"
+          class="relative cursor-pointer rounded-2xl border-1.5 p-4.5 flex flex-col gap-1.5 transition-all duration-150"
+          :class="selected === item.value
+            ? 'border-(--nav-active-item) bg-emerald-50 ring-2 ring-emerald-100'
+            : 'border-gray-200 bg-white hover:border-gray-300 shadow-xs'"
+        >
+          <!-- Check badge -->
+          <div
+            v-if="selected === item.value"
+            class="absolute top-4 right-4 w-7 h-7 bg-(--nav-active-item) rounded-full flex items-center justify-center"
+          >
+            <BaseIconClient name="check" :size="16" color="white" />
+          </div>
 
-      <!-- Label -->
-      <div class="text-lg font-semibold text-gray-800">
-        {{ item.label }}
-      </div>
+          <!-- Icon box -->
+          <div
+            class="w-10 h-10 rounded-[10px] flex items-center justify-center mb-0.5 transition"
+            :class="selected === item.value
+              ? 'bg-emerald-100 text-(--nav-active-item)'
+              : 'bg-gray-100 text-(--gray)'"
+          >
+            <BaseIconClient
+              :name="item.icon"
+              :size="20"
+            />
+          </div>
 
-      <div class="text-sm text-gray-500 mt-1">
-        {{ item.sub }}
+          <!-- Label -->
+          <div class="text-[15px] font-bold text-gray-900">
+            {{ item.label }}
+          </div>
+
+          <div class="text-[13px] text-gray-500" style="font-family: var(--font-km)">
+            {{ item.sub }}
+          </div>
+        </div>
       </div>
-    </div>
+    </el-form-item>
   </div>
 </template>

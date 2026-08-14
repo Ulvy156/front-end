@@ -15,6 +15,18 @@
         "continue": "Continue",
         "draft": "Save as Draft",
         "optional": "Optional",
+        "step_progress": {
+            "step_of": "Step {current} of {total}",
+            "saving": "Saving…",
+            "saved_just_now": "Saved just now",
+            "saved_min_ago": "Saved {n} min ago"
+        },
+        "success": {
+            "title": "Your listing is live",
+            "message": "Renters can now find \"{title}\" in search results. You can keep editing it any time.",
+            "back_to_preview": "Back to preview",
+            "view_listing": "View my listing"
+        },
         "property_type": {
             "title": "Property Type",
             "subtitle": "Type & ownership",
@@ -23,8 +35,9 @@
         "publish": "Publish Listing",
         "publishing": "Publishing...",
         "basic_info": {
-            "title": "Property Type",
+            "title": "Basic Information",
             "subtitle": "Details & description",
+            "tip_banner": "Listings with a specific title and 5+ photos get up to 3x more inquiries. Mention what's nearby, like a market or school.",
             "property_title": "Property Title",
             "property_title_placeholder": "e.g., Cozy Studio in BKK1 with Pool Access",
             "description": "Description",
@@ -123,13 +136,16 @@
                     "desc": "Long-term"
                 }
             },
-            "move_in_estimate": "Move-in cost estimate",
+            "move_in_estimate": "Estimated move-in cost",
+            "total_due": "Total due at move-in",
             "rent_label": "rent",
             "deposit_label": "deposit",
             "open_time": "Opening Time",
             "close_time": "Closing Time",
             "open_time_hint": "When is the property open?",
-            "close_time_hint": "When does the property close?"
+            "close_time_hint": "When does the property close?",
+            "visiting_hours": "Set visiting hours",
+            "visiting_hours_desc": "Optional — let renters know when they can view the place"
         },
         "amenities": {
             "title": "Amenities",
@@ -152,6 +168,7 @@
                  "electricity": "Electricity"
              },
             "parking_options": "Parking Options",
+            "offer_parking": "Offer parking at this property",
             "add_parking": "Add Parking",
             "no_parking": "No parking available",
             "enter_parking": "Enter parking name",
@@ -159,6 +176,8 @@
             "slots": "Slots",
             "slots_placeholder": "e.g. 2",
             "free_parking": "Free Parking",
+            "free": "Free",
+            "priced": "Priced",
             "price_per_month": "Price",
             "price_placeholder": "e.g. 50",
             "note": "Note",
@@ -178,7 +197,8 @@
                 "guests_allowed": "Guests Allowed",
                 "parties_allowed": "Parties Allowed"
             },
-            "additional_notes": "Additional Notes"
+            "additional_notes": "Additional Notes",
+            "additional_notes_placeholder": "Any other rules, expectations, or information renters should know..."
         },
         "photos": {
             "title": "Photos",
@@ -197,7 +217,9 @@
             "cover": "COVER",
             "photo_label": "Photo",
             "set_cover": "Set as cover",
-            "remove": "Remove"
+            "remove": "Remove",
+            "enough_photos": "You have {count} photos — nice work.",
+            "need_more_photos": "Add at least {count} more photo(s) — minimum is 3."
         },
         "preview": {
             "title": "Preview",
@@ -229,7 +251,14 @@
             "edit_location": "Edit Location",
             "edit_pricing": "Edit Pricing",
             "edit_amenities": "Edit Amenities",
-            "edit_photos": "Edit Photos"
+            "edit_photos": "Edit Photos",
+            "edit": "Edit",
+            "amenities": "Amenities",
+            "ready_to_publish": "Ready to publish?",
+            "checklist_title": "Title added",
+            "checklist_photos": "At least 3 photos",
+            "checklist_location": "Location set",
+            "checklist_price": "Price set"
         }
     }
 }

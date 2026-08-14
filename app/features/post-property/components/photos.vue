@@ -12,46 +12,53 @@
       <label class="text-sm font-medium text-gray-800">
         {{ t('post_property.photos.property_photos') }}
         <span class="text-red-500">*</span>
-        <span v-if="formErrors.photos" class="text-red-500 text-xs font-normal ml-1">
-          {{ formErrors.photos }}
-        </span>
       </label>
       <p class="text-xs text-gray-400 mt-0.5">{{ t('post_property.photos.cover_hint') }}</p>
     </div>
 
     <!-- Upload area -->
-    <div
-      :class="formErrors.photos
-        ? 'border-red-300 hover:border-red-400'
-        : 'border-gray-200 hover:border-emerald-400 hover:bg-emerald-50/30'"
-      class="border-2 border-dashed rounded-xl flex flex-col items-center justify-center py-10 mb-5 cursor-pointer transition"
-      @click="fileInput?.click(); formErrors.photos = ''"
-      @dragover.prevent
-      @drop.prevent="handleDrop"
-    >
-      <div class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-3 bg-white">
-        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0L8 8m4-4l4 4"/>
-        </svg>
+    <el-form-item prop="photoFiles">
+      <div
+        class="border-2 border-dashed rounded-2xl flex flex-col items-center justify-center py-9 mb-4 cursor-pointer transition w-full border-emerald-200 bg-emerald-50/50 hover:border-emerald-400 hover:bg-emerald-50"
+        @click="fileInput?.click()"
+        @dragover.prevent
+        @drop.prevent="handleDrop"
+      >
+        <BaseIconClient name="image-plus" :size="26" class="text-(--nav-active-item) mb-2" />
+        <p class="text-[14.5px] font-semibold text-(--nav-active-item)">{{ t('post_property.photos.drag_drop') }}</p>
+        <p class="text-xs text-emerald-600 mt-0.5">{{ t('post_property.photos.or_browse') }}</p>
+        <input
+          ref="fileInput"
+          type="file"
+          class="hidden"
+          multiple
+          accept="image/png, image/jpeg, image/webp"
+          @change="handleFiles"
+        />
       </div>
-      <p class="text-sm font-medium text-gray-700">{{ t('post_property.photos.drag_drop') }}</p>
-      <p class="text-xs text-gray-400 mt-1">{{ t('post_property.photos.or_browse') }}</p>
-      <input
-        ref="fileInput"
-        type="file"
-        class="hidden"
-        multiple
-        accept="image/png, image/jpeg, image/webp"
-        @change="handleFiles"
-      />
+    </el-form-item>
+
+    <p v-if="uploadError" class="text-xs text-red-500 -mt-3 mb-4">{{ uploadError }}</p>
+
+    <!-- Status banner -->
+    <div
+      :class="hasEnoughPhotos
+        ? 'bg-emerald-50 border-emerald-200 text-(--nav-active-item)'
+        : 'bg-amber-50 border-amber-200 text-amber-700'"
+      class="flex items-center gap-2 border rounded-xl px-3.5 py-2.5 mb-5 text-[13px] font-semibold"
+    >
+      <BaseIconClient :name="hasEnoughPhotos ? 'circle-check-big' : 'triangle-alert'" :size="16" class="shrink-0" />
+      <span>
+        {{ hasEnoughPhotos
+          ? t('post_property.photos.enough_photos', { count: form.photos?.length ?? 0 })
+          : t('post_property.photos.need_more_photos', { count: Math.max(0, 3 - (form.photos?.length ?? 0)) }) }}
+      </span>
     </div>
 
     <!-- Photo Guidelines -->
     <div class="bg-gray-50 rounded-lg px-4 py-3 mb-5 border border-gray-100">
       <p class="text-xs font-medium text-emerald-700 flex items-center gap-1.5 mb-2">
-        <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 2a10 10 0 100 20A10 10 0 0012 2zm0 15a1 1 0 110-2 1 1 0 010 2zm1-4h-2V7h2v6z"/>
-        </svg>
+        <BaseIconClient name="info" :size="14" />
         {{ t('post_property.photos.guidelines_title') }}
       </p>
       <ul class="text-xs text-gray-500 space-y-1 list-disc pl-4">
@@ -84,11 +91,7 @@
         @dragover.prevent
         @drop.prevent="dragDrop(index as number)"
       >
-        <svg class="w-4 h-4 text-gray-300 shrink-0 cursor-grab" viewBox="0 0 24 24" fill="currentColor">
-          <circle cx="9" cy="5" r="1.5"/><circle cx="15" cy="5" r="1.5"/>
-          <circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/>
-          <circle cx="9" cy="19" r="1.5"/><circle cx="15" cy="19" r="1.5"/>
-        </svg>
+        <BaseIconClient name="grip-vertical" :size="16" class="text-gray-300 shrink-0 cursor-grab" />
 
         <div class="relative shrink-0">
           <img :src="photo" alt="" class="w-14 h-14 object-cover rounded-lg">
@@ -105,6 +108,25 @@
             {{ t('post_property.photos.photo_label') }} {{ index as number + 1 }}
           </p>
           <p class="text-xs text-gray-400 truncate">{{ photoNames[index as number] || '' }}</p>
+        </div>
+
+        <div class="hidden sm:flex items-center gap-1">
+          <button
+            type="button"
+            :disabled="index === 0"
+            @click="movePhoto(index as number, -1)"
+            class="w-7.5 h-7.5 rounded-lg border border-gray-200 bg-white text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 cursor-pointer flex items-center justify-center"
+          >
+            <BaseIconClient name="chevron-left" :size="14" />
+          </button>
+          <button
+            type="button"
+            :disabled="index === (form.photos?.length ?? 1) - 1"
+            @click="movePhoto(index as number, 1)"
+            class="w-7.5 h-7.5 rounded-lg border border-gray-200 bg-white text-gray-600 disabled:opacity-30 disabled:cursor-not-allowed hover:bg-gray-50 cursor-pointer flex items-center justify-center"
+          >
+            <BaseIconClient name="chevron-right" :size="14" />
+          </button>
         </div>
 
         <BaseButton
@@ -138,17 +160,19 @@ import { useAppSettingsStore } from '~/stores/appSettings'
 const { t } = useI18n()
 const appSettingsStore = useAppSettingsStore()
 
-const form       = inject<any>('postPropertyForm', {})
-const formErrors = inject<any>('formErrors', {})
+const form = inject<any>('postPropertyForm', {})
 
 // Fallback of 20 only covers the brief window before /settings resolves —
 // the backend enforces the real maxImagesPerProperty regardless.
 const maxPhotos = computed(() => appSettingsStore.maxImagesPerProperty ?? 20)
 
-const fileInput  = ref<HTMLInputElement | null>(null)
-const coverIndex = ref(0)
-const photoNames = ref<string[]>([])
-const dragIndex  = ref<number | null>(null)
+const fileInput   = ref<HTMLInputElement | null>(null)
+const coverIndex  = ref(0)
+const photoNames  = ref<string[]>([])
+const dragIndex   = ref<number | null>(null)
+const uploadError = ref('')
+
+const hasEnoughPhotos = computed(() => (form.photos?.length ?? 0) >= 3)
 
 function handleFiles(event: Event) {
   const target = event.target as HTMLInputElement
@@ -169,7 +193,7 @@ async function loadFiles(files: File[]) {
   if (!form.photoFiles) form.photoFiles = []
   for (const file of files) {
     if (form.photos.length >= maxPhotos.value) {
-      formErrors.photos = t('post_property.errors.photos_max', { max: maxPhotos.value })
+      uploadError.value = t('post_property.errors.photos_max', { max: maxPhotos.value })
       break
     }
     if (exceedsFileSize(file, 10)) {
@@ -185,18 +209,15 @@ async function loadFiles(files: File[]) {
       reader.onload = (e) => {
         form.photos.push(e.target?.result as string)
         form.photoFiles.push(file)
-        if (form.photos.length >= 3) formErrors.photos = ''
       }
       reader.readAsDataURL(file)
       continue
     }
-    if (form.photos.length >= 3) formErrors.photos = ''
   }
 }
 
 function setCover(index: number) {
   coverIndex.value = index
-  console.log('Cover photo set to index:', index)
 }
 
 function removePhoto(index: number) {
@@ -204,8 +225,18 @@ function removePhoto(index: number) {
   form.photoFiles?.splice(index, 1)
   photoNames.value.splice(index, 1)
   if (coverIndex.value >= form.photos.length) coverIndex.value = 0
-  if (form.photos.length < maxPhotos.value) formErrors.photos = ''
-  console.log('Photo removed at index:', index, 'Total photos:', form.photos.length)
+  if (form.photos.length < maxPhotos.value) uploadError.value = ''
+}
+
+function movePhoto(index: number, dir: 1 | -1) {
+  const toIndex = index + dir
+  if (toIndex < 0 || toIndex >= (form.photos?.length ?? 0)) return
+  const photos = form.photos
+  const names  = photoNames.value
+  ;[photos[index], photos[toIndex]] = [photos[toIndex], photos[index]]
+  ;[names[index], names[toIndex]] = [names[toIndex], names[index]]
+  if (coverIndex.value === index) coverIndex.value = toIndex
+  else if (coverIndex.value === toIndex) coverIndex.value = index
 }
 
 function dragStart(index: number) {

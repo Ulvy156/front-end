@@ -1,25 +1,16 @@
 <template>
-  <div
-    class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm px-4 py-4 sm:px-6 sm:py-5 flex flex-wrap items-center justify-between gap-3"
-  >
+  <div class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-12 sm:py-4.5">
     <!-- Back -->
-    <BaseButton type="info" @click="emit('back')">
+    <BaseButton type="info" :disabled="currentStep === 1" @click="emit('back')">
       <BaseIconClient name="arrow-left" :size="18" />
       <span class="font-medium">{{ $t('post_property.back') }}</span>
     </BaseButton>
 
-    <!-- Middle (draft controls) — only in create mode -->
-    <div v-if="showDraftControls" class="order-3 sm:order-0 w-full sm:w-auto flex justify-between items-center gap-6">
-      <BaseButton text type="info" @click="emit('save')">
-        <BaseIconClient name="save" :size="18" />
-        <span class="font-medium">{{ $t('post_property.draft') }}</span>
-      </BaseButton>
-
-      <div class="flex items-center gap-2 text-gray-500">
-        <BaseIconClient name="circle-check" :size="18" class="text-green-500" />
-        <span>{{ autoSaveText }}</span>
-      </div>
-    </div>
+    <!-- Save draft -->
+    <!-- <BaseButton v-if="showDraftControls" text type="info" @click="emit('save')">
+      <BaseIconClient name="save" :size="18" />
+      <span class="font-medium">{{ $t('post_property.draft') }}</span>
+    </BaseButton> -->
 
     <!-- Right — submit / next -->
     <BaseButton
@@ -45,13 +36,11 @@ const props = withDefaults(defineProps<{
   totalSteps: number
   loading?: boolean
   showDraftControls?: boolean
-  autoSaveText?: string
   submitLabel?: string
   submittingLabel?: string
   submitIcon?: string
 }>(), {
   showDraftControls: true,
-  autoSaveText: '',
   submitIcon: 'upload',
 })
 

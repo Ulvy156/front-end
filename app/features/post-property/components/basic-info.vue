@@ -12,6 +12,14 @@
 
     <hr class="border-gray-200 mb-5" />
 
+    <!-- Tip banner -->
+    <div class="flex items-start gap-2.5 bg-emerald-50 border border-emerald-200 rounded-xl px-4 py-3.5 mb-5">
+      <BaseIconClient name="info" :size="18" class="text-(--nav-active-item) shrink-0 mt-0.5" />
+      <p class="text-[13px] text-(--nav-active-item) leading-relaxed">
+        {{ t("post_property.basic_info.tip_banner") }}
+      </p>
+    </div>
+
     <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
       <!-- Property Title -->
@@ -19,17 +27,16 @@
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.basic_info.property_title") }}
           <span class="text-red-500">*</span>
-          <span v-if="formErrors.propertyTitle" class="text-red-500 text-xs font-normal ml-1">
-            ( {{ formErrors.propertyTitle }})
-          </span>
         </label>
-        <BaseInput
-          :model-value="form.propertyTitle"
-          type="text"
-          :maxlength="100"
-          :placeholder="t('post_property.basic_info.property_title_placeholder')"
-          @update:model-value="(val: string) => { form.propertyTitle = val; formErrors.propertyTitle = '' }"
-        />
+        <el-form-item prop="propertyTitle">
+          <BaseInput
+            :model-value="form.propertyTitle"
+            type="text"
+            :maxlength="100"
+            :placeholder="t('post_property.basic_info.property_title_placeholder')"
+            @update:model-value="(val: string) => { form.propertyTitle = val }"
+          />
+        </el-form-item>
       </div>
 
       <!-- Description -->
@@ -37,18 +44,17 @@
         <label class="block text-sm font-medium text-gray-800 mb-1.5">
           {{ t("post_property.basic_info.description") }}
           <span class="text-red-500">*</span>
-          <span v-if="formErrors.description" class="text-red-500 text-xs font-normal ml-1">
-            ({{ formErrors.description }})
-          </span>
         </label>
-        <BaseInput
-          :model-value="form.description"
-          type="textarea"
-          :rows="5"
-          :maxlength="2000"
-          :placeholder="t('post_property.basic_info.description_placeholder')"
-          @update:model-value="(val: string) => { form.description = val; formErrors.description = '' }"
-        />
+        <el-form-item prop="description">
+          <BaseInput
+            :model-value="form.description"
+            type="textarea"
+            :rows="5"
+            :maxlength="2000"
+            :placeholder="t('post_property.basic_info.description_placeholder')"
+            @update:model-value="(val: string) => { form.description = val }"
+          />
+        </el-form-item>
       </div>
 
       <!-- Property Details -->
@@ -61,40 +67,40 @@
 
           <!-- Bedrooms -->
           <div>
-            <label class="text-xs text-gray-500 mb-1.5 block">
+            <label class="text-xs text-gray-500 mb-2 block">
               {{ t("post_property.basic_info.bedrooms") }}
             </label>
-            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <div class="flex items-center gap-3.5">
               <button
                 type="button"
                 @click="form.bedrooms = Math.max(0, form.bedrooms - 1);"
-                class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
+                class="w-10 h-10 rounded-[10px] border border-gray-200 text-lg font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer"
               >−</button>
-              <span class="flex-1 text-center text-sm">{{ form.bedrooms }}</span>
+              <span class="min-w-6 text-center text-[17px] font-bold text-gray-900">{{ form.bedrooms }}</span>
               <button
                 type="button"
                 @click="form.bedrooms++;"
-                class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
+                class="w-10 h-10 rounded-[10px] border border-gray-200 text-lg font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer"
               >+</button>
             </div>
           </div>
 
           <!-- Bathrooms -->
           <div>
-            <label class="text-xs text-gray-500 mb-1.5 block">
+            <label class="text-xs text-gray-500 mb-2 block">
               {{ t("post_property.basic_info.bathrooms") }}
             </label>
-            <div class="flex items-center border border-gray-300 rounded-lg overflow-hidden">
+            <div class="flex items-center gap-3.5">
               <button
                 type="button"
                 @click="form.bathrooms = Math.max(0, form.bathrooms - 1); "
-                class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
+                class="w-10 h-10 rounded-[10px] border border-gray-200 text-lg font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer"
               >−</button>
-              <span class="flex-1 text-center text-sm">{{ form.bathrooms }}</span>
+              <span class="min-w-6 text-center text-[17px] font-bold text-gray-900">{{ form.bathrooms }}</span>
               <button
                 type="button"
                 @click="form.bathrooms++;"
-                class="w-9 h-10 bg-gray-100 hover:bg-gray-200"
+                class="w-10 h-10 rounded-[10px] border border-gray-200 text-lg font-semibold text-gray-700 hover:bg-gray-50 cursor-pointer"
               >+</button>
             </div>
           </div>
@@ -104,18 +110,20 @@
             <label class="text-xs text-gray-500 mb-1.5 block">
               {{ t("post_property.basic_info.size") }}
               <span class="text-red-500">*</span>
-              <span v-if="formErrors.size" class="text-red-500 text-xs font-normal ml-1">
-                ( {{ formErrors.size }} )
-              </span>
             </label>
-            <BaseInput
-              size="large"
-              :model-value="form.size"
-              decimal
-              type="number"
-              placeholder="e.g., 45"
-              @update:model-value="(val: string) => { form.size = val; formErrors.size = '' }"
-            />
+            <el-form-item prop="size">
+              <div class="relative w-full">
+                <BaseInput
+                  size="large"
+                  :model-value="form.size"
+                  decimal
+                  type="number"
+                  placeholder="e.g., 45"
+                  @update:model-value="(val: string) => { form.size = val }"
+                />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">m²</span>
+              </div>
+            </el-form-item>
           </div>
 
         </div>
@@ -153,9 +161,9 @@ import { inject } from "vue"
 import { useI18n } from "vue-i18n"
 import BaseToggle from "~/components/ui/BaseToggle.vue"
 import BaseInput from "~/components/ui/BaseInput.vue"
+import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 
 const { t } = useI18n()
 
-const form       = inject<any>("postPropertyForm", {})
-const formErrors = inject<any>("formErrors", {})
+const form = inject<any>("postPropertyForm", {})
 </script>
