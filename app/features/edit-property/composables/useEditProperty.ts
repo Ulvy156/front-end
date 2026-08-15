@@ -96,6 +96,11 @@ export function useEditProperty(propertyId: Ref<string>) {
       minStay: minStayKey,
       availableFrom: p.availableFrom ? p.availableFrom.split('T')[0] : '',
       isAvailable: p.isAvailable,
+      // NOTE: assumes p.amenities[].id is populated by GET /landlord/properties/:id.
+      // Verify against a live response before trusting this — if it's ever missing
+      // (as has happened for `rules[]`, hence the name-match hydration in
+      // edit-section.vue below), this silently produces an empty amenities list and
+      // the "≥3 amenities" required rule will spuriously block every save.
       amenities: p.amenities.map((a: any) => a.id).filter(Boolean),
       parkings: parkingKeys,
       parkingDetails,

@@ -76,6 +76,7 @@ export interface Phone {
 
 export interface Image {
   imageKey: string;
+  isCover?: boolean;
 }
 
 export interface Amenity extends PropertyName {

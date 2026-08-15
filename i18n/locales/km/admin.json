@@ -19,7 +19,9 @@
       "feedback": "មតិកែលម្អ",
       "propertyReports": "រាយការណ៍អចលនទ្រព្យ",
       "settings": "ការកំណត់",
-      "logout": "ចាកចេញ"
+      "logout": "ចាកចេញ",
+      "collapse": "បង្រួមម៉ឺនុយ",
+      "expand": "ពង្រីកម៉ឺនុយ"
     },
     "dashboard": {
       "retry": "ព្យាយាមម្តងទៀត",

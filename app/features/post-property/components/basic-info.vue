@@ -165,5 +165,7 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 
 const { t } = useI18n()
 
-const form = inject<any>("postPropertyForm", {})
+const props = defineProps<{ form?: any }>()
+const injected = inject<any>("postPropertyForm", {})
+const form = props.form ?? injected
 </script>

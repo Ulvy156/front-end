@@ -1,5 +1,5 @@
 <template>
-    <el-tooltip :content :placement>
+    <el-tooltip :content :placement :disabled>
         <slot></slot>
     </el-tooltip>
 </template>
@@ -9,10 +9,12 @@ type placementType = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start'
 const props = withDefaults(
     defineProps<{
         placement?: placementType,
-        content: string
+        content: string,
+        disabled?: boolean
     }>(), {
         placement: 'top',
-        content: ''
+        content: '',
+        disabled: false
     }
 )
 

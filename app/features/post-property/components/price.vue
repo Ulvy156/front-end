@@ -179,7 +179,9 @@ import { useAppSettingsStore } from "~/stores/appSettings"
 const { t } = useI18n()
 const appSettingsStore = useAppSettingsStore()
 
-const form = inject<any>("postPropertyForm", {})
+const props = defineProps<{ form?: any }>()
+const injected = inject<any>("postPropertyForm", {})
+const form = props.form ?? injected
 
 const hoursEnabled = ref(!!(form.openTime || form.closeTime))
 

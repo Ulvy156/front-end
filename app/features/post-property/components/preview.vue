@@ -269,13 +269,16 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyAmenityOptions } from "~/features/browse-properties/composable/usePropertyAmenityOptions";
 import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions";
 import { propertyTypes } from "~/config/property-types";
+import { localizedName } from "~/utils/localizedName";
 
 const { t } = useI18n();
 const langKey = useLangKey();
 
 const emit = defineEmits(["go-to"]);
 
-const form = inject<any>("postPropertyForm", {});
+const props = defineProps<{ form?: any }>();
+const injected = inject<any>("postPropertyForm", {});
+const form = props.form ?? injected;
 
 const currentPhoto = ref(0)
 
@@ -305,10 +308,7 @@ const selectedAmenities = computed(() => {
   if (!ids?.length || !amenityOptions.value?.length) return [];
   return amenityOptions.value
     .filter((opt: any) => ids.includes(opt.id))
-    .map((opt: any) => {
-      const code = opt.code || opt.key;
-      return t(`post_property.amenities.list.${code}`) || code;
-    });
+    .map((opt: any) => localizedName(opt, langKey.value));
 });
 
 const selectedRules = computed(() => {
@@ -318,7 +318,7 @@ const selectedRules = computed(() => {
     .filter((opt: any) => keys.includes(opt.id))
     .map((opt: any) => ({
       id: opt.id,
-      name: opt[langKey.value] || opt.nameEn,
+      name: localizedName(opt, langKey.value),
       icon: opt.icon,
     }));
 });

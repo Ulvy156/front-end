@@ -5,8 +5,8 @@
       <!-- Cover image -->
       <div class="relative cursor-pointer overflow-hidden rounded-[14px] h-full min-h-0" @click="openGallery(0)">
         <BaseImage
-          v-if="property?.images.length"
-          :src="property.images[0]!.imageKey"
+          v-if="orderedImages.length"
+          :src="orderedImages[0]!.imageKey"
           :alt="property.title"
           fit="cover"
           loading="eager"
@@ -62,7 +62,7 @@
     <!-- Image preview modal -->
     <BaseImagePreviewModal
       v-model:visible="showGallery"
-      :images="property.images"
+      :images="orderedImages"
       :start-index="activeIndex"
     />
   </section>
@@ -83,9 +83,17 @@ const activeIndex = ref(0)
 
 const MAX_SIDE = 4
 
-const sideImages = computed(() =>
-  props.property?.images.slice(1, 1 + MAX_SIDE) ?? []
-)
+// The cover image isn't necessarily images[0] — put whichever image is
+// flagged isCover first (falls back to array order when nothing is flagged,
+// e.g. before the backend response includes isCover here).
+const orderedImages = computed(() => {
+  const images = props.property?.images ?? []
+  const coverIndex = images.findIndex((img) => img.isCover)
+  if (coverIndex <= 0) return images
+  return [images[coverIndex]!, ...images.filter((_, i) => i !== coverIndex)]
+})
+
+const sideImages = computed(() => orderedImages.value.slice(1, 1 + MAX_SIDE))
 
 function openGallery(index: number) {
   activeIndex.value = index

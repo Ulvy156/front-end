@@ -131,7 +131,9 @@ const { fetchProvinces, fetchDistrictsByProvinceId, getProvinceId, fetchProvince
 // keep in sync with PropertyService.MAX_LOCATION_DISTANCE_KM on the back-end
 const MAX_LOCATION_DISTANCE_KM = 60
 
-const form = inject<any>("postPropertyForm", {})
+const props = defineProps<{ form?: any }>()
+const injected = inject<any>("postPropertyForm", {})
+const form = props.form ?? injected
 
 const selectedProvinceCoords = ref<{ lat: number; lng: number } | null>(null)
 
@@ -179,6 +181,19 @@ onMounted(async () => {
 
   if (form.province) {
     await loadProvinceCoordinates(form.province)
+
+    // Edit mode hydrates `form.province`/`form.district` from the server but has
+    // no district id to work with (the API only returns district names) — load
+    // this province's districts eagerly and resolve districtId by name-match so
+    // the district select is pre-populated and the "districtId required" rule
+    // doesn't spuriously fail on an untouched location step.
+    await loadDistricts(form.province)
+    if (!form.districtId && form.district) {
+      const match = currentDistricts.value.find(
+        (d) => d.nameEn.toLowerCase() === form.district.toLowerCase()
+      )
+      if (match) form.districtId = match.id
+    }
   }
 })
 

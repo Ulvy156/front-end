@@ -7,6 +7,21 @@
 
     <hr class="border-gray-200 mb-5">
 
+    <!-- Photo count status -->
+    <div
+      :class="hasEnoughPhotos
+        ? 'bg-emerald-50 border-emerald-200 text-(--nav-active-item)'
+        : 'bg-amber-50 border-amber-200 text-amber-700'"
+      class="flex items-center gap-2 border rounded-xl px-3.5 py-2.5 mb-5 text-[13px] font-semibold"
+    >
+      <BaseIconClient :name="hasEnoughPhotos ? 'circle-check-big' : 'triangle-alert'" :size="16" class="shrink-0" />
+      <span>
+        {{ hasEnoughPhotos
+          ? t('post_property.photos.enough_photos', { count: photoUrls.length })
+          : t('post_property.photos.need_more_photos', { count: Math.max(0, 3 - photoUrls.length) }) }}
+      </span>
+    </div>
+
     <!-- Existing images -->
     <div v-if="existingImages.length" class="mb-6">
       <p class="text-sm font-medium text-gray-700 mb-3">
@@ -32,27 +47,32 @@
           </span>
 
           <!-- Actions overlay -->
-          <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+          <div
+            class="absolute inset-0 bg-black/40 transition flex items-center justify-center gap-2"
+            :class="isImageBusy(img.id) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'"
+          >
             <BaseButton
               v-if="!img.isCover"
               circle
               size="small"
               type="info"
               :title="t('landlord.editProperty.setCover')"
-              :disabled="imageLoading"
+              :loading="settingCoverId === img.id"
+              :disabled="isImageBusy(img.id)"
               @click="handleSetCover(img.id)"
             >
-              <BaseIconClient name="star" :size="14" class="text-emerald-600" />
+              <BaseIconClient v-if="settingCoverId !== img.id" name="star" :size="14" class="text-emerald-600" />
             </BaseButton>
             <BaseButton
               circle
               size="small"
               type="danger"
               :title="t('landlord.editProperty.deletePhoto')"
-              :disabled="imageLoading"
+              :loading="deletingImageId === img.id"
+              :disabled="isImageBusy(img.id)"
               @click="handleDeleteImage(img.id)"
             >
-              <BaseIconClient name="trash-2" :size="14" />
+              <BaseIconClient v-if="deletingImageId !== img.id" name="trash-2" :size="14" />
             </BaseButton>
           </div>
         </div>
@@ -62,26 +82,28 @@
     <!-- Upload new photos -->
     <div>
       <p class="text-sm font-medium text-gray-700 mb-3">{{ t('landlord.editProperty.addPhotos') }}</p>
-      <div
-        class="border-2 border-dashed border-gray-200 hover:border-emerald-400 hover:bg-emerald-50/30 rounded-xl flex flex-col items-center justify-center py-8 cursor-pointer transition"
-        @click="fileInput?.click()"
-        @dragover.prevent
-        @drop.prevent="handleDrop"
-      >
-        <div class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-3 bg-white">
-          <BaseIconClient name="upload" :size="20" class="text-gray-400" />
+      <el-form-item prop="photos">
+        <div
+          class="border-2 border-dashed border-gray-200 hover:border-emerald-400 hover:bg-emerald-50/30 rounded-xl flex flex-col items-center justify-center py-8 cursor-pointer transition w-full"
+          @click="fileInput?.click()"
+          @dragover.prevent
+          @drop.prevent="handleDrop"
+        >
+          <div class="w-12 h-12 rounded-full border border-gray-200 flex items-center justify-center mb-3 bg-white">
+            <BaseIconClient name="upload" :size="20" class="text-gray-400" />
+          </div>
+          <p class="text-sm font-medium text-gray-700">{{ t('post_property.photos.drag_drop') }}</p>
+          <p class="text-xs text-gray-400 mt-1">{{ t('post_property.photos.or_browse') }}</p>
+          <input
+            ref="fileInput"
+            type="file"
+            class="hidden"
+            multiple
+            accept="image/png, image/jpeg, image/webp"
+            @change="handleFiles"
+          />
         </div>
-        <p class="text-sm font-medium text-gray-700">{{ t('post_property.photos.drag_drop') }}</p>
-        <p class="text-xs text-gray-400 mt-1">{{ t('post_property.photos.or_browse') }}</p>
-        <input
-          ref="fileInput"
-          type="file"
-          class="hidden"
-          multiple
-          accept="image/png, image/jpeg, image/webp"
-          @change="handleFiles"
-        />
-      </div>
+      </el-form-item>
     </div>
 
     <!-- Pending uploads list -->
@@ -144,6 +166,7 @@ import { exceedsFileSize, formatFileSize } from '~/utils/fileSize'
 const props = defineProps<{
   propertyId: string
   images: Array<{ id: string; imageKey: string; isCover: boolean }>
+  form: any
 }>()
 
 const emit = defineEmits<{
@@ -155,13 +178,43 @@ const { $axios } = useNuxtApp()
 const { extract } = useErrorMsg()
 const notify = useNotify()
 const queryClient = useQueryClient()
+const runtimeConfig = useRuntimeConfig()
 
-const existingImages = computed(() => props.images ?? [])
+// Set immediately on click so the "Cover" badge/border update right away
+// instead of waiting on the invalidate-then-refetch round trip (which can
+// take a few seconds). Cleared once that refetch actually lands.
+const optimisticCoverId = ref<string | null>(null)
+
+const existingImages = computed(() => {
+  const images = props.images ?? []
+  if (!optimisticCoverId.value) return images
+  return images.map((img) => ({ ...img, isCover: img.id === optimisticCoverId.value }))
+})
 const fileInput = ref<HTMLInputElement | null>(null)
 const pendingFiles = ref<File[]>([])
 const pendingPreviews = ref<string[]>([])
 const uploading = ref(false)
-const imageLoading = ref(false)
+const settingCoverId = ref<string | null>(null)
+const deletingImageId = ref<string | null>(null)
+
+function isImageBusy(imageId: string) {
+  return settingCoverId.value === imageId || deletingImageId.value === imageId
+}
+
+// The review step (preview.vue) and the shared "photos" required-field rule
+// both read form.photos, but this component owns the real photo state
+// (existing server images + locally staged uploads) independently — keep
+// form.photos in sync so both work without duplicating that state.
+const photoUrls = computed(() => [
+  ...existingImages.value.map((img) => `${runtimeConfig.public.R2_PUB_URL}/${img.imageKey}`),
+  ...pendingPreviews.value,
+])
+
+watch(photoUrls, (urls) => {
+  props.form.photos = urls
+}, { immediate: true })
+
+const hasEnoughPhotos = computed(() => photoUrls.value.length >= 3)
 
 function handleFiles(event: Event) {
   const target = event.target as HTMLInputElement
@@ -211,20 +264,21 @@ async function uploadAll() {
 }
 
 async function handleSetCover(imageId: string) {
-  imageLoading.value = true
+  settingCoverId.value = imageId
   try {
     await setCoverImage($axios, imageId)
+    optimisticCoverId.value = imageId
     notify.success(t('landlord.editProperty.coverSet'))
-    invalidateAndRefresh()
+    await invalidateAndRefresh()
   } catch (err) {
     notify.error(extract(err))
   } finally {
-    imageLoading.value = false
+    settingCoverId.value = null
   }
 }
 
 async function handleDeleteImage(imageId: string) {
-  imageLoading.value = true
+  deletingImageId.value = imageId
   try {
     await deletePropertyImage($axios, imageId)
     notify.success(t('landlord.editProperty.photoDeleted'))
@@ -232,15 +286,18 @@ async function handleDeleteImage(imageId: string) {
   } catch (err) {
     notify.error(extract(err))
   } finally {
-    imageLoading.value = false
+    deletingImageId.value = null
   }
 }
 
-function invalidateAndRefresh() {
-  queryClient.invalidateQueries({ queryKey: ['edit-property', props.propertyId] })
-  queryClient.invalidateQueries({ queryKey: ['landlord-property-detail', props.propertyId] })
-  queryClient.invalidateQueries({ queryKey: ['landlord-properties'] })
+async function invalidateAndRefresh() {
+  await Promise.all([
+    queryClient.invalidateQueries({ queryKey: ['edit-property', props.propertyId] }),
+    queryClient.invalidateQueries({ queryKey: ['landlord-property-detail', props.propertyId] }),
+    queryClient.invalidateQueries({ queryKey: ['landlord-properties'] }),
+  ])
   emit('refresh')
+  optimisticCoverId.value = null
 }
 
 </script>

@@ -15,21 +15,20 @@
 
     <!-- Amenities -->
     <el-form-item prop="amenities">
-      <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mb-6 w-full">
-        <div
+      <div class="flex flex-wrap gap-2 mb-6 w-full">
+        <button
           v-for="amenity in amenities"
           :key="amenity.id"
+          type="button"
           @click="toggleAmenity(amenity.id)"
           :class="form.amenities?.includes(amenity.id)
             ? 'border-(--nav-active-item) bg-emerald-50 text-(--nav-active-item)'
             : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300 hover:bg-gray-50'"
-          class="flex flex-col items-start gap-2 px-3.5 py-3.5 border rounded-[14px] transition cursor-pointer"
+          class="flex items-center gap-1.5 px-3.5 py-2.5 border rounded-full text-[13px] font-semibold transition cursor-pointer"
         >
-          <BaseIconClient :name="amenity.icon" :size="20" />
-          <span class="text-[13px] font-semibold">{{
-            t(`post_property.amenities.list.${amenity.code}`) || amenity.code
-          }}</span>
-        </div>
+          <BaseIconClient :name="amenity.icon" :size="13" />
+          {{ amenity.name }}
+        </button>
       </div>
     </el-form-item>
 
@@ -173,11 +172,14 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import BaseInput from "~/components/ui/BaseInput.vue";
 import { usePropertyAmenityOptions } from "~/features/browse-properties/composable/usePropertyAmenityOptions";
 import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions";
+import { localizedName } from "~/utils/localizedName";
 
 const { t } = useI18n();
 const langKey = useLangKey();
 
-const form = inject<any>("postPropertyForm", {});
+const props = defineProps<{ form?: any }>();
+const injected = inject<any>("postPropertyForm", {});
+const form = props.form ?? injected;
 
 if (!form.parkingDetails) form.parkingDetails = {};
 if (!form.ruleKeys) form.ruleKeys = [];
@@ -189,7 +191,7 @@ const { data: ruleOptions } = usePropertyRuleOptions();
 const amenities = computed(() =>
   amenityOptions.value.map((item: any) => ({
     id: item.id,
-    code: item.code || item.key,
+    name: localizedName(item, langKey.value),
     icon: item.icon || "sparkles",
   })),
 );
@@ -197,7 +199,7 @@ const amenities = computed(() =>
 const rules = computed(() =>
   ruleOptions.value.map((item: any) => ({
     id: item.id,
-    name: item[langKey.value] || item.nameEn,
+    name: localizedName(item, langKey.value),
     icon: item.icon || "scroll-text",
   })),
 );

@@ -34,20 +34,3 @@ export function createPropertyForm() {
     closeTime: '',
   })
 }
-
-export function createPropertyFormErrors() {
-  return reactive({
-    propertyType: '',
-    propertyTitle: '',
-    description: '',
-    size: '',
-    province: '',
-    district: '',
-    streetAddress: '',
-    rent: '',
-    minStay: '',
-    availableFrom: '',
-    photos: '',
-    amenities: '',
-  })
-}
