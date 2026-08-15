@@ -51,10 +51,6 @@
           </h4>
           <ul class="space-y-4 text-sm">
             <li class="flex items-center gap-3">
-              <BaseIcon name="phone-call" :size="18"/>
-              <span>+855 12 345 678</span>
-            </li>
-            <li class="flex items-center gap-3">
               <BaseIcon name="mail-check" :size="18"/>
               <span>rentifykh@gmail.com</span>
             </li>
