@@ -119,7 +119,7 @@
                   decimal
                   type="number"
                   placeholder="e.g., 45"
-                  @update:model-value="(val: string) => { form.size = val }"
+                  @update:model-value="(val: string) => { if (isNonNegativeNumber(val)) form.size = val }"
                 />
                 <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">m²</span>
               </div>
@@ -162,6 +162,7 @@ import { useI18n } from "vue-i18n"
 import BaseToggle from "~/components/ui/BaseToggle.vue"
 import BaseInput from "~/components/ui/BaseInput.vue"
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
+import { isNonNegativeNumber } from "~/utils/validators"
 
 const { t } = useI18n()
 

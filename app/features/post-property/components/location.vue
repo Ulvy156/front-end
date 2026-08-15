@@ -87,8 +87,8 @@
         <BaseInput
           :model-value="form.latitude"
           type="number"
-          placeholder="e.g., 11.5564"
-          @update:model-value="(val: string) => form.latitude = val"
+          readonly
+          placeholder="Select on map"
         />
       </div>
       <div>
@@ -98,8 +98,8 @@
         <BaseInput
           :model-value="form.longitude"
           type="number"
-          placeholder="e.g., 104.9282"
-          @update:model-value="(val: string) => form.longitude = val"
+          readonly
+          placeholder="Select on map"
         />
       </div>
     </div>

@@ -24,7 +24,7 @@
             type="number"
             icon="dollar-sign"
             placeholder="0"
-            @update:model-value="(val: string) => { form.rent = val }"
+            @update:model-value="(val: string) => { if (isNonNegativeNumber(val)) form.rent = val }"
           />
         </el-form-item>
         <p v-if="rentBoundsHint" class="text-xs text-gray-400 -mt-3 mb-1">{{ rentBoundsHint }}</p>
@@ -40,7 +40,7 @@
           type="number"
           icon="dollar-sign"
           placeholder="0"
-          @update:model-value="(val: string) => form.deposit = val"
+          @update:model-value="(val: string) => { if (isNonNegativeNumber(val)) form.deposit = val }"
         />
         <p class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.deposit_hint") }}</p>
       </div>
@@ -175,6 +175,7 @@ import BaseToggle from "~/components/ui/BaseToggle.vue"
 import BaseInput from "~/components/ui/BaseInput.vue"
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 import { useAppSettingsStore } from "~/stores/appSettings"
+import { isNonNegativeNumber } from "~/utils/validators"
 
 const { t } = useI18n()
 const appSettingsStore = useAppSettingsStore()

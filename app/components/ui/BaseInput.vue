@@ -12,6 +12,7 @@ const props = withDefaults(
     size?: 'large' | 'default' | 'small'
     clearable?: boolean
     disabled?: boolean
+    readonly?: boolean
     rows?: number
     maxlength?: number | string
     /** digits only */
@@ -55,6 +56,7 @@ const inputmode = computed(() =>
     :size
     :clearable
     :disabled
+    :readonly
     :rows
     :maxlength
     :model-value="modelValue"
