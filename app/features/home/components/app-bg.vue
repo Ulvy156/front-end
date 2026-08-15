@@ -30,43 +30,15 @@
         {{ t('home.hero.content') }}
       </p>
 
-      <!-- Search bar -->
-      <div class="search-bar">
-        <div class="search-segment flex-[1.4]">
-          <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
-            {{ t('home.hero.search.location') }}
-          </div>
-          <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
-            {{ t('home.hero.search.location_placeholder') }}
-          </div>
-        </div>
-        <div class="search-divider"></div>
-        <div class="search-segment flex-1">
-          <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
-            {{ t('home.hero.search.type') }}
-          </div>
-          <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
-            {{ t('home.hero.search.type_placeholder') }}
-          </div>
-        </div>
-        <div class="search-divider"></div>
-        <div class="search-segment flex-1">
-          <div class="text-[11px] font-bold text-(--nav-active-item) uppercase tracking-[0.06em]">
-            {{ t('home.hero.search.budget') }}
-          </div>
-          <div class="text-[15px] font-semibold text-gray-900 mt-0.5">
-            {{ t('home.hero.search.budget_placeholder') }}
-          </div>
-        </div>
-        <NuxtLink
-          to="/properties"
-          :aria-label="t('home.hero.search.button')"
-          class="w-full h-12 mt-2 md:mt-0 md:w-13 md:h-13 rounded-xl bg-transparent md:bg-(--nav-active-item) text-(--nav-active-item) md:text-white border md:border-0 border-(--nav-active-item) flex items-center justify-center shrink-0 gap-2"
-        >
-          <BaseIconClient name="search" :size="22" />
-          <span class="text-[15px] font-semibold md:hidden">{{ t('home.hero.search.button') }}</span>
-        </NuxtLink>
-      </div>
+      <!-- Search CTA -->
+      <NuxtLink
+        to="/properties"
+        :aria-label="t('home.hero.search.button')"
+        class="group mt-8 w-full max-w-115 flex items-center justify-center gap-3 rounded-full bg-transparent text-white border-2 border-white font-semibold text-[16px] px-10 py-4.5 shadow-[0_18px_44px_-16px_rgba(2,6,23,0.5)] transition-all duration-300 ease-out hover:-translate-y-0.5 hover:scale-[1.02] hover:shadow-[0_22px_50px_-14px_rgba(2,6,23,0.55)] active:translate-y-0 active:scale-95"
+      >
+        <BaseIconClient name="search" :size="22" class="transition-transform duration-300 group-hover:rotate-12" />
+        <span>{{ t('home.hero.search.button') }}</span>
+      </NuxtLink>
     </div>
   </section>
 </template>
@@ -79,44 +51,3 @@ import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 
 const { t } = useI18n()
 </script>
-
-<style scoped>
-.search-bar {
-  margin-top: 32px;
-  background: #fff;
-  border-radius: 14px;
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  max-width: 780px;
-  width: 100%;
-  box-shadow: 0 18px 44px -16px rgba(2, 6, 23, 0.4);
-}
-
-.search-segment {
-  padding: 8px 16px;
-}
-
-.search-divider {
-  width: 1px;
-  height: 38px;
-  background: #e2e8f0;
-}
-
-@media (max-width: 768px) {
-  .search-bar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0;
-    padding: 8px;
-  }
-  .search-divider {
-    width: 100%;
-    height: 1px;
-  }
-  .search-segment {
-    padding: 10px 14px;
-  }
-}
-</style>
