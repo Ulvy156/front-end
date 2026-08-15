@@ -60,6 +60,11 @@
   --el-color-primary-light-8: #d1fae5 !important; /* Emerald 100 */
   --el-color-primary-light-9: #ecfdf5 !important; /* Emerald 50 */
   --el-color-primary-dark-2: #047857 !important; /* Emerald 700 */
+  /* Same reasoning as above, for typography: without this, el-* components
+     render in Element Plus's stock Helvetica-Neue stack instead of the
+     app's language-aware font. `inherit` (not a hardcoded font) lets each
+     component pick up whatever html[lang] already resolved to. */
+  --el-font-family: inherit !important;
 
   /* Border Radius */
   --radius: 0.75rem;

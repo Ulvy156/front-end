@@ -44,12 +44,7 @@ const overlay = computed(() => {
   return 'w-[92%] m-auto ';
 })
 
-const { t, locale, setLocale } = useI18n()
-useHead(() => ({
-  htmlAttrs: {
-    lang: locale.value,
-  },
-}))
+const { t, setLocale } = useI18n()
 
 onMounted(() => {
   const saved = localStorage.getItem('lang')

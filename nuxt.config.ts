@@ -195,12 +195,17 @@ export default defineNuxtConfig({
       {
         name: 'Manrope',
         provider: 'google',
-        weights: [400, 600],
+        weights: [400, 500, 600, 700],
+      },
+      {
+        name: 'Kantumruy Pro',
+        provider: 'google',
+        weights: [400, 500, 600, 700],
       },
       {
         name: 'Noto Sans Khmer',
         provider: 'google',
-        weights: [400, 600],
+        weights: [400, 500, 600, 700],
       },
     ],
   },
