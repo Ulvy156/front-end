@@ -7,6 +7,7 @@
       "people": "People",
       "users": "Users",
       "landlords": "Landlords",
+      "deletionRequests": "Deletion Requests",
       "listings": "Listings",
       "pendingApproval": "Pending Approval",
       "allProperties": "All Properties",
@@ -231,6 +232,26 @@
         "createSuccess": "User created successfully",
         "updateSuccess": "User updated successfully"
       }
+    },
+    "deletionRequests": {
+      "totalCount": "{n} pending requests",
+      "searchPlaceholder": "Search by name or email...",
+      "roleFilterAll": "All roles",
+      "empty": "No pending deletion requests.",
+      "showing": "Showing {from}–{to} of {total}",
+      "columns": {
+        "name": "Name",
+        "role": "Role",
+        "requestedAt": "Requested",
+        "scheduledFor": "Grace period ends",
+        "actions": "Actions"
+      },
+      "approveAction": "Approve deletion",
+      "approveTitle": "Approve Account Deletion",
+      "approveConfirm": "This permanently deletes {name}'s account and all their properties. This cannot be undone.",
+      "approveConfirmBtn": "Delete Permanently",
+      "approveSuccess": "Account permanently deleted.",
+      "approveConflict": "This request was already handled by someone else — the list has been refreshed."
     },
     "feedback": {
       "title": "Feedback",

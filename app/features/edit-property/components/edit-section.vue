@@ -126,7 +126,7 @@ const stepKeys = [
 ]
 
 const formRef = ref<FormInstance>()
-const { formRules, validateStep, firstInvalidStep } = usePropertyFormValidation(formRef)
+const { formRules, validateStep, firstInvalidStep } = usePropertyFormValidation(formRef, form)
 
 watch(property, (p) => {
   if (p && !initialized.value) {

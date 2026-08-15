@@ -1,7 +1,7 @@
 {
     "post_property": {
-        "title":"List Your Porperty",
-        "desc":"Create a stunning listing that atrracts quality tenants",
+        "title":"List Your Property",
+        "desc":"Create a stunning listing that attracts quality tenants",
         "steps":{
             "one":"Property Type",
             "two":"Basic Info",
@@ -17,10 +17,7 @@
         "draft_saved": "Draft saved.",
         "optional": "Optional",
         "step_progress": {
-            "step_of": "Step {current} of {total}",
-            "saving": "Saving…",
-            "saved_just_now": "Saved just now",
-            "saved_min_ago": "Saved {n} min ago"
+            "step_of": "Step {current} of {total}"
         },
         "success": {
             "title": "Your listing is live",
@@ -69,7 +66,10 @@
             "address_required": "Please enter an address.",
             "property_type_invalid": "Please select a valid property type.",
             "min_stay_invalid": "Please select a valid minimum stay.",
-            "publish_failed": "Publish failed"
+            "publish_failed": "Publish failed",
+            "available_from_past": "Available date can't be in the past",
+            "close_time_required": "Please set both opening and closing time",
+            "visiting_hours_min_gap": "Visiting hours must span at least 12 hours"
         },
         "validation_failed": "Please fill in all required fields",
         "published_success": "Published successfully (ID: {id})",
@@ -146,7 +146,8 @@
             "open_time_hint": "When is the property open?",
             "close_time_hint": "When does the property close?",
             "visiting_hours": "Set visiting hours",
-            "visiting_hours_desc": "Optional — let renters know when they can view the place"
+            "visiting_hours_desc": "Optional — let renters know when they can view the place",
+            "visiting_hours_hint": "Opening and closing time must be at least 12 hours apart"
         },
         "amenities": {
             "title": "Amenities",

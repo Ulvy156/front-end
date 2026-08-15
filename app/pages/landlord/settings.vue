@@ -3,6 +3,7 @@ import ProfileAvatar from '~/features/profile/components/profile-avatar.vue'
 import ChangePassword from '~/features/profile/components/change-password.vue'
 import ContactVisibility from '~/features/profile/components/contact-visibility.vue'
 import PhoneManagement from '~/features/profile/components/phone-management.vue'
+import DeleteAccount from '~/features/profile/components/delete-account.vue'
 import BaseSkeleton from '~/components/ui/BaseSkeleton.vue'
 import BaseEmpty from '~/components/ui/BaseEmpty.vue'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
@@ -16,7 +17,7 @@ definePageMeta({ middleware: 'landlord', layout: 'landlord' })
 const { t } = useI18n()
 const { extract } = useErrorMsg()
 const { success, error: notifyError } = useNotify()
-const { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone } = useProfile()
+const { profile, isPending, isError, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone, requestDeletion, cancelDeletion } = useProfile()
 
 const isEditingName = ref(false)
 const editName = ref('')
@@ -120,6 +121,11 @@ async function saveName() {
     <!-- Security -->
     <div class="bg-white rounded-xl border border-gray-200 p-4 sm:p-6">
       <ChangePassword :mutation="changePassword" />
+    </div>
+
+    <!-- Danger zone -->
+    <div class="bg-white rounded-xl border border-red-200 p-4 sm:p-6">
+      <DeleteAccount :profile="profile" :request-mutation="requestDeletion" :cancel-mutation="cancelDeletion" />
     </div>
   </div>
 </template>

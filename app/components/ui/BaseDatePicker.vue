@@ -7,6 +7,7 @@ withDefaults(
     placeholder?: string
     clearable?: boolean
     disabled?: boolean
+    disabledDate?: (date: Date) => boolean
   }>(),
   {
     placeholder: 'YYYY-MM-DD',
@@ -27,6 +28,7 @@ function onPick(val: string | null) {
     :placeholder
     :clearable
     :disabled
+    :disabled-date="disabledDate"
     type="date"
     format="YYYY-MM-DD"
     value-format="YYYY-MM-DD"

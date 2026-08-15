@@ -3,8 +3,6 @@
     <stepProgress
       :step-keys="stepKeys"
       :current-step="active"
-      :saved-text="savedText"
-      :saved-fresh="savedFresh"
       @jump="handleGoTo"
     />
 
@@ -58,7 +56,6 @@ import BaseButton from "~/components/ui/BaseButton.vue";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
-import { useDraftAutosave } from "@/features/post-property/composables/useDraftAutosave";
 import { usePropertyFormValidation } from "@/features/post-property/composables/usePropertyFormValidation";
 import { usePropertyDraftSession } from "@/features/post-property/composables/usePropertyDraftSession";
 import { getDraft, publishDraft } from "~/features/property-draft/services/property-draft";
@@ -85,7 +82,7 @@ const queryClient = useQueryClient();
 const form = inject<any>("postPropertyForm");
 const formRef = ref<FormInstance>();
 
-const { formRules, validateStep, firstInvalidStep } = usePropertyFormValidation(formRef);
+const { formRules, validateStep, firstInvalidStep } = usePropertyFormValidation(formRef, form);
 
 const active = ref(0);
 const loading = ref(false);
@@ -93,12 +90,8 @@ const justPublished = ref(false);
 const publishResult = ref<string | null>(null);
 const publishError = ref<string | null>(null);
 
-const { savedText, savedFresh, saveNow, clearDraft } = useDraftAutosave(form);
 const { draftId, savingDraft, loadDraftIntoForm, saveDraft } = usePropertyDraftSession();
 
-// Registered after useDraftAutosave's own onMounted (above) so its local
-// restore runs first — if a draftId is present, the fetched draft's data
-// then overwrites it, taking priority.
 onMounted(async () => {
   const queryDraftId = route.query.draftId;
   if (!queryDraftId || typeof queryDraftId !== 'string') return;
@@ -302,7 +295,6 @@ const publish = async () => {
       await queryClient.invalidateQueries({ queryKey: ['landlord-properties'] });
       await queryClient.invalidateQueries({ queryKey: ['landlord-dashboard'] });
 
-      clearDraft();
       justPublished.value = true;
     } catch (error: any) {
      publishError.value = extract(error);

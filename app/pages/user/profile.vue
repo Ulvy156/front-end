@@ -4,6 +4,7 @@ import ProfileInfo from '~/features/profile/components/profile-info.vue'
 import ChangePassword from '~/features/profile/components/change-password.vue'
 import ContactVisibility from '~/features/profile/components/contact-visibility.vue'
 import PhoneManagement from '~/features/profile/components/phone-management.vue'
+import DeleteAccount from '~/features/profile/components/delete-account.vue'
 import { useProfile } from '~/features/profile/composables/useProfile'
 import { Role } from '~/types/role'
 
@@ -18,7 +19,7 @@ definePageMeta({
 
 const { t } = useI18n()
 const { extract } = useErrorMsg()
-const { profile, isPending, isError, error, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone } = useProfile()
+const { profile, isPending, isError, error, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone, requestDeletion, cancelDeletion } = useProfile()
 
 useSeoMeta({
   title: `${t('profile.title')} | RokPteah`,
@@ -75,6 +76,11 @@ useSeoMeta({
       <!-- Security card -->
       <div class="bg-white rounded-xl border border-gray-200 p-6">
         <ChangePassword :mutation="changePassword" />
+      </div>
+
+      <!-- Danger zone -->
+      <div class="bg-white rounded-xl border border-red-200 p-6">
+        <DeleteAccount :profile="profile" :request-mutation="requestDeletion" :cancel-mutation="cancelDeletion" />
       </div>
     </div>
   </section>

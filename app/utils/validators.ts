@@ -20,6 +20,6 @@ export const normalizePhoneNumber = (value: string): string => {
 export const isValidPhone = (value: string): boolean =>
   /^0\d{7,10}$/.test(normalizePhoneNumber(value))
 
-// Empty/unset values pass through so `required` rules can flag them separately
-export const isNonNegativeNumber = (value: unknown): boolean =>
-  value === '' || value === null || value === undefined || Number(value) >= 0
+// For required numeric fields: empty, non-numeric, and non-positive values all fail
+export const isPositiveNumber = (value: unknown): boolean =>
+  value !== '' && value !== null && value !== undefined && Number(value) > 0

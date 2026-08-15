@@ -38,7 +38,7 @@
       </div>
     </el-form-item>
 
-    <p v-if="uploadError" class="text-xs text-red-500 -mt-3 mb-4">{{ uploadError }}</p>
+    <p v-if="uploadError" class="text-xs text-red-500 mt-1 mb-4">{{ uploadError }}</p>
 
     <!-- Status banner -->
     <div

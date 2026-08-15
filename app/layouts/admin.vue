@@ -41,6 +41,7 @@
         <p class="admin-section-label" :class="collapsed ? 'admin-section-label--collapsed' : ''">{{ $t('admin.nav.people') }}</p>
         <BaseSidebarNavItem to="/admin/users" icon="users" :label="$t('admin.nav.users')" :collapsed="collapsed" />
         <BaseSidebarNavItem to="/admin/landlords" icon="user-check" :label="$t('admin.nav.landlords')" :collapsed="collapsed" />
+        <BaseSidebarNavItem to="/admin/deletion-requests" icon="user-x" :label="$t('admin.nav.deletionRequests')" :collapsed="collapsed" />
 
         <!-- LISTINGS -->
         <p class="admin-section-label" :class="collapsed ? 'admin-section-label--collapsed' : ''">{{ $t('admin.nav.listings') }}</p>
@@ -169,6 +170,7 @@ const pageTitle = computed(() => {
   if (path === '/admin')                        return t('admin.nav.dashboard')
   if (path.startsWith('/admin/users'))          return t('admin.nav.users')
   if (path.startsWith('/admin/landlords'))      return t('admin.nav.landlords')
+  if (path.startsWith('/admin/deletion-requests')) return t('admin.nav.deletionRequests')
   if (path.startsWith('/admin/pending'))        return t('admin.nav.pendingApproval')
   if (path.startsWith('/admin/properties'))     return t('admin.nav.allProperties')
   if (path.startsWith('/admin/featured'))       return t('admin.nav.featured')

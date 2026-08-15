@@ -1,25 +1,41 @@
 <template>
-  <div class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-12 sm:py-4.5">
+  <div class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-8 sm:py-4">
     <!-- Back -->
-    <BaseButton type="info" :disabled="currentStep === 1" @click="emit('back')">
-      <BaseIconClient name="arrow-left" :size="18" />
-      <span class="font-medium">{{ $t('post_property.back') }}</span>
-    </BaseButton>
-
-    <!-- Save draft -->
-    <BaseButton v-if="showDraftControls" text type="info" :loading="savingDraft" @click="emit('save')">
-      <BaseIconClient v-if="!savingDraft" name="save" :size="18" />
-      <span class="font-medium">{{ $t('post_property.draft') }}</span>
-    </BaseButton>
-
-    <!-- Right — submit / next -->
     <BaseButton
-      :loading="loading"
-      @click="isLastStep ? emit('submit') : emit('next')"
+      type="info"
+      plain
+      :disabled="currentStep === 1"
+      class="rounded-full! px-5! font-medium! border-gray-200!"
+      @click="emit('back')"
     >
-      <BaseIconClient v-if="!loading" :name="isLastStep ? submitIcon : 'arrow-right'" :size="18" />
-      <span>{{ loading ? submittingLabel : (isLastStep ? submitLabel : $t('post_property.continue')) }}</span>
+      <BaseIconClient name="arrow-left" :size="18" />
+      <span>{{ $t('post_property.back') }}</span>
     </BaseButton>
+
+    <div class="flex items-center gap-2.5">
+      <!-- Save draft -->
+      <BaseButton
+        v-if="showDraftControls"
+        type="info"
+        plain
+        :loading="savingDraft"
+        class="rounded-full! px-5! font-medium! border-gray-200!"
+        @click="emit('save')"
+      >
+        <BaseIconClient v-if="!savingDraft" name="save" :size="18" />
+        <span>{{ $t('post_property.draft') }}</span>
+      </BaseButton>
+
+      <!-- Right — submit / next -->
+      <BaseButton
+        :loading="loading"
+        class="rounded-full! px-6! font-semibold! shadow-md! shadow-emerald-600/25! hover:shadow-lg! hover:shadow-emerald-600/35! transition-shadow!"
+        @click="isLastStep ? emit('submit') : emit('next')"
+      >
+        <BaseIconClient v-if="!loading" :name="isLastStep ? submitIcon : 'arrow-right'" :size="18" />
+        <span>{{ loading ? submittingLabel : (isLastStep ? submitLabel : $t('post_property.continue')) }}</span>
+      </BaseButton>
+    </div>
   </div>
 </template>
 

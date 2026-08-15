@@ -6,10 +6,6 @@
         <span class="text-xs font-semibold text-(--nav-active-item) tracking-wide uppercase">
           {{ t('post_property.step_progress.step_of', { current: currentStep + 1, total: stepKeys.length }) }}
         </span>
-        <div v-if="savedText" class="flex items-center gap-1.5">
-          <span class="w-1.5 h-1.5 rounded-full" :class="savedFresh ? 'bg-emerald-500' : 'bg-gray-300'" />
-          <span class="text-xs text-gray-400">{{ savedText }}</span>
-        </div>
       </div>
       <div class="text-lg font-bold text-gray-900 leading-tight">
         {{ t(stepKeys[currentStep]) }}
@@ -28,12 +24,6 @@
 
     <!-- Desktop -->
     <div v-if="!isMounted || isMdUp" class="px-10 py-5.5">
-      <div v-if="savedText" class="flex items-center justify-end mb-3.5">
-        <div class="flex items-center gap-1.5">
-          <span class="w-1.75 h-1.75 rounded-full" :class="savedFresh ? 'bg-emerald-500' : 'bg-gray-300'" />
-          <span class="text-sm text-gray-500">{{ savedText }}</span>
-        </div>
-      </div>
       <div class="relative">
         <div class="absolute top-4.75 left-12 right-12 h-0.5 bg-gray-200" />
         <div
@@ -88,8 +78,6 @@ const { isMounted, isMdUp } = useAppBreakpoints()
 const props = defineProps<{
   stepKeys: string[]
   currentStep: number
-  savedText: string
-  savedFresh: boolean
 }>()
 
 // vue-i18n's per-call `{ locale: 'km' }` override doesn't resolve under this
@@ -111,8 +99,9 @@ const emit = defineEmits<{
 
 const progressWidth = computed(() => {
   const total = props.stepKeys.length
-  if (total <= 1) return '0%'
-  return `${(Math.min(props.currentStep, total - 1) / (total - 1)) * 100}%`
+  if (total <= 1) return '0px'
+  const ratio = Math.min(props.currentStep, total - 1) / (total - 1)
+  return `calc((100% - 6rem) * ${ratio})`
 })
 
 function circleClass(index: number) {

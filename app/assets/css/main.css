@@ -32,7 +32,7 @@
 
   /* font-family */
   --font-en: "Manrope", system-ui, sans-serif;
-  --font-km: "Noto Sans Khmer", system-ui, sans-serif;
+  --font-km: "Kantumruy Pro", "Noto Sans Khmer", system-ui, sans-serif;
 
   /* Mobile/tablet bottom tab bar (MobileBottomNav.vue) */
   --bottom-nav-h: 4rem;

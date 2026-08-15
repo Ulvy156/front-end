@@ -37,3 +37,19 @@ export interface UpdateUserPayload {
   name: string
   role: Role
 }
+
+export interface DeletionRequestItem {
+  id: string
+  name: string
+  email: string
+  role: Role
+  imgUrl: string | null
+  createdAt: string
+  deletionRequestedAt: string
+  deletionScheduledFor: string
+}
+
+export interface DeletionRequestListResponse {
+  items: DeletionRequestItem[]
+  meta: UserListMeta
+}

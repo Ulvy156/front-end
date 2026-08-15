@@ -27,10 +27,18 @@ export interface UserProfile {
   role: Role
   isVerified: boolean
   isLocked: boolean
+  hasVerifiedBadge: boolean
   createdAt: string
   updatedAt: string
   phones: UserPhone[]
   showPhone: boolean
   showTelegram: boolean
   showEmail: boolean
+  hasPassword: boolean
+  deletionRequestedAt: string | null
+  deletionScheduledFor: string | null
+}
+
+export interface DeletionRequestResult extends UserProfile {
+  message: string
 }

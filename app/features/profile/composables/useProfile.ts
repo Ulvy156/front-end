@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type { ContactVisibility, NewPhone, UserProfile } from '../types/profile'
+import type { ContactVisibility, DeletionRequestResult, NewPhone, UserProfile } from '../types/profile'
 
 const PROFILE_KEY = ['profile']
 
@@ -110,5 +110,28 @@ export function useProfile() {
     },
   })
 
-  return { profile, isPending, isError, error, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone }
+  const requestDeletion = useMutation({
+    mutationFn: async (currentPassword: string) => {
+      const { data } = await $axios.patch<DeletionRequestResult>('/user/me/deletion-request', { currentPassword })
+      return data
+    },
+    onSuccess: (data) => {
+      queryClient.setQueryData(PROFILE_KEY, (old: UserProfile | undefined) =>
+        old ? { ...old, deletionRequestedAt: data.deletionRequestedAt, deletionScheduledFor: data.deletionScheduledFor } : old,
+      )
+    },
+  })
+
+  const cancelDeletion = useMutation({
+    mutationFn: async () => {
+      await $axios.delete('/user/me/deletion-request')
+    },
+    onSuccess: () => {
+      queryClient.setQueryData(PROFILE_KEY, (old: UserProfile | undefined) =>
+        old ? { ...old, deletionRequestedAt: null, deletionScheduledFor: null } : old,
+      )
+    },
+  })
+
+  return { profile, isPending, isError, error, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone, requestDeletion, cancelDeletion }
 }

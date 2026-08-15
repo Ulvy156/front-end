@@ -115,10 +115,11 @@
               <div v-if="form.parkingDetails[parking.key]?.isFree === false" class="w-28">
                 <BaseInput
                   :model-value="form.parkingDetails[parking.key].price"
-                  type="number"
+                  numeric
+                  decimal
                   icon="dollar-sign"
                   :placeholder="t('post_property.amenities.price_placeholder')"
-                  @update:model-value="(val: string) => { if (isNonNegativeNumber(val)) form.parkingDetails[parking.key].price = val }"
+                  @update:model-value="(val: string) => { form.parkingDetails[parking.key].price = val }"
                 />
               </div>
             </div>
@@ -173,7 +174,6 @@ import BaseInput from "~/components/ui/BaseInput.vue";
 import { usePropertyAmenityOptions } from "~/features/browse-properties/composable/usePropertyAmenityOptions";
 import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions";
 import { localizedName } from "~/utils/localizedName";
-import { isNonNegativeNumber } from "~/utils/validators";
 
 const { t } = useI18n();
 const langKey = useLangKey();

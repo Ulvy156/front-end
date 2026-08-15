@@ -62,6 +62,22 @@
       "newRequired": "New password is required",
       "submit": "Update Password",
       "success": "Password updated successfully."
+    },
+    "deleteAccount": {
+      "title": "Delete Account",
+      "subtitle": "Permanently delete your account and all associated data.",
+      "button": "Delete my account",
+      "confirmTitle": "Delete Account",
+      "confirmIntro": "This starts a 30-day grace period during which you can cancel the request at any time. An admin may also review and approve the request sooner, which permanently deletes your account and data immediately.",
+      "confirmLandlordNote": "As a landlord, your property listings will be hidden from public listings immediately after you request deletion.",
+      "passwordLabel": "Current Password",
+      "passwordRequired": "Current password is required",
+      "confirmSubmit": "Request Deletion",
+      "cancelBtn": "Cancel",
+      "requestSuccess": "Account deletion requested.",
+      "pendingBanner": "Account deletion requested — you can cancel until {date}.",
+      "cancelRequestBtn": "Cancel Request",
+      "cancelSuccess": "Account deletion request cancelled."
     }
   }
 }

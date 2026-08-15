@@ -7,6 +7,7 @@
       "people": "មនុស្ស",
       "users": "អ្នកប្រើប្រាស់",
       "landlords": "ម្ចាស់ផ្ទះ",
+      "deletionRequests": "ការស្នើសុំលុបគណនី",
       "listings": "ការប្រកាស",
       "pendingApproval": "រង់ចាំការអនុម័ត",
       "allProperties": "អចលនទ្រព្យទាំងអស់",
@@ -231,6 +232,26 @@
         "createSuccess": "បង្កើតអ្នកប្រើប្រាស់បានជោគជ័យ",
         "updateSuccess": "ធ្វើបច្ចុប្បន្នភាពអ្នកប្រើប្រាស់បានជោគជ័យ"
       }
+    },
+    "deletionRequests": {
+      "totalCount": "{n} សំណើរង់ចាំ",
+      "searchPlaceholder": "ស្វែងរកតាមឈ្មោះ ឬអ៊ីមែល...",
+      "roleFilterAll": "គ្រប់តួនាទី",
+      "empty": "មិនមានសំណើលុបគណនីរង់ចាំទេ។",
+      "showing": "បង្ហាញ {from}–{to} នៃ {total}",
+      "columns": {
+        "name": "ឈ្មោះ",
+        "role": "តួនាទី",
+        "requestedAt": "ស្នើសុំនៅ",
+        "scheduledFor": "ផុតកំណត់រយៈពេលអនុគ្រោះ",
+        "actions": "សកម្មភាព"
+      },
+      "approveAction": "អនុម័តលុប",
+      "approveTitle": "អនុម័តការលុបគណនី",
+      "approveConfirm": "នេះនឹងលុប {name} និងអចលនទ្រព្យទាំងអស់របស់ពួកគេជាអចិន្ត្រៃយ៍។ នេះមិនអាចត្រឡប់វិញបានទេ។",
+      "approveConfirmBtn": "លុបជាអចិន្ត្រៃយ៍",
+      "approveSuccess": "គណនីត្រូវបានលុបជាអចិន្ត្រៃយ៍។",
+      "approveConflict": "សំណើនេះត្រូវបានដោះស្រាយរួចហើយដោយអ្នកផ្សេង — បញ្ជីត្រូវបានធ្វើបច្ចុប្បន្នភាព។"
     },
     "feedback": {
       "title": "មតិកែលម្អ",

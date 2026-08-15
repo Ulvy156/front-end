@@ -21,13 +21,14 @@
         <el-form-item prop="rent">
           <BaseInput
             :model-value="form.rent"
-            type="number"
+            numeric
+            decimal
             icon="dollar-sign"
             placeholder="0"
-            @update:model-value="(val: string) => { if (isNonNegativeNumber(val)) form.rent = val }"
+            @update:model-value="(val: string) => { form.rent = val }"
           />
         </el-form-item>
-        <p v-if="rentBoundsHint" class="text-xs text-gray-400 -mt-3 mb-1">{{ rentBoundsHint }}</p>
+        <p v-if="rentBoundsHint" class="text-xs text-gray-400 mt-1">{{ rentBoundsHint }}</p>
       </div>
 
       <!-- Security Deposit -->
@@ -37,10 +38,11 @@
         </label>
         <BaseInput
           :model-value="form.deposit"
-          type="number"
+          numeric
+          decimal
           icon="dollar-sign"
           placeholder="0"
-          @update:model-value="(val: string) => { if (isNonNegativeNumber(val)) form.deposit = val }"
+          @update:model-value="(val: string) => { form.deposit = val }"
         />
         <p class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.deposit_hint") }}</p>
       </div>
@@ -107,11 +109,11 @@
       <el-form-item prop="availableFrom">
         <BaseDatePicker
           :model-value="form.availableFrom"
-          :placeholder="t('post_property.pricing.available_from')"
+          :disabled-date="isPastDate"
           @update:model-value="form.availableFrom = $event"
         />
       </el-form-item>
-      <p class="text-xs text-gray-400 -mt-3 mb-1">{{ t("post_property.pricing.available_from_hint") }}</p>
+      <p class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.available_from_hint") }}</p>
     </div>
 
     <!-- Visiting Hours (collapsible) -->
@@ -139,21 +141,20 @@
           <label class="block text-sm font-medium text-gray-800 mb-1.5">
             {{ t("post_property.pricing.open_time") }}
           </label>
-          <BaseTimePicker
-            v-model="form.openTime"
-            :placeholder="t('post_property.pricing.open_time')"
-          />
+          <el-form-item prop="openTime">
+            <BaseTimePicker v-model="form.openTime" />
+          </el-form-item>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-800 mb-1.5">
             {{ t("post_property.pricing.close_time") }}
           </label>
-          <BaseTimePicker
-            v-model="form.closeTime"
-            :placeholder="t('post_property.pricing.close_time')"
-          />
+          <el-form-item prop="closeTime">
+            <BaseTimePicker v-model="form.closeTime" />
+          </el-form-item>
         </div>
       </div>
+      <p v-if="hoursEnabled" class="text-xs text-gray-400 mt-1">{{ t("post_property.pricing.visiting_hours_hint") }}</p>
     </div>
 
     <!-- Property Available Toggle -->
@@ -167,15 +168,15 @@
 </template>
 
 <script setup lang="ts">
-import { inject, computed, ref } from "vue"
+import { inject, computed, ref, watch } from "vue"
 import { useI18n } from "vue-i18n"
+import { formContextKey } from "element-plus"
 import BaseDatePicker from "~/components/ui/BaseDatePicker.vue"
 import BaseTimePicker from "~/components/ui/BaseTimePicker.vue"
 import BaseToggle from "~/components/ui/BaseToggle.vue"
 import BaseInput from "~/components/ui/BaseInput.vue"
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 import { useAppSettingsStore } from "~/stores/appSettings"
-import { isNonNegativeNumber } from "~/utils/validators"
 
 const { t } = useI18n()
 const appSettingsStore = useAppSettingsStore()
@@ -185,6 +186,19 @@ const injected = inject<any>("postPropertyForm", {})
 const form = props.form ?? injected
 
 const hoursEnabled = ref(!!(form.openTime || form.closeTime))
+
+// openTime and closeTime cross-validate each other (e.g. "close time required",
+// "must be 12h apart"). Element Plus only auto re-validates the field whose own
+// value just changed, so the other field's error can go stale — re-run it manually.
+const elForm = inject(formContextKey, undefined)
+watch(() => form.openTime, () => elForm?.validateField(['closeTime']).catch(() => {}))
+watch(() => form.closeTime, () => elForm?.validateField(['openTime']).catch(() => {}))
+
+function isPastDate(date: Date) {
+  const startOfToday = new Date()
+  startOfToday.setHours(0, 0, 0, 0)
+  return date.getTime() < startOfToday.getTime()
+}
 
 function toggleHours() {
   hoursEnabled.value = !hoursEnabled.value
