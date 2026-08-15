@@ -6,10 +6,10 @@
             <!-- Logo (mobile only) -->
             <NuxtLink to="/"
                 class="animate-home-link hover:scale-105 active:scale-95 lg:hidden mb-2 mx-auto flex items-center gap-2 w-fit transition-transform duration-150">
-                <NuxtImg src="/rokpteah-logo.webp" alt="RokPteah"
+                <NuxtImg src="/sabayrent-logo.webp" alt="SabayRent"
                     class="h-14 w-14 rounded-full object-cover ring-2 ring-offset-2 ring-offset-slate-50 ring-slate-200"
                     width="56" height="56" />
-                <!-- <span class="text-xl font-semibold tracking-tight text-slate-900">RokPteah</span> -->
+                <!-- <span class="text-xl font-semibold tracking-tight text-slate-900">SabayRent</span> -->
             </NuxtLink>
 
             <!-- Header -->
@@ -97,13 +97,13 @@ const brandFeatures = computed(() => [
 ])
 
 useSeoMeta({
-    title: `${t('auth.welcome')} | RokPteah`,
+    title: `${t('auth.welcome')} | SabayRent`,
     description: t('auth.subtitle'),
-    ogTitle: `${t('auth.welcome')} | RokPteah`,
+    ogTitle: `${t('auth.welcome')} | SabayRent`,
     ogDescription: t('auth.subtitle'),
     ogType: 'website',
     twitterCard: 'summary_large_image',
-    twitterTitle: `${t('auth.welcome')} | RokPteah`,
+    twitterTitle: `${t('auth.welcome')} | SabayRent`,
     twitterDescription: t('auth.subtitle'),
     robots: 'noindex, nofollow',
 })

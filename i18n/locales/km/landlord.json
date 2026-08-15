@@ -1,7 +1,7 @@
 {
   "landlord": {
     "nav": {
-      "title": "RokPteah សម្រាប់ម្ចាស់អចលនទ្រព្យ",
+      "title": "SabayRent សម្រាប់ម្ចាស់អចលនទ្រព្យ",
       "overview": "ទិដ្ឋភាពទូទៅ",
       "dashboard": "ផ្ទាំងគ្រប់គ្រង",
       "properties": "អចលនទ្រព្យ",
@@ -192,8 +192,8 @@
       "memberSince": "សមាជិកចាប់ពី",
       "totalListings": "{n} ការប្រកាស",
       "properties": "អចលនទ្រព្យ",
-      "seoTitle": "{name} — ប្រវត្តិរូបម្ចាស់អចលនទ្រព្យ | RokPteah KH",
-      "seoDescription": "មើលប្រវត្តិរូបរបស់ {name} និងការប្រកាសអចលនទ្រព្យចំនួន {count} ដែលបានបង្ហោះនៅលើ RokPteah KH។"
+      "seoTitle": "{name} — ប្រវត្តិរូបម្ចាស់អចលនទ្រព្យ | SabayRent",
+      "seoDescription": "មើលប្រវត្តិរូបរបស់ {name} និងការប្រកាសអចលនទ្រព្យចំនួន {count} ដែលបានបង្ហោះនៅលើ SabayRent។"
     }
   }
 }

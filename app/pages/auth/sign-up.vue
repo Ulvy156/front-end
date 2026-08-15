@@ -22,13 +22,13 @@ const brandFeatures = computed(() => [
 ])
 
 useSeoMeta({
-    title: `${t('auth.createAccount')} | RokPteah`,
+    title: `${t('auth.createAccount')} | SabayRent`,
     description: t('auth.createAccountDesc'),
-    ogTitle: `${t('auth.createAccount')} | RokPteah`,
+    ogTitle: `${t('auth.createAccount')} | SabayRent`,
     ogDescription: t('auth.createAccountDesc'),
     ogType: 'website',
     twitterCard: 'summary_large_image',
-    twitterTitle: `${t('auth.createAccount')} | RokPteah`,
+    twitterTitle: `${t('auth.createAccount')} | SabayRent`,
     twitterDescription: t('auth.createAccountDesc'),
     robots: 'noindex, nofollow',
 })

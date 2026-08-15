@@ -4,7 +4,7 @@
       <h1>លក្ខខណ្ឌនៃការប្រើប្រាស់</h1>
       <span class="badge">កែប្រែចុងក្រោយ៖ ថ្ងៃទី១៥ ខែសីហា ឆ្នាំ២០២៦</span>
       <p class="intro">
-        លក្ខខណ្ឌនៃការប្រើប្រាស់ ("លក្ខខណ្ឌ") នេះ គ្រប់គ្រងការប្រើប្រាស់របស់អ្នកចំពោះ RokPteah ("វេទិកា")
+        លក្ខខណ្ឌនៃការប្រើប្រាស់ ("លក្ខខណ្ឌ") នេះ គ្រប់គ្រងការប្រើប្រាស់របស់អ្នកចំពោះ SabayRent ("វេទិកា")
         ដែលជាទីផ្សារជួលអចលនទ្រព្យរបស់កម្ពុជា ដែលភ្ជាប់ទំនាក់ទំនងរវាងម្ចាស់អចលនទ្រព្យ និងអ្នកជួល។
         តាមរយៈការបង្កើតគណនី ឬការប្រើប្រាស់វេទិកានេះ អ្នកយល់ព្រមទទួលយកលក្ខខណ្ឌទាំងនេះ។
         ការប្រើប្រាស់វេទិកានេះ ក៏ស្ថិតនៅក្រោម<NuxtLink to="/privacy">គោលការណ៍ភាពឯកជន</NuxtLink>របស់យើងផងដែរ
@@ -30,7 +30,7 @@
       <p>
         វេទិកានេះអនុញ្ញាតឱ្យអ្នកបញ្ជូនខ្លឹមសារ រួមទាំងការផ្សាយអចលនទ្រព្យ រូបភាព ព័ត៌មានប្រវត្តិរូប មតិវាយតម្លៃ
         និងមតិកែលម្អ ព្រមទាំងរបាយការណ៍។ អ្នកនៅតែជាម្ចាស់កម្មសិទ្ធិលើខ្លឹមសារដែលអ្នកបញ្ជូន ប៉ុន្តែអ្នកផ្តល់សិទ្ធិដល់
-        RokPteah ក្នុងការផ្ទុក បង្ហាញ ផលិតឡើងវិញ និងដំណើរការខ្លឹមសារនោះតាមបច្ចេកទេស (ឧទាហរណ៍ ការកែសម្រួលទំហំរូបភាព)
+        SabayRent ក្នុងការផ្ទុក បង្ហាញ ផលិតឡើងវិញ និងដំណើរការខ្លឹមសារនោះតាមបច្ចេកទេស (ឧទាហរណ៍ ការកែសម្រួលទំហំរូបភាព)
         តាមតម្រូវការក្នុងការដំណើរការ និងត្រួតពិនិត្យវេទិកា។
       </p>
       <p>
@@ -63,8 +63,8 @@
       <p>អ្នកអាចដាក់របាយការណ៍កំហុស ឬសំណើរផ្សេងៗតាមរយៈមុខងារមតិកែលម្អ។ មតិកែលម្អត្រូវបានត្រួតពិនិត្យដោយអ្នកគ្រប់គ្រង និងអាចត្រូវបានប្រើដើម្បីកែលម្អវេទិកា។ ការដាក់មតិកែលម្អមិនធានាថានឹងមានសកម្មភាពជាក់លាក់ណាមួយត្រូវអនុវត្តទេ។</p>
 
       <h2 id="fees">៧. កម្រៃសេវា</h2>
-      <p>បច្ចុប្បន្ន RokPteah អាចប្រើប្រាស់បានដោយឥតគិតថ្លៃទាំងសម្រាប់អ្នកជួល និងម្ចាស់អចលនទ្រព្យ។ យើងរក្សាសិទ្ធិក្នុងការណែនាំ ឬកែប្រែកម្រៃសេវា កម្រៃជើងសារ ថ្លៃជាវ ឬកម្រៃលើការផ្សាយនាពេលអនាគត។ ប្រសិនបើយើងធ្វើដូច្នេះ យើងនឹងជូនដំណឹងទៅអ្នកប្រើប្រាស់ដែលពាក់ព័ន្ធជាមុន មុនពេលការគិតថ្លៃណាមួយចូលជាធរមាន។</p>
-      <p>RokPteah មិនមែនជាភាគីនៃកិច្ចសន្យាជួល ឬភតិសន្យារវាងម្ចាស់អចលនទ្រព្យ និងអ្នកជួលនោះទេ ហើយមិនដំណើរការការទូទាត់ថ្លៃជួលក្នុងនាមអ្នកឡើយ លុះត្រាតែមានការចែងជាក់ស្តែងផ្សេងក្នុងកម្មវិធី។</p>
+      <p>បច្ចុប្បន្ន SabayRent អាចប្រើប្រាស់បានដោយឥតគិតថ្លៃទាំងសម្រាប់អ្នកជួល និងម្ចាស់អចលនទ្រព្យ។ យើងរក្សាសិទ្ធិក្នុងការណែនាំ ឬកែប្រែកម្រៃសេវា កម្រៃជើងសារ ថ្លៃជាវ ឬកម្រៃលើការផ្សាយនាពេលអនាគត។ ប្រសិនបើយើងធ្វើដូច្នេះ យើងនឹងជូនដំណឹងទៅអ្នកប្រើប្រាស់ដែលពាក់ព័ន្ធជាមុន មុនពេលការគិតថ្លៃណាមួយចូលជាធរមាន។</p>
+      <p>SabayRent មិនមែនជាភាគីនៃកិច្ចសន្យាជួល ឬភតិសន្យារវាងម្ចាស់អចលនទ្រព្យ និងអ្នកជួលនោះទេ ហើយមិនដំណើរការការទូទាត់ថ្លៃជួលក្នុងនាមអ្នកឡើយ លុះត្រាតែមានការចែងជាក់ស្តែងផ្សេងក្នុងកម្មវិធី។</p>
 
       <h2 id="acceptable-use">៨. ការប្រើប្រាស់ដែលអនុញ្ញាត</h2>
       <p>អ្នកយល់ព្រមមិន៖</p>
@@ -81,7 +81,7 @@
 
       <h2 id="advertising">១០. ការផ្សាយពាណិជ្ជកម្មពីភាគីទីបី</h2>
       <p>
-        RokPteah អាចបង្ហាញការផ្សាយពាណិជ្ជកម្មពីអ្នកផ្តល់សេវាផ្សាយពាណិជ្ជកម្មភាគីទីបី រួមទាំង Google។ ការផ្សាយពាណិជ្ជកម្មដែលបង្ហាញ
+        SabayRent អាចបង្ហាញការផ្សាយពាណិជ្ជកម្មពីអ្នកផ្តល់សេវាផ្សាយពាណិជ្ជកម្មភាគីទីបី រួមទាំង Google។ ការផ្សាយពាណិជ្ជកម្មដែលបង្ហាញ
         អាចមានលក្ខណៈផ្ទាល់ខ្លួន ឬមិនផ្ទាល់ខ្លួន អាស្រ័យលើការកំណត់ដែលអនុវត្ត តម្រូវការនៃការយល់ព្រម និងសេវាកម្មដែលកំពុងប្រើប្រាស់។
         យើងមិនគ្រប់គ្រងខ្លឹមសារ ភាពត្រឹមត្រូវ ភាពអាចប្រើប្រាស់បាន ឬការអនុវត្តរបស់ការផ្សាយពាណិជ្ជកម្មភាគីទីបីនោះទេ ហើយការចុះទំនាក់ទំនង
         ជាមួយការផ្សាយពាណិជ្ជកម្ម ការចូលទស្សនាគេហទំព័ររបស់អ្នកផ្សាយពាណិជ្ជកម្ម ឬការទិញផលិតផល/សេវាកម្មពីអ្នកផ្សាយពាណិជ្ជកម្ម គឺជា
@@ -92,17 +92,17 @@
 
       <h2 id="disclaimers">១១. ការមិនទទួលខុសត្រូវ និងកម្រិតនៃទំនួលខុសត្រូវ</h2>
       <p>
-        RokPteah ដំណើរការជាទីផ្សារជួលអចលនទ្រព្យ ដែលជួយម្ចាស់អចលនទ្រព្យ និងអ្នកជួលក្នុងការស្វែងរកអចលនទ្រព្យ និងទំនាក់ទំនងគ្នា។
+        SabayRent ដំណើរការជាទីផ្សារជួលអចលនទ្រព្យ ដែលជួយម្ចាស់អចលនទ្រព្យ និងអ្នកជួលក្នុងការស្វែងរកអចលនទ្រព្យ និងទំនាក់ទំនងគ្នា។
         យើងមិនធានាថាអចលនទ្រព្យដែលបានផ្សាយពិតជាមាន ឬកំពុងទំនេរ ថាការផ្សាយមានភាពត្រឹមត្រូវ ឬពេញលេញ ឬថាបុគ្គលដែលផ្សាយអចលនទ្រព្យ
-        មានភាពជាម្ចាស់ស្របច្បាប់ ឬមានសិទ្ធិយកអចលនទ្រព្យនោះមកជួលនោះទេ។ RokPteah មិនដើរតួជាម្ចាស់អចលនទ្រព្យ អ្នកជួល ភ្នាក់ងារ
+        មានភាពជាម្ចាស់ស្របច្បាប់ ឬមានសិទ្ធិយកអចលនទ្រព្យនោះមកជួលនោះទេ។ SabayRent មិនដើរតួជាម្ចាស់អចលនទ្រព្យ អ្នកជួល ភ្នាក់ងារ
         ឈ្មួញកណ្តាល ឬភាគីនៃកិច្ចសន្យាជួលណាមួយឡើយ លុះត្រាតែយើងបញ្ជាក់ជាក់ស្តែងផ្សេង។
       </p>
       <p>
         អ្នកប្រើប្រាស់ទទួលខុសត្រូវទាំងស្រុងក្នុងការធ្វើការត្រួតពិនិត្យដោយខ្លួនឯង ការផ្ទៀងផ្ទាត់ព័ត៌មានលម្អិតរបស់អចលនទ្រព្យ និងភាគីម្ខាងទៀត
-        ការចរចាលក្ខខណ្ឌ និងការអនុវត្តកិច្ចសន្យាជួលណាមួយដោយឯករាជ្យពីវេទិកា។ RokPteah មិនធានាចំពោះអត្តសញ្ញាណ ភាពជឿទុកចិត្តផ្នែកហិរញ្ញវត្ថុ
+        ការចរចាលក្ខខណ្ឌ និងការអនុវត្តកិច្ចសន្យាជួលណាមួយដោយឯករាជ្យពីវេទិកា។ SabayRent មិនធានាចំពោះអត្តសញ្ញាណ ភាពជឿទុកចិត្តផ្នែកហិរញ្ញវត្ថុ
         ឬការអនុវត្តកិច្ចសន្យារបស់ម្ចាស់អចលនទ្រព្យ ឬអ្នកជួលណាមួយឡើយ។
       </p>
-      <p>ក្នុងកម្រិតអតិបរមាដែលច្បាប់អនុញ្ញាត RokPteah មិនទទួលខុសត្រូវចំពោះជម្លោះ ការខូចខាត ឬការបាត់បង់ណាមួយដែលកើតចេញពីទំនាក់ទំនងរវាងម្ចាស់អចលនទ្រព្យ និងអ្នកជួល ឬពីការពឹងផ្អែកលើខ្លឹមសារនៃការផ្សាយនោះទេ។</p>
+      <p>ក្នុងកម្រិតអតិបរមាដែលច្បាប់អនុញ្ញាត SabayRent មិនទទួលខុសត្រូវចំពោះជម្លោះ ការខូចខាត ឬការបាត់បង់ណាមួយដែលកើតចេញពីទំនាក់ទំនងរវាងម្ចាស់អចលនទ្រព្យ និងអ្នកជួល ឬពីការពឹងផ្អែកលើខ្លឹមសារនៃការផ្សាយនោះទេ។</p>
 
       <h2 id="termination">១២. ការបញ្ចប់សេវា</h2>
       <p>
@@ -121,14 +121,14 @@
       <p>លក្ខខណ្ឌទាំងនេះស្ថិតក្រោមការគ្រប់គ្រងនៃច្បាប់នៃព្រះរាជាណាចក្រកម្ពុជា ដោយមិនគិតពីគោលការណ៍ជម្លោះច្បាប់ លុះត្រាតែច្បាប់អនុវត្តតម្រូវឱ្យធ្វើផ្សេង។</p>
 
       <h2 id="contact">១៥. ទំនាក់ទំនង</h2>
-      <p>សំណួរអំពីលក្ខខណ្ឌទាំងនេះ អាចដាក់ស្នើតាមរយៈទម្រង់មតិកែលម្អក្នុងកម្មវិធី ឬបណ្តាញគាំទ្រដែលបានចុះនៅលើគេហទំព័រ RokPteah។</p>
+      <p>សំណួរអំពីលក្ខខណ្ឌទាំងនេះ អាចដាក់ស្នើតាមរយៈទម្រង់មតិកែលម្អក្នុងកម្មវិធី ឬបណ្តាញគាំទ្រដែលបានចុះនៅលើគេហទំព័រ SabayRent។</p>
     </template>
 
     <template v-else>
       <h1>Terms of Service</h1>
       <span class="badge">Last updated: August 15, 2026</span>
       <p class="intro">
-        These Terms of Service ("Terms") govern your use of RokPteah (the "Platform"), a Cambodian property rental
+        These Terms of Service ("Terms") govern your use of SabayRent (the "Platform"), a Cambodian property rental
         marketplace connecting landlords and tenants. By creating an account or using the Platform, you agree to
         these Terms. Your use of the Platform is also subject to our
         <NuxtLink to="/privacy">Privacy Policy</NuxtLink>, which explains how we collect, use, and protect your
@@ -153,7 +153,7 @@
       <h2 id="user-content">3. User Content</h2>
       <p>
         The Platform lets you submit content, including property listings, photos, profile information, reviews and
-        feedback, and reports. You retain ownership of the content you submit, but you grant RokPteah a licence to
+        feedback, and reports. You retain ownership of the content you submit, but you grant SabayRent a licence to
         host, display, reproduce, and technically process that content (for example, resizing images) as needed to
         operate and moderate the Platform.
       </p>
@@ -187,8 +187,8 @@
       <p>You may submit bug reports or suggestions through the feedback feature. Feedback is reviewed by admins and may be used to improve the Platform. Submitting feedback does not guarantee that any specific action will be taken.</p>
 
       <h2 id="fees">7. Fees</h2>
-      <p>RokPteah is currently free to use for both tenants and landlords. We reserve the right to introduce or change fees, commissions, subscription charges, or listing fees in the future; if we do, we will give affected users reasonable advance notice before any charges take effect.</p>
-      <p>RokPteah is not a party to any rental or lease agreement between a landlord and a tenant, and does not process rental payments on your behalf unless explicitly stated otherwise in the app.</p>
+      <p>SabayRent is currently free to use for both tenants and landlords. We reserve the right to introduce or change fees, commissions, subscription charges, or listing fees in the future; if we do, we will give affected users reasonable advance notice before any charges take effect.</p>
+      <p>SabayRent is not a party to any rental or lease agreement between a landlord and a tenant, and does not process rental payments on your behalf unless explicitly stated otherwise in the app.</p>
 
       <h2 id="acceptable-use">8. Acceptable Use</h2>
       <p>You agree not to:</p>
@@ -205,7 +205,7 @@
 
       <h2 id="advertising">10. Third-Party Advertising</h2>
       <p>
-        RokPteah may display advertisements from third-party advertising providers, including Google. Where shown,
+        SabayRent may display advertisements from third-party advertising providers, including Google. Where shown,
         advertisements may be personalized or non-personalized depending on applicable settings, consent
         requirements, and the services in use. We do not control the content, accuracy, availability, or practices
         of any third-party advertisement, and interacting with an advertisement, visiting an advertiser's website,
@@ -216,18 +216,18 @@
 
       <h2 id="disclaimers">11. Disclaimers & Limitation of Liability</h2>
       <p>
-        RokPteah operates a rental marketplace that helps owners and renters discover properties and communicate
+        SabayRent operates a rental marketplace that helps owners and renters discover properties and communicate
         with each other. We do not guarantee that a listed property exists or is currently available, that a
         listing is accurate or complete, or that the person listing a property has legal ownership of or authority
-        to rent it. RokPteah does not act as a landlord, tenant, agent, broker, or party to any rental agreement,
+        to rent it. SabayRent does not act as a landlord, tenant, agent, broker, or party to any rental agreement,
         unless we explicitly state otherwise.
       </p>
       <p>
         Users are solely responsible for conducting their own due diligence, verifying property and counterparty
-        details, negotiating terms, and executing any rental agreement independently of the Platform. RokPteah does
+        details, negotiating terms, and executing any rental agreement independently of the Platform. SabayRent does
         not guarantee the identity, financial reliability, or contractual performance of any owner or renter.
       </p>
-      <p>To the maximum extent permitted by law, RokPteah is not liable for disputes, damages, or losses arising from interactions between landlords and tenants, or from reliance on listing content.</p>
+      <p>To the maximum extent permitted by law, SabayRent is not liable for disputes, damages, or losses arising from interactions between landlords and tenants, or from reliance on listing content.</p>
 
       <h2 id="termination">12. Termination</h2>
       <p>
@@ -247,7 +247,7 @@
       <p>These Terms are governed by the laws of the Kingdom of Cambodia, without regard to conflict-of-law principles, unless otherwise required by applicable law.</p>
 
       <h2 id="contact">15. Contact</h2>
-      <p>Questions about these Terms can be submitted through the in-app feedback form or the support channel listed on the RokPteah website.</p>
+      <p>Questions about these Terms can be submitted through the in-app feedback form or the support channel listed on the SabayRent website.</p>
     </template>
   </LegalDocument>
 </template>
@@ -258,6 +258,6 @@ import LegalDocument from '~/components/legal/legal-document.vue'
 const { t, locale } = useI18n()
 
 useSeoMeta({
-  title: () => `${t('footer.terms')} | RokPteah`,
+  title: () => `${t('footer.terms')} | SabayRent`,
 })
 </script>

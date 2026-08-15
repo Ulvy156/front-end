@@ -21,7 +21,7 @@
         class="h-16 flex items-center gap-2 border-b border-gray-200 shrink-0 overflow-hidden transition-all duration-200"
         :class="collapsed ? 'justify-center px-0' : 'px-5'"
       >
-        <NuxtImg src="/rokpteah-logo.webp" class="h-9 shrink-0" alt="RokPteah logo" width="36" height="36" />
+        <NuxtImg src="/sabayrent-logo.webp" class="h-9 shrink-0" alt="SabayRent logo" width="36" height="36" />
         <span
           class="font-semibold text-gray-900 text-sm leading-tight whitespace-nowrap overflow-hidden transition-all duration-200 ease-in-out"
           :class="collapsed ? 'max-w-0 opacity-0' : 'max-w-40 opacity-100'"

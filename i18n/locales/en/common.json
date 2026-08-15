@@ -1,6 +1,6 @@
 {
   "nav": {
-    "title": "RokPteah",
+    "title": "SabayRent",
     "rooms": "Rooms",
     "apartments": "Apartments",
     "houses": "Houses",
@@ -45,7 +45,7 @@
   "maintenance": {
     "badge": "MAINTENANCE",
     "title": "We'll be right back",
-    "description": "RokPteah is currently undergoing scheduled maintenance. Please check back shortly.",
+    "description": "SabayRent is currently undergoing scheduled maintenance. Please check back shortly.",
     "adminNotice": "Maintenance mode is on — only admins can browse the live site right now.",
     "signIn": "Admin sign in",
     "checking": "This page will unlock automatically once we're back."

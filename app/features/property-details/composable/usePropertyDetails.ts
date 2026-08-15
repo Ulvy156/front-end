@@ -68,7 +68,7 @@ export function usePropertyDetails() {
         description: description.length > 160 ? `${description.slice(0, 157)}...` : description,
         image: firstImageKey
           ? `${config.public.R2_PUB_URL}/${firstImageKey}`
-          : `${config.public.BASE_URL}/rokpteah-logo.webp`,
+          : `${config.public.BASE_URL}/sabayrent-logo.webp`,
       })
     },
     { immediate: true },

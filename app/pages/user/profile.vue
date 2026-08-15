@@ -22,7 +22,7 @@ const { extract } = useErrorMsg()
 const { profile, isPending, isError, error, updateName, uploadAvatar, deleteAvatar, changePassword, updateContactVisibility, addPhone, deletePhone, requestDeletion, cancelDeletion } = useProfile()
 
 useSeoMeta({
-  title: `${t('profile.title')} | RokPteah`,
+  title: `${t('profile.title')} | SabayRent`,
   robots: 'noindex',
 })
 </script>

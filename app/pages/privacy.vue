@@ -4,8 +4,8 @@
       <h1>គោលការណ៍ភាពឯកជន</h1>
       <span class="badge">កែប្រែចុងក្រោយ៖ ថ្ងៃទី១៥ ខែសីហា ឆ្នាំ២០២៦</span>
       <p class="intro">
-        គោលការណ៍ភាពឯកជននេះ ពន្យល់ពីព័ត៌មានដែល RokPteah ("យើង") ប្រមូលពីអ្នកប្រើប្រាស់ ("អ្នក")
-        របៀបដែលយើងប្រើប្រាស់ព័ត៌មាននោះ និងជម្រើសដែលអ្នកមាន។ គោលការណ៍នេះអនុវត្តលើគេហទំព័រ កម្មវិធី និងសេវាកម្មពាក់ព័ន្ធរបស់ RokPteah។
+        គោលការណ៍ភាពឯកជននេះ ពន្យល់ពីព័ត៌មានដែល SabayRent ("យើង") ប្រមូលពីអ្នកប្រើប្រាស់ ("អ្នក")
+        របៀបដែលយើងប្រើប្រាស់ព័ត៌មាននោះ និងជម្រើសដែលអ្នកមាន។ គោលការណ៍នេះអនុវត្តលើគេហទំព័រ កម្មវិធី និងសេវាកម្មពាក់ព័ន្ធរបស់ SabayRent។
       </p>
 
       <h2 id="information-we-collect">១. ព័ត៌មានដែលយើងប្រមូល</h2>
@@ -127,7 +127,7 @@
       <p>គ្មានប្រព័ន្ធណាមួយមានសុវត្ថិភាព ១០០% នោះទេ ហើយយើងមិនអាចធានាសុវត្ថិភាពពេញលេញនៃព័ត៌មានដែលបញ្ជូនទៅកាន់វេទិកាបានឡើយ។</p>
 
       <h2 id="advertising">៧. ការផ្សាយពាណិជ្ជកម្ម</h2>
-      <p>បច្ចុប្បន្ន RokPteah មិនទាន់បង្ហាញការផ្សាយពាណិជ្ជកម្មនោះទេ។ យើងមានផែនការណែនាំការផ្សាយពាណិជ្ជកម្មនៅលើវេទិកា ដែលអាចរួមបញ្ចូលសេវាផ្សាយពាណិជ្ជកម្មពីភាគីទីបី ដូចជា Google (ឧទាហរណ៍ Google AdSense)។</p>
+      <p>បច្ចុប្បន្ន SabayRent មិនទាន់បង្ហាញការផ្សាយពាណិជ្ជកម្មនោះទេ។ យើងមានផែនការណែនាំការផ្សាយពាណិជ្ជកម្មនៅលើវេទិកា ដែលអាចរួមបញ្ចូលសេវាផ្សាយពាណិជ្ជកម្មពីភាគីទីបី ដូចជា Google (ឧទាហរណ៍ Google AdSense)។</p>
       <p>នៅពេលដែលបានណែនាំ Google និងដៃគូផ្សាយពាណិជ្ជកម្មរបស់ខ្លួន អាចប្រើខូគី និងបច្ចេកវិទ្យាស្រដៀងគ្នា ព្រមទាំងព័ត៌មានបច្ចេកទេសអំពីកម្មវិធីរុករក ឬឧបករណ៍របស់អ្នក ដើម្បីបង្ហាញការផ្សាយពាណិជ្ជកម្ម វាស់វែងប្រសិទ្ធភាព ទប់ស្កាត់ការក្លែងបន្លំ និង — ក្នុងករណីអាចអនុវត្តបាន — ធ្វើឱ្យការផ្សាយពាណិជ្ជកម្មសមស្របតាមចំណូលចិត្តរបស់អ្នក។ បច្ចេកវិទ្យាទាំងនេះខុសពីសេវាចូលគណនីតាម Google ដែលបានរៀបរាប់នៅផ្នែក "អ្នកដែលយើងចែករំលែកព័ត៌មានជាមួយ" ខាងលើ ដែលប្រើសម្រាប់ការចូលគណនីតែប៉ុណ្ណោះ។ យើងមិនប្រើព័ត៌មានទំនាក់ទំនងឯកជន (ដូចជាលេខទូរស័ព្ទ ឬអ៊ីមែលរបស់អ្នក) ឬព័ត៌មានគណនីឯកជនផ្សេងទៀតដោយផ្ទាល់ ដើម្បីកំណត់គោលដៅការផ្សាយពាណិជ្ជកម្មដល់អ្នកនោះទេ។</p>
       <p>យើងនឹងធ្វើបច្ចុប្បន្នភាពគោលការណ៍ភាពឯកជននេះ មុនពេលសេវាផ្សាយពាណិជ្ជកម្មណាមួយចាប់ផ្តើមដំណើរការជាផ្លូវការ ហើយផ្នែកខូគីខាងក្រោមពន្យល់ពីរបៀបដែលអ្នកអាចគ្រប់គ្រងខូគីទាក់ទងនឹងការផ្សាយពាណិជ្ជកម្មនៅពេលវាត្រូវបានណែនាំ។</p>
 
@@ -142,21 +142,21 @@
       <p>បច្ចុប្បន្ន យើងមិនទាន់មានផ្ទាំងសម្រាប់ការយល់ព្រមលើខូគីនោះទេ។ ប្រសិនបើយើងណែនាំខូគីជម្រើសសម្រាប់ការផ្សាយពាណិជ្ជកម្ម ឬការវិភាគ យើងនឹងធ្វើបច្ចុប្បន្នភាពគោលការណ៍ភាពឯកជននេះ និងផ្តល់មធ្យោបាយគ្រប់គ្រងសមស្របស្របតាមច្បាប់ដែលអនុវត្ត។</p>
 
       <h2 id="children">៩. ភាពឯកជនរបស់កុមារ</h2>
-      <p>RokPteah មិនត្រូវបានរចនាឡើងសម្រាប់កុមារនោះទេ ហើយយើងមិនប្រមូលទិន្នន័យពីកុមារដែលមានអាយុក្រោមអាយុតម្រូវដោយច្បាប់មូលដ្ឋានក្នុងការចូលកិច្ចសន្យាជួលដោយចេតនានោះទេ។</p>
+      <p>SabayRent មិនត្រូវបានរចនាឡើងសម្រាប់កុមារនោះទេ ហើយយើងមិនប្រមូលទិន្នន័យពីកុមារដែលមានអាយុក្រោមអាយុតម្រូវដោយច្បាប់មូលដ្ឋានក្នុងការចូលកិច្ចសន្យាជួលដោយចេតនានោះទេ។</p>
 
       <h2 id="changes">១០. ការផ្លាស់ប្តូរគោលការណ៍នេះ</h2>
       <p>យើងអាចធ្វើបច្ចុប្បន្នភាពគោលការណ៍ភាពឯកជននេះ ស្របតាមការវិវត្តរបស់វេទិកា។ ការផ្លាស់ប្តូរសំខាន់ៗនឹងត្រូវឆ្លុះបញ្ចាំងនៅកាលបរិច្ឆេទ "កែប្រែចុងក្រោយ" ខាងលើ។</p>
 
       <h2 id="contact">១១. ទំនាក់ទំនងមកយើង</h2>
-      <p>ប្រសិនបើអ្នកមានសំណួរអំពីគោលការណ៍ភាពឯកជននេះ ឬអំពីរបៀបដែលទិន្នន័យរបស់អ្នកត្រូវបានប្រើប្រាស់ សូមទាក់ទងអ្នកគ្រប់គ្រងវេទិកាតាមរយៈទម្រង់មតិកែលម្អក្នុងកម្មវិធី ឬបណ្តាញគាំទ្រដែលបានចុះនៅលើគេហទំព័រ RokPteah។</p>
+      <p>ប្រសិនបើអ្នកមានសំណួរអំពីគោលការណ៍ភាពឯកជននេះ ឬអំពីរបៀបដែលទិន្នន័យរបស់អ្នកត្រូវបានប្រើប្រាស់ សូមទាក់ទងអ្នកគ្រប់គ្រងវេទិកាតាមរយៈទម្រង់មតិកែលម្អក្នុងកម្មវិធី ឬបណ្តាញគាំទ្រដែលបានចុះនៅលើគេហទំព័រ SabayRent។</p>
     </template>
 
     <template v-else>
       <h1>Privacy Policy</h1>
       <span class="badge">Last updated: August 15, 2026</span>
       <p class="intro">
-        This Privacy Policy explains what information RokPteah ("we", "our", "the Platform") collects from users
-        ("you"), how we use it, and the choices you have. It applies to the RokPteah website, application, and
+        This Privacy Policy explains what information SabayRent ("we", "our", "the Platform") collects from users
+        ("you"), how we use it, and the choices you have. It applies to the SabayRent website, application, and
         related services.
       </p>
 
@@ -279,7 +279,7 @@
       <p>No system is 100% secure, and we cannot guarantee absolute security of information transmitted to the Platform.</p>
 
       <h2 id="advertising">7. Advertising</h2>
-      <p>RokPteah does not currently display advertisements. We plan to introduce advertising on the Platform, which may include third-party advertising services such as Google (for example, Google AdSense).</p>
+      <p>SabayRent does not currently display advertisements. We plan to introduce advertising on the Platform, which may include third-party advertising services such as Google (for example, Google AdSense).</p>
       <p>Once introduced, Google and its advertising partners may use cookies and similar technologies, along with technical information about your browser or device, to deliver ads, measure ad performance, prevent fraud, and, where applicable, personalize the ads shown to you. These technologies are separate from the Google sign-in service described in the "Who We Share Information With" section above, which is used only for signing in. We do not directly use your private contact information (such as your phone number or email address) or other private account information to target advertisements to you.</p>
       <p>We will update this Privacy Policy before any advertising service goes live, and the Cookies section below explains how you may be able to manage advertising-related cookies once introduced.</p>
 
@@ -294,13 +294,13 @@
       <p>We do not currently operate a cookie-consent banner. If we introduce optional cookies for advertising or analytics, we will update this Privacy Policy and provide appropriate controls consistent with applicable law.</p>
 
       <h2 id="children">9. Children's Privacy</h2>
-      <p>RokPteah is not directed at children, and we do not knowingly collect data from children under the age required by local law to enter into a rental agreement.</p>
+      <p>SabayRent is not directed at children, and we do not knowingly collect data from children under the age required by local law to enter into a rental agreement.</p>
 
       <h2 id="changes">10. Changes to This Policy</h2>
       <p>We may update this Privacy Policy as the Platform evolves. Material changes will be reflected in the "Last updated" date above.</p>
 
       <h2 id="contact">11. Contact Us</h2>
-      <p>If you have questions about this Privacy Policy or how your data is handled, contact the platform administrator through the in-app feedback form or the support channel listed on the RokPteah website.</p>
+      <p>If you have questions about this Privacy Policy or how your data is handled, contact the platform administrator through the in-app feedback form or the support channel listed on the SabayRent website.</p>
     </template>
   </LegalDocument>
 </template>
@@ -311,6 +311,6 @@ import LegalDocument from '~/components/legal/legal-document.vue'
 const { t, locale } = useI18n()
 
 useSeoMeta({
-  title: () => `${t('footer.privacy')} | RokPteah`,
+  title: () => `${t('footer.privacy')} | SabayRent`,
 })
 </script>
