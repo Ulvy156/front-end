@@ -208,22 +208,22 @@ async function handleDelete(user: AdminUser) {
           <template #default="{ row }">
             <div class="flex items-center justify-end gap-0.5">
               <el-tooltip :content="$t('admin.landlords.viewProperties')" placement="top">
-                <BaseButton text size="small" class="text-blue-500!" @click="openProperties(row)">
-                  <BaseIcon color="gray" name="scan-search" :size="15" />
+                <BaseButton text size="small" class="text-gray-400!" @click="openProperties(row)">
+                  <BaseIcon name="scan-search" :size="15" />
                 </BaseButton>
               </el-tooltip>
               <el-tooltip :content="row.hasVerifiedBadge ? $t('admin.landlords.unverify') : $t('admin.landlords.verify')" placement="top">
-                <BaseButton text size="small" class="text-emerald-600!" :loading="verifyingUserId === row.id" @click="handleBadgeToggle(row)">
+                <BaseButton text size="small" :class="row.hasVerifiedBadge ? 'text-emerald-600!' : 'text-gray-400!'" :loading="verifyingUserId === row.id" @click="handleBadgeToggle(row)">
                   <BaseIcon :name="row.hasVerifiedBadge ? 'shield-off' : 'shield-check'" :size="15" />
                 </BaseButton>
               </el-tooltip>
               <el-tooltip :content="row.isLocked ? $t('admin.users.unlock') : $t('admin.users.lock')" placement="top">
-                <BaseButton text size="small" :loading="lockingUserId === row.id" @click="handleLockToggle(row)">
+                <BaseButton text size="small" :class="row.isLocked ? 'text-red-500!' : 'text-gray-400!'" :loading="lockingUserId === row.id" @click="handleLockToggle(row)">
                   <BaseIcon :name="row.isLocked ? 'lock-open' : 'lock'" :size="15" />
                 </BaseButton>
               </el-tooltip>
               <el-tooltip :content="$t('admin.users.editAction')" placement="top">
-                <BaseButton text size="small" @click="openEdit(row)">
+                <BaseButton text size="small" class="text-gray-400!" @click="openEdit(row)">
                   <BaseIcon name="pencil" :size="15" />
                 </BaseButton>
               </el-tooltip>
