@@ -48,6 +48,7 @@
         <p class="sidebar-section-label" :class="effectiveCollapsed ? 'sidebar-section-label--collapsed' : ''">{{ $t('landlord.nav.properties') }}</p>
         <BaseSidebarNavItem to="/landlord/properties" icon="building" :label="$t('landlord.nav.myProperties')" :collapsed="effectiveCollapsed" />
         <BaseSidebarNavItem to="/landlord/post-property" icon="circle-plus" :label="$t('landlord.nav.postProperty')" :collapsed="effectiveCollapsed" />
+        <BaseSidebarNavItem to="/landlord/drafts" icon="file-text" :label="$t('landlord.nav.drafts')" :collapsed="effectiveCollapsed" />
 
       </nav>
 

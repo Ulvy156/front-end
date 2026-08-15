@@ -27,7 +27,13 @@ export function createPropertyForm() {
     ruleKeys: [] as number[],
     additionalNotes: '',
     photos: [] as string[],
-    photoFiles: [] as File[],
+    photoFiles: [] as (File | null)[],
+    // Parallel to `photos`/`photoFiles`: null = a newly-picked local file
+    // (not yet uploaded), string = the R2 key of an already-saved draft image.
+    photoKeys: [] as (string | null)[],
+    // R2 keys of existing draft images queued for removal on the next
+    // "Save as Draft" (property-draft PATCH's removeImageKeys).
+    removeImageKeys: [] as string[],
     floor: 1,
     totalFloors: 1,
     openTime: '',

@@ -6,7 +6,7 @@
         <span class="text-xs font-semibold text-(--nav-active-item) tracking-wide uppercase">
           {{ t('post_property.step_progress.step_of', { current: currentStep + 1, total: stepKeys.length }) }}
         </span>
-        <div class="flex items-center gap-1.5">
+        <div v-if="savedText" class="flex items-center gap-1.5">
           <span class="w-1.5 h-1.5 rounded-full" :class="savedFresh ? 'bg-emerald-500' : 'bg-gray-300'" />
           <span class="text-xs text-gray-400">{{ savedText }}</span>
         </div>
@@ -28,7 +28,7 @@
 
     <!-- Desktop -->
     <div v-if="!isMounted || isMdUp" class="px-10 py-5.5">
-      <div class="flex items-center justify-end mb-3.5">
+      <div v-if="savedText" class="flex items-center justify-end mb-3.5">
         <div class="flex items-center gap-1.5">
           <span class="w-1.75 h-1.75 rounded-full" :class="savedFresh ? 'bg-emerald-500' : 'bg-gray-300'" />
           <span class="text-sm text-gray-500">{{ savedText }}</span>

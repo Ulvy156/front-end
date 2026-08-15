@@ -1,4 +1,5 @@
 import type { AxiosInstance } from 'axios'
+import { appendPropertyFormData } from '~/utils/appendPropertyFormData'
 
 export interface CreatePropertyPayload {
   userId: string
@@ -40,47 +41,7 @@ export async function createProperty(
 ) {
   const formData = new FormData()
 
-  Object.entries(payload).forEach(([key, value]) => {
-    if (value === undefined || value === null) return
-
-    // Send parkings as JSON string with proper types
-    if (key === 'parkings' && Array.isArray(value)) {
-      const normalized = value.map((p) => ({
-        type: p.type,
-        slots: Number(p.slots),
-        isFree: Boolean(p.isFree),
-        ...(p.isFree ? {} : { price: Number(p.price) }),
-        ...(p.note ? { note: p.note } : {}),
-      }))
-      formData.append('parkings', JSON.stringify(normalized))
-      return
-    }
-
-    // Send amenityKeys/ruleKeys as repeated fields with the same key name.
-    // The backend's DTO transform (`Array.isArray(value) ? value.map(Number)
-    // : [Number(value)]`) expects multer to collect same-named multipart
-    // fields into a real array — a JSON-stringified single field arrives as
-    // a plain string and fails validation.
-    if ((key === 'amenityKeys' || key === 'ruleKeys') && Array.isArray(value)) {
-      value.forEach((item) => formData.append(key, String(Number(item))))
-      return
-    }
-
-    // Booleans: send as 1/0
-    if (key === 'furnished' || key === 'isPublished') {
-      formData.append(key, value ? '1' : '0')
-      return
-    }
-
-    if (Array.isArray(value)) {
-      value.forEach((item) => {
-        formData.append(`${key}[]`, String(item))
-      })
-      return
-    }
-
-    formData.append(key, String(value))
-  })
+  appendPropertyFormData(formData, payload as unknown as Record<string, unknown>)
 
   files.forEach((file) => {
     formData.append('files', file)

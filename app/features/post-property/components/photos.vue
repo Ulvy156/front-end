@@ -191,6 +191,7 @@ function handleDrop(event: DragEvent) {
 async function loadFiles(files: File[]) {
   if (!form.photos) form.photos = []
   if (!form.photoFiles) form.photoFiles = []
+  if (!form.photoKeys) form.photoKeys = []
   for (const file of files) {
     if (form.photos.length >= maxPhotos.value) {
       uploadError.value = t('post_property.errors.photos_max', { max: maxPhotos.value })
@@ -204,11 +205,13 @@ async function loadFiles(files: File[]) {
       const { file: compressed, dataUrl } = await compressImage(file)
       form.photos.push(dataUrl)
       form.photoFiles.push(compressed)
+      form.photoKeys.push(null)
     } catch {
       const reader = new FileReader()
       reader.onload = (e) => {
         form.photos.push(e.target?.result as string)
         form.photoFiles.push(file)
+        form.photoKeys.push(null)
       }
       reader.readAsDataURL(file)
       continue
@@ -221,8 +224,14 @@ function setCover(index: number) {
 }
 
 function removePhoto(index: number) {
+  const key = form.photoKeys?.[index]
+  if (key) {
+    if (!form.removeImageKeys) form.removeImageKeys = []
+    form.removeImageKeys.push(key)
+  }
   form.photos?.splice(index, 1)
   form.photoFiles?.splice(index, 1)
+  form.photoKeys?.splice(index, 1)
   photoNames.value.splice(index, 1)
   if (coverIndex.value >= form.photos.length) coverIndex.value = 0
   if (form.photos.length < maxPhotos.value) uploadError.value = ''
@@ -232,8 +241,12 @@ function movePhoto(index: number, dir: 1 | -1) {
   const toIndex = index + dir
   if (toIndex < 0 || toIndex >= (form.photos?.length ?? 0)) return
   const photos = form.photos
+  const files  = form.photoFiles
+  const keys   = form.photoKeys
   const names  = photoNames.value
   ;[photos[index], photos[toIndex]] = [photos[toIndex], photos[index]]
+  if (files) [files[index], files[toIndex]] = [files[toIndex], files[index]]
+  if (keys) [keys[index], keys[toIndex]] = [keys[toIndex], keys[index]]
   ;[names[index], names[toIndex]] = [names[toIndex], names[index]]
   if (coverIndex.value === index) coverIndex.value = toIndex
   else if (coverIndex.value === toIndex) coverIndex.value = index
@@ -246,10 +259,16 @@ function dragStart(index: number) {
 function dragDrop(toIndex: number) {
   if (dragIndex.value === null || dragIndex.value === toIndex) return
   const photos = form.photos
+  const files  = form.photoFiles
+  const keys   = form.photoKeys
   const names  = photoNames.value
   const [movedPhoto] = photos.splice(dragIndex.value, 1)
+  const [movedFile]  = files ? files.splice(dragIndex.value, 1) : [undefined]
+  const [movedKey]   = keys ? keys.splice(dragIndex.value, 1) : [undefined]
   const [movedName]  = names.splice(dragIndex.value, 1)
   photos.splice(toIndex, 0, movedPhoto)
+  if (files) files.splice(toIndex, 0, movedFile)
+  if (keys) keys.splice(toIndex, 0, movedKey)
   names.splice(toIndex, 0, movedName as string)
   if (coverIndex.value === dragIndex.value) {
     coverIndex.value = toIndex

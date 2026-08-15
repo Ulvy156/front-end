@@ -7,6 +7,7 @@
       "properties": "Properties",
       "myProperties": "My Properties",
       "postProperty": "Post Property",
+      "drafts": "My Drafts",
       "account": "Account",
       "settings": "Settings",
       "logout": "Logout",
@@ -154,6 +155,24 @@
       "coverSet": "Cover photo updated.",
       "photoDeleted": "Photo deleted.",
       "updateSuccess": "Property updated successfully."
+    },
+    "drafts": {
+      "title": "My Drafts",
+      "subtitle": "Continue an in-progress listing or publish it when it's ready.",
+      "untitled": "Untitled draft",
+      "empty": "No drafts yet. Start a new listing and save it as a draft anytime.",
+      "newDraft": "New Draft",
+      "atCap": "You've reached your draft limit. Delete or publish a draft to make room.",
+      "lastUpdated": "Updated {time}",
+      "edit": "Edit",
+      "delete": "Delete",
+      "deleteTitle": "Delete Draft",
+      "deleteConfirm": "Delete \"{title}\"? This can't be undone.",
+      "deleteSuccess": "Draft deleted.",
+      "cancel": "Cancel",
+      "publish": "Publish",
+      "publishSuccess": "Property published successfully.",
+      "publishErrorsTitle": "Fix these before you can publish:"
     },
     "settings": {
       "comingSoon": "Account settings coming soon."

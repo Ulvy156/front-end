@@ -18,5 +18,14 @@ export const useErrorMsg = () => {
     return fallback
   }
 
-  return { extract }
+  // Unlike extract() (which flattens an array into one string for a toast),
+  // this keeps each validation message separate — for the one UI that needs
+  // to show every problem as its own checklist item (draft publish errors).
+  const getValidationMessages = (err: unknown): string[] | null => {
+    const msg = responseMessage(err) ?? responseMessage((err as { cause?: unknown })?.cause)
+    if (Array.isArray(msg) && msg.length) return msg
+    return null
+  }
+
+  return { extract, getValidationMessages }
 }

@@ -14,6 +14,7 @@
         "back": "Back",
         "continue": "Continue",
         "draft": "Save as Draft",
+        "draft_saved": "Draft saved.",
         "optional": "Optional",
         "step_progress": {
             "step_of": "Step {current} of {total}",

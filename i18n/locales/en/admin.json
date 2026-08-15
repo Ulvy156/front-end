@@ -261,58 +261,63 @@
       }
     },
     "settings": {
-      "save": "Save Changes",
-      "saveSuccess": "Settings updated.",
+      "pageTitle": "Settings",
+      "pageDescription": "Manage application configuration and behavior.",
+      "totalCount": "{n} settings total",
+      "searchPlaceholder": "Search by key or description...",
+      "categoryFilterAll": "All categories",
+      "typeFilterAll": "All types",
+      "visibilityFilterAll": "All visibility",
+      "emptyTitle": "No settings found",
+      "emptyDescription": "Try changing your filters or create a new setting.",
       "maintenanceBannerActive": "Maintenance mode is ON — non-admin requests are currently blocked.",
-      "access": {
-        "title": "Platform Access",
-        "maintenanceMode": "Maintenance mode",
-        "maintenanceModeHint": "Blocks all non-admin requests except login and token refresh.",
-        "registrationEnabled": "Registration enabled",
-        "registrationEnabledHint": "Allows new sign-ups via email, Telegram, and Google."
+      "categoryLabel": "Category",
+      "addButton": "Add Setting",
+      "editAction": "Edit",
+      "duplicateAction": "Duplicate",
+      "deleteAction": "Delete",
+      "deleteTitle": "Delete Setting",
+      "deleteConfirm": "Are you sure you want to delete \"{key}\"? This cannot be undone.",
+      "deleteConfirmBtn": "Delete",
+      "deleteSuccess": "Setting deleted.",
+      "publicYes": "Public",
+      "publicNo": "Private",
+      "columns": {
+        "key": "Key",
+        "value": "Value",
+        "type": "Type",
+        "description": "Description",
+        "public": "Visibility",
+        "actions": "Actions"
       },
-      "limits": {
-        "title": "Listing Limits",
-        "maxPropertiesPerLandlord": "Max properties per landlord (30 days)",
-        "maxImagesPerProperty": "Max images per property",
-        "minPropertyPrice": "Minimum monthly price",
-        "maxPropertyPrice": "Maximum monthly price",
-        "noBound": "No bound"
+      "drawer": {
+        "title": "Add Setting",
+        "editTitle": "Edit Setting",
+        "duplicateTitle": "Duplicate Setting"
       },
-      "custom": {
-        "title": "Custom Settings",
-        "empty": "No custom settings yet.",
-        "addButton": "Add Setting",
-        "columns": {
-          "key": "Key",
-          "value": "Value",
-          "type": "Type",
-          "actions": "Actions"
-        },
-        "editAction": "Edit setting",
-        "drawer": {
-          "title": "Add Custom Setting",
-          "editTitle": "Edit Custom Setting"
-        },
-        "form": {
-          "key": "Key",
-          "group": "Group",
-          "valueType": "Value type",
-          "value": "Value",
-          "keyRequired": "Key is required",
-          "groupRequired": "Group is required",
-          "valueTypeString": "String",
-          "valueTypeNumber": "Number",
-          "valueTypeBoolean": "Boolean",
-          "valueTypeJson": "JSON",
-          "create": "Add",
-          "save": "Save",
-          "cancel": "Cancel"
-        },
-        "invalidJson": "Enter valid JSON.",
-        "createSuccess": "Setting created.",
-        "updateSuccess": "Setting updated."
-      }
+      "form": {
+        "key": "Key",
+        "keyRequired": "Key is required",
+        "category": "Category",
+        "categoryPlaceholder": "Select or type a category",
+        "categoryRequired": "Category is required",
+        "valueType": "Value type",
+        "value": "Value",
+        "valueTypeString": "String",
+        "valueTypeNumber": "Number",
+        "valueTypeBoolean": "Boolean",
+        "valueTypeJson": "JSON",
+        "description": "Description",
+        "isPublic": "Public",
+        "isPublicHint": "Visible on the public GET /settings endpoint.",
+        "duplicateKey": "A setting with this category and key already exists.",
+        "create": "Add",
+        "save": "Save",
+        "cancel": "Cancel"
+      },
+      "invalidJson": "Enter valid JSON.",
+      "createSuccess": "Setting created.",
+      "updateSuccess": "Setting updated."
     }
   }
 }

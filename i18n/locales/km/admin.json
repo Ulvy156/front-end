@@ -261,58 +261,63 @@
       }
     },
     "settings": {
-      "save": "រក្សាទុកការផ្លាស់ប្តូរ",
-      "saveSuccess": "ការកំណត់ត្រូវបានធ្វើបច្ចុប្បន្នភាព។",
+      "pageTitle": "ការកំណត់",
+      "pageDescription": "គ្រប់គ្រងការកំណត់រចនាសម្ព័ន្ធ និងឥរិយាបថកម្មវិធី។",
+      "totalCount": "សរុប {n} ការកំណត់",
+      "searchPlaceholder": "ស្វែងរកតាមគន្លឹះ ឬការពិពណ៌នា...",
+      "categoryFilterAll": "គ្រប់ចំណាត់ថ្នាក់",
+      "typeFilterAll": "គ្រប់ប្រភេទ",
+      "visibilityFilterAll": "គ្រប់ភាពមើលឃើញ",
+      "emptyTitle": "រកមិនឃើញការកំណត់ទេ",
+      "emptyDescription": "សូមព្យាយាមផ្លាស់ប្ដូរតម្រង ឬបង្កើតការកំណត់ថ្មី។",
       "maintenanceBannerActive": "របៀបថែទាំកំពុងបើក — សំណើទាំងអស់ក្រៅពីអ្នកគ្រប់គ្រងត្រូវបានទប់ស្កាត់។",
-      "access": {
-        "title": "ការចូលប្រើវេទិកា",
-        "maintenanceMode": "របៀបថែទាំ",
-        "maintenanceModeHint": "ទប់ស្កាត់សំណើទាំងអស់ក្រៅពីអ្នកគ្រប់គ្រង លើកលែងតែការចូល និងការធ្វើឱ្យសញ្ញាថ្មីឡើងវិញ។",
-        "registrationEnabled": "បើកការចុះឈ្មោះ",
-        "registrationEnabledHint": "អនុញ្ញាតឱ្យមានការចុះឈ្មោះថ្មីតាមរយៈអ៊ីមែល តេឡេក្រាម និង Google។"
+      "categoryLabel": "ចំណាត់ថ្នាក់",
+      "addButton": "បន្ថែមការកំណត់",
+      "editAction": "កែសម្រួល",
+      "duplicateAction": "ចម្លង",
+      "deleteAction": "លុប",
+      "deleteTitle": "លុបការកំណត់",
+      "deleteConfirm": "តើអ្នកប្រាកដថាចង់លុប \"{key}\"? នេះមិនអាចត្រឡប់វិញបានទេ។",
+      "deleteConfirmBtn": "លុប",
+      "deleteSuccess": "ការកំណត់ត្រូវបានលុប។",
+      "publicYes": "សាធារណៈ",
+      "publicNo": "ឯកជន",
+      "columns": {
+        "key": "គន្លឹះ",
+        "value": "តម្លៃ",
+        "type": "ប្រភេទ",
+        "description": "ការពិពណ៌នា",
+        "public": "ភាពមើលឃើញ",
+        "actions": "សកម្មភាព"
       },
-      "limits": {
-        "title": "ដែនកំណត់អចលនទ្រព្យ",
-        "maxPropertiesPerLandlord": "ចំនួនអចលនទ្រព្យអតិបរមាក្នុងមួយម្ចាស់ផ្ទះ (30 ថ្ងៃ)",
-        "maxImagesPerProperty": "ចំនួនរូបភាពអតិបរមាក្នុងមួយអចលនទ្រព្យ",
-        "minPropertyPrice": "តម្លៃប្រចាំខែអប្បបរមា",
-        "maxPropertyPrice": "តម្លៃប្រចាំខែអតិបរមា",
-        "noBound": "គ្មានដែនកំណត់"
+      "drawer": {
+        "title": "បន្ថែមការកំណត់",
+        "editTitle": "កែសម្រួលការកំណត់",
+        "duplicateTitle": "ចម្លងការកំណត់"
       },
-      "custom": {
-        "title": "ការកំណត់ផ្ទាល់ខ្លួន",
-        "empty": "មិនទាន់មានការកំណត់ផ្ទាល់ខ្លួនទេ។",
-        "addButton": "បន្ថែមការកំណត់",
-        "columns": {
-          "key": "គន្លឹះ",
-          "value": "តម្លៃ",
-          "type": "ប្រភេទ",
-          "actions": "សកម្មភាព"
-        },
-        "editAction": "កែសម្រួលការកំណត់",
-        "drawer": {
-          "title": "បន្ថែមការកំណត់ផ្ទាល់ខ្លួន",
-          "editTitle": "កែសម្រួលការកំណត់ផ្ទាល់ខ្លួន"
-        },
-        "form": {
-          "key": "គន្លឹះ",
-          "group": "ក្រុម",
-          "valueType": "ប្រភេទតម្លៃ",
-          "value": "តម្លៃ",
-          "keyRequired": "តម្រូវឱ្យបញ្ចូលគន្លឹះ",
-          "groupRequired": "តម្រូវឱ្យបញ្ចូលក្រុម",
-          "valueTypeString": "អក្សរ",
-          "valueTypeNumber": "លេខ",
-          "valueTypeBoolean": "ពិត/មិនពិត",
-          "valueTypeJson": "JSON",
-          "create": "បន្ថែម",
-          "save": "រក្សាទុក",
-          "cancel": "បោះបង់"
-        },
-        "invalidJson": "សូមបញ្ចូល JSON ដែលត្រឹមត្រូវ។",
-        "createSuccess": "ការកំណត់ត្រូវបានបង្កើត។",
-        "updateSuccess": "ការកំណត់ត្រូវបានធ្វើបច្ចុប្បន្នភាព។"
-      }
+      "form": {
+        "key": "គន្លឹះ",
+        "keyRequired": "តម្រូវឱ្យបញ្ចូលគន្លឹះ",
+        "category": "ចំណាត់ថ្នាក់",
+        "categoryPlaceholder": "ជ្រើសរើស ឬវាយបញ្ចូលចំណាត់ថ្នាក់",
+        "categoryRequired": "តម្រូវឱ្យបញ្ចូលចំណាត់ថ្នាក់",
+        "valueType": "ប្រភេទតម្លៃ",
+        "value": "តម្លៃ",
+        "valueTypeString": "អក្សរ",
+        "valueTypeNumber": "លេខ",
+        "valueTypeBoolean": "ពិត/មិនពិត",
+        "valueTypeJson": "JSON",
+        "description": "ការពិពណ៌នា",
+        "isPublic": "សាធារណៈ",
+        "isPublicHint": "អាចមើលឃើញនៅលើចំណុចប្រទាក់សាធារណៈ GET /settings។",
+        "duplicateKey": "ការកំណត់ដែលមានចំណាត់ថ្នាក់ និងគន្លឹះនេះមានរួចហើយ។",
+        "create": "បន្ថែម",
+        "save": "រក្សាទុក",
+        "cancel": "បោះបង់"
+      },
+      "invalidJson": "សូមបញ្ចូល JSON ដែលត្រឹមត្រូវ។",
+      "createSuccess": "ការកំណត់ត្រូវបានបង្កើត។",
+      "updateSuccess": "ការកំណត់ត្រូវបានធ្វើបច្ចុប្បន្នភាព។"
     }
   }
 }

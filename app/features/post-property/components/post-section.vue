@@ -19,9 +19,10 @@
         :current-step="active + 1"
         :total-steps="steps.length"
         :loading="loading"
+        :saving-draft="savingDraft"
         @back="prev"
         @next="next"
-        @save="saveNow"
+        @save="handleSaveDraft"
         @submit="publish"
       />
     </template>
@@ -48,7 +49,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent, computed, inject, ref } from "vue";
+import { defineAsyncComponent, computed, inject, ref, onMounted } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
 import type { FormInstance } from "element-plus";
 import stepProgress from "./step-progress.vue";
@@ -59,12 +60,23 @@ import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
 import { useDraftAutosave } from "@/features/post-property/composables/useDraftAutosave";
 import { usePropertyFormValidation } from "@/features/post-property/composables/usePropertyFormValidation";
+import { usePropertyDraftSession } from "@/features/post-property/composables/usePropertyDraftSession";
+import { getDraft, publishDraft } from "~/features/property-draft/services/property-draft";
+import {
+  TYPE_MAP,
+  MIN_STAY_MAP,
+  safeNumber,
+  buildAmenityKeys,
+  buildRuleKeys,
+  buildParkings,
+} from "@/features/post-property/utils/propertyPayloadMaps";
 import { useI18n } from "vue-i18n";
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 const { t } = useI18n();
 const api = useApi();
 const router = useRouter();
+const route = useRoute();
 const authStore = useAuthStore();
 const notify = useNotify();
 const { extract } = useErrorMsg();
@@ -82,6 +94,33 @@ const publishResult = ref<string | null>(null);
 const publishError = ref<string | null>(null);
 
 const { savedText, savedFresh, saveNow, clearDraft } = useDraftAutosave(form);
+const { draftId, savingDraft, loadDraftIntoForm, saveDraft } = usePropertyDraftSession();
+
+// Registered after useDraftAutosave's own onMounted (above) so its local
+// restore runs first — if a draftId is present, the fetched draft's data
+// then overwrites it, taking priority.
+onMounted(async () => {
+  const queryDraftId = route.query.draftId;
+  if (!queryDraftId || typeof queryDraftId !== 'string') return;
+
+  try {
+    const draft = await getDraft(api, queryDraftId);
+    loadDraftIntoForm(form, draft);
+  } catch (err) {
+    notify.error(extract(err));
+    router.push('/landlord/drafts');
+  }
+});
+
+const handleSaveDraft = async () => {
+  if (!form || savingDraft.value) return;
+  try {
+    await saveDraft(form);
+    notify.success(t('post_property.draft_saved'));
+  } catch (err) {
+    notify.error(extract(err));
+  }
+};
 
 const stepKeys = [
   'post_property.steps.one',
@@ -171,38 +210,6 @@ const publish = async () => {
 
   try {
 
-    const typeMap: Record<string, number> = {
-      room: 1,
-      studio: 2,
-      apartment: 3,
-      house: 4,
-      single_room: 5,
-    };
-
-    const minStayMap: Record<string, number> = {
-      "1m": 1,
-      "3m": 3,
-      "6m": 6,
-      "1y": 12,
-      "2y": 24,
-    };
-
-    const parkingTypeMap: Record<string, string> = {
-      BIKE: "BICYCLE",
-      MOTORBIKE: "MOTO",
-      MOTO: "MOTO",
-      CAR: "CAR",
-      TUK_TUK: "TUK_TUK",
-      BICYCLE: "BICYCLE",
-    };
-
-
-    const safeNumber = (v: any): number | undefined => {
-      if (v === "" || v === null || v === undefined) return undefined;
-      const n = Number(v);
-      return Number.isFinite(n) ? n : undefined;
-    };
-
      const districtId = Number(form.districtId);
      if (!districtId) {
        publishError.value = t('post_property.errors.district_required');
@@ -218,67 +225,22 @@ const publish = async () => {
      }
 
      // Validate property type
-     if (!typeMap[form.propertyType]) {
+     if (!TYPE_MAP[form.propertyType]) {
        publishError.value = t('post_property.errors.property_type_invalid');
        notify.error(publishError.value);
        return;
      }
 
-
-     const amenityKeys = Array.isArray(form.amenities)
-       ? form.amenities
-           .map((v: unknown) => Number(v))
-           .filter((n: unknown) => Number.isFinite(n))
-       : [];
-
-     const ruleKeys = Array.isArray(form.ruleKeys)
-       ? form.ruleKeys
-           .map((v: any) => Number(v))
-           .filter((n: number) => Number.isFinite(n))
-       : [];
-
      // Validate minimum stay
-     if (!minStayMap[form.minStay]) {
+     if (!MIN_STAY_MAP[form.minStay]) {
        publishError.value = t('post_property.errors.min_stay_invalid');
        notify.error(publishError.value);
        return;
      }
 
-     const parkings = Array.isArray(form.parkings)
-   ? form.parkings
-       .map((pk: string) => {
-         const type = parkingTypeMap[pk] || pk;
-
-         const rawSlots = form.parkingDetails?.[pk]?.slots;
-         const rawPrice = form.parkingDetails?.[pk]?.price;
-         const isFree = form.parkingDetails?.[pk]?.isFree ?? true;
-
-         const slotsNum = Number(rawSlots);
-         const priceNum = Number(rawPrice);
-
-         if (!["MOTO", "BICYCLE", "CAR", "TUK_TUK"].includes(type)) {
-           return null;
-         }
-
-         const parking: any = {
-           type,
-           slots: Number.isFinite(slotsNum) ? slotsNum : 0,
-           isFree,
-         };
-
-
-         if (!isFree) {
-           if (Number.isFinite(priceNum)) {
-             parking.price = priceNum;
-           } else {
-             parking.price = 0;
-           }
-         }
-
-         return parking;
-       })
-       .filter(Boolean)
-   : [];
+     const amenityKeys = buildAmenityKeys(form);
+     const ruleKeys = buildRuleKeys(form);
+     const parkings = buildParkings(form);
 
      const payload = {
         userId: authStore.user?.id ?? "",
@@ -297,7 +259,7 @@ const publish = async () => {
         bedroom: safeNumber(form.bedrooms),
         bathroom: safeNumber(form.bathrooms),
 
-        propertyTypeId: typeMap[form.propertyType] || 0,
+        propertyTypeId: TYPE_MAP[form.propertyType] || 0,
 
         sizeSqm: Number(form.size) || 0,
         floor: 1,
@@ -311,7 +273,7 @@ const publish = async () => {
           ? new Date(form.availableFrom).toISOString()
           : undefined,
 
-        minimumStayLength: minStayMap[form.minStay],
+        minimumStayLength: MIN_STAY_MAP[form.minStay],
 
         folderType: form.propertyType,
 
@@ -322,8 +284,17 @@ const publish = async () => {
         closeTime: form.closeTime || undefined,
       };
 
+      const newFiles = (form.photoFiles || []).filter((f: unknown): f is File => f instanceof File);
 
-       const result = await createProperty(api, payload, form.photoFiles || []);
+      let result: { id: number; message?: string };
+      if (draftId.value) {
+        await saveDraft(form);
+        result = await publishDraft(api, draftId.value);
+        queryClient.invalidateQueries({ queryKey: ['property-drafts'] });
+        draftId.value = null;
+      } else {
+        result = await createProperty(api, payload, newFiles);
+      }
 
       publishResult.value = t('post_property.published_success', { id: result.id });
 

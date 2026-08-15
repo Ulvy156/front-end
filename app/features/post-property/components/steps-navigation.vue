@@ -7,10 +7,10 @@
     </BaseButton>
 
     <!-- Save draft -->
-    <!-- <BaseButton v-if="showDraftControls" text type="info" @click="emit('save')">
-      <BaseIconClient name="save" :size="18" />
+    <BaseButton v-if="showDraftControls" text type="info" :loading="savingDraft" @click="emit('save')">
+      <BaseIconClient v-if="!savingDraft" name="save" :size="18" />
       <span class="font-medium">{{ $t('post_property.draft') }}</span>
-    </BaseButton> -->
+    </BaseButton>
 
     <!-- Right — submit / next -->
     <BaseButton
@@ -35,6 +35,7 @@ const props = withDefaults(defineProps<{
   currentStep: number
   totalSteps: number
   loading?: boolean
+  savingDraft?: boolean
   showDraftControls?: boolean
   submitLabel?: string
   submittingLabel?: string

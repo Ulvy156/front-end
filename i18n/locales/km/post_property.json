@@ -14,6 +14,7 @@
     "back": "ត្រឡប់ក្រោយ",
     "continue": "បន្ត",
     "draft": "រក្សាទុកជាសេចក្ដីព្រាង",
+    "draft_saved": "បានរក្សាទុកសេចក្ដីព្រាង។",
     "optional": "មិនចាំបាច់",
     "step_progress": {
       "step_of": "ជំហានទី {current} នៃ {total}",

@@ -87,7 +87,7 @@
         <BaseInput
           :model-value="form.latitude"
           type="number"
-          readonly
+          disabled
           placeholder="Select on map"
         />
       </div>
@@ -98,19 +98,19 @@
         <BaseInput
           :model-value="form.longitude"
           type="number"
-          readonly
+          disabled
           placeholder="Select on map"
         />
       </div>
     </div>
 
     <!-- Hide Exact Address Toggle -->
-    <BaseToggle
+    <!-- <BaseToggle
       v-model="form.hideAddress"
       :label="t('post_property.location.hide_address')"
       :description="t('post_property.location.hide_address_desc')"
       class="mb-5"
-    />
+    /> -->
 
   </div>
 </template>
@@ -193,6 +193,24 @@ onMounted(async () => {
         (d) => d.nameEn.toLowerCase() === form.district.toLowerCase()
       )
       if (match) form.districtId = match.id
+    }
+  } else if (form.districtId) {
+    // Draft-loaded state: a saved draft only stores the raw numeric districtId
+    // (no province/district name strings). There's no reverse "district ->
+    // province" endpoint, so scan each province's districts (bounded to
+    // Cambodia's ~25 provinces) for the one containing this id, then hydrate
+    // the province/district labels so the dropdowns show the right selection.
+    const targetId = Number(form.districtId)
+    const results = await Promise.all(
+      provinces.value.map(async (p) => ({ province: p, districts: await fetchDistrictsByProvinceId(p.id) }))
+    )
+    const found = results.find((r) => r.districts.some((d) => d.id === targetId))
+    if (found) {
+      form.province = found.province.nameEn
+      currentDistricts.value = found.districts
+      const match = found.districts.find((d) => d.id === targetId)
+      if (match) form.district = match.nameEn
+      await loadProvinceCoordinates(found.province.nameEn)
     }
   }
 })

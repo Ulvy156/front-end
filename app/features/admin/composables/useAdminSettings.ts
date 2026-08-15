@@ -1,10 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/vue-query'
-import type {
-  CreateSettingPayload,
-  PlatformSettings,
-  UpdateCustomSettingPayload,
-  UpdatePlatformSettingsPayload,
-} from '../types/settings'
+import type { AppSetting, CreateSettingPayload, UpdateSettingPayload } from '../types/settings'
 
 export function useAdminSettings() {
   const { $axios } = useNuxtApp()
@@ -13,40 +8,38 @@ export function useAdminSettings() {
   const { data, isPending, isError } = useQuery({
     queryKey: ['admin-settings'],
     queryFn: async () => {
-      const { data } = await $axios.get<PlatformSettings>('/admin/settings')
+      const { data } = await $axios.get<AppSetting[]>('/admin/settings')
       return data
     },
   })
 
-  const updateSettings = useMutation({
-    mutationFn: async (payload: UpdatePlatformSettingsPayload) => {
-      const { data } = await $axios.patch<PlatformSettings>('/admin/settings', payload)
-      return data
-    },
-    onSuccess: (updated) => {
-      queryClient.setQueryData(['admin-settings'], updated)
-    },
-  })
+  const invalidate = () => queryClient.invalidateQueries({ queryKey: ['admin-settings'] })
 
   const createSetting = useMutation({
     mutationFn: async (payload: CreateSettingPayload) => {
-      const { data } = await $axios.post<PlatformSettings>('/admin/settings', payload)
+      const { data } = await $axios.post<AppSetting>('/admin/settings', payload)
       return data
     },
-    onSuccess: (updated) => {
-      queryClient.setQueryData(['admin-settings'], updated)
-    },
+    onSuccess: invalidate,
   })
 
-  const updateCustomSetting = useMutation({
-    mutationFn: async (payload: UpdateCustomSettingPayload) => {
-      const { data } = await $axios.patch<PlatformSettings>('/admin/settings', payload)
+  const updateSetting = useMutation({
+    mutationFn: async ({ category, key, payload }: { category: string, key: string, payload: UpdateSettingPayload }) => {
+      const { data } = await $axios.patch<AppSetting>(
+        `/admin/settings/${encodeURIComponent(category)}/${encodeURIComponent(key)}`,
+        payload,
+      )
       return data
     },
-    onSuccess: (updated) => {
-      queryClient.setQueryData(['admin-settings'], updated)
-    },
+    onSuccess: invalidate,
   })
 
-  return { data, isPending, isError, updateSettings, createSetting, updateCustomSetting }
+  const deleteSetting = useMutation({
+    mutationFn: async ({ category, key }: { category: string, key: string }) => {
+      await $axios.delete(`/admin/settings/${encodeURIComponent(category)}/${encodeURIComponent(key)}`)
+    },
+    onSuccess: invalidate,
+  })
+
+  return { data, isPending, isError, createSetting, updateSetting, deleteSetting }
 }
