@@ -6,43 +6,22 @@
       @jump="handleGoTo"
     />
 
-    <template v-if="!justPublished">
-      <!-- Step Content -->
-      <el-form ref="formRef" :model="form" :rules="formRules">
-        <component :is="currentComponent" @go-to="handleGoTo" />
-      </el-form>
+    <!-- Step Content -->
+    <el-form ref="formRef" :model="form" :rules="formRules">
+      <component :is="currentComponent" @go-to="handleGoTo" />
+    </el-form>
 
-      <!-- Controls -->
-      <stepsNavigation
-        :current-step="active + 1"
-        :total-steps="steps.length"
-        :loading="loading"
-        :saving-draft="savingDraft"
-        @back="prev"
-        @next="next"
-        @save="handleSaveDraft"
-        @submit="publish"
-      />
-    </template>
-
-    <!-- Post-publish success -->
-    <div v-else class="bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col items-center text-center gap-4 py-16 px-6">
-      <div class="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center">
-        <BaseIconClient name="check" :size="30" color="#047857" />
-      </div>
-      <h2 class="text-xl font-extrabold text-gray-900">{{ t('post_property.success.title') }}</h2>
-      <p class="text-sm text-(--gray) max-w-sm">
-        {{ t('post_property.success.message', { title: form.propertyTitle || t('post_property.preview.untitled') }) }}
-      </p>
-      <div class="flex flex-wrap items-center justify-center gap-3 mt-2">
-        <BaseButton type="info" @click="justPublished = false">
-          {{ t('post_property.success.back_to_preview') }}
-        </BaseButton>
-        <BaseButton @click="goToMyListings">
-          {{ t('post_property.success.view_listing') }}
-        </BaseButton>
-      </div>
-    </div>
+    <!-- Controls -->
+    <stepsNavigation
+      :current-step="active + 1"
+      :total-steps="steps.length"
+      :loading="loading"
+      :saving-draft="savingDraft"
+      @back="prev"
+      @next="next"
+      @save="handleSaveDraft"
+      @submit="publish"
+    />
   </section>
 </template>
 
@@ -52,8 +31,6 @@ import { useQueryClient } from "@tanstack/vue-query";
 import type { FormInstance } from "element-plus";
 import stepProgress from "./step-progress.vue";
 import stepsNavigation from "./steps-navigation.vue";
-import BaseButton from "~/components/ui/BaseButton.vue";
-import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
 import { usePropertyFormValidation } from "@/features/post-property/composables/usePropertyFormValidation";
@@ -86,8 +63,6 @@ const { formRules, validateStep, firstInvalidStep } = usePropertyFormValidation(
 
 const active = ref(0);
 const loading = ref(false);
-const justPublished = ref(false);
-const publishResult = ref<string | null>(null);
 const publishError = ref<string | null>(null);
 
 const { draftId, savingDraft, loadDraftIntoForm, saveDraft } = usePropertyDraftSession();
@@ -139,7 +114,6 @@ const currentComponent = computed(() => steps[active.value]);
 
 const handleGoTo = async (step: number) => {
   if (step < 0 || step >= steps.length) return;
-  justPublished.value = false;
 
   // Jumping backward (e.g. a "Back to preview" link) never needs validation.
   if (step <= active.value) {
@@ -173,10 +147,6 @@ const prev = () => {
   if (active.value > 0) active.value--;
 };
 
-const goToMyListings = () => {
-  router.push('/landlord/properties');
-};
-
 const publish = async () => {
 
   if (!form) {
@@ -197,7 +167,6 @@ const publish = async () => {
 
   loading.value = true;
   publishError.value = null;
-  publishResult.value = null;
 
   const api = useApi();
 
@@ -289,13 +258,12 @@ const publish = async () => {
         result = await createProperty(api, payload, newFiles);
       }
 
-      publishResult.value = t('post_property.published_success', { id: result.id });
-
       // Refresh landlord properties/dashboard caches so the new listing shows up immediately
       await queryClient.invalidateQueries({ queryKey: ['landlord-properties'] });
       await queryClient.invalidateQueries({ queryKey: ['landlord-dashboard'] });
 
-      justPublished.value = true;
+      notify.success(t('post_property.published_success', { id: result.id }));
+      router.push('/landlord/properties');
     } catch (error: any) {
      publishError.value = extract(error);
      notify.error(publishError.value);

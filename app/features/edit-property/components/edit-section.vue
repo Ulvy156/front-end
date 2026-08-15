@@ -222,7 +222,7 @@ async function handleSave() {
   try {
     await submitUpdate(form.value)
     notify.success(t('landlord.editProperty.updateSuccess'))
-    router.push(`/landlord/properties/${propertyId.value}`)
+    router.push('/landlord/properties')
   } catch (err) {
     notify.error(extract(err))
   } finally {

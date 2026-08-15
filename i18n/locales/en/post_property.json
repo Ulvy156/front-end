@@ -19,12 +19,6 @@
         "step_progress": {
             "step_of": "Step {current} of {total}"
         },
-        "success": {
-            "title": "Your listing is live",
-            "message": "Renters can now find \"{title}\" in search results. You can keep editing it any time.",
-            "back_to_preview": "Back to preview",
-            "view_listing": "View my listing"
-        },
         "property_type": {
             "title": "Property Type",
             "subtitle": "Type & ownership",
