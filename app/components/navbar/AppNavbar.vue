@@ -5,7 +5,7 @@
       <!-- Logo -->
       <NuxtLink to="/" 
       class="flex items-center gap-1 text-lg font-semibold tracking-tight cursor-pointer ">
-        <NuxtImg class="h-14 " src="/sabayrent-logo.webp" alt="app logo" width="56" height="56" />
+        <NuxtImg class="size-14 " src="/sabayrent-logo.webp" alt="app logo" width="56" height="56" />
         <span class="text-lg">{{ $t('nav.title') }}</span>
       </NuxtLink>
 
