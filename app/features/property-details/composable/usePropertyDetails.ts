@@ -5,6 +5,8 @@ import { createError, showError, useAsyncData, useCookie, useNuxtApp, useRoute, 
 import { useApi } from '~/composables/useApi'
 import { useSEO } from '~/composables/useSEO'
 import { useLangKey } from '~/composables/useLangKey'
+import { useCurrentLang } from '~/composables/getCurrentLang'
+import { PARKING_UI } from '~/config/parking.config'
 import { incrementView } from '~/services/increment-view'
 import { usePropertyFilterStore } from '~/stores/propertyFilter'
 import { fetchPropertyDetails } from '../services/property-details'
@@ -19,8 +21,9 @@ const SEO_DESCRIPTION_MAX_LENGTH = 160
 const MIN_MEANINGFUL_DESCRIPTION_LENGTH = 20
 
 // No importance ranking exists on amenities (just a flat, backend-ordered
-// list) — take the first couple rather than guessing which ones matter.
-const MAX_SEO_AMENITIES = 2
+// list), so parking (a dedicated, structured field — see property-parking.vue)
+// takes priority, and only the leftover slots go to generic amenities.
+const MAX_SEO_FEATURES = 2
 
 // The cover image isn't necessarily images[0] — mirrors the ordering in
 // carousel-property-details.vue so the SEO/og:image matches the one shown
@@ -49,6 +52,7 @@ export function usePropertyDetails() {
   const config = useRuntimeConfig()
   const { t } = useI18n()
   const langKey = useLangKey()
+  const currentLang = useCurrentLang()
   const seo = useSEO()
   const propertyFilter = usePropertyFilterStore()
   const viewedProperties = useCookie<string[]>('viewed_properties', {
@@ -132,18 +136,28 @@ export function usePropertyDetails() {
       location: locationName,
     })
 
+    // Parking is a dedicated, structured field (type/slots/price) rather
+    // than a loose amenity checkbox, so it gets first claim on the feature
+    // slots — e.g. "car parking" — and generic amenities only fill what's
+    // left over.
+    const parkingNames = Array.from(new Set(
+      (value.parkings ?? []).map((parking) => PARKING_UI[parking.type].label[currentLang.value as 'en' | 'km']),
+    )).map((label) => `${label.toLowerCase()} ${t('property.parking').toLowerCase()}`)
+
     const amenityNames = (value.amenities ?? [])
-      .slice(0, MAX_SEO_AMENITIES)
+      .slice(0, Math.max(0, MAX_SEO_FEATURES - parkingNames.length))
       .map((amenity) => amenity[langKey.value])
       .filter(Boolean)
+
+    const featureNames = [...parkingNames, ...amenityNames]
 
     const featureParts = [
       t('property.seo.bedroomCount', { bedroom: value.bedroom }, value.bedroom),
       t('property.seo.bathroomCount', { bathroom: value.bathroom }, value.bathroom),
       value.furnished ? t('property.furnished').toLowerCase() : t('property.unfurnished').toLowerCase(),
     ]
-    if (amenityNames.length) {
-      featureParts.push(t('property.seo.withAmenities', { amenities: amenityNames.join(', ') }))
+    if (featureNames.length) {
+      featureParts.push(t('property.seo.withAmenities', { amenities: featureNames.join(', ') }))
     }
     const featureSentence = `${featureParts.join(', ')}.`
 
