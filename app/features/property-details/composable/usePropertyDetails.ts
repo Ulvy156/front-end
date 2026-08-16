@@ -14,6 +14,14 @@ import type { Image, PropertyDetail } from '../interface/properties-details'
 // poorly, so cut the assembled SEO description to a clean summary length.
 const SEO_DESCRIPTION_MAX_LENGTH = 160
 
+// Landlord-written descriptions are often filler ("oh", "n/a", "-") that adds
+// nothing over the structured facts — only append them past this length.
+const MIN_MEANINGFUL_DESCRIPTION_LENGTH = 20
+
+// No importance ranking exists on amenities (just a flat, backend-ordered
+// list) — take the first couple rather than guessing which ones matter.
+const MAX_SEO_AMENITIES = 2
+
 // The cover image isn't necessarily images[0] — mirrors the ordering in
 // carousel-property-details.vue so the SEO/og:image matches the one shown
 // in the gallery.
@@ -116,21 +124,44 @@ export function usePropertyDetails() {
       price: priceLabel,
     })
 
-    const descriptionBase = t('property.seo.description', {
+    // Structured facts first — always accurate, unlike the landlord's own
+    // description text, which is optional filler appended only if it earns
+    // its space (see below).
+    const introSentence = t('property.seo.descriptionIntro', {
       propertyType: value.propertyType[langKey.value],
       location: locationName,
-      price: priceLabel,
-      bedroom: value.bedroom,
-      bathroom: value.bathroom,
     })
 
+    const amenityNames = (value.amenities ?? [])
+      .slice(0, MAX_SEO_AMENITIES)
+      .map((amenity) => amenity[langKey.value])
+      .filter(Boolean)
+
+    const featureParts = [
+      t('property.seo.bedroomCount', { bedroom: value.bedroom }, value.bedroom),
+      t('property.seo.bathroomCount', { bathroom: value.bathroom }, value.bathroom),
+      value.furnished ? t('property.furnished').toLowerCase() : t('property.unfurnished').toLowerCase(),
+    ]
+    if (amenityNames.length) {
+      featureParts.push(t('property.seo.withAmenities', { amenities: amenityNames.join(', ') }))
+    }
+    const featureSentence = `${featureParts.join(', ')}.`
+
+    const priceSentence = t('property.seo.descriptionPrice', { price: priceLabel })
+
+    const descriptionBase = [introSentence, featureSentence, priceSentence].join(' ')
+
     // Fill remaining budget with a snippet of the landlord's own
-    // description, same summary-length cap as before.
+    // description — only when it's substantial enough to add anything
+    // ("oh", "n/a", etc. would just waste the remaining characters).
     const remaining = SEO_DESCRIPTION_MAX_LENGTH - descriptionBase.length - 1
-    const rawDescription = value.description ?? ''
-    const snippet = rawDescription.length > remaining
-      ? `${rawDescription.slice(0, Math.max(0, remaining - 3))}...`
-      : rawDescription
+    const rawDescription = (value.description ?? '').trim()
+    const isMeaningful = rawDescription.length >= MIN_MEANINGFUL_DESCRIPTION_LENGTH
+    const snippet = isMeaningful
+      ? (rawDescription.length > remaining
+          ? `${rawDescription.slice(0, Math.max(0, remaining - 3))}...`
+          : rawDescription)
+      : ''
     const description = remaining > 20 && snippet ? `${descriptionBase} ${snippet}` : descriptionBase
 
     return {

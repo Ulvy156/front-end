@@ -44,7 +44,11 @@
     "similar": "អចលនទ្រព្យស្រដៀងគ្ន",
     "seo": {
       "title": "{title} នៅ {location} – {price} | SabayRent",
-      "description": "{propertyType} សម្រាប់ជួលនៅ {location} តម្លៃ {price}។ បន្ទប់គេង {bedroom}, បន្ទប់ទឹក {bathroom}។"
+      "descriptionIntro": "{propertyType} សម្រាប់ជួលនៅ {location}។",
+      "bedroomCount": "បន្ទប់គេង {bedroom}",
+      "bathroomCount": "បន្ទប់ទឹក {bathroom}",
+      "withAmenities": "មាន {amenities}",
+      "descriptionPrice": "តម្លៃ {price}។"
     },
 
     "location": {

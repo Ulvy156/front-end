@@ -42,7 +42,11 @@
         "similar":"Similar Properties",
         "seo": {
             "title": "{title} in {location} – {price} | SabayRent",
-            "description": "{propertyType} for rent in {location} at {price}. {bedroom} bed, {bathroom} bath."
+            "descriptionIntro": "{propertyType} for rent in {location}.",
+            "bedroomCount": "{bedroom} bedroom | {bedroom} bedrooms",
+            "bathroomCount": "{bathroom} bathroom | {bathroom} bathrooms",
+            "withAmenities": "with {amenities}",
+            "descriptionPrice": "Available for {price}."
         },
         "location": {
             "title": "Location",
