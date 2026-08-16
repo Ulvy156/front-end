@@ -7,7 +7,7 @@
             <div class="space-y-1">
                 <h2 class="text-2xl font-bold text-slate-900">{{ t('auth.verifyEmail') }}</h2>
                 <p class="text-slate-500 text-sm">
-                    {{ t('auth.codeSentTo') }}
+                    {{ codeSentText }}
                     <span class="font-medium text-slate-700">{{ email }}</span>
                 </p>
             </div>
@@ -39,10 +39,12 @@
 import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import { useErrorMsg } from '~/composables/useErrorMsg'
+import { RESET_PASSWORD_CHANNEL, type ResetPasswordChannel } from '~/types/channel'
 import OtpInputBoxes from './OtpInputBoxes.vue'
 
 const props = defineProps<{
     email: string
+    channel: ResetPasswordChannel
     initialError?: string
 }>()
 const emit = defineEmits<{ verified: [otp: string], back: [] }>()
@@ -51,6 +53,10 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const { extract } = useErrorMsg()
+
+const codeSentText = computed(() =>
+    props.channel === RESET_PASSWORD_CHANNEL.TELEGRAM ? t('auth.codeSentToTelegram') : t('auth.codeSentTo'),
+)
 
 const otp = ref('')
 const otpError = ref(props.initialError ?? '')
@@ -87,8 +93,10 @@ const verify = () => {
 const resend = async () => {
     isResending.value = true
     try {
-        await api.post('/auth/forgot-password', { email: props.email, channel: 'email' })
-        notify.success(t('auth.codeSentSuccess'))
+        await api.post('/auth/forgot-password', { email: props.email, channel: props.channel })
+        notify.success(props.channel === RESET_PASSWORD_CHANNEL.TELEGRAM
+            ? t('auth.codeSentSuccessTelegram')
+            : t('auth.codeSentSuccess'))
         startCooldown()
         otpBoxes.value?.reset()
     } catch (err) {

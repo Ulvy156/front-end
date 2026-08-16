@@ -13,10 +13,10 @@
         <p class="text-slate-500 text-sm">{{ t('auth.selectRoleDesc') }}</p>
       </div>
 
-      <!-- Optional password setup (new Telegram/Google sign-ups only) -->
+      <!-- Password setup (new Telegram/Google sign-ups only) -->
       <div v-if="showPasswordField" class="space-y-1.5">
         <label for="password" class="block text-sm font-medium text-slate-700">
-          {{ t('auth.setPassword') }}
+          {{ t('auth.setPassword') }} <span class="text-red-500">*</span>
         </label>
         <BaseInput id="password" icon="lock-keyhole" show-password type="password" size="large"
           :disabled="isSubmitting" :placeholder="t('auth.setPasswordPlaceholder')" v-model="password" />
@@ -109,16 +109,22 @@ watch(password, () => { passwordError.value = '' })
 
 const selectRole = async (role: 'USER' | 'LANDLORD') => {
   const trimmedPassword = password.value.trim()
-  if (showPasswordField && trimmedPassword && !isStrongPassword(trimmedPassword)) {
-    passwordError.value = t('auth.passwordWeak')
-    return
+  if (showPasswordField) {
+    if (!trimmedPassword) {
+      passwordError.value = t('auth.passwordRequired')
+      return
+    }
+    if (!isStrongPassword(trimmedPassword)) {
+      passwordError.value = t('auth.passwordWeak')
+      return
+    }
   }
 
   isSubmitting.value = true
   try {
     await api.patch('/auth/select-role', {
       role,
-      ...(showPasswordField && trimmedPassword ? { password: trimmedPassword } : {}),
+      ...(showPasswordField ? { password: trimmedPassword } : {}),
     })
     // select-role changes the role baked into the JWT, so a fresh access
     // token (fresh cookie) is needed to reflect it going forward.
@@ -126,7 +132,18 @@ const selectRole = async (role: 'USER' | 'LANDLORD') => {
     await authStore.fetchProfile()
     await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
   } catch (err) {
-    notify.error(extract(err))
+    const status = (err as { response?: { status?: number } })?.response?.status
+    const msg = extract(err)
+    // Guards against double-submits: the account already has a role/password
+    // set, so treat this as already-onboarded and route in rather than error.
+    if (status === 400 && msg.toLowerCase().includes('password is already set')) {
+      notify.info(t('auth.roleAlreadySelected'))
+      await api.post('/auth/refresh-token')
+      await authStore.fetchProfile()
+      await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
+    } else {
+      notify.error(msg)
+    }
   } finally {
     isSubmitting.value = false
   }

@@ -1,12 +1,25 @@
 import { computed, watch } from 'vue'
-import { useAsyncData, useCookie, useRoute, useRuntimeConfig } from '#imports'
+import { useI18n } from 'vue-i18n'
+import { createError, showError, useAsyncData, useCookie, useNuxtApp, useRoute, useRuntimeConfig } from '#imports'
 
 import { useApi } from '~/composables/useApi'
 import { useSEO } from '~/composables/useSEO'
+import { useLangKey } from '~/composables/useLangKey'
 import { incrementView } from '~/services/increment-view'
 import { usePropertyFilterStore } from '~/stores/propertyFilter'
 import { fetchPropertyDetails } from '../services/property-details'
-import type { PropertyDetail } from '../interface/properties-details'
+import type { Image, PropertyDetail } from '../interface/properties-details'
+
+// Social previews (Telegram, Facebook, ...) truncate long descriptions
+// poorly, so cut the assembled SEO description to a clean summary length.
+const SEO_DESCRIPTION_MAX_LENGTH = 160
+
+// The cover image isn't necessarily images[0] — mirrors the ordering in
+// carousel-property-details.vue so the SEO/og:image matches the one shown
+// in the gallery.
+function pickCoverImage(images: Image[]): Image | undefined {
+  return images.find((img) => img.isCover) ?? images[0]
+}
 
 /**
  * Get property details by id and filter by location.
@@ -23,8 +36,11 @@ import type { PropertyDetail } from '../interface/properties-details'
  */
 export function usePropertyDetails() {
   const api = useApi()
+  const nuxtApp = useNuxtApp()
   const route = useRoute()
   const config = useRuntimeConfig()
+  const { t } = useI18n()
+  const langKey = useLangKey()
   const seo = useSEO()
   const propertyFilter = usePropertyFilterStore()
   const viewedProperties = useCookie<string[]>('viewed_properties', {
@@ -37,42 +53,94 @@ export function usePropertyDetails() {
   // Key must be reactive to `id` (not a static string) — otherwise every
   // property id shares one cache slot, and Nuxt's payload cache can hand
   // back a previous property's frozen data instead of refetching.
-  const { data: property, pending } = useAsyncData<PropertyDetail>(
+  const { data: property, pending } = useAsyncData<PropertyDetail | null>(
     () => `property-details-${id.value}`,
-    () =>
-      fetchPropertyDetails({
-        api,
-        id: id.value,
-        lat: propertyFilter.lat,
-        lng: propertyFilter.lng,
-      }),
+    async () => {
+      try {
+        return await fetchPropertyDetails({
+          api,
+          id: id.value,
+          lat: propertyFilter.lat,
+          lng: propertyFilter.lng,
+        })
+      } catch (err) {
+        // Listings that don't exist (or aren't published) 404 at the API.
+        // Route to the app's existing not-found page (already noindex'd)
+        // instead of leaving the skeleton spinning forever. Called here,
+        // inside the same promise Nuxt's onServerPrefetch awaits, so the
+        // error (and its status code) is already decided before the SSR
+        // response gets serialized — a `watch(error, ...)` on the outside
+        // isn't guaranteed to fire in time for that (see useSEO.ts).
+        //
+        // Crossing the `await` above loses Nuxt's async context (same
+        // issue plugins/axios.ts works around for its own post-await
+        // composable calls), so showError/createError need to be run back
+        // inside it explicitly or they're silent no-ops on the server.
+        //
+        // Return (don't rethrow): showError already hands rendering over to
+        // error.vue — an exception escaping this handler instead surfaces
+        // as an unhandled SSR render error (Nitro's raw JSON error page)
+        // rather than that styled page.
+        const statusCode = (err as { response?: { status?: number } })?.response?.status ?? 500
+        await nuxtApp.runWithContext(() => {
+          showError(createError({
+            statusCode,
+            statusMessage: statusCode === 404 ? 'Property not found' : 'Something went wrong',
+            fatal: true,
+          }))
+        })
+        return null
+      }
+    },
     {
       watch: [() => propertyFilter.lat, () => propertyFilter.lng],
     },
   )
 
-  watch(
-    property,
-    (value) => {
-      if (!value) {
-        return
-      }
+  // A getter, not a one-off assignment — see useSEO.ts's `source` comment.
+  // unhead calls this when it resolves head tags for the response, by
+  // which point `property` is already populated.
+  seo.setSEO(() => {
+    const value = property.value
+    if (!value) {
+      return { title: '', description: '', image: undefined }
+    }
 
-      const firstImageKey = value.images[0]?.imageKey
-      const description = value.description ?? ''
+    const coverImage = pickCoverImage(value.images ?? [])
+    const locationName = `${value.district[langKey.value]}, ${value.district.province[langKey.value]}`
+    const priceLabel = `$${value.monthly_price}/${t('month')}`
 
-      seo.setSEO({
-        title: value.title ?? '',
-        // Social previews (Telegram, Facebook, ...) truncate long descriptions
-        // poorly, so cut it to a clean summary-length snippet ourselves.
-        description: description.length > 160 ? `${description.slice(0, 157)}...` : description,
-        image: firstImageKey
-          ? `${config.public.R2_PUB_URL}/${firstImageKey}`
-          : `${config.public.BASE_URL}/sabayrent-logo.webp`,
-      })
-    },
-    { immediate: true },
-  )
+    const title = t('property.seo.title', {
+      title: value.title,
+      location: locationName,
+      price: priceLabel,
+    })
+
+    const descriptionBase = t('property.seo.description', {
+      propertyType: value.propertyType[langKey.value],
+      location: locationName,
+      price: priceLabel,
+      bedroom: value.bedroom,
+      bathroom: value.bathroom,
+    })
+
+    // Fill remaining budget with a snippet of the landlord's own
+    // description, same summary-length cap as before.
+    const remaining = SEO_DESCRIPTION_MAX_LENGTH - descriptionBase.length - 1
+    const rawDescription = value.description ?? ''
+    const snippet = rawDescription.length > remaining
+      ? `${rawDescription.slice(0, Math.max(0, remaining - 3))}...`
+      : rawDescription
+    const description = remaining > 20 && snippet ? `${descriptionBase} ${snippet}` : descriptionBase
+
+    return {
+      title,
+      description,
+      image: coverImage
+        ? `${config.public.R2_PUB_URL}/${coverImage.imageKey}`
+        : `${config.public.BASE_URL}/sabayrent-logo.webp`,
+    }
+  })
 
   watch(
     id,

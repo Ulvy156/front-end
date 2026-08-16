@@ -27,7 +27,7 @@
         {{ property!.district[langKey] }}
       </BaseButton>
       <span class="opacity-60">›</span>
-      <span class="text-gray-800">{{ property!.title }}</span>
+      <span class="text-gray-800 line-clamp-1">{{ property!.title }}</span>
     </div>
 
     <!-- Title + Badges + Price row -->

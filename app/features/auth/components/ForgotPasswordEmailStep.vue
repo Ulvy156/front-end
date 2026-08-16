@@ -14,6 +14,19 @@
                 </el-form-item>
             </div>
 
+            <div class="space-y-1.5">
+                <label class="block text-sm font-medium text-slate-700">{{ t('auth.channelLabel') }}</label>
+                <el-radio-group v-model="channel" size="large" class="w-full flex" @change="channelError = ''">
+                    <el-radio-button :value="RESET_PASSWORD_CHANNEL.EMAIL" class="flex-1">
+                        {{ t('auth.channelEmail') }}
+                    </el-radio-button>
+                    <el-radio-button :value="RESET_PASSWORD_CHANNEL.TELEGRAM" class="flex-1">
+                        {{ t('auth.channelTelegram') }}
+                    </el-radio-button>
+                </el-radio-group>
+                <p v-if="channelError" class="text-sm text-red-500">{{ channelError }}</p>
+            </div>
+
             <BaseButton native-type="submit" block size="large" :loading="isSubmitting"
                 :label="isSubmitting ? t('auth.sending') : t('auth.sendCode')" />
         </el-form>
@@ -32,9 +45,10 @@ import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
 import { useErrorMsg } from '~/composables/useErrorMsg'
 import { useForm } from '~/composables/useForm'
+import { RESET_PASSWORD_CHANNEL, type ResetPasswordChannel } from '~/types/channel'
 import { useAuthFormRules } from '../composable/useAuthFormRules'
 
-const emit = defineEmits<{ sent: [email: string] }>()
+const emit = defineEmits<{ sent: [email: string, channel: ResetPasswordChannel] }>()
 
 const { t } = useI18n()
 const api = useApi()
@@ -47,14 +61,22 @@ const { formRef, form, rules, isSubmitting, handleSubmit } = useForm(
     forgotPasswordRules,
 )
 
+const channel = ref<ResetPasswordChannel>(RESET_PASSWORD_CHANNEL.EMAIL)
+const channelError = ref('')
+
 const submit = handleSubmit(async () => {
+    channelError.value = ''
     try {
         const email = form.email.trim()
-        await api.post('/auth/forgot-password', { email, channel: 'email' })
-        emit('sent', email)
+        await api.post('/auth/forgot-password', { email, channel: channel.value })
+        emit('sent', email, channel.value)
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
-        if (status !== 429) notify.error(extract(err))
+        if (status === 400) {
+            channelError.value = extract(err)
+        } else if (status !== 429) {
+            notify.error(extract(err))
+        }
     }
 })
 </script>

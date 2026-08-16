@@ -1,7 +1,7 @@
 <template>
     <AuthShell :title="t('auth.brandTitle')" :description="t('auth.brandDesc')" :features="brandFeatures">
         <ForgotPasswordEmailStep v-if="step === 1" @sent="onSent" />
-        <ResetPasswordOtpStep v-else-if="step === 2" :email="email" :initial-error="otpError"
+        <ResetPasswordOtpStep v-else-if="step === 2" :email="email" :channel="channel" :initial-error="otpError"
             @verified="onVerified" @back="onBack" />
         <ResetPasswordNewPasswordStep v-else :email="email" :otp="otp"
             @success="onSuccess" @invalid-otp="onInvalidOtp" />
@@ -13,6 +13,7 @@ import AuthShell from '~/components/auth/AuthShell.vue'
 import ForgotPasswordEmailStep from '~/features/auth/components/ForgotPasswordEmailStep.vue'
 import ResetPasswordOtpStep from '~/features/auth/components/ResetPasswordOtpStep.vue'
 import ResetPasswordNewPasswordStep from '~/features/auth/components/ResetPasswordNewPasswordStep.vue'
+import { RESET_PASSWORD_CHANNEL, type ResetPasswordChannel } from '~/types/channel'
 
 definePageMeta({ layout: 'auth' })
 
@@ -26,11 +27,13 @@ const brandFeatures = computed(() => [
 
 const step = ref<1 | 2 | 3>(1)
 const email = ref('')
+const channel = ref<ResetPasswordChannel>(RESET_PASSWORD_CHANNEL.EMAIL)
 const otp = ref('')
 const otpError = ref('')
 
-const onSent = (sentEmail: string) => {
+const onSent = (sentEmail: string, sentChannel: ResetPasswordChannel) => {
     email.value = sentEmail
+    channel.value = sentChannel
     otpError.value = ''
     step.value = 2
 }
@@ -43,6 +46,7 @@ const onVerified = (verifiedOtp: string) => {
 const onBack = () => {
     step.value = 1
     email.value = ''
+    channel.value = RESET_PASSWORD_CHANNEL.EMAIL
     otp.value = ''
     otpError.value = ''
 }
