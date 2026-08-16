@@ -36,6 +36,10 @@
 </template>
 
 <script setup lang="ts">
+const props = withDefaults(defineProps<{ authUrl?: string }>(), {
+  authUrl: '/auth/telegram-callback',
+})
+
 useHead({
   link: [
     { rel: 'preload', href: 'https://telegram.org/js/telegram-widget.js?22', as: 'script', crossorigin: 'anonymous' },
@@ -84,7 +88,7 @@ onMounted(() => {
   // data-auth-url (a plain top-level redirect) instead of data-onauth: the
   // latter makes the widget inject an inline <script> to invoke the page
   // callback, which violates script-src without 'unsafe-inline'.
-  script.setAttribute('data-auth-url', '/auth/telegram-callback')
+  script.setAttribute('data-auth-url', props.authUrl)
 
   telegramBtn.value?.appendChild(script)
 })

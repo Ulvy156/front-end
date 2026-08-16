@@ -28,7 +28,8 @@ import { useForm } from '~/composables/useForm'
 import { useAuthFormRules } from '../composable/useAuthFormRules'
 
 const props = defineProps<{
-    email: string
+    email?: string
+    telegramId?: number
     otp: string
 }>()
 const emit = defineEmits<{ success: [], invalidOtp: [message: string] }>()
@@ -46,8 +47,11 @@ const { formRef, form, rules, isSubmitting, handleSubmit } = useForm(
 
 const submit = handleSubmit(async () => {
     try {
+        const identifier = props.telegramId
+            ? { telegramId: props.telegramId }
+            : { email: props.email }
         await api.post('/auth/reset-password', {
-            email: props.email,
+            ...identifier,
             otp: props.otp,
             newPassword: form.newPassword,
         })

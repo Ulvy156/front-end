@@ -8,7 +8,7 @@
                 <h2 class="text-2xl font-bold text-slate-900">{{ t('auth.verifyEmail') }}</h2>
                 <p class="text-slate-500 text-sm">
                     {{ codeSentText }}
-                    <span class="font-medium text-slate-700">{{ email }}</span>
+                    <span class="font-medium text-slate-700">{{ identifierLabel }}</span>
                 </p>
             </div>
         </div>
@@ -40,11 +40,13 @@ import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseIcon from '~/components/ui/BaseIcon.client.vue'
 import { useErrorMsg } from '~/composables/useErrorMsg'
 import { RESET_PASSWORD_CHANNEL, type ResetPasswordChannel } from '~/types/channel'
+import type { TelegramAuthPayload } from '~/types/telegram'
 import OtpInputBoxes from './OtpInputBoxes.vue'
 
 const props = defineProps<{
-    email: string
+    email?: string
     channel: ResetPasswordChannel
+    telegramPayload?: TelegramAuthPayload | null
     initialError?: string
 }>()
 const emit = defineEmits<{ verified: [otp: string], back: [] }>()
@@ -54,9 +56,15 @@ const api = useApi()
 const notify = useNotify()
 const { extract } = useErrorMsg()
 
-const codeSentText = computed(() =>
-    props.channel === RESET_PASSWORD_CHANNEL.TELEGRAM ? t('auth.codeSentToTelegram') : t('auth.codeSentTo'),
-)
+const isTelegram = computed(() => props.channel === RESET_PASSWORD_CHANNEL.TELEGRAM)
+
+const codeSentText = computed(() => isTelegram.value ? t('auth.codeSentToTelegram') : t('auth.codeSentTo'))
+
+const identifierLabel = computed(() => {
+    if (!isTelegram.value) return props.email
+    const payload = props.telegramPayload
+    return payload?.username ? `@${payload.username}` : payload?.first_name ?? ''
+})
 
 const otp = ref('')
 const otpError = ref(props.initialError ?? '')
@@ -93,10 +101,12 @@ const verify = () => {
 const resend = async () => {
     isResending.value = true
     try {
-        await api.post('/auth/forgot-password', { email: props.email, channel: props.channel })
-        notify.success(props.channel === RESET_PASSWORD_CHANNEL.TELEGRAM
-            ? t('auth.codeSentSuccessTelegram')
-            : t('auth.codeSentSuccess'))
+        if (isTelegram.value) {
+            await api.post('/auth/forgot-password', { channel: props.channel, telegram: props.telegramPayload })
+        } else {
+            await api.post('/auth/forgot-password', { email: props.email, channel: props.channel })
+        }
+        notify.success(isTelegram.value ? t('auth.codeSentSuccessTelegram') : t('auth.codeSentSuccess'))
         startCooldown()
         otpBoxes.value?.reset()
     } catch (err) {
