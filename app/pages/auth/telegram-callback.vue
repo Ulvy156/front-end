@@ -13,6 +13,7 @@
 <script setup lang="ts">
 import { resolvePostLoginRoute } from '~/utils/roleGuard'
 import { useErrorMsg } from '~/composables/useErrorMsg'
+import { parseTelegramQueryField } from '~/utils/parseTelegramQueryField'
 
 definePageMeta({ layout: 'auth' })
 
@@ -43,9 +44,9 @@ onMounted(async () => {
       {
         id: Number(id),
         first_name: String(first_name),
-        last_name: last_name ? String(last_name) : undefined,
-        username: username ? String(username) : undefined,
-        photo_url: photo_url ? String(photo_url) : undefined,
+        last_name: parseTelegramQueryField(last_name),
+        username: parseTelegramQueryField(username),
+        photo_url: parseTelegramQueryField(photo_url),
         auth_date: Number(auth_date),
         hash: String(hash),
       },

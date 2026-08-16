@@ -16,6 +16,7 @@ import ResetPasswordOtpStep from '~/features/auth/components/ResetPasswordOtpSte
 import ResetPasswordNewPasswordStep from '~/features/auth/components/ResetPasswordNewPasswordStep.vue'
 import { RESET_PASSWORD_CHANNEL, type ResetPasswordChannel } from '~/types/channel'
 import type { TelegramAuthPayload } from '~/types/telegram'
+import { parseTelegramQueryField } from '~/utils/parseTelegramQueryField'
 
 definePageMeta({ layout: 'auth' })
 
@@ -39,7 +40,7 @@ const otpError = ref('')
 // reset-password-telegram-callback.vue lands the user back here (after
 // forwarding the widget payload to /auth/forgot-password) with the payload
 // carried as query params, since the widget's data-auth-url mode does a full
-// top-level redirect and can't hand off in-memory state.
+// top-level redirectphone number and can't hand off in-memory state.
 onMounted(() => {
     const { channel: qChannel, id, first_name, last_name, username, photo_url, auth_date, hash } = route.query
     if (qChannel !== RESET_PASSWORD_CHANNEL.TELEGRAM || !id || !first_name || !auth_date || !hash) return
@@ -47,9 +48,9 @@ onMounted(() => {
     telegramPayload.value = {
         id: Number(id),
         first_name: String(first_name),
-        last_name: last_name ? String(last_name) : undefined,
-        username: username ? String(username) : undefined,
-        photo_url: photo_url ? String(photo_url) : undefined,
+        last_name: parseTelegramQueryField(last_name),
+        username: parseTelegramQueryField(username),
+        photo_url: parseTelegramQueryField(photo_url),
         auth_date: Number(auth_date),
         hash: String(hash),
     }
