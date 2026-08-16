@@ -477,6 +477,7 @@ async function handleDuplicate(prop: LandlordProperty) {
             <!-- Engagement -->
             <div class="col-span-2 md:col-span-1 flex flex-row flex-wrap md:flex-col gap-x-4 gap-y-1 text-xs text-gray-500 font-semibold">
               <span class="flex items-center gap-1"><BaseIcon name="eye" :size="12" /> {{ t('landlord.properties.viewsCount', { n: row.totalViews.toLocaleString() }) }}</span>
+              <span class="flex items-center gap-1"><BaseIcon name="phone" :size="12" /> {{ t('landlord.properties.contactsCount', { n: row.contactCount.toLocaleString() }) }}</span>
               <span class="flex items-center gap-1"><BaseIcon name="heart" :size="12" /> {{ t('landlord.properties.savedCount', { n: row.favouriteCount }) }}</span>
               <span v-if="row.reportCount > 0" class="flex items-center gap-1 text-red-500">
                 <BaseIcon name="flag" :size="12" /> {{ row.reportCount }}

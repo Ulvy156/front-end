@@ -60,6 +60,7 @@ export interface LandlordProperty {
   isFeatured: boolean
   isLocked: boolean
   totalViews: number
+  contactCount: number
   favouriteCount: number
   reportCount: number
   propertyReport: LandlordPropertyReport[]

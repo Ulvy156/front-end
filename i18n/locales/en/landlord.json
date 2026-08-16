@@ -86,6 +86,7 @@
       "duplicateSuccess": "Property duplicated successfully.",
       "viewDetails": "View Details",
       "viewsCount": "{n} views",
+      "contactsCount": "{n} contacts",
       "savedCount": "{n} saved",
       "columns": {
         "property": "Property",

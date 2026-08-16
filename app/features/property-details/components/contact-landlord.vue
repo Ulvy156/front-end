@@ -62,6 +62,7 @@
       :class="hasPhone
         ? 'bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) mt-2'
         : 'bg-(--nav-active-item) text-white border-none'"
+      @click="recordContactClick"
     >
       <BaseIconClient name="mdi:telegram" :size="17" />
       {{ $t('property.contact_telegram') }}
@@ -179,6 +180,11 @@ const props = defineProps<{
 }>()
 
 const { copy } = useCopy()
+const { $axios } = useNuxtApp()
+
+function recordContactClick() {
+  $axios.post(`/properties/${props.property.id}/contact`).catch(() => {})
+}
 
 const phoneNumber = computed(
   () => props.property?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.PHONE) ?? [],
