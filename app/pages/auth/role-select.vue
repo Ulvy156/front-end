@@ -25,50 +25,73 @@
       </div>
 
       <!-- Role cards -->
-      <div class="grid grid-cols-2 gap-4">
-        <button type="button" :disabled="isSubmitting" @click="selectRole('USER')"
-          class="group flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
-                 border-slate-200 bg-white text-slate-600
-                 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700
-                 active:scale-[0.98] transition-all duration-150 cursor-pointer
-                 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
-          <div class="w-12 h-12 rounded-xl bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors duration-150">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <circle cx="12" cy="8" r="4" />
-              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+      <div class="space-y-2">
+        <p class="text-sm font-medium text-slate-700">
+          {{ t('auth.selectRoleLabel') }} <span class="text-red-500">*</span>
+        </p>
+        <div class="grid grid-cols-2 gap-4">
+          <button type="button" :disabled="isSubmitting" @click="selectRole('USER')"
+            :aria-pressed="selectedRole === 'USER'"
+            class="group relative flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
+                   transition-all duration-150 cursor-pointer
+                   active:scale-[0.98] disabled:cursor-not-allowed disabled:active:scale-100"
+            :class="selectedRole === 'USER'
+              ? 'border-emerald-500 bg-emerald-50 text-emerald-700 disabled:opacity-100'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700 disabled:opacity-60'">
+            <svg v-if="selectedRole === 'USER'" xmlns="http://www.w3.org/2000/svg"
+              class="absolute top-3 right-3 w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.7 7.7-5.4 5.4a1 1 0 01-1.4 0l-2.6-2.6a1 1 0 111.4-1.4l1.9 1.9 4.7-4.7a1 1 0 111.4 1.4z" />
             </svg>
-          </div>
-          <div class="text-center space-y-1">
-            <p class="font-semibold text-sm">{{ t('auth.roleUserLabel') }}</p>
-            <p class="text-xs text-slate-400 group-hover:text-emerald-500 transition-colors duration-150">
-              {{ t('auth.roleUserDesc') }}
-            </p>
-          </div>
-        </button>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-150"
+              :class="selectedRole === 'USER' ? 'bg-emerald-200' : 'bg-emerald-100 group-hover:bg-emerald-200'">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="8" r="4" />
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+              </svg>
+            </div>
+            <div class="text-center space-y-1">
+              <p class="font-semibold text-sm">{{ t('auth.roleUserLabel') }}</p>
+              <p class="text-xs transition-colors duration-150"
+                :class="selectedRole === 'USER' ? 'text-emerald-500' : 'text-slate-400 group-hover:text-emerald-500'">
+                {{ t('auth.roleUserDesc') }}
+              </p>
+            </div>
+          </button>
 
-        <button type="button" :disabled="isSubmitting" @click="selectRole('LANDLORD')"
-          class="group flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
-                 border-slate-200 bg-white text-slate-600
-                 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700
-                 active:scale-[0.98] transition-all duration-150 cursor-pointer
-                 disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100">
-          <div class="w-12 h-12 rounded-xl bg-emerald-100 group-hover:bg-emerald-200 flex items-center justify-center transition-colors duration-150">
-            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24"
-              fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-              stroke-linejoin="round">
-              <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
+          <button type="button" :disabled="isSubmitting" @click="selectRole('LANDLORD')"
+            :aria-pressed="selectedRole === 'LANDLORD'"
+            class="group relative flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
+                   transition-all duration-150 cursor-pointer
+                   active:scale-[0.98] disabled:cursor-not-allowed disabled:active:scale-100"
+            :class="selectedRole === 'LANDLORD'
+              ? 'border-emerald-500 bg-emerald-50 text-emerald-700 disabled:opacity-100'
+              : 'border-slate-200 bg-white text-slate-600 hover:border-emerald-400 hover:bg-emerald-50 hover:text-emerald-700 disabled:opacity-60'">
+            <svg v-if="selectedRole === 'LANDLORD'" xmlns="http://www.w3.org/2000/svg"
+              class="absolute top-3 right-3 w-5 h-5 text-emerald-600" viewBox="0 0 24 24" fill="currentColor">
+              <path fill-rule="evenodd" clip-rule="evenodd"
+                d="M12 2a10 10 0 100 20 10 10 0 000-20zm4.7 7.7-5.4 5.4a1 1 0 01-1.4 0l-2.6-2.6a1 1 0 111.4-1.4l1.9 1.9 4.7-4.7a1 1 0 111.4 1.4z" />
             </svg>
-          </div>
-          <div class="text-center space-y-1">
-            <p class="font-semibold text-sm">{{ t('auth.roleLandlordLabel') }}</p>
-            <p class="text-xs text-slate-400 group-hover:text-emerald-500 transition-colors duration-150">
-              {{ t('auth.roleLandlordDesc') }}
-            </p>
-          </div>
-        </button>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-150"
+              :class="selectedRole === 'LANDLORD' ? 'bg-emerald-200' : 'bg-emerald-100 group-hover:bg-emerald-200'">
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-600" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+            </div>
+            <div class="text-center space-y-1">
+              <p class="font-semibold text-sm">{{ t('auth.roleLandlordLabel') }}</p>
+              <p class="text-xs transition-colors duration-150"
+                :class="selectedRole === 'LANDLORD' ? 'text-emerald-500' : 'text-slate-400 group-hover:text-emerald-500'">
+                {{ t('auth.roleLandlordDesc') }}
+              </p>
+            </div>
+          </button>
+        </div>
       </div>
 
       <!-- Loading state -->
@@ -104,10 +127,16 @@ const showPasswordField = route.query.is_new_user === 'true'
 const password = ref('')
 const passwordError = ref('')
 const isSubmitting = ref(false)
+// Tracks the clicked card so it stays visibly highlighted even when password
+// validation blocks submission (showPasswordField flow) — otherwise the click
+// registers no feedback beyond an error message near the password field above.
+const selectedRole = ref<'USER' | 'LANDLORD' | null>(null)
 
 watch(password, () => { passwordError.value = '' })
 
 const selectRole = async (role: 'USER' | 'LANDLORD') => {
+  selectedRole.value = role
+
   const trimmedPassword = password.value.trim()
   if (showPasswordField) {
     if (!trimmedPassword) {
