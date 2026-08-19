@@ -3,7 +3,7 @@
     <div class="w-full max-w-105 space-y-8">
 
       <!-- Logo -->
-      <NuxtLink to="/" class="mx-auto w-fit">
+      <NuxtLink to="/" class="flex w-fit mx-auto">
         <NuxtImg src="/sabayrent-logo.webp" alt="SabayRent" class="h-9" width="36" height="36" />
       </NuxtLink>
 
@@ -30,7 +30,7 @@
           {{ t('auth.selectRoleLabel') }} <span class="text-red-500">*</span>
         </p>
         <div class="grid grid-cols-2 gap-4">
-          <button type="button" :disabled="isSubmitting" @click="selectRole('USER')"
+          <button type="button" :disabled="isSubmitting" @click="selectedRole = 'USER'"
             :aria-pressed="selectedRole === 'USER'"
             class="group relative flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
                    transition-all duration-150 cursor-pointer
@@ -61,7 +61,7 @@
             </div>
           </button>
 
-          <button type="button" :disabled="isSubmitting" @click="selectRole('LANDLORD')"
+          <button type="button" :disabled="isSubmitting" @click="selectedRole = 'LANDLORD'"
             :aria-pressed="selectedRole === 'LANDLORD'"
             class="group relative flex flex-col items-center gap-y-3 rounded-2xl border-2 p-6
                    transition-all duration-150 cursor-pointer
@@ -94,20 +94,16 @@
         </div>
       </div>
 
-      <!-- Loading state -->
-      <div v-if="isSubmitting" class="flex items-center justify-center gap-x-2 text-slate-500 text-sm">
-        <svg class="w-4 h-4 animate-spin text-emerald-600" viewBox="0 0 24 24" fill="none">
-          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-        </svg>
-        {{ t('auth.savingRole') }}
-      </div>
+      <!-- Continue -->
+      <BaseButton block size="large" :disabled="!selectedRole" :loading="isSubmitting"
+        :label="isSubmitting ? t('auth.savingRole') : t('auth.continue')" @click="submit" />
 
     </div>
   </section>
 </template>
 
 <script setup lang="ts">
+import BaseButton from '~/components/ui/BaseButton.vue'
 import BaseInput from '~/components/ui/BaseInput.vue'
 import { resolvePostLoginRoute } from '~/utils/roleGuard'
 
@@ -127,15 +123,13 @@ const showPasswordField = route.query.is_new_user === 'true'
 const password = ref('')
 const passwordError = ref('')
 const isSubmitting = ref(false)
-// Tracks the clicked card so it stays visibly highlighted even when password
-// validation blocks submission (showPasswordField flow) — otherwise the click
-// registers no feedback beyond an error message near the password field above.
 const selectedRole = ref<'USER' | 'LANDLORD' | null>(null)
 
 watch(password, () => { passwordError.value = '' })
 
-const selectRole = async (role: 'USER' | 'LANDLORD') => {
-  selectedRole.value = role
+const submit = async () => {
+  const role = selectedRole.value
+  if (!role) return
 
   const trimmedPassword = password.value.trim()
   if (showPasswordField) {
