@@ -141,6 +141,9 @@ const submit = handleSubmit(async () => {
         if (status === 403 && (msg.toLowerCase().includes('not verified') || msg.includes('ផ្ទៀងផ្ទាត់'))) {
             notify.info(msg)
             await navigateTo(`/auth/verify?email=${encodeURIComponent(form.identifier)}`)
+        } else if (status === 403 && (msg.toLowerCase().includes('select a role') || msg.includes('សូមជ្រើសរើសតួនាទីមុននឹងចូលប្រើប្រាស់'))) {
+            notify.info(msg)
+            await navigateTo('/auth/role-select')
         } else {
             notify.error(msg)
         }
