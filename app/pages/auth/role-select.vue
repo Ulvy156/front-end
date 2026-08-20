@@ -22,14 +22,11 @@
            misleadingly imply they have none yet. -->
       <div class="space-y-1.5">
         <label for="password" class="block text-sm font-medium text-slate-700">
-          {{ isNewAccount ? t('auth.setPassword') : t('auth.confirmPasswordLabel') }} <span class="text-red-500">*</span>
+          {{ t('auth.passwordPlaceholder') }} <span class="text-red-500">*</span>
         </label>
         <BaseInput id="password" icon="lock-keyhole" show-password type="password" size="large"
           :disabled="isSubmitting" :placeholder="t('auth.setPasswordPlaceholder')" v-model="password" />
         <p v-if="passwordError" class="text-xs text-red-500">{{ passwordError }}</p>
-        <p class="text-xs text-slate-400">
-          {{ isNewAccount ? t('auth.setPasswordDesc') : t('auth.confirmPasswordDesc') }}
-        </p>
       </div>
 
       <!-- Role cards -->
