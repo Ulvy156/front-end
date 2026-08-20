@@ -31,4 +31,19 @@ export default defineNuxtRouteMiddleware(async (to) => {
   if (!appSettingsStore.maintenanceMode && to.path === '/maintenance') {
     return navigateTo('/')
   }
+
+  // Backend issues a valid session cookie to a brand-new Telegram/Google
+  // sign-up before they've picked a role (they need it to reach role-select
+  // itself), and that cookie stays valid for days. A user who closes the tab
+  // mid-flow can otherwise land back on any non-role-gated page later and
+  // browse the whole site indefinitely without ever completing role-select.
+  // Catch that here once, globally, instead of every login entry point
+  // separately re-deriving "did this login actually get a role."
+  const roleSelectExempt = to.path === '/auth/role-select'
+    || to.path === '/auth/callback'
+    || to.path === '/auth/telegram-callback'
+    || to.path === '/maintenance'
+  if (authStore.isAuthenticated && !authStore.user?.role && !roleSelectExempt) {
+    return navigateTo('/auth/role-select')
+  }
 })

@@ -20,7 +20,7 @@ definePageMeta({ layout: 'auth' })
 const { $axios } = useNuxtApp()
 const authStore = useAuthStore()
 const notify = useNotify()
-const { extract } = useErrorMsg()
+const { extract, extractCode } = useErrorMsg()
 const { t } = useI18n()
 const route = useRoute()
 
@@ -63,8 +63,17 @@ onMounted(async () => {
       await navigateTo('/auth/login', { replace: true })
     }
   } catch (err) {
-    notify.error(extract(err))
-    await navigateTo('/auth/login', { replace: true })
+    const code = extractCode(err)
+    if (code === 'role_not_selected') {
+      notify.info(extract(err))
+      await navigateTo('/auth/role-select', { replace: true })
+    } else if (code === 'locked') {
+      notify.error(t('auth.accountLocked'))
+      await navigateTo('/auth/login', { replace: true })
+    } else {
+      notify.error(extract(err))
+      await navigateTo('/auth/login', { replace: true })
+    }
   }
 })
 </script>
