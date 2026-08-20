@@ -113,7 +113,7 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
-const { extract } = useErrorMsg()
+const { extract, extractCode } = useErrorMsg()
 const route = useRoute()
 
 // Only new Telegram/Google sign-ups lack a password; existing accounts already
@@ -155,17 +155,17 @@ const submit = async () => {
     await authStore.fetchProfile()
     await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
   } catch (err) {
-    const status = (err as { response?: { status?: number } })?.response?.status
-    const msg = extract(err)
-    // Guards against double-submits: the account already has a role/password
-    // set, so treat this as already-onboarded and route in rather than error.
-    if (status === 400 && msg.toLowerCase().includes('password is already set')) {
+    const code = extractCode(err)
+    // Guards against double-submits: the account already has a role and/or
+    // password set, so treat this as already-onboarded and route in rather
+    // than error.
+    if (code === 'role_already_set' || code === 'password_already_set') {
       notify.info(t('auth.roleAlreadySelected'))
       await api.post('/auth/refresh-token')
       await authStore.fetchProfile()
       await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
     } else {
-      notify.error(msg)
+      notify.error(extract(err))
     }
   } finally {
     isSubmitting.value = false

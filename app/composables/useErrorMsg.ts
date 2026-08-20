@@ -5,6 +5,15 @@ const responseMessage = (err: unknown): string | string[] | undefined => {
   return data?.message as string | string[] | undefined
 }
 
+// Stable machine-readable error identifier some backend exceptions attach
+// alongside the i18n `message` (e.g. "not_verified", "locked",
+// "role_not_selected") — branch on this, never on `message` text, since
+// `message` is translated per the request's Accept-Language.
+const responseCode = (err: unknown): string | undefined => {
+  const data = (err as AxiosError)?.response?.data as { code?: unknown } | undefined
+  return typeof data?.code === 'string' ? data.code : undefined
+}
+
 export const useErrorMsg = () => {
   const { t } = useI18n()
 
@@ -27,5 +36,8 @@ export const useErrorMsg = () => {
     return null
   }
 
-  return { extract, getValidationMessages }
+  const extractCode = (err: unknown): string | undefined =>
+    responseCode(err) ?? responseCode((err as { cause?: unknown })?.cause)
+
+  return { extract, getValidationMessages, extractCode }
 }

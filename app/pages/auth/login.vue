@@ -88,7 +88,7 @@ const { t } = useI18n()
 const api = useApi()
 const notify = useNotify()
 const authStore = useAuthStore()
-const { extract } = useErrorMsg()
+const { extract, extractCode } = useErrorMsg()
 
 const brandFeatures = computed(() => [
     { icon: 'map-pin', text: t('auth.brandFeature1') },
@@ -137,13 +137,16 @@ const submit = handleSubmit(async () => {
         await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
     } catch (err) {
         const status = (err as { response?: { status?: number } })?.response?.status
+        const code = extractCode(err)
         const msg = extract(err)
-        if (status === 403 && (msg.toLowerCase().includes('not verified') || msg.includes('ផ្ទៀងផ្ទាត់'))) {
+        if (code === 'not_verified') {
             notify.info(msg)
             await navigateTo(`/auth/verify?email=${encodeURIComponent(form.identifier)}`)
-        } else if (status === 403 && (msg.toLowerCase().includes('select a role') || msg.includes('សូមជ្រើសរើសតួនាទីមុននឹងចូលប្រើប្រាស់'))) {
+        } else if (code === 'role_not_selected') {
             notify.info(msg)
             await navigateTo('/auth/role-select')
+        } else if (code === 'locked') {
+            notify.error(t('auth.accountLocked'))
         } else {
             notify.error(msg)
         }
