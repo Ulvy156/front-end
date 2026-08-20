@@ -13,15 +13,23 @@
         <p class="text-slate-500 text-sm">{{ t('auth.selectRoleDesc') }}</p>
       </div>
 
-      <!-- Password setup (new Telegram/Google sign-ups only) -->
-      <div v-if="showPasswordField" class="space-y-1.5">
+      <!-- Password: required on every submit, even for accounts that already
+           have one (e.g. an email registrant who skipped role at signup, or
+           a returning user redirected here via role_not_selected) — the
+           backend re-hashes and overwrites whatever is sent, so a returning
+           user must retype their existing password correctly or it changes.
+           Copy below is softened for that case since "Set a password" would
+           misleadingly imply they have none yet. -->
+      <div class="space-y-1.5">
         <label for="password" class="block text-sm font-medium text-slate-700">
-          {{ t('auth.setPassword') }} <span class="text-red-500">*</span>
+          {{ isNewAccount ? t('auth.setPassword') : t('auth.confirmPasswordLabel') }} <span class="text-red-500">*</span>
         </label>
         <BaseInput id="password" icon="lock-keyhole" show-password type="password" size="large"
           :disabled="isSubmitting" :placeholder="t('auth.setPasswordPlaceholder')" v-model="password" />
         <p v-if="passwordError" class="text-xs text-red-500">{{ passwordError }}</p>
-        <p class="text-xs text-slate-400">{{ t('auth.setPasswordDesc') }}</p>
+        <p class="text-xs text-slate-400">
+          {{ isNewAccount ? t('auth.setPasswordDesc') : t('auth.confirmPasswordDesc') }}
+        </p>
       </div>
 
       <!-- Role cards -->
@@ -116,9 +124,11 @@ const authStore = useAuthStore()
 const { extract, extractCode } = useErrorMsg()
 const route = useRoute()
 
-// Only new Telegram/Google sign-ups lack a password; existing accounts already
-// have one and the backend rejects select-role if a password is sent for them.
-const showPasswordField = route.query.is_new_user === 'true'
+// Only a brand-new Telegram/Google sign-up is guaranteed to have no password
+// yet — every other path that lands here (email registrant who skipped role
+// at signup, or any account redirected via role_not_selected) may already
+// have a real one, so the password field's copy is softened for those cases.
+const isNewAccount = route.query.is_new_user === 'true'
 
 const password = ref('')
 const passwordError = ref('')
@@ -131,24 +141,22 @@ const submit = async () => {
   const role = selectedRole.value
   if (!role) return
 
+  // password is required by the backend on every select-role call, even for
+  // email/password registrants who already have one — it gets resent as-is
+  // and silently overwrites their existing password with the same value.
   const trimmedPassword = password.value.trim()
-  if (showPasswordField) {
-    if (!trimmedPassword) {
-      passwordError.value = t('auth.passwordRequired')
-      return
-    }
-    if (!isStrongPassword(trimmedPassword)) {
-      passwordError.value = t('auth.passwordWeak')
-      return
-    }
+  if (!trimmedPassword) {
+    passwordError.value = t('auth.passwordRequired')
+    return
+  }
+  if (!isStrongPassword(trimmedPassword)) {
+    passwordError.value = t('auth.passwordWeak')
+    return
   }
 
   isSubmitting.value = true
   try {
-    await api.patch('/auth/select-role', {
-      role,
-      ...(showPasswordField ? { password: trimmedPassword } : {}),
-    })
+    await api.patch('/auth/select-role', { role, password: trimmedPassword })
     // select-role changes the role baked into the JWT, so a fresh access
     // token (fresh cookie) is needed to reflect it going forward.
     await api.post('/auth/refresh-token')
@@ -156,10 +164,10 @@ const submit = async () => {
     await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
   } catch (err) {
     const code = extractCode(err)
-    // Guards against double-submits: the account already has a role and/or
-    // password set, so treat this as already-onboarded and route in rather
-    // than error.
-    if (code === 'role_already_set' || code === 'password_already_set') {
+    // Guards against double-submits and stale client state (e.g. back-button
+    // navigation after onboarding already completed): the account already
+    // has both role and password set, so route in rather than error.
+    if (code === 'role_already_set' || code === 'select_role_already_completed') {
       notify.info(t('auth.roleAlreadySelected'))
       await api.post('/auth/refresh-token')
       await authStore.fetchProfile()
