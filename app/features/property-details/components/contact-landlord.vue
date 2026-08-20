@@ -33,40 +33,35 @@
       </div>
     </div>
 
-    <!-- Call -->
+    <!-- Primary contact action -->
     <BaseButton
-      v-if="hasPhone"
+      v-if="contact?.method === 'PHONE'"
       block
       tag="a"
-      :href="`tel:${phoneNumber[0]!.phoneNumber}`"
+      :href="`tel:${contact.value}`"
       class="flex! items-center justify-center gap-2 bg-(--nav-active-item)! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold!"
     >
       <BaseIconClient name="phone-call" class="mr-3" :size="17" />
       {{ $t('property.call') }}
     </BaseButton>
+    <a
+      v-else-if="contact?.method === 'TELEGRAM'"
+      target="_blank"
+      :href="getTelegramLink(contact.value)!"
+      class="w-full flex items-center justify-center gap-2 rounded-lg py-3.5 text-[15px] font-semibold text-center bg-(--nav-active-item) text-white border-none"
+      @click="recordContactClick"
+    >
+      <BaseIconClient name="mdi:telegram" :size="17" />
+      {{ $t('property.contact_telegram') }}
+    </a>
     <BaseButton
-      v-else-if="!hasTelegram"
+      v-else
       block
       disabled
       class="bg-gray-300! text-white! border-none! rounded-lg! py-3.5! h-auto! text-[15px]! font-semibold! cursor-not-allowed!"
     >
       {{ $t('property.contact') }}
     </BaseButton>
-
-    <!-- Telegram -->
-    <a
-      v-if="hasTelegram"
-      target="_blank"
-      :href="getTelegramLink(telegram[0]!.phoneNumber)!"
-      class="w-full flex items-center justify-center gap-2 rounded-lg py-3 text-[15px] font-semibold text-center"
-      :class="hasPhone
-        ? 'bg-white text-(--nav-active-item) border-[1.5px] border-(--nav-active-item) mt-2'
-        : 'bg-(--nav-active-item) text-white border-none'"
-      @click="recordContactClick"
-    >
-      <BaseIconClient name="mdi:telegram" :size="17" />
-      {{ $t('property.contact_telegram') }}
-    </a>
 
     <!-- Contact rows -->
     <div class="flex flex-col gap-2 mt-3.5">
@@ -189,11 +184,7 @@ function recordContactClick() {
 const phoneNumber = computed(
   () => props.property?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.PHONE) ?? [],
 )
-const telegram = computed(
-  () => props.property?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.TELEGRAM) ?? [],
-)
-const hasPhone = computed(() => phoneNumber.value.length > 0)
-const hasTelegram = computed(() => telegram.value.length > 0)
+const contact = computed(() => props.property?.user?.contact ?? null)
 </script>
 
 <style scoped>

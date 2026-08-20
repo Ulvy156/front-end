@@ -113,13 +113,21 @@
       </div>
       <div class="flex items-center gap-2.5">
         <BaseButton
-          v-if="phoneNumber.length"
+          v-if="contact?.method === 'PHONE'"
           tag="a"
-          :href="`tel:${phoneNumber[0]!.phoneNumber}`"
+          :href="`tel:${contact.value}`"
           class="bg-(--nav-active-item)! text-white! border-none! rounded-lg! px-6! py-3! h-auto! text-sm! font-semibold!"
         >
           {{ $t('property.call') }}
         </BaseButton>
+        <a
+          v-else-if="contact?.method === 'TELEGRAM'"
+          target="_blank"
+          :href="getTelegramLink(contact.value)!"
+          class="flex items-center justify-center bg-(--nav-active-item) text-white border-none rounded-lg px-6 py-3 h-auto text-sm font-semibold"
+        >
+          {{ $t('property.contact_telegram') }}
+        </a>
         <BaseButton
           v-else
           disabled
@@ -161,16 +169,14 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
 import SkeletonPropertyDetails from "~/components/animation/skeleton-property-details.vue";
 import { usePropertyDetails } from "../composable/usePropertyDetails";
-import { PHONE_NUMBER_TYPE } from "~/types/phoneNumber";
+import { getTelegramLink } from "#imports";
 
 const { property } = usePropertyDetails()
 const langKey = useLangKey()
 const filterStore = usePropertyFilterStore()
 const { getProvinceId } = useCambodiaLocations()
 const { isMounted, isLgUp } = useAppBreakpoints()
-const phoneNumber = computed(
-  () => property.value?.user?.phones?.filter((item) => item.type === PHONE_NUMBER_TYPE.PHONE) ?? [],
-)
+const contact = computed(() => property.value?.user?.contact ?? null)
 
 function goToDistrict() {
   if (!property.value) return

@@ -52,8 +52,14 @@ export interface User {
   phones: Phone[];
   name: string;
   email: string | null;
-  hasVerifiedBadge: boolean
+  hasVerifiedBadge: boolean;
+  contact: Contact;
 }
+
+export type Contact =
+  | { method: 'TELEGRAM'; value: string }
+  | { method: 'PHONE'; value: string }
+  | null;
 
 export interface Parking {
   id: string;
