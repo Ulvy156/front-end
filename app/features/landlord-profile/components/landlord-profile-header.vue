@@ -25,7 +25,7 @@
     </div>
 
     <!-- Contact info -->
-    <div v-if="phones.length > 0 || telegram.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+    <div v-if="phones.length > 0 || contact?.method === 'TELEGRAM'" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
       <div
         v-for="phone in phones"
         :key="phone.phoneNumber"
@@ -44,9 +44,9 @@
       </div>
 
       <a
-        v-if="telegram.length > 0"
+        v-if="contact?.method === 'TELEGRAM'"
         target="_blank"
-        :href="getTelegramLink(telegram[0]!.phoneNumber)!"
+        :href="`https://t.me/${contact.value}`"
         class="flex items-center justify-center gap-x-3 bg-(--bg-gray) p-3 rounded-(--radius) hover:bg-(--nav-active) transition-all"
       >
         <BaseIconClient name="message-square-text" :size="18" />
@@ -62,7 +62,6 @@ import dayjs from 'dayjs'
 import BaseAvatar from '~/components/ui/BaseAvatar.vue'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import { useCopy } from '#imports'
-import { getTelegramLink } from '#imports'
 import type { PublicLandlord } from '../interface/landlord-profile'
 import { PHONE_NUMBER_TYPE } from '~/types/phoneNumber'
 
@@ -76,9 +75,7 @@ const phones = computed(() =>
   props.landlord.phones.filter(p => p.type === PHONE_NUMBER_TYPE.PHONE),
 )
 
-const telegram = computed(() =>
-  props.landlord.phones.filter(p => p.type === PHONE_NUMBER_TYPE.TELEGRAM),
-)
+const contact = computed(() => props.landlord.contact ?? null)
 
 const formattedDate = computed(() =>
   dayjs(props.landlord.createdAt).format('MMM YYYY'),

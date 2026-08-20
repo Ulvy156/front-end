@@ -9,6 +9,11 @@ export interface LandlordPhone {
   type: PhoneNumberType
 }
 
+export type LandlordContact =
+  | { method: 'TELEGRAM'; value: string }
+  | { method: 'PHONE'; value: string }
+  | null
+
 export interface PublicLandlord {
   id: string
   name: string
@@ -16,6 +21,7 @@ export interface PublicLandlord {
   imgUrl: string | null
   createdAt: string
   phones: LandlordPhone[]
+  contact: LandlordContact
   totalPublishedProperties: number
 }
 

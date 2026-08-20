@@ -47,7 +47,7 @@
     <a
       v-else-if="contact?.method === 'TELEGRAM'"
       target="_blank"
-      :href="getTelegramLink(contact.value)!"
+      :href="`https://t.me/${contact.value}`"
       class="w-full flex items-center justify-center gap-2 rounded-lg py-3.5 text-[15px] font-semibold text-center bg-(--nav-active-item) text-white border-none"
       @click="recordContactClick"
     >
@@ -154,7 +154,6 @@ import type { PropertyDetail } from "../interface/properties-details"
 import { PHONE_NUMBER_TYPE } from "~/types/phoneNumber"
 import { useFullUrl } from "#imports"
 import { useCopy } from "#imports"
-import { getTelegramLink } from "#imports"
 import { openShare } from "#imports"
 
 const route = useRoute()

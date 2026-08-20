@@ -123,7 +123,7 @@
         <a
           v-else-if="contact?.method === 'TELEGRAM'"
           target="_blank"
-          :href="getTelegramLink(contact.value)!"
+          :href="`https://t.me/${contact.value}`"
           class="flex items-center justify-center bg-(--nav-active-item) text-white border-none rounded-lg px-6 py-3 h-auto text-sm font-semibold"
         >
           {{ $t('property.contact_telegram') }}
@@ -169,7 +169,6 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import BaseButton from "~/components/ui/BaseButton.vue";
 import SkeletonPropertyDetails from "~/components/animation/skeleton-property-details.vue";
 import { usePropertyDetails } from "../composable/usePropertyDetails";
-import { getTelegramLink } from "#imports";
 
 const { property } = usePropertyDetails()
 const langKey = useLangKey()
