@@ -16,7 +16,7 @@
         <li>អ្នកត្រូវផ្តល់ព័ត៌មានចុះឈ្មោះឱ្យបានត្រឹមត្រូវ (ឈ្មោះ អ៊ីមែល ឬលេខទូរស័ព្ទ និងពាក្យសម្ងាត់)។</li>
         <li>អ្នកទទួលខុសត្រូវក្នុងការរក្សាព័ត៌មានចូលគណនីរបស់អ្នកជាការសម្ងាត់ និងចំពោះសកម្មភាពទាំងអស់ក្រោមគណនីរបស់អ្នក។</li>
         <li>គណនីអាចបង្កើតបានតាមរយៈអ៊ីមែល និងពាក្យសម្ងាត់ ឬដោយចូលតាម Google ឬ Telegram។ គណនីថ្មីដែលចុះឈ្មោះតាម Google ឬ Telegram នឹងកំណត់ជាតួនាទីអ្នកជួលដោយស្វ័យប្រវត្តិ ហើយអាចប្តូរទៅជាម្ចាស់អចលនទ្រព្យបានក្រោយមក។</li>
-        <li>យើងអាចចាក់សោ ឬផ្អាកគណនីដែលបំពានលក្ខខណ្ឌទាំងនេះ ត្រូវបានប្រើប្រាស់ក្នុងលក្ខណៈក្លែងបន្លំ ឬត្រូវបានរកឃើញថាកំពុងកេងប្រវ័ញ្ចវេទិកា — ឧទាហរណ៍ ការរាយការណ៍ច្រើនដងដោយចេតនាអាក្រក់ ការបង្កើនចំនួនចូលមើលក្លែងក្លាយ ឬការបង្ហោះការផ្សាយផ្ទុះមិនពិត។</li>
+        <li>យើងអាចចាក់សោ ឬផ្អាកគណនីដែលបំពានលក្ខខណ្ឌទាំងនេះ ត្រូវបានប្រើប្រាស់ក្នុងលក្ខណៈក្លែងបន្លំ ឬត្រូវបានរកឃើញថាកំពុងកេងប្រវ័ញ្ចវេទិកា  ឧទាហរណ៍ ការរាយការណ៍ច្រើនដងដោយចេតនាអាក្រក់ ការបង្កើនចំនួនចូលមើលក្លែងក្លាយ ឬការបង្ហោះការផ្សាយផ្ទុះមិនពិត។</li>
       </ul>
 
       <h2 id="roles">២. តួនាទីអ្នកប្រើប្រាស់</h2>
@@ -34,7 +34,7 @@
         តាមតម្រូវការក្នុងការដំណើរការ និងត្រួតពិនិត្យវេទិកា។
       </p>
       <p>
-        អ្នកទទួលខុសត្រូវទាំងស្រុងចំពោះខ្លឹមសារដែលអ្នកបញ្ចូល ហើយត្រូវមានសិទ្ធិចាំបាច់លើខ្លឹមសារនោះ — រួមទាំងរូបភាព
+        អ្នកទទួលខុសត្រូវទាំងស្រុងចំពោះខ្លឹមសារដែលអ្នកបញ្ចូល ហើយត្រូវមានសិទ្ធិចាំបាច់លើខ្លឹមសារនោះ  រួមទាំងរូបភាព
         នៃអចលនទ្រព្យដែលអ្នកផ្សាយ។ យើងអាចត្រួតពិនិត្យ តម្រង់ទិស ឬលុបខ្លឹមសារដែលបំពានលក្ខខណ្ឌទាំងនេះ ឬច្បាប់ដែលអនុវត្ត
         ដោយគ្មានការជូនដំណឹងជាមុន។
       </p>
@@ -42,15 +42,15 @@
       <h2 id="listings">៤. ការផ្សាយអចលនទ្រព្យ (សម្រាប់ម្ចាស់អចលនទ្រព្យ)</h2>
       <ul>
         <li>អ្នកត្រូវមានសិទ្ធិស្របច្បាប់ក្នុងការផ្សាយ និងជួលអចលនទ្រព្យណាមួយដែលអ្នកបង្ហោះ។</li>
-        <li>ការផ្សាយត្រូវមានភាពត្រឹមត្រូវ — តម្លៃ ទីតាំង ភាពទំនេរ សម្ភារៈបរិក្ខារ និងរូបភាព ត្រូវឆ្លុះបញ្ចាំងពីអចលនទ្រព្យជាក់ស្តែង។</li>
-        <li>យើងមិនផ្ទៀងផ្ទាត់ភាពជាម្ចាស់នៃអចលនទ្រព្យដែលបានផ្សាយនោះទេ។ សញ្ញាសម្គាល់ការផ្ទៀងផ្ទាត់ម្ចាស់អចលនទ្រព្យ ប្រសិនបើមាន គ្រាន់តែឆ្លុះបញ្ចាំងថាអ្នកគ្រប់គ្រងបានពិនិត្យ និងអនុម័តគណនីរបស់ម្ចាស់អចលនទ្រព្យដោយផ្ទាល់ដៃប៉ុណ្ណោះ — មិនមែនមានន័យថារាល់ព័ត៌មានលម្អិតរបស់ការផ្សាយនីមួយៗត្រូវបានផ្ទៀងផ្ទាត់ដោយឯករាជ្យនោះទេ។</li>
+        <li>ការផ្សាយត្រូវមានភាពត្រឹមត្រូវ  តម្លៃ ទីតាំង ភាពទំនេរ សម្ភារៈបរិក្ខារ និងរូបភាព ត្រូវឆ្លុះបញ្ចាំងពីអចលនទ្រព្យជាក់ស្តែង។</li>
+        <li>យើងមិនផ្ទៀងផ្ទាត់ភាពជាម្ចាស់នៃអចលនទ្រព្យដែលបានផ្សាយនោះទេ។ សញ្ញាសម្គាល់ការផ្ទៀងផ្ទាត់ម្ចាស់អចលនទ្រព្យ ប្រសិនបើមាន គ្រាន់តែឆ្លុះបញ្ចាំងថាអ្នកគ្រប់គ្រងបានពិនិត្យ និងអនុម័តគណនីរបស់ម្ចាស់អចលនទ្រព្យដោយផ្ទាល់ដៃប៉ុណ្ណោះ  មិនមែនមានន័យថារាល់ព័ត៌មានលម្អិតរបស់ការផ្សាយនីមួយៗត្រូវបានផ្ទៀងផ្ទាត់ដោយឯករាជ្យនោះទេ។</li>
         <li>ការប្រព្រឹត្តហាមឃាត់រួមមាន៖ អចលនទ្រព្យក្លែងក្លាយ ឬមិនមានពិត អត្តសញ្ញាណម្ចាស់អចលនទ្រព្យក្លែងបន្លំ ឬការក្លែងបន្លំជាបុគ្គល ឬអង្គភាពដទៃ តម្លៃ ភាពទំនេរ ឬសម្ភារៈបរិក្ខារដែលបំភាន់ ឬមិនត្រឹមត្រូវខ្លាំង រូបភាពដែលលួច ឬបំភាន់ ការលាក់ដោយចេតនានូវលក្ខខណ្ឌជួលសំខាន់ៗ ការផ្សាយស្ទួន ឬរើសអើង ការស្នើសុំឱ្យអ្នកប្រើប្រាស់ទូទាត់ប្រាក់ក្រៅពីការព្រមព្រៀងតាមមធ្យោបាយក្លែងបន្លំ ការបន្លំចាប់សំណុំបែបបទ ឬការឆបោកទូទាត់ប្រាក់ផ្សេងទៀត និងការផ្សាយអចលនទ្រព្យដែលអ្នកមិនមានសិទ្ធិយកមកជួល។</li>
         <li>យើងរក្សាសិទ្ធិក្នុងការដកចេញ ឬលុបការផ្សាយណាមួយតាមឆន្ទានុសិទ្ធិរបស់យើង រួមទាំងក្នុងករណីមានការរាយការណ៍ពីអ្នកប្រើប្រាស់។</li>
       </ul>
 
       <h2 id="reporting">៥. ការរាយការណ៍ និងការត្រួតពិនិត្យ</h2>
-      <p>អ្នកប្រើប្រាស់ណាមួយអាចរាយការណ៍ការផ្សាយដែលពួកគេជឿថាបំពានលក្ខខណ្ឌទាំងនេះ — ឧទាហរណ៍ ការឆបោក ខ្លឹមសារមិនសមរម្យ ការផ្សាយស្ទួន ឬព័ត៌មានមិនត្រឹមត្រូវ — លើកលែងតែការផ្សាយផ្ទាល់ខ្លួនរបស់ពួកគេផ្ទាល់។</p>
-      <p>ការដាក់របាយការណ៍នឹងជូនដំណឹងទៅម្ចាស់អចលនទ្រព្យ និងអ្នកគ្រប់គ្រងវេទិកា។ របាយការណ៍មិនធ្វើឱ្យការផ្សាយត្រូវលុបចេញដោយស្វ័យប្រវត្តិនោះទេ — ការសម្រេចចិត្តត្រួតពិនិត្យធ្វើឡើងដោយអ្នកគ្រប់គ្រង។</p>
+      <p>អ្នកប្រើប្រាស់ណាមួយអាចរាយការណ៍ការផ្សាយដែលពួកគេជឿថាបំពានលក្ខខណ្ឌទាំងនេះ  ឧទាហរណ៍ ការឆបោក ខ្លឹមសារមិនសមរម្យ ការផ្សាយស្ទួន ឬព័ត៌មានមិនត្រឹមត្រូវ  លើកលែងតែការផ្សាយផ្ទាល់ខ្លួនរបស់ពួកគេផ្ទាល់។</p>
+      <p>ការដាក់របាយការណ៍នឹងជូនដំណឹងទៅម្ចាស់អចលនទ្រព្យ និងអ្នកគ្រប់គ្រងវេទិកា។ របាយការណ៍មិនធ្វើឱ្យការផ្សាយត្រូវលុបចេញដោយស្វ័យប្រវត្តិនោះទេ  ការសម្រេចចិត្តត្រួតពិនិត្យធ្វើឡើងដោយអ្នកគ្រប់គ្រង។</p>
       <p>
         តាមឆន្ទានុសិទ្ធិរបស់យើង យើងអាចស៊ើបអង្កេតការសង្ស័យថាមានការក្លែងបន្លំ ការកេងប្រវ័ញ្ច ឬការបំពានលក្ខខណ្ឌទាំងនេះ
         ដកចេញ ឬដាក់កម្រិតការផ្សាយ និងខ្លឹមសារផ្សេងទៀត ដាក់កម្រិតការចូលប្រើមុខងារមួយចំនួន និងផ្អាក ឬបញ្ចប់គណនី។
@@ -107,8 +107,8 @@
       <h2 id="termination">១២. ការបញ្ចប់សេវា</h2>
       <p>
         អ្នកអាចឈប់ប្រើវេទិកា និងស្នើសុំលុបគណនីនៅពេលណាមួយ។ នៅពេលគណនីរបស់អ្នកត្រូវបានលុប ឬផ្អាក ការផ្សាយរបស់អ្នកនឹងត្រូវដកចេញ
-        ឬលុបពីការបង្ហាញជាសាធារណៈ ការចូលប្រើមុខងារគណនីរបស់អ្នកនឹងឈប់ដំណើរការ ហើយទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នក — រួមទាំង
-        ព័ត៌មានប្រវត្តិរូប ចំណូលចិត្ត ព័ត៌មានទំនាក់ទំនង របាយការណ៍ និងមតិកែលម្អ — នឹងត្រូវលុប ឬផ្តាច់ចេញពីអត្តសញ្ញាណរបស់អ្នក
+        ឬលុបពីការបង្ហាញជាសាធារណៈ ការចូលប្រើមុខងារគណនីរបស់អ្នកនឹងឈប់ដំណើរការ ហើយទិន្នន័យផ្ទាល់ខ្លួនរបស់អ្នក  រួមទាំង
+        ព័ត៌មានប្រវត្តិរូប ចំណូលចិត្ត ព័ត៌មានទំនាក់ទំនង របាយការណ៍ និងមតិកែលម្អ  នឹងត្រូវលុប ឬផ្តាច់ចេញពីអត្តសញ្ញាណរបស់អ្នក
         ដូចមានរៀបរាប់នៅក្នុងគោលការណ៍ភាពឯកជនរបស់យើង។ ព័ត៌មានមួយចំនួនអាចនៅតែត្រូវរក្សាទុក ក្នុងករណីចាំបាច់សមហេតុផលសម្រាប់
         គោលបំណងផ្លូវច្បាប់ សុវត្ថិភាព ការទប់ស្កាត់ការកេងប្រវ័ញ្ច ការដោះស្រាយវិវាទ ឬគោលបំណងអាជីវកម្មស្របច្បាប់ផ្សេងទៀត តាមការអនុញ្ញាតរបស់ច្បាប់។
       </p>
@@ -140,7 +140,7 @@
         <li>You must provide accurate registration information (name, email or phone, and password).</li>
         <li>You are responsible for keeping your login credentials confidential and for all activity under your account.</li>
         <li>Accounts can be created with email and password, or by signing in with Google or Telegram. New Google or Telegram sign-ups default to the Tenant role and may switch to Landlord afterward.</li>
-        <li>We may lock or suspend accounts that violate these Terms, are used fraudulently, or are found abusing the Platform — for example, spamming reports, inflating view counts, or submitting false listings.</li>
+        <li>We may lock or suspend accounts that violate these Terms, are used fraudulently, or are found abusing the Platform  for example, spamming reports, inflating view counts, or submitting false listings.</li>
       </ul>
 
       <h2 id="roles">2. Roles</h2>
@@ -158,7 +158,7 @@
         operate and moderate the Platform.
       </p>
       <p>
-        You are solely responsible for the content you upload and must have the necessary rights to it — including
+        You are solely responsible for the content you upload and must have the necessary rights to it  including
         any photos of a property you list. We may review, moderate, or remove content that violates these Terms or
         applicable law, without prior notice.
       </p>
@@ -166,14 +166,14 @@
       <h2 id="listings">4. Listings (Landlords)</h2>
       <ul>
         <li>You must have the legal right to list and rent out any property you post.</li>
-        <li>Listings must be accurate — price, location, availability, amenities, and photos must reflect the actual property.</li>
-        <li>We do not verify ownership of listed properties. Landlord verification badges, where shown, reflect only that an admin has manually reviewed and approved the landlord's account — not that every detail of every listing has been independently confirmed.</li>
+        <li>Listings must be accurate  price, location, availability, amenities, and photos must reflect the actual property.</li>
+        <li>We do not verify ownership of listed properties. Landlord verification badges, where shown, reflect only that an admin has manually reviewed and approved the landlord's account  not that every detail of every listing has been independently confirmed.</li>
         <li>Prohibited conduct includes: fake or non-existent properties; false landlord identities or impersonating another person or organization; misleading or materially inaccurate prices, availability, or amenities; stolen or misleading photos; intentionally hiding important rental conditions; duplicate or discriminatory listings; asking users to pay outside agreed arrangements through fraudulent means; phishing or other payment scams; and listing properties you do not have the right to rent.</li>
         <li>We reserve the right to unpublish or remove any listing at our discretion, including in response to user reports.</li>
       </ul>
 
       <h2 id="reporting">5. Reporting & Moderation</h2>
-      <p>Any user may report a listing they believe violates these Terms — for example, a scam, inappropriate content, a duplicate listing, or incorrect information — except for their own listings.</p>
+      <p>Any user may report a listing they believe violates these Terms  for example, a scam, inappropriate content, a duplicate listing, or incorrect information  except for their own listings.</p>
       <p>Filing a report notifies the property owner and platform admins. Reports do not automatically unpublish a listing; moderation decisions are made by admins.</p>
       <p>
         At our discretion, we may investigate suspected fraud, abuse, or violations of these Terms; remove or
@@ -233,7 +233,7 @@
       <p>
         You may stop using the Platform and request account deletion at any time. When your account is deleted or
         suspended, your listings are unpublished or removed, your access to account features stops, and your
-        personal data — including profile information, favourites, contact details, reports, and feedback — is
+        personal data  including profile information, favourites, contact details, reports, and feedback  is
         deleted or disassociated from your identity, as described in our Privacy Policy. Certain information may be
         retained where reasonably necessary for legal, security, fraud-prevention, dispute-resolution, or other
         legitimate business purposes, as permitted by law.
