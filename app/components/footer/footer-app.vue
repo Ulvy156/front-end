@@ -56,7 +56,7 @@
             </li>
             <li class="flex items-center gap-3">
               <Icon name="mdi:telegram" :size="18" />
-              <span>@rentifykh</span>
+              <span><a target="_blank" href="https://t.me/sabary_rent">@sabary_rent</a></span>
             </li>
           </ul>
         </div>
