@@ -1,5 +1,5 @@
 <template>
-    <section>
+    <section class="mt-10">
         <div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 lg:gap-16 items-start">
 
             <div class="flex flex-col gap-4 lg:sticky lg:top-24" v-motion :initial="motionInitial"
