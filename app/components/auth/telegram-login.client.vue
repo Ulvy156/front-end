@@ -29,7 +29,7 @@
          content wouldn't reflow to fill anyway. -->
     <div
       ref="telegramBtn"
-      class="absolute left-0 top-0 h-10 w-[238px] origin-left opacity-0 overflow-hidden"
+      class="absolute left-0 top-0 h-10 w-59.5 origin-left opacity-0 overflow-hidden"
       :style="{ transform: `scaleX(${scaleX})` }"
     />
   </div>

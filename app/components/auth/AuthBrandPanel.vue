@@ -12,7 +12,7 @@
             height="1024"
             class="absolute inset-0 w-full h-full object-cover"
         />
-        <div class="absolute inset-0 bg-gradient-to-t from-emerald-900/85 via-emerald-900/50 to-emerald-900/20" />
+        <div class="absolute inset-0 bg-linear-to-t from-emerald-900/85 via-emerald-900/50 to-emerald-900/20" />
 
         <NuxtLink to="/" class="relative z-10 flex items-center gap-2.5 w-fit rounded-full bg-white/10 backdrop-blur-sm
                    pl-3 pr-5 py-2 border border-white/20 shadow-lg
