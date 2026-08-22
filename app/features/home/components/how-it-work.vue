@@ -10,22 +10,22 @@
 
         <ol class="m-0 p-0 list-none grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-10 gap-y-10 border-t border-(--border-gray)"
             v-motion :initial="motionInitial" :visible-once="motionVisibleDelayed">
-            <li class="step step--active flex flex-col gap-2.5 pt-6">
+            <li class=" flex flex-col gap-2.5 pt-6">
                 <span class="text-(--nav-active-item) text-[13px] font-semibold tabular-nums">01</span>
                 <h3>{{ $t('home.howItWork.card.search.title') }}</h3>
                 <p class="text-(--gray) text-[15px]">{{ $t('home.howItWork.card.search.description') }}</p>
             </li>
-            <li class="step flex flex-col gap-2.5 pt-6 lg:pl-10 lg:border-l lg:border-(--border-gray)">
+            <li class="flex flex-col gap-2.5 pt-6 lg:pl-10 lg:border-l lg:border-(--border-gray)">
                 <span class="text-(--gray) text-[13px] font-semibold tabular-nums">02</span>
                 <h3>{{ $t('home.howItWork.card.shortlist.title') }}</h3>
                 <p class="text-(--gray) text-[15px]">{{ $t('home.howItWork.card.shortlist.description') }}</p>
             </li>
-            <li class="step flex flex-col gap-2.5 pt-6 lg:pl-10 lg:border-l lg:border-(--border-gray)">
+            <li class="flex flex-col gap-2.5 pt-6 lg:pl-10 lg:border-l lg:border-(--border-gray)">
                 <span class="text-(--gray) text-[13px] font-semibold tabular-nums">03</span>
                 <h3>{{ $t('home.howItWork.card.connect.title') }}</h3>
                 <p class="text-(--gray) text-[15px]">{{ $t('home.howItWork.card.connect.description') }}</p>
             </li>
-            <li class="step flex flex-col gap-2.5 pt-6 lg:pl-10 lg:border-l lg:border-(--border-gray)">
+            <li class="flex flex-col gap-2.5 pt-6 lg:pl-10 lg:border-l lg:border-(--border-gray)">
                 <span class="text-(--gray) text-[13px] font-semibold tabular-nums">04</span>
                 <h3>{{ $t('home.howItWork.card.move_in.title') }}</h3>
                 <p class="text-(--gray) text-[15px]">{{ $t('home.howItWork.card.move_in.description') }}</p>
@@ -54,14 +54,6 @@ const motionVisibleDelayed = prefersReducedMotion ? {} : { opacity: 1, y: 0, tra
 </script>
 
 <style scoped>
-.step {
-    border-top: 2px solid color-mix(in oklab, var(--nav-active-item) 30%, transparent);
-}
-
-.step--active {
-    border-top: 2px solid var(--nav-active-item);
-}
-
 .cta-btn {
     transition: background 0.2s ease-in-out;
 }

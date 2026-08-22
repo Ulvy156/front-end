@@ -33,7 +33,7 @@
     "choseUs": {
       "choseUs": "Why Choose Us",
       "title": "Everything you need to find a room",
-      "description": "The most comprehensive platform for room rentals in Cambodia — built to make the search short.",
+      "description": "The most comprehensive platform for room rentals in Cambodia built to make the search short.",
       "card": {
         "contact": {
           "title": "Direct contact",
@@ -41,7 +41,7 @@
         },
         "search": {
           "title": "Filters that narrow fast",
-          "description": "Price, district, distance to work, furnishing — combine them and see only what fits."
+          "description": "Price, district, distance to work, furnishing combine them and see only what fits."
         },
         "free": {
           "title": "Completely free",

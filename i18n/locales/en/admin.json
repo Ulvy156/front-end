@@ -154,7 +154,7 @@
         "resetLimitTitle": "Reset Posting Limit",
         "resetLimitConfirm": "This lets the landlord post new properties immediately, bypassing their remaining wait time.",
         "resetLimitConfirmBtn": "Reset Limit",
-        "resetLimitSuccess": "Posting limit reset — landlord can post again now."
+        "resetLimitSuccess": "Posting limit reset landlord can post again now."
       }
     },
     "config": {
@@ -251,7 +251,7 @@
       "approveConfirm": "This permanently deletes {name}'s account and all their properties. This cannot be undone.",
       "approveConfirmBtn": "Delete Permanently",
       "approveSuccess": "Account permanently deleted.",
-      "approveConflict": "This request was already handled by someone else — the list has been refreshed."
+      "approveConflict": "This request was already handled by someone else the list has been refreshed."
     },
     "feedback": {
       "title": "Feedback",
@@ -291,7 +291,7 @@
       "visibilityFilterAll": "All visibility",
       "emptyTitle": "No settings found",
       "emptyDescription": "Try changing your filters or create a new setting.",
-      "maintenanceBannerActive": "Maintenance mode is ON — non-admin requests are currently blocked.",
+      "maintenanceBannerActive": "Maintenance mode is ON non-admin requests are currently blocked.",
       "categoryLabel": "Category",
       "addButton": "Add Setting",
       "editAction": "Edit",

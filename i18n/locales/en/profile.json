@@ -75,7 +75,7 @@
       "confirmSubmit": "Request Deletion",
       "cancelBtn": "Cancel",
       "requestSuccess": "Account deletion requested.",
-      "pendingBanner": "Account deletion requested — you can cancel until {date}.",
+      "pendingBanner": "Account deletion requested you can cancel until {date}.",
       "cancelRequestBtn": "Cancel Request",
       "cancelSuccess": "Account deletion request cancelled."
     }

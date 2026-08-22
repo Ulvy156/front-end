@@ -46,7 +46,7 @@
     "badge": "MAINTENANCE",
     "title": "We'll be right back",
     "description": "RokPteah is currently undergoing scheduled maintenance. Please check back shortly.",
-    "adminNotice": "Maintenance mode is on — only admins can browse the live site right now.",
+    "adminNotice": "Maintenance mode is on only admins can browse the live site right now.",
     "signIn": "Admin sign in",
     "checking": "This page will unlock automatically once we're back."
   },

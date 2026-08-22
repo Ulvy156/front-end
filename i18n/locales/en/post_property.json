@@ -140,7 +140,7 @@
             "open_time_hint": "When is the property open?",
             "close_time_hint": "When does the property close?",
             "visiting_hours": "Set visiting hours",
-            "visiting_hours_desc": "Optional — let renters know when they can view the place",
+            "visiting_hours_desc": "Optional let renters know when they can view the place",
             "visiting_hours_hint": "Opening and closing time must be at least 12 hours apart"
         },
         "amenities": {
@@ -214,8 +214,8 @@
             "photo_label": "Photo",
             "set_cover": "Set as cover",
             "remove": "Remove",
-            "enough_photos": "You have {count} photos — nice work.",
-            "need_more_photos": "Add at least {count} more photo(s) — minimum is 3."
+            "enough_photos": "You have {count} photos nice work.",
+            "need_more_photos": "Add at least {count} more photo(s) minimum is 3."
         },
         "preview": {
             "title": "Preview",
