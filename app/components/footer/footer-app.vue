@@ -52,7 +52,7 @@
           <ul class="space-y-4 text-sm">
             <li class="flex items-center gap-3">
               <BaseIcon name="mail-check" :size="18"/>
-              <span>rentifykh@gmail.com</span>
+              <span>support@rokpteah.com</span>
             </li>
             <li class="flex items-center gap-3">
               <Icon name="mdi:telegram" :size="18" />
