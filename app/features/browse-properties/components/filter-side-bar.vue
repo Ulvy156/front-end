@@ -42,10 +42,10 @@
       <filterFurnished />
 
       <!-- property amenities -->
-      <filterAmenities :amenities="amenities" />
+      <filterAmenities :amenities="amenities" :default-open="!isDrawer" />
 
       <!-- property rules -->
-      <filterHouseRules :rules="rules" />
+      <filterHouseRules :rules="rules" :default-open="!isDrawer" />
     </div>
   </section>
 </template>
