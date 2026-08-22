@@ -85,8 +85,24 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     '@nuxtjs/i18n',
     '@vueuse/motion/nuxt',
-    '@pinia/nuxt'
+    '@pinia/nuxt',
+    '@nuxtjs/sitemap'
   ],
+  site: {
+    url: process.env.NUXT_PUBLIC_BASE_URL || 'https://rokpteah.com',
+  },
+  sitemap: {
+    exclude: [
+      '/admin/**',
+      '/auth/**',
+      '/landlord/**',
+      '/user/**',
+      '/dev-preview-steps-nav',
+      '/rate-limited',
+      '/maintenance',
+    ],
+    sources: ['/__sitemap__/properties'],
+  },
   // Nuxt Icon's local icon server defaults to /api/_nuxt_icon/**, which the
   // /api/** proxy rule above swallows and forwards to the backend (404,
   // "failed to load icon" warnings for every icon). Move it off /api/**.

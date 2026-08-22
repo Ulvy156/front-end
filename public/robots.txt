@@ -1,2 +1,7 @@
 User-Agent: *
-Disallow:
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /landlord/
+Disallow: /user/
+
+Sitemap: https://rokpteah.com/sitemap.xml
