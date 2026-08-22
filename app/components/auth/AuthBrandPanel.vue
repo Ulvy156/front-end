@@ -17,7 +17,7 @@
         <NuxtLink to="/" class="relative z-10 flex items-center gap-2.5 w-fit rounded-full bg-white/10 backdrop-blur-sm
                    pl-3 pr-5 py-2 border border-white/20 shadow-lg
                    hover:bg-white/20 hover:border-white/30 transition-colors">
-            <NuxtImg src="/sabayrent-logo.webp" alt="RokPteah" height="38" width="fit" />
+            <NuxtImg src="/sabayrent-logo.webp" alt="RokPteah" height="38" width="60"/>
             <span class="text-2xl font-bold tracking-tight text-(--nav-active-item)">RokPteah</span>
         </NuxtLink>
 
