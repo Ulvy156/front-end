@@ -4,7 +4,7 @@
 
       <!-- Logo -->
       <NuxtLink to="/" class="flex w-fit mx-auto">
-        <NuxtImg src="/sabayrent-logo.webp" alt="SabayRent" class="h-9" width="36" height="36" />
+        <NuxtImg src="/sabayrent-logo.webp" alt="RokPteah" class="h-9" width="36" height="36" />
       </NuxtLink>
 
       <!-- Header -->

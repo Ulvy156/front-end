@@ -1,6 +1,6 @@
 import { computed, ref } from 'vue'
 
-const SITE_NAME = 'SabayRent'
+const SITE_NAME = 'RokPteah'
 
 interface SEOData {
   title: string

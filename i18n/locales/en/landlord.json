@@ -1,7 +1,7 @@
 {
   "landlord": {
     "nav": {
-      "title": "SabayRent Landlord",
+      "title": "RokPteah Landlord",
       "overview": "Overview",
       "dashboard": "Dashboard",
       "properties": "Properties",
@@ -186,8 +186,8 @@
       "memberSince": "Member since",
       "totalListings": "{n} published listings",
       "properties": "Properties",
-      "seoTitle": "{name} — Landlord Profile | SabayRent",
-      "seoDescription": "View {name}'s profile and {count} published properties on SabayRent."
+      "seoTitle": "{name} — Landlord Profile | RokPteah",
+      "seoDescription": "View {name}'s profile and {count} published properties on RokPteah."
     }
   }
 }

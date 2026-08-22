@@ -38,7 +38,7 @@ definePageMeta({
 const config = useRuntimeConfig()
 
 useSeoMeta({
-  title: 'Rooms for Rent in Cambodia | SabayRent',
+  title: 'Rooms for Rent in Cambodia | RokPteah',
   description: 'Find rooms and apartments for rent in Cambodia. Filter by price, location, and nearby places.',
   ogTitle: 'Rooms for Rent in Cambodia',
   ogDescription: 'Browse affordable rooms and apartments for rent in Cambodia.',

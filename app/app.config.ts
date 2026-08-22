@@ -1,5 +1,5 @@
 export default defineAppConfig({
-  appName: 'SabayRent',
+  appName: 'RokPteah',
   defaultLocale: 'en',
   theme: {
     primaryColor: '#ababab',

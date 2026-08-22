@@ -6,7 +6,7 @@
         <!-- Brand -->
         <div>
           <div class="flex items-center mb-4 ">
-            <NuxtImg src="/sabayrent-logo.webp" class="size-12" alt="SabayRent" width="48" height="48" />
+            <NuxtImg src="/sabayrent-logo.webp" class="size-12" alt="RokPteah" width="48" height="48" />
             <span class="text-xl font-semibold text-white">{{ $t('nav.title')}}</span>
           </div>
 
