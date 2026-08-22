@@ -75,7 +75,29 @@ watchEffect(() => {
         name: landlord.value.name,
         count: landlord.value.totalPublishedProperties,
       }),
+      image: landlord.value.imgUrl ?? undefined,
     })
+  }
+})
+
+useHead(() => {
+  if (!landlord.value) return {}
+
+  return {
+    script: [
+      {
+        type: 'application/ld+json',
+        innerHTML: JSON.stringify({
+          '@context': 'https://schema.org',
+          '@type': 'ProfilePage',
+          mainEntity: {
+            '@type': 'Person',
+            name: landlord.value.name,
+            image: landlord.value.imgUrl || undefined,
+          },
+        }),
+      },
+    ],
   }
 })
 </script>

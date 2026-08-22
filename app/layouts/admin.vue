@@ -151,6 +151,10 @@ const { logout } = useLogout()
 const { t } = useI18n()
 const { data: dashboardData } = useAdminDashboard()
 
+// Every page under this layout is a gated admin screen — none should ever
+// be indexed, so set it once here instead of on each /admin/* page.
+useSeoMeta({ robots: 'noindex, nofollow' })
+
 const pendingCount = computed(() => dashboardData.value?.stats.properties.unpublished ?? 0)
 const feedbackCount = computed(() => dashboardData.value?.stats.feedback.total ?? 0)
 

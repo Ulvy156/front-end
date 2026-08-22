@@ -23,6 +23,7 @@ import featureProduct from '~/features/home/featured-listings/feature-properties
 import appBg from '~/features/home/components/app-bg.vue';
 import latestProduct from '~/features/home/latest-listings/latest-product.vue';
 import { useHomePageData } from '~/features/home/composable/useHomePageData';
+import { useSEO } from '~/composables/useSEO';
 // import lanlordSection from '~/features/home/components/lanlord-section.vue';
 
 // Below-the-fold sections: defer hydration until they scroll into view
@@ -36,19 +37,38 @@ definePageMeta({
 })
 
 const config = useRuntimeConfig()
+const seo = useSEO()
 
-useSeoMeta({
+seo.setSEO({
   title: 'Rooms for Rent in Cambodia | RokPteah',
   description: 'Find rooms and apartments for rent in Cambodia. Filter by price, location, and nearby places.',
-  ogTitle: 'Rooms for Rent in Cambodia',
-  ogDescription: 'Browse affordable rooms and apartments for rent in Cambodia.',
-  ogType: 'website',
-  ogUrl: config.public.BASE_URL,
-  ogImage: `${config.public.BASE_URL}/sabayrent-logo.webp`,
-  twitterCard: 'summary_large_image',
-  twitterTitle: 'Rooms for Rent in Cambodia',
-  twitterDescription: 'Browse affordable rooms and apartments for rent in Cambodia.',
-  twitterImage: `${config.public.BASE_URL}/sabayrent-logo.webp`,
+  image: `${config.public.BASE_URL}/sabayrent-logo.webp`,
+})
+
+// Organization/WebSite structured data — only added on the home page (not
+// per-route via useSEO) since it describes the site as a whole, not one page.
+useHead({
+  script: [
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        name: 'RokPteah',
+        url: config.public.BASE_URL,
+        logo: `${config.public.BASE_URL}/sabayrent-logo.webp`,
+      }),
+    },
+    {
+      type: 'application/ld+json',
+      innerHTML: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: 'RokPteah',
+        url: config.public.BASE_URL,
+      }),
+    },
+  ],
 })
 
 const { data, pending } = useHomePageData();

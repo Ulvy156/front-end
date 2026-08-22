@@ -30,7 +30,6 @@ useSeoMeta({
     twitterCard: 'summary_large_image',
     twitterTitle: `${t('auth.createAccount')} | RokPteah`,
     twitterDescription: t('auth.createAccountDesc'),
-    robots: 'noindex, nofollow',
 })
 
 definePageMeta({ layout: 'auth', middleware: 'guest' })

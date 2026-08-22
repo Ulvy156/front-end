@@ -155,6 +155,12 @@ const authStore = useAuthStore()
 const { logout } = useLogout()
 const { t, locale, setLocale } = useI18n()
 
+// Every page under this layout is a gated landlord dashboard screen — none
+// should ever be indexed, so set it once here instead of on each page.
+// (The public landlord profile page at /landlord/profile/[id] uses the
+// `default` layout, not this one, so it's unaffected.)
+useSeoMeta({ robots: 'noindex, nofollow' })
+
 const sidebarOpen = ref(false)
 watch(() => route.path, () => { sidebarOpen.value = false })
 

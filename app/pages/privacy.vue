@@ -307,10 +307,18 @@
 
 <script lang="ts" setup>
 import LegalDocument from '~/components/legal/legal-document.vue'
+import { useSEO } from '~/composables/useSEO'
 
 const { t, locale } = useI18n()
+const seo = useSEO()
 
-useSeoMeta({
-  title: () => `${t('footer.privacy')} | RokPteah`,
-})
+// Static per-locale content (see privacy.vue's own body above) — the
+// description follows the same direct-HTML-per-locale pattern rather than
+// an i18n JSON key.
+seo.setSEO(() => ({
+  title: `${t('footer.privacy')} | RokPteah`,
+  description: locale.value === 'km'
+    ? 'អានពីរបៀបដែល RokPteah ប្រមូល ប្រើប្រាស់ និងការពារព័ត៌មានផ្ទាល់ខ្លួនរបស់អ្នកនៅលើវេទិកាជួលអចលនទ្រព្យ។'
+    : 'Learn how RokPteah collects, uses, and protects your personal data on Cambodia\'s room rental platform.',
+}))
 </script>

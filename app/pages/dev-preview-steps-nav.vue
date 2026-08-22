@@ -13,4 +13,6 @@
 
 <script setup lang="ts">
 import StepsNavigation from '~/features/post-property/components/steps-navigation.vue'
+
+useSeoMeta({ robots: 'noindex, nofollow' })
 </script>

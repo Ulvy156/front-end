@@ -254,10 +254,18 @@
 
 <script lang="ts" setup>
 import LegalDocument from '~/components/legal/legal-document.vue'
+import { useSEO } from '~/composables/useSEO'
 
 const { t, locale } = useI18n()
+const seo = useSEO()
 
-useSeoMeta({
-  title: () => `${t('footer.terms')} | RokPteah`,
-})
+// Static per-locale content (see terms.vue's own body above) — the
+// description follows the same direct-HTML-per-locale pattern rather than
+// an i18n JSON key.
+seo.setSEO(() => ({
+  title: `${t('footer.terms')} | RokPteah`,
+  description: locale.value === 'km'
+    ? 'អានលក្ខខណ្ឌនៃការប្រើប្រាស់សម្រាប់ RokPteah វេទិកាជួលអចលនទ្រព្យរបស់កម្ពុជា។'
+    : 'Read the Terms of Use governing RokPteah, Cambodia\'s room rental marketplace.',
+}))
 </script>

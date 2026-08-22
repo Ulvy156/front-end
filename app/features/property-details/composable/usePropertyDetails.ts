@@ -187,6 +187,55 @@ export function usePropertyDetails() {
     }
   })
 
+  // Structured data for the listing. `Accommodation` (rather than a specific
+  // subtype like `Apartment`/`House`) is deliberate — `propertyType` is an
+  // admin-configured free-text label (e.g. "Studio", "Villa"), not
+  // guaranteed to map onto schema.org's fixed vocabulary, so a generic type
+  // is the one that's always accurate.
+  useHead(() => {
+    const value = property.value
+    if (!value) return {}
+
+    const coverImage = pickCoverImage(value.images ?? [])
+    const locationName = `${value.district[langKey.value]}, ${value.district.province[langKey.value]}`
+
+    return {
+      script: [
+        {
+          type: 'application/ld+json',
+          innerHTML: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Offer',
+            price: value.monthly_price,
+            priceCurrency: 'USD',
+            availability: value.isAvailable ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            url: `${config.public.BASE_URL}${route.fullPath}`,
+            itemOffered: {
+              '@type': 'Accommodation',
+              name: value.title,
+              description: value.description || undefined,
+              image: coverImage ? `${config.public.R2_PUB_URL}/${coverImage.imageKey}` : undefined,
+              numberOfBedrooms: value.bedroom,
+              numberOfBathroomsTotal: value.bathroom,
+              floorSize: value.sizeSqm
+                ? { '@type': 'QuantitativeValue', value: value.sizeSqm, unitCode: 'MTK' }
+                : undefined,
+              address: {
+                '@type': 'PostalAddress',
+                streetAddress: value.address || undefined,
+                addressLocality: locationName,
+                addressCountry: 'KH',
+              },
+              geo: value.lat != null && value.lng != null
+                ? { '@type': 'GeoCoordinates', latitude: value.lat, longitude: value.lng }
+                : undefined,
+            },
+          }),
+        },
+      ],
+    }
+  })
+
   watch(
     id,
     (value) => {

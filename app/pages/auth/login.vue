@@ -105,7 +105,6 @@ useSeoMeta({
     twitterCard: 'summary_large_image',
     twitterTitle: `${t('auth.welcome')} | RokPteah`,
     twitterDescription: t('auth.subtitle'),
-    robots: 'noindex, nofollow',
 })
 
 definePageMeta({ layout: 'auth', middleware: 'guest' })
