@@ -4,9 +4,9 @@
       class="m-auto flex justify-between w-11/12 items-center gap-4 rounded-2xl border border-gray-50 bg-white/60 px-6 py-3 shadow-sm bg-clip-padding  backdrop-filter backdrop-blur-sm">
       <!-- Logo -->
       <NuxtLink to="/" 
-      class="flex items-center gap-1 text-lg font-semibold tracking-tight cursor-pointer ">
-        <NuxtImg class="size-14 " src="/sabayrent-logo.webp" alt="app logo" width="56" height="56" />
-        <span class="text-lg">{{ $t('nav.title') }}</span>
+      class="flex items-center gap-4 text-lg font-semibold tracking-tight cursor-pointer ">
+        <NuxtImg src="/sabayrent-logo.webp" alt="app logo" height="38" width="fit" />
+        <span class="text-lg text-(--nav-active-item)">{{ $t('nav.title') }}</span>
       </NuxtLink>
 
       <!-- Center Search -->
