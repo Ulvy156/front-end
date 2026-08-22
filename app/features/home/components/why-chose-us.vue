@@ -12,37 +12,31 @@
                 <p class="text-(--gray) text-base font-medium max-w-[34ch]">{{ $t('home.choseUs.description') }}</p>
             </div>
 
-            <div class="flex flex-col border-t border-(--border-gray)" v-motion :initial="motionInitial"
-                :visible-once="motionVisibleDelayed">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-x-10 gap-y-10 border-t border-(--border-gray)"
+                v-motion :initial="motionInitial" :visible-once="motionVisibleDelayed">
 
-                <div class="grid grid-cols-[48px_1fr] gap-5 sm:gap-6 py-7 border-b border-(--border-gray) items-start last:border-b-0">
+                <div class="flex flex-col gap-2.5 pt-6">
                     <span class="w-12 h-12 rounded-[10px] bg-(--nav-active) flex items-center justify-center shrink-0">
                         <BaseIconClient name="handshake" size="22" color="var(--nav-active-item)" />
                     </span>
-                    <div class="flex flex-col gap-2">
-                        <h3>{{ $t('home.choseUs.card.contact.title') }}</h3>
-                        <p class="text-(--gray) text-base">{{ $t('home.choseUs.card.contact.description') }}</p>
-                    </div>
+                    <h3>{{ $t('home.choseUs.card.contact.title') }}</h3>
+                    <p class="text-(--gray) text-[15px]">{{ $t('home.choseUs.card.contact.description') }}</p>
                 </div>
 
-                <div class="grid grid-cols-[48px_1fr] gap-5 sm:gap-6 py-7 border-b border-(--border-gray) items-start last:border-b-0">
+                <div class="flex flex-col gap-2.5 pt-6 sm:pl-10 sm:border-l sm:border-(--border-gray)">
                     <span class="w-12 h-12 rounded-[10px] bg-(--nav-active) flex items-center justify-center shrink-0">
                         <BaseIconClient name="search" size="22" color="var(--nav-active-item)" />
                     </span>
-                    <div class="flex flex-col gap-2">
-                        <h3>{{ $t('home.choseUs.card.search.title') }}</h3>
-                        <p class="text-(--gray) text-base">{{ $t('home.choseUs.card.search.description') }}</p>
-                    </div>
+                    <h3>{{ $t('home.choseUs.card.search.title') }}</h3>
+                    <p class="text-(--gray) text-[15px]">{{ $t('home.choseUs.card.search.description') }}</p>
                 </div>
 
-                <div class="grid grid-cols-[48px_1fr] gap-5 sm:gap-6 py-7 border-b border-(--border-gray) items-start last:border-b-0">
+                <div class="flex flex-col gap-2.5 pt-6 sm:pl-10 sm:border-l sm:border-(--border-gray)">
                     <span class="w-12 h-12 rounded-[10px] bg-(--nav-active) flex items-center justify-center shrink-0">
                         <BaseIconClient name="headset" size="22" color="var(--nav-active-item)" />
                     </span>
-                    <div class="flex flex-col gap-2">
-                        <h3>{{ $t('home.choseUs.card.free.title') }}</h3>
-                        <p class="text-(--gray) text-base">{{ $t('home.choseUs.card.free.description') }}</p>
-                    </div>
+                    <h3>{{ $t('home.choseUs.card.free.title') }}</h3>
+                    <p class="text-(--gray) text-[15px]">{{ $t('home.choseUs.card.free.description') }}</p>
                 </div>
 
             </div>
