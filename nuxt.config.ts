@@ -102,6 +102,10 @@ export default defineNuxtConfig({
       '/maintenance',
     ],
     sources: ['/__sitemap__/properties'],
+    // Default is 10 minutes. Sitemaps don't need to be near-real-time —
+    // search engines re-crawl on their own schedule — so cache longer to
+    // cut down how often the properties source re-paginates the backend.
+    cacheMaxAgeSeconds: 60 * 60 * 24, // 24 hours
   },
   // Nuxt Icon's local icon server defaults to /api/_nuxt_icon/**, which the
   // /api/** proxy rule above swallows and forwards to the backend (404,
