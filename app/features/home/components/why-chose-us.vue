@@ -1,42 +1,51 @@
 <template>
     <section>
-        <div class="flex flex-col text-center items-center m-auto w-full sm:w-[70%] gap-5">
-            <div class="flex items-center gap-2 text-(--nav-active-item) font-bold text-sm uppercase tracking-[0.08em]">
-                <span class="w-6 h-0.75 rounded-full bg-(--nav-active-item)"></span>
-                {{ $t('home.choseUs.choseUs') }}
-            </div>
-            <h2>{{ $t('home.choseUs.title') }}</h2>
-            <h3 class="text-(--gray) text-base font-medium">{{ $t('home.choseUs.description') }}</h3>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
+        <div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-10 lg:gap-16 items-start">
 
-            <div class="card" v-motion :initial="{ opacity: 0, y: 20 }"
-                :visible-once="{ opacity: 1, y: 0, transition: { delay: 0 } }">
-                <span class="icon-tile icon-tile--primary">
-                    <BaseIconClient name="handshake" size="26" color="white" />
-                </span>
-                <h4>{{ $t('home.choseUs.card.contact.title') }}</h4>
-                <p>{{ $t('home.choseUs.card.contact.description') }}</p>
+            <div class="flex flex-col gap-4 lg:sticky lg:top-24" v-motion :initial="motionInitial"
+                :visible-once="motionVisible">
+                <div class="flex items-center gap-2 text-(--nav-active-item) font-bold text-sm uppercase tracking-[0.08em]">
+                    <span class="w-6 h-0.75 rounded-full bg-(--nav-active-item)"></span>
+                    {{ $t('home.choseUs.choseUs') }}
+                </div>
+                <h2>{{ $t('home.choseUs.title') }}</h2>
+                <p class="text-(--gray) text-base font-medium max-w-[34ch]">{{ $t('home.choseUs.description') }}</p>
             </div>
 
-            <div class="card card--featured" v-motion :initial="{ opacity: 0, y: 20 }"
-                :visible-once="{ opacity: 1, y: 0, transition: { delay: 150 } }">
-                <span class="icon-tile icon-tile--accent">
-                    <BaseIconClient name="search" size="26" color="white" />
-                </span>
-                <h4>{{ $t('home.choseUs.card.search.title') }}</h4>
-                <p>{{ $t('home.choseUs.card.search.description') }}</p>
-            </div>
+            <div class="flex flex-col border-t border-(--border-gray)" v-motion :initial="motionInitial"
+                :visible-once="motionVisibleDelayed">
 
-            <div class="card" v-motion :initial="{ opacity: 0, y: 20 }"
-                :visible-once="{ opacity: 1, y: 0, transition: { delay: 300 } }">
-                <span class="icon-tile icon-tile--primary">
-                    <BaseIconClient name="headset" size="26" color="white" />
-                </span>
-                <h4>{{ $t('home.choseUs.card.free.title') }}</h4>
-                <p>{{ $t('home.choseUs.card.free.description') }}</p>
-            </div>
+                <div class="grid grid-cols-[48px_1fr] gap-5 sm:gap-6 py-7 border-b border-(--border-gray) items-start last:border-b-0">
+                    <span class="w-12 h-12 rounded-[10px] bg-(--nav-active) flex items-center justify-center shrink-0">
+                        <BaseIconClient name="handshake" size="22" color="var(--nav-active-item)" />
+                    </span>
+                    <div class="flex flex-col gap-2">
+                        <h3>{{ $t('home.choseUs.card.contact.title') }}</h3>
+                        <p class="text-(--gray) text-base">{{ $t('home.choseUs.card.contact.description') }}</p>
+                    </div>
+                </div>
 
+                <div class="grid grid-cols-[48px_1fr] gap-5 sm:gap-6 py-7 border-b border-(--border-gray) items-start last:border-b-0">
+                    <span class="w-12 h-12 rounded-[10px] bg-(--nav-active) flex items-center justify-center shrink-0">
+                        <BaseIconClient name="search" size="22" color="var(--nav-active-item)" />
+                    </span>
+                    <div class="flex flex-col gap-2">
+                        <h3>{{ $t('home.choseUs.card.search.title') }}</h3>
+                        <p class="text-(--gray) text-base">{{ $t('home.choseUs.card.search.description') }}</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-[48px_1fr] gap-5 sm:gap-6 py-7 border-b border-(--border-gray) items-start last:border-b-0">
+                    <span class="w-12 h-12 rounded-[10px] bg-(--nav-active) flex items-center justify-center shrink-0">
+                        <BaseIconClient name="headset" size="22" color="var(--nav-active-item)" />
+                    </span>
+                    <div class="flex flex-col gap-2">
+                        <h3>{{ $t('home.choseUs.card.free.title') }}</h3>
+                        <p class="text-(--gray) text-base">{{ $t('home.choseUs.card.free.description') }}</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </section>
 </template>
@@ -44,36 +53,13 @@
 <script lang="ts" setup>
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue';
 
+// Skip the fade/rise for anyone who has asked their OS to reduce motion —
+// v-motion writes inline transforms via JS, so a CSS media query can't
+// override it once it starts; the only reliable way is to not animate at all.
+const prefersReducedMotion = typeof window !== 'undefined'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const motionInitial = prefersReducedMotion ? {} : { opacity: 0, y: 8 };
+const motionVisible = prefersReducedMotion ? {} : { opacity: 1, y: 0, transition: { duration: 320 } };
+const motionVisibleDelayed = prefersReducedMotion ? {} : { opacity: 1, y: 0, transition: { duration: 320, delay: 80 } };
 </script>
-
-<style scoped>
-.card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-    cursor: pointer;
-    background: white;
-    border: 1px solid #ECEFED;
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: var(--shadow-card);
-    transition:
-        box-shadow 0.3s ease-in-out,
-        background 0.3s ease-in-out,
-        border 0.3s ease-in-out,
-        transform 0.3s ease-in-out;
-}
-
-.card:hover {
-    background: var(--nav-active);
-    box-shadow: var(--shadow-card-hover);
-    transform: translateY(-2px);
-    border: 1px solid color-mix(in oklab, var(--color-emerald-200)  40%, transparent);
-    color: var(--nav-active-item);
-}
-
-.card--featured {
-    border-left: 3px solid var(--nav-active-item);
-}
-</style>

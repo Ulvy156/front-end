@@ -84,7 +84,7 @@
         <p>{{ $t('footer.copyright') }}</p>
 
         <div class="flex items-center gap-6">
-          <p>🇰🇭 {{ $t('footer.madeIn') }}</p>
+          <!-- <p>🇰🇭 {{ $t('footer.madeIn') }}</p> -->
 
           <!-- Language Switch -->
           <div class="flex items-center gap-2">

@@ -32,44 +32,47 @@
     },
     "choseUs": {
       "choseUs": "Why Choose Us",
-      "title": "Everything you need to find property",
-      "description": "We've built the most comprehensive platform for room rentals in Cambodia with features designed to make your search effortless",
+      "title": "Everything you need to find a room",
+      "description": "The most comprehensive platform for room rentals in Cambodia — built to make the search short.",
       "card": {
         "contact": {
-          "title": "Direct Contact",
-          "description": "Connect directly with landlords without any middlemen or hidden fees"
+          "title": "Direct contact",
+          "description": "Message landlords yourself. No agents in the middle, no hidden fees at signing."
         },
         "search": {
-          "title": "Smart Filter",
-          "description": "Find your perfect room with our advanced filters and location-based search"
+          "title": "Filters that narrow fast",
+          "description": "Price, district, distance to work, furnishing — combine them and see only what fits."
         },
         "free": {
-          "title": "Free Support",
-          "description": "It's completely free, and we're here to help you find your property"
+          "title": "Completely free",
+          "description": "Nothing to pay, ever. If you hit a technical issue, our support team is here to help."
         }
       }
     },
     "howItWork": {
-      "process": "Simple Process",
-      "title": "How It Works",
-      "description": "Find your perfect room in just four simple steps. It's fast, easy, and completely free!",
+      "process": "How It Works",
+      "title": "Four steps, one afternoon",
       "card": {
         "search": {
           "title": "Search",
-          "description": "Browse verified listings with smart filters"
+          "description": "Browse verified listings with the filters on."
         },
-        "pick": {
-          "title": "Pick",
-          "description": "Compare rooms and save your favorites"
+        "shortlist": {
+          "title": "Shortlist",
+          "description": "Save the rooms worth a visit and compare them side by side."
         },
         "connect": {
           "title": "Connect",
-          "description": "Message landlords directly, schedule visits"
+          "description": "Message the landlord and agree on a time to see it."
         },
         "move_in": {
-          "title": "Move In",
-          "description": "Sign the lease and enjoy your new property"
+          "title": "Move in",
+          "description": "Sign the lease and get the keys."
         }
+      },
+      "cta": {
+        "button": "Browse rooms",
+        "helper": "No account needed to browse."
       }
     },
     "process": {
