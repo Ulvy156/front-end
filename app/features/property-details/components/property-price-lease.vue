@@ -27,7 +27,7 @@
           {{ $t("property.price.lease") }}
         </p>
         <h4>
-          {{ formatDuration(property.minimumStayLength) }}
+          {{ formatDuration(property.minimumStayLength, currentLang) }}
         </h4>
       </div>
       <!-- available from -->
@@ -36,7 +36,7 @@
           {{ $t("property.price.available") }}
         </p>
         <h4>
-          {{ formatDateLong(property.availableFrom) }}
+          {{ formatDateLong(property.availableFrom, currentLang) }}
         </h4>
       </div>
     </div>
@@ -59,6 +59,7 @@ import { formatDuration } from "#imports";
 const props = defineProps<{
   property: PropertyDetail;
 }>();
+const currentLang = useCurrentLang();
 </script>
 
 <style scoped>

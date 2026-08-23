@@ -13,11 +13,9 @@ const KM_MONTHS = [
   'ធ្នូ',
 ]
 
-export function formatDateLong(date: string | Date): string {
+export function formatDateLong(date: string | Date, lang: 'en' | 'km'): string {
   const d = new Date(date)
   if (isNaN(d.getTime())) return ''
-
-  const lang = useCurrentLang().value
 
   if (lang === 'en') {
     return d.toLocaleDateString('en-US', {

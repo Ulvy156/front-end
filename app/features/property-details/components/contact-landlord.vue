@@ -9,7 +9,7 @@
       <span class="text-[15px] text-gray-600">/ {{ $t('month') }}</span>
     </div>
     <div class="text-[13px] text-gray-600 mb-4 pb-4 border-b border-gray-200">
-      {{ formatDuration(property.minimumStayLength) }} {{ $t('property.price.lease').toLowerCase() }} · ${{ property.deposit }} {{ $t('property.price.deposit').toLowerCase() }}
+      {{ formatDuration(property.minimumStayLength, currentLang) }} {{ $t('property.price.lease').toLowerCase() }} · ${{ property.deposit }} {{ $t('property.price.deposit').toLowerCase() }}
     </div>
 
     <!-- Landlord -->
@@ -158,6 +158,7 @@ import { openShare } from "#imports"
 
 const route = useRoute()
 const { requireAuth } = useRequireAuth()
+const currentLang = useCurrentLang()
 
 const reportDialog = ref<InstanceType<typeof reportPropertyDialog>>()
 

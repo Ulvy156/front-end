@@ -173,11 +173,11 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
           </div>
           <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-emerald-500">
             <p class="text-xs text-gray-400">{{ t('landlord.propertyDetail.minStay') }}</p>
-            <p class="text-lg font-semibold text-gray-900">{{ formatDuration(property.minimumStayLength) }}</p>
+            <p class="text-lg font-semibold text-gray-900">{{ formatDuration(property.minimumStayLength, currentLang) }}</p>
           </div>
           <div class="bg-gray-50 rounded-lg p-4 border-l-4 border-emerald-500">
             <p class="text-xs text-gray-400">{{ t('landlord.propertyDetail.availableFrom') }}</p>
-            <p class="text-lg font-semibold text-gray-900">{{ formatDateLong(property.availableFrom) }}</p>
+            <p class="text-lg font-semibold text-gray-900">{{ formatDateLong(property.availableFrom, currentLang) }}</p>
           </div>
         </div>
       </div>

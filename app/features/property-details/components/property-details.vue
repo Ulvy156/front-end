@@ -70,7 +70,7 @@
           <span>{{ formatView(property!.totalViews) }} {{ $t('property.view') }}</span>
           <span class="opacity-60">·</span>
           <BaseIconClient name="calendar" :size="14" />
-          <span>{{ $t('property.posted_at') }} {{ formatDateLong(property!.createdAt) }}</span>
+          <span>{{ $t('property.posted_at') }} {{ formatDateLong(property!.createdAt, currentLang) }}</span>
         </div>
       </div>
 
@@ -172,6 +172,7 @@ import { usePropertyDetails } from "../composable/usePropertyDetails";
 
 const { property } = usePropertyDetails()
 const langKey = useLangKey()
+const currentLang = useCurrentLang()
 const filterStore = usePropertyFilterStore()
 const { getProvinceId } = useCambodiaLocations()
 const { isMounted, isLgUp } = useAppBreakpoints()

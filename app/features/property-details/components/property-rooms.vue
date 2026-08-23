@@ -17,6 +17,7 @@ import BaseIconClient from "~/components/ui/BaseIcon.client.vue"
 import type { PropertyDetail } from "../interface/properties-details"
 
 const { t } = useI18n()
+const currentLang = useCurrentLang()
 
 const props = defineProps<{
   property: PropertyDetail
@@ -29,8 +30,8 @@ const facts = computed(() => {
     { icon: 'ruler', label: t('property.size'), value: `${props.property.sizeSqm} m²` },
     { icon: 'layers', label: t('property.floor'), value: `${props.property.floor} / ${props.property.totalFloors}` },
     { icon: 'sofa', label: t('property.furnishing'), value: props.property.furnished ? t('property.furnished') : t('property.unfurnished') },
-    { icon: 'calendar', label: t('property.price.lease'), value: formatDuration(props.property.minimumStayLength) },
-    { icon: 'calendar-check', label: t('property.price.available'), value: formatDateLong(props.property.availableFrom) },
+    { icon: 'calendar', label: t('property.price.lease'), value: formatDuration(props.property.minimumStayLength, currentLang.value) },
+    { icon: 'calendar-check', label: t('property.price.available'), value: formatDateLong(props.property.availableFrom, currentLang.value) },
   ]
   if (props.property.openTime && props.property.closeTime) {
     items.push({ icon: 'clock', label: t('property.operating_hours'), value: `${props.property.openTime} - ${props.property.closeTime}` })

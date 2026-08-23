@@ -64,7 +64,7 @@
             name="check"
             :size="16"
           />
-          <span>{{ formatDateLong(scope.row.availableFrom) }}</span>
+          <span>{{ formatDateLong(scope.row.availableFrom, currentLang) }}</span>
         </span>
         <BaseIconClient
           v-else
@@ -86,6 +86,7 @@ import { formatDateLong } from "#imports";
 
 const compareStore = useCompareProperty();
 const langKey = useLangKey();
+const currentLang = useCurrentLang();
 </script>
 
 <style></style>

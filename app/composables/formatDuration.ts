@@ -1,6 +1,4 @@
-export function formatDuration(months: number): string {
-  const lang = useCurrentLang().value
-
+export function formatDuration(months: number, lang: 'en' | 'km'): string {
   if (months < 12) {
     if (lang === 'en') {
       return `${months} month${months > 1 ? 's' : ''}`
