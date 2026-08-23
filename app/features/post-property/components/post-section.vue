@@ -12,7 +12,7 @@
     </el-form>
 
     <!-- Controls -->
-    <stepsNavigation
+    <actionBar
       :current-step="active + 1"
       :total-steps="steps.length"
       :loading="loading"
@@ -30,7 +30,7 @@ import { defineAsyncComponent, computed, inject, ref, onMounted } from "vue";
 import { useQueryClient } from "@tanstack/vue-query";
 import type { FormInstance } from "element-plus";
 import stepProgress from "./step-progress.vue";
-import stepsNavigation from "./steps-navigation.vue";
+import actionBar from "./action-bar.vue";
 import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
 import { usePropertyFormValidation } from "@/features/post-property/composables/usePropertyFormValidation";
@@ -83,9 +83,10 @@ onMounted(async () => {
 
 const handleSaveDraft = async () => {
   if (!form || savingDraft.value) return;
+  const isFirstSave = !draftId.value;
   try {
     await saveDraft(form);
-    notify.success(t('post_property.draft_saved'));
+    notify.success(t(isFirstSave ? 'post_property.draft_saved' : 'post_property.draft_updated'));
   } catch (err) {
     notify.error(extract(err));
   }

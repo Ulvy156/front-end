@@ -15,6 +15,7 @@
     "continue": "បន្ត",
     "draft": "រក្សាទុកជាសេចក្តីព្រាង",
     "draft_saved": "បានរក្សាទុកជាសេចក្តីព្រាង។",
+    "draft_updated": "បានធ្វើបច្ចុប្បន្នភាពសេចក្តីព្រាង។",
     "optional": "មិនចាំបាច់",
     "step_progress": {
       "step_of": "ជំហាន {current} នៃ {total}"

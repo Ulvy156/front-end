@@ -24,7 +24,7 @@
         @click="emit('save')"
       >
         <BaseIconClient v-if="!savingDraft" name="save" :size="18" />
-        <span class="truncate ml-1.5">{{ $t('post_property.draft') }}</span>
+        <span class="truncate min-w-0 ml-1.5">{{ $t('post_property.draft') }}</span>
       </BaseButton>
 
       <!-- Right — submit / next -->
@@ -34,7 +34,7 @@
         @click="isLastStep ? emit('submit') : emit('next')"
       >
         <BaseIconClient v-if="!loading" :name="isLastStep ? submitIcon : 'arrow-right'" :size="18" />
-        <span class="truncate ml-1.5">{{ loading ? submittingLabel : (isLastStep ? submitLabel : $t('post_property.continue')) }}</span>
+        <span class="truncate min-w-0 ">{{ loading ? submittingLabel : (isLastStep ? submitLabel : $t('post_property.continue')) }}</span>
       </BaseButton>
     </div>
   </div>
