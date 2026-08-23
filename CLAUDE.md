@@ -20,6 +20,10 @@ No lint or test scripts are configured. Use `pnpm` as the package manager (not n
 
 After adding a new middleware file, always run `pnpm postinstall` so Nuxt regenerates `.nuxt/types/middleware.d.ts` and TypeScript recognises the new key.
 
+## Git workflow
+
+This repo runs in production off `main`. Never make code changes directly on `main` — all work must happen on a `development` branch (create it if it doesn't exist yet). Only merge/PR into `main` when the user explicitly asks for it.
+
 ## Directory Layout
 
 ```

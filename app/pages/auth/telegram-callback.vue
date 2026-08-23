@@ -14,6 +14,7 @@
 import { resolvePostLoginRoute } from '~/utils/roleGuard'
 import { useErrorMsg } from '~/composables/useErrorMsg'
 import { parseTelegramQueryField } from '~/utils/parseTelegramQueryField'
+import type { AuthUser } from '~/stores/auth.store'
 
 definePageMeta({ layout: 'auth' })
 
@@ -39,7 +40,7 @@ onMounted(async () => {
   }
 
   try {
-    const { data } = await $axios.post<{ user_id: string; is_new_user: boolean }>(
+    const { data } = await $axios.post<{ user_id: string; is_new_user: boolean; user: AuthUser }>(
       '/auth/telegram-login',
       {
         id: Number(id),
@@ -55,7 +56,7 @@ onMounted(async () => {
       await navigateTo({ path: '/auth/role-select', query: { is_new_user: 'true' } }, { replace: true })
       return
     }
-    await authStore.fetchProfile()
+    authStore.setUser(data.user)
     if (authStore.isAuthenticated) {
       await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
     } else {
