@@ -1,39 +1,40 @@
 <template>
-  <div class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-wrap items-center justify-between gap-3 px-4 py-3.5 sm:px-8 sm:py-4">
+  <div class="w-full mx-auto bg-white rounded-2xl border border-gray-200 shadow-sm flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 px-4 py-3.5 sm:px-8 sm:py-4">
     <!-- Back -->
     <BaseButton
       type="info"
       plain
+      block
       :disabled="currentStep === 1"
-      class="rounded-full! px-5! font-medium! border-gray-200!"
+      class="rounded-full! px-5! font-medium! border-gray-200! sm:w-auto!"
       @click="emit('back')"
     >
       <BaseIconClient name="arrow-left" :size="18" />
-      <span>{{ $t('post_property.back') }}</span>
+      <span class="ml-1.5">{{ $t('post_property.back') }}</span>
     </BaseButton>
 
-    <div class="flex items-center gap-2.5">
+    <div class="flex items-center gap-2.5 w-full sm:w-auto">
       <!-- Save draft -->
       <BaseButton
         v-if="showDraftControls"
         type="info"
         plain
         :loading="savingDraft"
-        class="rounded-full! px-5! font-medium! border-gray-200!"
+        class="rounded-full! px-5! font-medium! border-gray-200! flex-1 sm:flex-none min-w-0"
         @click="emit('save')"
       >
         <BaseIconClient v-if="!savingDraft" name="save" :size="18" />
-        <span>{{ $t('post_property.draft') }}</span>
+        <span class="truncate ml-1.5">{{ $t('post_property.draft') }}</span>
       </BaseButton>
 
       <!-- Right — submit / next -->
       <BaseButton
         :loading="loading"
-        class="rounded-full! px-6! font-semibold! shadow-md! shadow-emerald-600/25! hover:shadow-lg! hover:shadow-emerald-600/35! transition-shadow!"
+        class="rounded-full! px-6! font-semibold! shadow-md! shadow-emerald-600/25! hover:shadow-lg! hover:shadow-emerald-600/35! transition-shadow! flex-1 sm:flex-none min-w-0"
         @click="isLastStep ? emit('submit') : emit('next')"
       >
         <BaseIconClient v-if="!loading" :name="isLastStep ? submitIcon : 'arrow-right'" :size="18" />
-        <span>{{ loading ? submittingLabel : (isLastStep ? submitLabel : $t('post_property.continue')) }}</span>
+        <span class="truncate ml-1.5">{{ loading ? submittingLabel : (isLastStep ? submitLabel : $t('post_property.continue')) }}</span>
       </BaseButton>
     </div>
   </div>
