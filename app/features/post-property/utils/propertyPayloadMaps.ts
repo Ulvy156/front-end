@@ -3,21 +3,12 @@
 // (usePropertyDraftSession.ts) can reuse the exact same mappings instead of a
 // second, hand-copied set that could silently drift out of sync.
 
-export const TYPE_MAP: Record<string, number> = {
-  room: 1,
-  studio: 2,
-  apartment: 3,
-  house: 4,
-  single_room: 5,
-}
-
-export const TYPE_MAP_REVERSE: Record<number, string> = {
-  1: 'room',
-  2: 'studio',
-  3: 'apartment',
-  4: 'house',
-  5: 'single_room',
-}
+// Property type id<->key lookups used to live here as a hardcoded table,
+// which silently drifted from the backend (missing Villa entirely, and
+// wrong ids for anything added after the table was last hand-updated).
+// Use `usePropertyTypeMap()` instead — it derives both directions from the
+// live /property-type list, so newly added backend types work with no
+// frontend change.
 
 export const MIN_STAY_MAP: Record<string, number> = {
   '1m': 1,

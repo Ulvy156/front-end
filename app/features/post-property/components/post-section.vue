@@ -35,9 +35,9 @@ import { useApi } from "@/composables/useApi";
 import { createProperty } from "@/features/post-property/services/create-property";
 import { usePropertyFormValidation } from "@/features/post-property/composables/usePropertyFormValidation";
 import { usePropertyDraftSession } from "@/features/post-property/composables/usePropertyDraftSession";
+import { usePropertyTypeMap } from "~/composables/usePropertyTypeMap";
 import { getDraft, publishDraft } from "~/features/property-draft/services/property-draft";
 import {
-  TYPE_MAP,
   MIN_STAY_MAP,
   safeNumber,
   buildAmenityKeys,
@@ -66,6 +66,7 @@ const loading = ref(false);
 const publishError = ref<string | null>(null);
 
 const { draftId, savingDraft, loadDraftIntoForm, saveDraft } = usePropertyDraftSession();
+const { byKey: typeByKey } = usePropertyTypeMap();
 
 onMounted(async () => {
   const queryDraftId = route.query.draftId;
@@ -187,7 +188,7 @@ const publish = async () => {
      }
 
      // Validate property type
-     if (!TYPE_MAP[form.propertyType]) {
+     if (!typeByKey.value[form.propertyType]) {
        publishError.value = t('post_property.errors.property_type_invalid');
        notify.error(publishError.value);
        return;
@@ -221,7 +222,7 @@ const publish = async () => {
         bedroom: safeNumber(form.bedrooms),
         bathroom: safeNumber(form.bathrooms),
 
-        propertyTypeId: TYPE_MAP[form.propertyType] || 0,
+        propertyTypeId: typeByKey.value[form.propertyType] || 0,
 
         sizeSqm: Number(form.size) || 0,
         floor: 1,

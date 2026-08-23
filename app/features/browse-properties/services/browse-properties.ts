@@ -11,6 +11,7 @@ export interface PropertyTypeOption {
   id: number
   nameEn: string
   nameKh: string
+  icon: string
 }
 
 export interface PropertyAmenityOption {

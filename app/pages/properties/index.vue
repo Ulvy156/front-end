@@ -68,7 +68,7 @@ filterStore.init();
 const SEO = useSEO();
 
 SEO.setSEO({
-  title: "Browse Rooms & Apartments for Rent in Cambodia | RokPteah",
-  description: "Browse rooms and apartments for rent across Cambodia. Filter by price, location, and nearby places to find your perfect home.",
+  title: "Browse Rooms, Studios, Apartments & Houses for Rent in Cambodia | RokPteah",
+  description: "Browse rooms, studios, apartments, houses, and single rooms for rent across Cambodia. Filter by price, location, and nearby places to find your perfect home.",
 });
 </script>

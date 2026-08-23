@@ -82,7 +82,7 @@ const props = defineProps<{
 
 // vue-i18n's per-call `{ locale: 'km' }` override doesn't resolve under this
 // project's i18n setup (renders the raw key) — mirrors km/post_property.json's
-// steps.one..seven values directly instead, same approach as config/property-types.ts.
+// steps.one..seven values directly instead.
 const STEP_LABELS_KM = [
   'ប្រភេទអចលនទ្រព្យ',
   'ព័ត៌មានមូលដ្ឋាន',

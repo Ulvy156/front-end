@@ -268,7 +268,8 @@ import { useI18n } from "vue-i18n";
 import BaseIconClient from "~/components/ui/BaseIcon.client.vue";
 import { usePropertyAmenityOptions } from "~/features/browse-properties/composable/usePropertyAmenityOptions";
 import { usePropertyRuleOptions } from "~/features/browse-properties/composable/usePropertyRuleOptions";
-import { propertyTypes } from "~/config/property-types";
+import { usePropertyTypeOptions } from "~/features/browse-properties/composable/usePropertyTypeOptions";
+import { propertyTypeKey } from "~/utils/propertyTypeKey";
 import { localizedName } from "~/utils/localizedName";
 
 const { t } = useI18n();
@@ -294,10 +295,12 @@ const stayMap: Record<string, string> = {
 
 const minStayLabel = computed(() => stayMap[form.minStay] || "—");
 
+const { data: propertyTypeOptions } = usePropertyTypeOptions();
+
 const propertyTypeLabel = computed(() => {
-  const match = propertyTypes.find((item) => item.value === form.propertyType);
+  const match = propertyTypeOptions.value.find((item) => propertyTypeKey(item.nameEn) === form.propertyType);
   if (!match) return form.propertyType;
-  return langKey.value === "nameEn" ? match.label : match.sub;
+  return localizedName(match, langKey.value);
 });
 
 const { data: amenityOptions } = usePropertyAmenityOptions();

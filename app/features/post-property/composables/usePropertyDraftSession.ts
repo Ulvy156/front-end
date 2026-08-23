@@ -1,9 +1,8 @@
 import { ref } from 'vue'
 import { useApi } from '@/composables/useApi'
+import { usePropertyTypeMap } from '~/composables/usePropertyTypeMap'
 import { createDraft, updateDraft, type PropertyDraft } from '~/features/property-draft/services/property-draft'
 import {
-  TYPE_MAP,
-  TYPE_MAP_REVERSE,
   MIN_STAY_MAP,
   MIN_STAY_MAP_REVERSE,
   PARKING_TYPE_MAP_REVERSE,
@@ -20,6 +19,7 @@ import {
 // payload (only fields the landlord has actually filled in) for save.
 export function usePropertyDraftSession() {
   const api = useApi()
+  const { byKey: typeByKey, byId: typeById } = usePropertyTypeMap()
   const draftId = ref<string | null>(null)
   const savingDraft = ref(false)
 
@@ -27,7 +27,7 @@ export function usePropertyDraftSession() {
     const d = draft.data
     draftId.value = draft.id
 
-    if (d.propertyTypeId !== undefined) form.propertyType = TYPE_MAP_REVERSE[d.propertyTypeId] || ''
+    if (d.propertyTypeId !== undefined) form.propertyType = typeById.value[d.propertyTypeId] || ''
     if (d.title !== undefined) form.propertyTitle = d.title
     if (d.description !== undefined) form.description = d.description
     if (d.bedroom !== undefined) form.bedrooms = d.bedroom
@@ -89,7 +89,7 @@ export function usePropertyDraftSession() {
     const districtId = Number(form.districtId)
     if (districtId) data.districtId = districtId
 
-    if (TYPE_MAP[form.propertyType]) data.propertyTypeId = TYPE_MAP[form.propertyType]
+    if (typeByKey.value[form.propertyType]) data.propertyTypeId = typeByKey.value[form.propertyType]
 
     const size = safeNumber(form.size)
     if (size !== undefined) data.sizeSqm = size

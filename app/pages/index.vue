@@ -40,8 +40,8 @@ const config = useRuntimeConfig()
 const seo = useSEO()
 
 seo.setSEO({
-  title: 'Rooms for Rent in Cambodia | RokPteah',
-  description: 'Find rooms and apartments for rent in Cambodia. Filter by price, location, and nearby places.',
+  title: 'Rooms, Studios, Apartments & Houses for Rent in Cambodia | RokPteah',
+  description: 'Find rooms, studios, apartments, houses, and single rooms for rent in Cambodia. Filter by price, location, and nearby places.',
   image: `${config.public.BASE_URL}/sabayrent-logo.webp`,
 })
 

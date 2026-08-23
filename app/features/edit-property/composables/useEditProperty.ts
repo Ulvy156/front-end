@@ -1,22 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/vue-query'
 import type { LandlordPropertyDetail } from '~/features/landlord/types/property'
+import { usePropertyTypeMap } from '~/composables/usePropertyTypeMap'
+import { propertyTypeKey } from '~/utils/propertyTypeKey'
 import { updateProperty, type UpdatePropertyPayload } from '../services/update-property'
-
-const TYPE_ID_MAP: Record<string, number> = {
-  room: 1,
-  studio: 2,
-  apartment: 3,
-  house: 4,
-  single_room: 5,
-}
-
-const TYPE_NAME_TO_KEY: Record<string, string> = {
-  room: 'room',
-  studio: 'studio',
-  apartment: 'apartment',
-  house: 'house',
-  'single room': 'single_room',
-}
 
 const MIN_STAY_TO_KEY: Record<number, string> = {
   1: '1m',
@@ -51,6 +37,7 @@ const PARKING_FORM_TO_API: Record<string, string> = {
 export function useEditProperty(propertyId: Ref<string>) {
   const { $axios } = useNuxtApp()
   const queryClient = useQueryClient()
+  const { byKey: typeByKey } = usePropertyTypeMap()
 
   const { data: property, isPending, isError } = useQuery({
     queryKey: computed(() => ['edit-property', propertyId.value]),
@@ -62,7 +49,7 @@ export function useEditProperty(propertyId: Ref<string>) {
   })
 
   function mapPropertyToForm(p: LandlordPropertyDetail) {
-    const typeKey = TYPE_NAME_TO_KEY[p.propertyType.nameEn.toLowerCase()] || 'room'
+    const typeKey = propertyTypeKey(p.propertyType.nameEn)
     const minStayKey = MIN_STAY_TO_KEY[p.minimumStayLength] || '1m'
 
     const parkingKeys = p.parkings.map(pk => PARKING_TYPE_MAP[pk.type] || pk.type)
@@ -147,7 +134,7 @@ export function useEditProperty(propertyId: Ref<string>) {
       address: form.streetAddress,
       lat: form.latitude ? Number(form.latitude) : null,
       lng: form.longitude ? Number(form.longitude) : null,
-      propertyTypeId: TYPE_ID_MAP[form.propertyType] || undefined,
+      propertyTypeId: typeByKey.value[form.propertyType] || undefined,
       minimumStayLength: MIN_STAY_TO_MONTHS[form.minStay] || undefined,
       availableFrom: form.availableFrom ? new Date(form.availableFrom).toISOString() : undefined,
       amenityKeys: Array.isArray(form.amenities) ? form.amenities.map(Number).filter(Number.isFinite) : [],
