@@ -56,10 +56,10 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
   <div
     v-else
     v-bind="attrs"
-    class="flex items-center justify-center bg-gray-200 text-sm text-gray-500"
+    class="image flex items-center justify-center bg-gray-200 text-sm text-gray-500"
     :style="{
-      width: width ? width + 'px' : '100%',
-      height: height ? height + 'px' : '200px'
+      width: width ? width + 'px' : undefined,
+      height: height ? height + 'px' : undefined
     }"
   >
     No Image
@@ -67,12 +67,19 @@ const imgSrc = computed(() => `${config.public.R2_PUB_URL}/${props.src}`)
 </template>
 
 <style scoped>
-/* :where() keeps this at zero specificity so sizing classes passed via the
-   `class` prop (e.g. h-14 w-14) always win instead of losing to this default
-   because of the scoped-style attribute selector bump. */
-:where(.image) {
-  width: 100%;
-  height: 100%;
-  display: block;
+/* This scoped block is its own unlayered stylesheet, and unlayered CSS beats
+   every Tailwind utility (all in @layer utilities) regardless of specificity
+   — :where() alone can't fix that. Putting the default in @layer base (the
+   same layer main.css uses for its element resets) lets Tailwind's utilities
+   layer, which comes later in the app-wide layer order, win instead. Applies
+   to both the NuxtImg and the "No Image" fallback, so a caller that doesn't
+   pass width/height props still gets sized by its own classes instead of the
+   fallback's old hardcoded 100%/200px inline style. */
+@layer base {
+  :where(.image) {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
 }
 </style>
