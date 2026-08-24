@@ -3,6 +3,7 @@ import type { LandlordPropertyDetail } from '~/features/landlord/types/property'
 import { usePropertyTypeMap } from '~/composables/usePropertyTypeMap'
 import { propertyTypeKey } from '~/utils/propertyTypeKey'
 import { updateProperty, type UpdatePropertyPayload } from '../services/update-property'
+import { safeNumber } from '~/features/post-property/utils/propertyPayloadMaps'
 
 const MIN_STAY_TO_KEY: Record<number, string> = {
   1: '1m',
@@ -70,6 +71,8 @@ export function useEditProperty(propertyId: Ref<string>) {
       bedrooms: p.bedroom,
       bathrooms: p.bathroom,
       size: String(p.sizeSqm),
+      sizeWidthM: p.sizeWidthM != null ? String(p.sizeWidthM) : '',
+      sizeLengthM: p.sizeLengthM != null ? String(p.sizeLengthM) : '',
       fullyFurnished: p.furnished,
       province: p.district.province.nameEn,
       district: p.district.nameEn,
@@ -129,6 +132,8 @@ export function useEditProperty(propertyId: Ref<string>) {
       floor: Number(form.floor) || 1,
       totalFloors: Number(form.totalFloors) || 1,
       sizeSqm: Number(form.size) || 0,
+      sizeWidthM: safeNumber(form.sizeWidthM),
+      sizeLengthM: safeNumber(form.sizeLengthM),
       furnished: !!form.fullyFurnished,
       districtId: Number(form.districtId) || undefined,
       address: form.streetAddress,

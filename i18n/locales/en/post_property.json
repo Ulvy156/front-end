@@ -39,6 +39,8 @@
             "bedrooms": "Bedrooms",
             "bathrooms": "Bathrooms",
             "size": "Size (m²)",
+            "width": "Width (m)",
+            "length": "Length (m)",
             "fully_furnished": "Fully Furnished",
             "fully_furnished_desc": "Includes bed, desk, wardrobe, and essential furniture",
             "tips_title": "Tips for a great listing",
@@ -51,6 +53,7 @@
         },
         "errors": {
             "required": "Required",
+            "positive_number": "Must be a positive number",
             "photos_min": "At least 3 photos required",
             "photos_max": "You can upload up to {max} photos only",
             "rent_too_low": "Monthly rent must be at least ${min}",

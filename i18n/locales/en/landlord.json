@@ -117,6 +117,7 @@
       "bedrooms": "Bedrooms",
       "bathrooms": "Bathrooms",
       "size": "Size",
+      "dimensions": "Dimensions",
       "floor": "Floor",
       "furnished": "Furnished",
       "unfurnished": "Unfurnished",

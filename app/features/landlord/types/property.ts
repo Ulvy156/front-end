@@ -19,6 +19,8 @@ export interface LandlordPropertyDetail {
   floor: number
   totalFloors: number
   sizeSqm: number
+  sizeWidthM: number | null
+  sizeLengthM: number | null
   furnished: boolean
   address: string
   lat: number | null

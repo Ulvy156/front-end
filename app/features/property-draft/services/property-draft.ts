@@ -19,6 +19,8 @@ export interface PropertyDraftData {
   districtId?: number
   propertyTypeId?: number
   sizeSqm?: number
+  sizeWidthM?: number
+  sizeLengthM?: number
   floor?: number
   totalFloors?: number
   bedroom?: number

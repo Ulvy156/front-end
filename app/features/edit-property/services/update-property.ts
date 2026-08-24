@@ -10,6 +10,8 @@ export interface UpdatePropertyPayload {
   floor?: number
   totalFloors?: number
   sizeSqm?: number
+  sizeWidthM?: number
+  sizeLengthM?: number
   furnished?: boolean
   districtId?: number
   address?: string

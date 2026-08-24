@@ -226,6 +226,8 @@ const publish = async () => {
         propertyTypeId: typeByKey.value[form.propertyType] || 0,
 
         sizeSqm: Number(form.size) || 0,
+        sizeWidthM: safeNumber(form.sizeWidthM),
+        sizeLengthM: safeNumber(form.sizeLengthM),
         floor: 1,
         totalFloors: 1,
 

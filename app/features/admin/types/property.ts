@@ -55,6 +55,8 @@ export interface AdminPropertyDetail {
   floor: number
   totalFloors: number
   sizeSqm: number
+  sizeWidthM: number | null
+  sizeLengthM: number | null
   furnished: boolean
   isPublished: boolean
   isAvailable: boolean
