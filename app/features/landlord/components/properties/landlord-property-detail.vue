@@ -214,6 +214,13 @@ const notAllowedRules = computed(() => property.value?.rules.filter(r => !r.is_a
               <p class="font-semibold text-gray-900">{{ property.floor }} / {{ property.totalFloors }}</p>
             </div>
           </div>
+          <div v-if="property.sizeWidthM != null && property.sizeLengthM != null" class="flex items-center gap-3 bg-gray-50 rounded-lg p-4">
+            <BaseIcon name="move-diagonal" :size="20" class="text-emerald-600" />
+            <div>
+              <p class="text-xs text-gray-400">{{ t('landlord.propertyDetail.dimensions') }}</p>
+              <p class="font-semibold text-gray-900">{{ property.sizeWidthM }}m × {{ property.sizeLengthM }}m</p>
+            </div>
+          </div>
         </div>
         <div class="mt-3">
           <span class="text-xs px-2.5 py-1 rounded-full font-medium" :class="property.furnished ? 'bg-emerald-50 text-emerald-700' : 'bg-gray-100 text-gray-500'">

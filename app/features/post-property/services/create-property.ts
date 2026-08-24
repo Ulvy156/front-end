@@ -15,6 +15,8 @@ export interface CreatePropertyPayload {
   bathroom?: number
   propertyTypeId: number
   sizeSqm: number
+  sizeWidthM?: number
+  sizeLengthM?: number
   floor: number
   totalFloors: number
   furnished?: boolean

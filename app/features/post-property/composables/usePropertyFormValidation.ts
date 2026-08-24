@@ -42,6 +42,26 @@ export function usePropertyFormValidation(formRef: Ref<FormInstance | undefined>
         trigger: ['blur', 'change'],
       },
     ],
+    sizeWidthM: [
+      {
+        validator: (_rule, value, callback) => {
+          if (value !== '' && value !== null && value !== undefined && !isPositiveNumber(value)) {
+            callback(new Error(t('post_property.errors.positive_number')))
+          } else callback()
+        },
+        trigger: ['blur', 'change'],
+      },
+    ],
+    sizeLengthM: [
+      {
+        validator: (_rule, value, callback) => {
+          if (value !== '' && value !== null && value !== undefined && !isPositiveNumber(value)) {
+            callback(new Error(t('post_property.errors.positive_number')))
+          } else callback()
+        },
+        trigger: ['blur', 'change'],
+      },
+    ],
     province: [
       { required: true, message: requiredMsg(), trigger: ['blur', 'change'] },
     ],
@@ -144,7 +164,7 @@ export function usePropertyFormValidation(formRef: Ref<FormInstance | undefined>
 
   const stepFieldMap: Record<number, string[]> = {
     0: ['propertyType'],
-    1: ['propertyTitle', 'description', 'size'],
+    1: ['propertyTitle', 'description', 'size', 'sizeWidthM', 'sizeLengthM'],
     2: ['province', 'districtId', 'streetAddress'],
     3: ['rent', 'minStay', 'availableFrom', 'openTime', 'closeTime'],
     4: ['amenities'],

@@ -153,6 +153,10 @@ async function handleToggleLock() {
           <p class="text-sm font-semibold text-gray-900">{{ data.sizeSqm }} m²</p>
           <p class="text-xs text-gray-400">{{ t('admin.properties.detailsDrawer.size') }}</p>
         </div>
+        <div v-if="data.sizeWidthM != null && data.sizeLengthM != null">
+          <p class="text-sm font-semibold text-gray-900">{{ data.sizeWidthM }}m × {{ data.sizeLengthM }}m</p>
+          <p class="text-xs text-gray-400">{{ t('admin.properties.detailsDrawer.dimensions') }}</p>
+        </div>
         <div>
           <p class="text-sm font-semibold text-gray-900">{{ data.floor }}/{{ data.totalFloors }}</p>
           <p class="text-xs text-gray-400">{{ t('admin.properties.detailsDrawer.floor') }}</p>

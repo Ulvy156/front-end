@@ -8,6 +8,8 @@ export function createPropertyForm() {
     bedrooms: 0,
     bathrooms: 0,
     size: '',
+    sizeWidthM: '',
+    sizeLengthM: '',
     fullyFurnished: false,
     province: '',
     district: '',

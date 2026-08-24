@@ -33,6 +33,9 @@ const facts = computed(() => {
     { icon: 'calendar', label: t('property.price.lease'), value: formatDuration(props.property.minimumStayLength, currentLang.value) },
     { icon: 'calendar-check', label: t('property.price.available'), value: formatDateLong(props.property.availableFrom, currentLang.value) },
   ]
+  if (props.property.sizeWidthM != null && props.property.sizeLengthM != null) {
+    items.splice(3, 0, { icon: 'move-diagonal', label: t('property.dimensions'), value: `${props.property.sizeWidthM}m × ${props.property.sizeLengthM}m` })
+  }
   if (props.property.openTime && props.property.closeTime) {
     items.push({ icon: 'clock', label: t('property.operating_hours'), value: `${props.property.openTime} - ${props.property.closeTime}` })
   }

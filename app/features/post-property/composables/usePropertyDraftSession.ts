@@ -33,6 +33,8 @@ export function usePropertyDraftSession() {
     if (d.bedroom !== undefined) form.bedrooms = d.bedroom
     if (d.bathroom !== undefined) form.bathrooms = d.bathroom
     if (d.sizeSqm !== undefined) form.size = String(d.sizeSqm)
+    if (d.sizeWidthM !== undefined) form.sizeWidthM = String(d.sizeWidthM)
+    if (d.sizeLengthM !== undefined) form.sizeLengthM = String(d.sizeLengthM)
     if (d.furnished !== undefined) form.fullyFurnished = d.furnished
     if (d.districtId !== undefined) form.districtId = d.districtId
     if (d.address !== undefined) form.streetAddress = d.address
@@ -93,6 +95,10 @@ export function usePropertyDraftSession() {
 
     const size = safeNumber(form.size)
     if (size !== undefined) data.sizeSqm = size
+    const sizeWidthM = safeNumber(form.sizeWidthM)
+    if (sizeWidthM !== undefined) data.sizeWidthM = sizeWidthM
+    const sizeLengthM = safeNumber(form.sizeLengthM)
+    if (sizeLengthM !== undefined) data.sizeLengthM = sizeLengthM
     if (form.floor) data.floor = Number(form.floor)
     if (form.totalFloors) data.totalFloors = Number(form.totalFloors)
 

@@ -137,6 +137,8 @@ async function removePhone(id: number) {
             :placeholder="$t('profile.phones.placeholder')"
             size="default"
             class="max-w-xs"
+            numeric
+            :maxlength="11"
           />
           <BaseButton type="primary" size="small" :loading="isSubmitting" native-type="submit">
             {{ $t('profile.save') }}

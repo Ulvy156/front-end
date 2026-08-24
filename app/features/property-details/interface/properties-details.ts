@@ -27,6 +27,8 @@ export interface PropertyDetail {
 
   propertyType: PropertyType;
   sizeSqm: number;
+  sizeWidthM: number | null;
+  sizeLengthM: number | null;
   furnished: boolean;
   isPublished: boolean;
   minimumStayLength: number;

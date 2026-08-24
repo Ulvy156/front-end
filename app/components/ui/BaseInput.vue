@@ -32,7 +32,12 @@ const clean = (v: unknown) => {
   const s = String(v ?? '')
   if (!props.decimal) return s.replace(/\D/g, '')
   // keep digits + first dot only
-  return s.replace(/[^\d.]/g, '').replace(/^(\d*\.?\d*).*$/, '$1')
+  const digits = s.replace(/[^\d.]/g, '').replace(/^(\d*\.?\d*).*$/, '$1')
+  // drop leading zeros (e.g. "05" -> "5"), but keep a lone "0" or "0.x" —
+  // only meaningful for decimal (measurement/money) fields; non-decimal
+  // numeric fields like phone numbers can have a semantically required
+  // leading zero (e.g. "012345678").
+  return digits.replace(/^0+(?=\d)/, '')
 }
 
 // EP only applies parser when formatter is also set

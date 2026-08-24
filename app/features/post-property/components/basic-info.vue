@@ -126,6 +126,48 @@
             </el-form-item>
           </div>
 
+          <!-- Width -->
+          <div>
+            <label class="text-xs text-gray-500 mb-1.5 block">
+              {{ t("post_property.basic_info.width") }}
+              <span class="text-gray-400">({{ t("post_property.optional") }})</span>
+            </label>
+            <el-form-item prop="sizeWidthM">
+              <div class="relative w-full">
+                <BaseInput
+                  size="large"
+                  :model-value="form.sizeWidthM"
+                  numeric
+                  decimal
+                  placeholder="e.g., 5"
+                  @update:model-value="(val: string) => { form.sizeWidthM = val }"
+                />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">m</span>
+              </div>
+            </el-form-item>
+          </div>
+
+          <!-- Length -->
+          <div>
+            <label class="text-xs text-gray-500 mb-1.5 block">
+              {{ t("post_property.basic_info.length") }}
+              <span class="text-gray-400">({{ t("post_property.optional") }})</span>
+            </label>
+            <el-form-item prop="sizeLengthM">
+              <div class="relative w-full">
+                <BaseInput
+                  size="large"
+                  :model-value="form.sizeLengthM"
+                  numeric
+                  decimal
+                  placeholder="e.g., 9"
+                  @update:model-value="(val: string) => { form.sizeLengthM = val }"
+                />
+                <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-gray-400 pointer-events-none">m</span>
+              </div>
+            </el-form-item>
+          </div>
+
         </div>
       </div>
 
