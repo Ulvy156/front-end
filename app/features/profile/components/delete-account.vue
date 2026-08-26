@@ -93,7 +93,7 @@ async function cancelRequest() {
     <el-dialog
       v-model="isDialogOpen"
       :title="t('profile.deleteAccount.confirmTitle')"
-      width="440px"
+      width="min(440px, 92vw)"
       class="delete-account-dialog"
       :close-on-click-modal="false"
       append-to-body
