@@ -135,6 +135,10 @@ const selectedRole = ref<'USER' | 'LANDLORD' | null>(null)
 watch(password, () => { passwordError.value = '' })
 
 const submit = async () => {
+  // el-button's own loading/disabled check only blocks a click once Vue has
+  // flushed the DOM patch — a second click landing before that flush would
+  // otherwise fire this handler again mid-request (double-submit race).
+  if (isSubmitting.value) return
   const role = selectedRole.value
   if (!role) return
 

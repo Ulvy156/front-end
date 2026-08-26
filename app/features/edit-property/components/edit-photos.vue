@@ -32,7 +32,7 @@
           v-for="img in existingImages"
           :key="img.id"
           class="relative group rounded-lg overflow-hidden border-2 transition"
-          :class="img.isCover ? 'border-emerald-500' : 'border-gray-200'"
+          :class="img.removed ? 'border-gray-200 opacity-40' : (img.isCover ? 'border-emerald-500' : 'border-gray-200')"
         >
           <BaseImage
             :src="img.imageKey"
@@ -45,34 +45,36 @@
           >
             {{ t('landlord.editProperty.cover') }}
           </span>
+          <span
+            v-if="img.removed"
+            class="absolute top-1.5 left-1.5 bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-md font-medium"
+          >
+            {{ t('landlord.editProperty.willBeRemoved') }}
+          </span>
 
           <!-- Actions overlay -->
           <div
             class="absolute inset-0 bg-black/40 transition flex items-center justify-center gap-2"
-            :class="isImageBusy(img.id) ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'"
+            :class="img.removed ? 'opacity-100' : 'opacity-0 group-hover:opacity-100'"
           >
             <BaseButton
-              v-if="!img.isCover"
+              v-if="!img.removed && !img.isCover"
               circle
               size="small"
               type="info"
               :title="t('landlord.editProperty.setCover')"
-              :loading="settingCoverId === img.id"
-              :disabled="isImageBusy(img.id)"
-              @click="handleSetCover(img.id)"
+              @click="setCoverExisting(img.id)"
             >
-              <BaseIconClient v-if="settingCoverId !== img.id" name="star" :size="14" class="text-emerald-600" />
+              <BaseIconClient name="star" :size="14" class="text-emerald-600" />
             </BaseButton>
             <BaseButton
               circle
               size="small"
-              type="danger"
-              :title="t('landlord.editProperty.deletePhoto')"
-              :loading="deletingImageId === img.id"
-              :disabled="isImageBusy(img.id)"
-              @click="handleDeleteImage(img.id)"
+              :type="img.removed ? 'success' : 'danger'"
+              :title="img.removed ? t('landlord.editProperty.undoRemove') : t('landlord.editProperty.deletePhoto')"
+              @click="toggleRemoveExisting(img.id)"
             >
-              <BaseIconClient v-if="deletingImageId !== img.id" name="trash-2" :size="14" />
+              <BaseIconClient :name="img.removed ? 'rotate-ccw' : 'trash-2'" :size="14" />
             </BaseButton>
           </div>
         </div>
@@ -106,37 +108,45 @@
       </el-form-item>
     </div>
 
-    <!-- Pending uploads list -->
-    <div v-if="pendingFiles.length" class="mt-4 space-y-2">
+    <!-- Newly added photos (uploaded together on Save) -->
+    <div v-if="form.photoFiles.length" class="mt-4 space-y-2">
       <p class="text-sm font-medium text-gray-700">
-        {{ t('landlord.editProperty.pendingUploads') }} ({{ pendingFiles.length }})
+        {{ t('landlord.editProperty.newPhotos') }} ({{ form.photoFiles.length }})
       </p>
       <div
-        v-for="(file, index) in pendingFiles"
-        :key="index"
-        class="flex items-center gap-3 border border-gray-200 rounded-xl px-3 py-2.5"
+        v-for="(file, index) in form.photoFiles"
+        :key="form.photoFileIds[index]"
+        class="flex items-center gap-3 border rounded-xl px-3 py-2.5"
+        :class="form.coverFileId === form.photoFileIds[index] ? 'border-emerald-400 bg-emerald-50/30' : 'border-gray-200'"
       >
-        <img :src="pendingPreviews[index]" class="w-14 h-14 object-cover rounded-lg" />
+        <div class="relative shrink-0">
+          <img :src="pendingPreviews[index]" class="w-14 h-14 object-cover rounded-lg" />
+          <span
+            v-if="form.coverFileId === form.photoFileIds[index]"
+            class="absolute -top-1.5 -left-1.5 bg-emerald-500 text-white text-xs px-1.5 py-0.5 rounded-md font-medium leading-tight"
+          >
+            {{ t('landlord.editProperty.cover') }}
+          </span>
+        </div>
         <div class="flex-1 min-w-0">
           <p class="text-sm font-medium text-gray-700 truncate">{{ file.name }}</p>
           <p class="text-xs text-gray-400">{{ formatFileSize(file.size) }}</p>
         </div>
+        <BaseButton
+          v-if="form.coverFileId !== form.photoFileIds[index]"
+          text
+          circle
+          size="small"
+          type="info"
+          :title="t('landlord.editProperty.setCover')"
+          @click="setCoverPending(form.photoFileIds[index])"
+        >
+          <BaseIconClient name="star" :size="14" />
+        </BaseButton>
         <BaseButton text circle size="small" type="info" @click="removePending(index)">
           <BaseIconClient name="x" :size="14" class="text-gray-400" />
         </BaseButton>
       </div>
-    </div>
-
-    <!-- Upload button -->
-    <div v-if="pendingFiles.length" class="mt-4">
-      <BaseButton
-        type="success"
-        :loading="uploading"
-        @click="uploadAll"
-      >
-        <BaseIconClient v-if="!uploading" name="upload" :size="16" class="mr-1" />
-        {{ uploading ? t('landlord.editProperty.uploading') : t('landlord.editProperty.uploadPhotos') }}
-      </BaseButton>
     </div>
 
     <!-- Guidelines -->
@@ -159,8 +169,6 @@ import { useI18n } from 'vue-i18n'
 import BaseIconClient from '~/components/ui/BaseIcon.client.vue'
 import BaseImage from '~/components/ui/BaseImage.vue'
 import BaseButton from '~/components/ui/BaseButton.vue'
-import { uploadPropertyImage, deletePropertyImage, setCoverImage } from '../services/property-image'
-import { useQueryClient } from '@tanstack/vue-query'
 import { exceedsFileSize, formatFileSize } from '~/utils/fileSize'
 
 const props = defineProps<{
@@ -169,44 +177,44 @@ const props = defineProps<{
   form: any
 }>()
 
-const emit = defineEmits<{
-  (e: 'refresh'): void
-}>()
-
 const { t } = useI18n()
-const { $axios } = useNuxtApp()
-const { extract } = useErrorMsg()
-const notify = useNotify()
-const queryClient = useQueryClient()
 const runtimeConfig = useRuntimeConfig()
 
-// Set immediately on click so the "Cover" badge/border update right away
-// instead of waiting on the invalidate-then-refetch round trip (which can
-// take a few seconds). Cleared once that refetch actually lands.
-const optimisticCoverId = ref<string | null>(null)
+const fileInput = ref<HTMLInputElement | null>(null)
+// Keyed by index into form.photoFiles, not a separate id — previews are pure
+// display state and get regenerated on mount (see below), so index alignment
+// only needs to hold within a single mounted lifetime of this component.
+const pendingPreviews = ref<string[]>([])
+
+// form.photoFiles/photoFileIds/removeImageIds/coverImageId/coverFileId live on
+// the parent's form object (see useEditProperty.mapPropertyToForm) so staged
+// photo edits survive navigating to another step and back — this component
+// gets unmounted/remounted by edit-section.vue's v-else-if on every step
+// change, so any state kept only in local refs here would be lost.
+onMounted(() => {
+  props.form.photoFiles.forEach((file: File, index: number) => {
+    const reader = new FileReader()
+    reader.onload = (e) => {
+      pendingPreviews.value[index] = e.target?.result as string
+    }
+    reader.readAsDataURL(file)
+  })
+})
 
 const existingImages = computed(() => {
-  const images = props.images ?? []
-  if (!optimisticCoverId.value) return images
-  return images.map((img) => ({ ...img, isCover: img.id === optimisticCoverId.value }))
+  return (props.images ?? []).map((img) => {
+    const removed = props.form.removeImageIds.includes(img.id)
+    const isCover = !removed && (
+      props.form.coverImageId
+        ? props.form.coverImageId === img.id
+        : (!props.form.coverFileId && img.isCover)
+    )
+    return { ...img, removed, isCover }
+  })
 })
-const fileInput = ref<HTMLInputElement | null>(null)
-const pendingFiles = ref<File[]>([])
-const pendingPreviews = ref<string[]>([])
-const uploading = ref(false)
-const settingCoverId = ref<string | null>(null)
-const deletingImageId = ref<string | null>(null)
 
-function isImageBusy(imageId: string) {
-  return settingCoverId.value === imageId || deletingImageId.value === imageId
-}
-
-// The review step (preview.vue) and the shared "photos" required-field rule
-// both read form.photos, but this component owns the real photo state
-// (existing server images + locally staged uploads) independently — keep
-// form.photos in sync so both work without duplicating that state.
 const photoUrls = computed(() => [
-  ...existingImages.value.map((img) => `${runtimeConfig.public.R2_PUB_URL}/${img.imageKey}`),
+  ...existingImages.value.filter((img) => !img.removed).map((img) => `${runtimeConfig.public.R2_PUB_URL}/${img.imageKey}`),
   ...pendingPreviews.value,
 ])
 
@@ -232,72 +240,42 @@ function handleDrop(event: DragEvent) {
 function addFiles(files: File[]) {
   for (const file of files) {
     if (exceedsFileSize(file, 1)) continue
-    pendingFiles.value.push(file)
+    const index = props.form.photoFiles.length
+    props.form.photoFiles.push(file)
+    props.form.photoFileIds.push(crypto.randomUUID())
     const reader = new FileReader()
     reader.onload = (e) => {
-      pendingPreviews.value.push(e.target?.result as string)
+      pendingPreviews.value[index] = e.target?.result as string
     }
     reader.readAsDataURL(file)
   }
 }
 
 function removePending(index: number) {
-  pendingFiles.value.splice(index, 1)
+  const fileId = props.form.photoFileIds[index]
+  props.form.photoFiles.splice(index, 1)
+  props.form.photoFileIds.splice(index, 1)
   pendingPreviews.value.splice(index, 1)
+  if (props.form.coverFileId === fileId) props.form.coverFileId = null
 }
 
-async function uploadAll() {
-  uploading.value = true
-  try {
-    for (const file of pendingFiles.value) {
-      await uploadPropertyImage($axios, props.propertyId, file)
-    }
-    pendingFiles.value = []
-    pendingPreviews.value = []
-    notify.success(t('landlord.editProperty.uploadSuccess'))
-    invalidateAndRefresh()
-  } catch (err) {
-    notify.error(extract(err))
-  } finally {
-    uploading.value = false
+function toggleRemoveExisting(imageId: string) {
+  const index = props.form.removeImageIds.indexOf(imageId)
+  if (index !== -1) {
+    props.form.removeImageIds.splice(index, 1)
+    return
   }
+  props.form.removeImageIds.push(imageId)
+  if (props.form.coverImageId === imageId) props.form.coverImageId = null
 }
 
-async function handleSetCover(imageId: string) {
-  settingCoverId.value = imageId
-  try {
-    await setCoverImage($axios, imageId)
-    optimisticCoverId.value = imageId
-    notify.success(t('landlord.editProperty.coverSet'))
-    await invalidateAndRefresh()
-  } catch (err) {
-    notify.error(extract(err))
-  } finally {
-    settingCoverId.value = null
-  }
+function setCoverExisting(imageId: string) {
+  props.form.coverImageId = imageId
+  props.form.coverFileId = null
 }
 
-async function handleDeleteImage(imageId: string) {
-  deletingImageId.value = imageId
-  try {
-    await deletePropertyImage($axios, imageId)
-    notify.success(t('landlord.editProperty.photoDeleted'))
-    invalidateAndRefresh()
-  } catch (err) {
-    notify.error(extract(err))
-  } finally {
-    deletingImageId.value = null
-  }
+function setCoverPending(fileId: string) {
+  props.form.coverFileId = fileId
+  props.form.coverImageId = null
 }
-
-async function invalidateAndRefresh() {
-  await Promise.all([
-    queryClient.invalidateQueries({ queryKey: ['edit-property', props.propertyId] }),
-    queryClient.invalidateQueries({ queryKey: ['landlord-property-detail', props.propertyId] }),
-    queryClient.invalidateQueries({ queryKey: ['landlord-properties'] }),
-  ])
-  emit('refresh')
-  optimisticCoverId.value = null
-}
-
 </script>

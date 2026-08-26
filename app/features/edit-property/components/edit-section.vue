@@ -53,7 +53,6 @@
           :property-id="propertyId"
           :images="property.images"
           :form="form"
-          @refresh="refetchProperty"
         />
         <preview v-else :form="form" @go-to="handleGoTo" />
       </el-form>
@@ -95,18 +94,16 @@ import { useEditProperty } from '../composables/useEditProperty'
 import { usePropertyFormValidation } from '~/features/post-property/composables/usePropertyFormValidation'
 import { usePropertyRuleOptions } from '~/features/browse-properties/composable/usePropertyRuleOptions'
 import { usePropertyAmenityOptions } from '~/features/browse-properties/composable/usePropertyAmenityOptions'
-import { useQueryClient } from '@tanstack/vue-query'
 
 const { t } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const notify = useNotify()
 const { extract } = useErrorMsg()
-const queryClient = useQueryClient()
 
 const propertyId = computed(() => route.params.id as string)
 
-const { property, isPending, isError, mapPropertyToForm, submitUpdate } = useEditProperty(propertyId)
+const { property, isPending, isError, mapPropertyToForm, submitUpdate, submitImages } = useEditProperty(propertyId)
 
 const form = ref<any>(null)
 const active = ref(0)
@@ -170,10 +167,6 @@ watch([amenityOptions, property], ([options, p]) => {
   amenitiesInitialized.value = true
 }, { immediate: true })
 
-function refetchProperty() {
-  queryClient.invalidateQueries({ queryKey: ['edit-property', propertyId.value] })
-}
-
 const handleGoTo = async (step: number) => {
   if (step < 0 || step >= TOTAL_STEPS) return
 
@@ -221,6 +214,7 @@ async function handleSave() {
   loading.value = true
   try {
     await submitUpdate(form.value)
+    await submitImages(form.value)
     notify.success(t('landlord.editProperty.updateSuccess'))
     router.push('/landlord/properties')
   } catch (err) {

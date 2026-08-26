@@ -1,28 +1,32 @@
 import type { AxiosInstance } from 'axios'
 
-export async function uploadPropertyImage(
+export interface UpdatePropertyImagesPayload {
+  files?: File[]
+  removeImageIds?: string[]
+  coverImageId?: string
+  coverNewFileIndex?: number
+}
+
+export async function updatePropertyImages(
   api: AxiosInstance,
   propertyId: string,
-  file: File,
+  payload: UpdatePropertyImagesPayload,
 ) {
   const formData = new FormData()
-  formData.append('file', file)
-  const { data } = await api.post(`/property-image/${propertyId}`, formData, {
+  for (const file of payload.files ?? []) {
+    formData.append('files', file)
+  }
+  for (const id of payload.removeImageIds ?? []) {
+    formData.append('removeImageIds', id)
+  }
+  if (payload.coverImageId) {
+    formData.append('coverImageId', payload.coverImageId)
+  }
+  if (payload.coverNewFileIndex !== undefined) {
+    formData.append('coverNewFileIndex', String(payload.coverNewFileIndex))
+  }
+  const { data } = await api.patch(`/property/${propertyId}/images`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   })
   return data
-}
-
-export async function deletePropertyImage(
-  api: AxiosInstance,
-  imageId: string,
-) {
-  await api.delete(`/property-image/${imageId}`)
-}
-
-export async function setCoverImage(
-  api: AxiosInstance,
-  imageId: string,
-) {
-  await api.patch(`/property-image/${imageId}/set-cover`)
 }

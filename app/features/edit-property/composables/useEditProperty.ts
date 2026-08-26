@@ -3,6 +3,7 @@ import type { LandlordPropertyDetail } from '~/features/landlord/types/property'
 import { usePropertyTypeMap } from '~/composables/usePropertyTypeMap'
 import { propertyTypeKey } from '~/utils/propertyTypeKey'
 import { updateProperty, type UpdatePropertyPayload } from '../services/update-property'
+import { updatePropertyImages, type UpdatePropertyImagesPayload } from '../services/property-image'
 import { safeNumber } from '~/features/post-property/utils/propertyPayloadMaps'
 
 const MIN_STAY_TO_KEY: Record<number, string> = {
@@ -98,6 +99,10 @@ export function useEditProperty(propertyId: Ref<string>) {
       additionalNotes: '',
       photos: [] as string[],
       photoFiles: [] as File[],
+      photoFileIds: [] as string[],
+      removeImageIds: [] as string[],
+      coverImageId: null as string | null,
+      coverFileId: null as string | null,
       floor: p.floor,
       totalFloors: p.totalFloors,
       openTime: p.openTime || '',
@@ -159,11 +164,53 @@ export function useEditProperty(propertyId: Ref<string>) {
     return result
   }
 
+  // Returns null when the photos step has no staged changes, so callers can
+  // skip the request entirely (Save should only fire it when needed).
+  function buildImageChanges(form: any): UpdatePropertyImagesPayload | null {
+    const files: File[] = Array.isArray(form.photoFiles) ? form.photoFiles : []
+    const removeImageIds: string[] = Array.isArray(form.removeImageIds) ? form.removeImageIds : []
+
+    let coverImageId: string | undefined
+    let coverNewFileIndex: number | undefined
+    if (form.coverImageId) {
+      coverImageId = form.coverImageId
+    } else if (form.coverFileId) {
+      const index = (form.photoFileIds ?? []).indexOf(form.coverFileId)
+      if (index !== -1) coverNewFileIndex = index
+    }
+
+    const hasChanges = files.length > 0 || removeImageIds.length > 0
+      || coverImageId !== undefined || coverNewFileIndex !== undefined
+    if (!hasChanges) return null
+
+    return { files, removeImageIds, coverImageId, coverNewFileIndex }
+  }
+
+  async function submitImages(form: any) {
+    const payload = buildImageChanges(form)
+    if (!payload) return null
+    const result = await updatePropertyImages($axios, propertyId.value, payload)
+    queryClient.invalidateQueries({ queryKey: ['landlord-property-detail', propertyId.value] })
+    queryClient.invalidateQueries({ queryKey: ['edit-property', propertyId.value] })
+    queryClient.invalidateQueries({ queryKey: ['landlord-properties'] })
+    // Only clear staged changes once the server has actually persisted them —
+    // if updatePropertyImages throws above, these lines never run, so a
+    // failed save leaves the staged files/removals/cover pick untouched and
+    // the user can retry Save without redoing that work.
+    form.photoFiles = []
+    form.photoFileIds = []
+    form.removeImageIds = []
+    form.coverImageId = null
+    form.coverFileId = null
+    return result
+  }
+
   return {
     property,
     isPending,
     isError,
     mapPropertyToForm,
     submitUpdate,
+    submitImages,
   }
 }
