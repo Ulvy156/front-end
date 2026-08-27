@@ -167,12 +167,11 @@ const submit = async () => {
     const code = extractCode(err)
     // Guards against double-submits and stale client state (e.g. back-button
     // navigation after onboarding already completed): the account already
-    // has both role and password set, so route in rather than error.
+    // has both role and password set, so send them to login instead of
+    // silently completing onboarding on their behalf.
     if (code === 'role_already_set' || code === 'select_role_already_completed') {
-      notify.info(t('auth.roleAlreadySelected'))
-      await api.post('/auth/refresh-token')
-      await authStore.fetchProfile()
-      await navigateTo(resolvePostLoginRoute(authStore.user?.role), { replace: true })
+      notify.error(t('auth.roleAlreadySelected'))
+      await navigateTo('/auth/login', { replace: true })
     } else {
       notify.error(extract(err))
     }
